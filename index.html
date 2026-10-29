@@ -2012,231 +2012,1049 @@
         }
 
         // VADEMECUM & VADEMECUM RENDER
-        const vademecumData = [
-            // TANDA 1: CARDIOVASCULAR (12 FÁRMACOS ESENCIALES PBS / OMS)
-            {
-                name: 'Noradrenalina',
-                group: 'Cardiovascular',
-                adult: '0.05 - 1.0 mcg/kg/min IV en infusión continua',
-                ped: '0.05 - 0.5 mcg/kg/min IV',
-                renal: 'Sin ajuste renal requerido',
-                warning: 'Monitoreo invasivo de PA continuo por riesgo de necrosis tisular en extravasación',
-                indicaciones: ['Choque séptico', 'Choque cardiogénico', 'Hipotensión refractaria'],
-                presentacion: 'Ampolla 4 mg / 4 mL (1 mg/mL)',
-                embarazo: 'Precaución: Puede causar hipoxia fetal por vasoconstricción placentaria',
-                interacciones: ['Inhibidores de la MAO (crisis hipertensiva severa)', 'Antidepresivos tricíclicos', 'Betabloqueadores no selectivos'],
-                descripcion: 'Catecolamina endógena y agonista alfa/beta adrenérgico potente. Fármaco de primera línea en choque distributivo y séptico para restaurar la presión arterial media (PAM ≥ 65 mmHg).',
-                verificado: false
-            },
-            {
-                name: 'Adrenalina (Epinefrina)',
-                group: 'Cardiovascular',
-                adult: 'Paro cardíaco: 1 mg IV c/3-5 min. Anafilaxia: 0.3 - 0.5 mg IM',
-                ped: 'Paro: 0.01 mg/kg (0.1 mL/kg de sol 1:10.000) IV. Anafilaxia: 0.01 mg/kg IM (máx 0.5mg)',
-                renal: 'Sin ajuste renal requerido',
-                warning: 'Evitar inyección intravascular accidental en administración intramuscular',
-                indicaciones: ['Paro cardiorrespiratorio', 'Anafilaxia severa', 'Crisis asmática grave refractaria'],
-                presentacion: 'Ampolla 1 mg / 1 mL (1:1.000)',
-                embarazo: 'Precaución: Disminución transitoria del flujo uteroplacentario',
-                interacciones: ['Betabloqueadores (pueden causar hipertensión severa y bradicardia)', 'Digoxina (arritmias)', 'Antidepresivos tricíclicos'],
-                descripcion: 'Agonista alfa y beta adrenérgico potente de acción rápida. Indispensable en reanimación cerebro-cardiopulmonar avanzada y manejo de reacciones anafilácticas agudas.',
-                verificado: true
-            },
-            {
-                name: 'Dobutamina',
-                group: 'Cardiovascular',
-                adult: '2.5 - 20 mcg/kg/min IV en infusión continua',
-                ped: '2.5 - 15 mcg/kg/min IV',
-                renal: 'Sin ajuste renal requerido',
-                warning: 'Puede desencadenar taquiarritmias ventriculares o supraventriculares',
-                indicaciones: ['Choque cardiogénico', 'Insuficiencia cardíaca aguda descompensada con bajo gasto'],
-                presentacion: 'Ampolla 250 mg / 20 mL',
-                embarazo: 'Precaución: Usar solo si el beneficio maternal supera el riesgo fetal',
-                interacciones: ['Betabloqueadores (antagonizan su efecto inotrópico)', 'Inhibidores de la MAO', 'Nitroprusiato (efecto sinérgico en gasto cardíaco)'],
-                descripcion: 'Inotrópico positivo sintético con actividad selectiva beta-1 adrenérgica y leve efecto beta-2/alfa. Incrementa el gasto cardíaco en estados de falla miocárdica aguda.',
-                verificado: true
-            },
-            {
-                name: 'Nitroglicerina',
-                group: 'Cardiovascular',
-                adult: '5 - 200 mcg/min IV infusión continua',
-                ped: '0.5 - 5 mcg/kg/min IV',
-                renal: 'Sin ajuste renal requerido',
-                warning: 'Riesgo de hipotensión severa, colapso circulatorio y cefalea intensa',
-                indicaciones: ['Síndrome coronario agudo', 'Edema agudo de pulmón hipertensivo', 'Crisis hipertensiva'],
-                presentacion: 'Ampolla 50 mg / 10 mL',
-                embarazo: 'Precaución: Seguridad no establecida firmemente en primer trimestre',
-                interacciones: ['Inhibidores de la fosfodiesterasa-5 (Sildenafilo: hipotensión severa fatal)', 'Antihipertensivos', 'Alcohol'],
-                descripcion: 'Vasodilatador venoso y arterial coronario de acción directa que libera óxido nítrico. Disminuye la precarga y el consumo miocárdico de oxígeno.',
-                verificado: true
-            },
-            {
-                name: 'Amiodarona',
-                group: 'Cardiovascular',
-                adult: 'Paro: 300 mg IV bolo (seguido de 150 mg). Taquiarritmias: 150 mg en 10 min, luego 1 mg/min x 6h',
-                ped: '5 mg/kg IV en bolo lento en 20-30 min (máx 300mg/dosis)',
-                renal: 'Sin ajuste renal requerido',
-                warning: 'Riesgo de hipotensión arterial severa y bradicardia sinusal durante la infusión rápida',
-                indicaciones: ['Fibrilación ventricular / Taquicardia ventricular sin pulso', 'Taquicardias supraventriculares y ventriculares estables'],
-                presentacion: 'Ampolla 150 mg / 3 mL',
-                embarazo: 'Contraindicado: Riesgo de hipotiroidismo neonatal y bocio congénito',
-                interacciones: ['Digoxina (eleva niveles séricos)', 'Warfarina (potencia efecto anticoagulante)', 'Fármacos que prolongan el intervalo QT'],
-                descripcion: 'Antiarrítmico de clase III que bloquea canales de potasio, sodio y calcio, prolongando la repolarización y el período refractario miocárdico.',
-                verificado: true
-            },
-            {
-                name: 'Metoprolol',
-                group: 'Cardiovascular',
-                adult: 'IV: 5 mg cada 5 min (máx 15mg). VO: 50 - 200 mg c/24h',
-                ped: '1 - 2 mg/kg/día VO dividido c/12h (Dosis máxima 2 mg/kg/día)',
-                renal: 'Sin ajuste renal requerido',
-                warning: 'Contraindicado en bloqueo AV de 2º o 3er grado y asma bronquial activa',
-                indicaciones: ['Hipertensión arterial', 'Taquiarritmias supraventriculares', 'Infarto agudo de miocardio'],
-                presentacion: 'Tableta 50 mg y 100 mg; Ampolla 5 mg / 5 mL',
-                embarazo: 'Precaución: Puede asociarse a retraso del crecimiento intrauterino y bradicardia fetal',
-                interacciones: ['Verapamilo o Diltiazem IV (asistolia y bradicardia severa)', 'Insulina (enmascara síntomas de hipoglucemia)', 'Antagonistas del calcio'],
-                descripcion: 'Betabloqueador cardioselectivo (beta-1) que reduce la frecuencia cardíaca, la contractilidad miocárdica y la presión arterial.',
-                verificado: true
-            },
-            {
-                name: 'Enalapril',
-                group: 'Cardiovascular',
-                adult: '5 - 40 mg VO al día dividido en 1 o 2 tomas',
-                ped: '0.08 mg/kg/día VO (Dosis máxima 0.6 mg/kg/día)',
-                renal: 'eTFG 30-50: iniciar 5 mg/día; eTFG <30: iniciar 2.5 mg/día',
-                warning: 'Riesgo de hiperpotasemia e insuficiencia renal aguda en estenosis bilateral de arteria renal',
-                indicaciones: ['Hipertensión arterial', 'Insuficiencia cardíaca crónica', 'Nefropatía diabética'],
-                presentacion: 'Tableta 5 mg, 10 mg y 20 mg',
-                embarazo: 'Contraindicado en 2º y 3er trimestre: Fetotoxicidad y oligohidramnios',
-                interacciones: ['Suplementos de potasio o diuréticos ahorradores de potasio (hiperpotasemia grave)', 'AINEs (reducen efecto antihipertensivo)', 'Litio'],
-                descripcion: 'Inhibidor de la enzima convertidora de angiotensina (IECA). Reduce la resistencia vascular periférica y previene el remodelado ventricular.',
-                verificado: true
-            },
-            {
-                name: 'Losartán',
-                group: 'Cardiovascular',
-                adult: '50 - 100 mg VO una vez al día',
-                ped: '0.7 mg/kg VO una vez al día (Dosis máxima 50 mg/día)',
-                renal: 'Sin ajuste requerido para pacientes con falla renal leve a moderada',
-                warning: 'Monitorear niveles séricos de potasio y creatinina post-inicio',
-                indicaciones: ['Hipertensión arterial', 'Nefropatía en diabetes tipo 2', 'Reducción de riesgo cardiovascular en hipertrofia VI'],
-                presentacion: 'Tableta 50 mg y 100 mg',
-                embarazo: 'Contraindicado en 2º y 3er trimestre: Lesión renal fetal y muerte',
-                interacciones: ['Litio (riesgo de toxicidad por litio)', 'AINEs', 'Diuréticos ahorradores de potasio'],
-                descripcion: 'Antagonista de los receptores de angiotensina II (ARA II) tipo AT1. Produce vasodilatación y natriuresis sin generar tos seca asociada a IECA.',
-                verificado: true
-            },
-            {
-                name: 'Furosemida',
-                group: 'Cardiovascular',
-                adult: '20 - 80 mg IV/VO dosis única (titulable hasta 200mg)',
-                ped: '1 - 2 mg/kg/dosis IV/VO c/6-12h (Dosis máxima 6 mg/kg/dosis)',
-                renal: 'Dosis elevadas requeridas en falla renal crónica avanzada (hasta 250-500mg)',
-                warning: 'Riesgo de deshidratación severa, hipopotasemia, hiponatremia y ototoxicidad con bolos rápidos',
-                indicaciones: ['Edema agudo de pulmón', 'Insuficiencia cardíaca congestiva', 'Sobrecarga hídrica refractaria'],
-                presentacion: 'Tableta 40 mg; Ampolla 20 mg / 2 mL',
-                embarazo: 'Precaución: Usar solo si es estrictamente necesario; atraviesa la barrera placentaria',
-                interacciones: ['Aminoglucósidos (ototoxicidad potenciada)', 'Digoxina (toxicidad digitálica por hipopotasemia)', 'Litio'],
-                descripcion: 'Diurético de asa potente que inhibe el cotransportador Na+/K+/2Cl- en la rama ascendente gruesa del asa de Henle, promoviendo rápida excreción de agua y electrolitos.',
-                verificado: true
-            },
-            {
-                name: 'Espironolactona',
-                group: 'Cardiovascular',
-                adult: '25 - 100 mg VO una o dos veces al día',
-                ped: '1 - 3 mg/kg/día VO dividido c/12-24h (Dosis máxima 200 mg/día)',
-                renal: 'Contraindicado si eTFG < 30 mL/min o K+ sérico > 5.0 mEq/L',
-                warning: 'Alto riesgo de hiperpotasemia severa, especialmente al asociarse a IECA o ARA II',
-                indicaciones: ['Insuficiencia cardíaca con fracción de eyección reducida', 'Ascitis por cirrosis hepática', 'Hipertensión resistente'],
-                presentacion: 'Tableta 25 mg y 100 mg',
-                embarazo: 'Precaución: Propiedades antiandrogénicas teóricas en feto masculino',
-                interacciones: ['IECA / ARA II (riesgo letal de hiperpotasemia)', 'Suplementos de potasio', 'AINEs'],
-                descripcion: 'Diurético ahorrador de potasio antagonista competitivo de la aldosterona en el túbulo contorneado distal. Mejora la supervivencia en falla cardíaca crónica.',
-                verificado: true
-            },
-            {
-                name: 'Verapamilo',
-                group: 'Cardiovascular',
-                adult: 'IV: 5 - 10 mg en 2 min. VO: 80 - 120 mg c/8h',
-                ped: '1 - 3 mg/kg/día VO dividido c/8h (Dosis máxima 120 mg/día)',
-                renal: 'Sin ajuste significativo requerido en daño renal leve',
-                warning: 'Contraindicado en insuficiencia cardíaca descompensada y bloqueo AV avanzado',
-                indicaciones: ['Taquicardia supraventricular paroxística', 'Control de frecuencia en fibrilación atrial', 'Angina de pecho'],
-                presentacion: 'Tableta 80 mg; Ampolla 5 mg / 2 mL',
-                embarazo: 'Precaución: Puede inducir hipoxia uterina por hipotensión materna',
-                interacciones: ['Betabloqueadores IV (riesgo de bradicardia severa y asistolia)', 'Digoxina', 'Estatinas metabolizadas por CYP3A4'],
-                descripcion: 'Antagonista de los canales de calcio no dihidropiridínico que actúa directamente sobre el nodo sinusal y auriculoventricular reduciendo la contractilidad y frecuencia cardíaca.',
-                verificado: true
-            },
-            {
-                name: 'Digoxina',
-                group: 'Cardiovascular',
-                adult: 'Carga: 0.25 - 0.5 mg IV/VO, luego 0.125 - 0.25 mg/día',
-                ped: 'Neonatos/Lactantes: 0.01 - 0.02 mg/kg dosis total de carga dividida',
-                renal: 'Ajustar estrictamente según eTFG y niveles séricos (terapéutico 0.8 - 2.0 ng/mL)',
-                warning: 'Estrecho margen terapéutico; riesgo alto de intoxicación digitálica mortal',
-                indicaciones: ['Insuficiencia cardíaca crónica con FEVI reducida', 'Control de respuesta ventricular en fibrilación auricular'],
-                presentacion: 'Tableta 0.25 mg; Ampolla 0.5 mg / 2 mL',
-                embarazo: 'Precaución: Atraviesa la placenta con seguridad clínica aceptada bajo monitorización',
-                interacciones: ['Amiodarona y Verapamilo (incrementan niveles de digoxina un 50-100%)', 'Diuréticos perdedores de potasio', 'Eritromicina'],
-                descripcion: 'Glucósido cardíaco con efecto inotrópico positivo débil y cronotrópico negativo (disminuye la conducción AV a través del tono vagal).',
-                verificado: true
-            }
-        ];
+        /* =====================================================================
+   ADROOSIS · VADEMÉCUM · TANDA 2
+   ---------------------------------------------------------------------
+   CÓMO USAR ESTE ARCHIVO (3 pasos):
+   1) En tu HTML, BORRA la función renderVademecum() completa (la vieja).
+   2) Pega TODO este archivo justo debajo del cierre "];" de vademecumData
+      y justo encima de la línea:  let currentVadGroup = 'all';
+   3) Agrega el selector Adulto/Pediátrico en el HTML (ver respuesta).
 
-        let currentVadGroup = 'all';
+   ADVERTENCIA CLÍNICA:
+   - Todas las fichas están en verificado:false. Redactadas de memoria por
+     una IA con dosis estándar: DEBEN contrastarse con tu vademécum,
+     UpToDate/Lexicomp, guías del Ministerio de Salud o el servicio.
+   - Revisa primero lo marcado altoRiesgo:true (vancomicina, insulinas,
+     opioides, heparinas, antiepilépticos IV, magnesio, adenosina, etc.).
+   ===================================================================== */
 
-        function filterVademecumGroup(grp) {
-            currentVadGroup = grp;
-            document.querySelectorAll('.vad-grp-btn').forEach(btn => {
-                btn.classList.remove('bg-teal-600', 'text-white', 'shadow');
-                btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
-            });
-            event.target.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
-            event.target.classList.add('bg-teal-600', 'text-white', 'shadow');
-            renderVademecum();
-        }
+const vademecumTanda2 = [
 
-        function renderVademecum() {
-            const container = document.getElementById('vademecum-grid');
-            if (!container) return;
+    // =================== ANALGÉSICOS ===================
+    {
+        name: 'Acetaminofén (Paracetamol)', group: 'Analgésicos',
+        adult: '500 - 1000 mg VO/IV c/6-8h. Máx 4 g/día (2 - 3 g/día en hepatopatía, desnutrición o alcoholismo crónico)',
+        ped: '10 - 15 mg/kg/dosis VO c/6h. Máx 75 mg/kg/día sin exceder 4 g/día. IV en < 50 kg: 15 mg/kg c/6h (máx 60 mg/kg/día)',
+        renal: 'eTFG < 10: espaciar a c/8h; sin otros ajustes',
+        warning: 'Hepatotoxicidad por sobredosis (antídoto: N-acetilcisteína). Revisar que el paciente no tome otros productos que también lo contengan',
+        indicaciones: ['Dolor leve a moderado', 'Fiebre'],
+        presentacion: 'Tableta 500 mg; jarabe y gotas pediátricas (verificar concentración); bolsa IV 1 g/100 mL',
+        embarazo: 'Seguro: analgésico y antipirético de elección en gestación y lactancia',
+        interacciones: ['Warfarina (uso crónico a dosis altas aumenta el INR)', 'Alcohol (mayor riesgo hepático)', 'Carbamazepina y fenitoína (aumentan el metabolito hepatotóxico)'],
+        descripcion: 'Analgésico y antipirético de primera línea; sin efecto antiinflamatorio ni gastrolesivo.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ibuprofeno', group: 'Analgésicos',
+        adult: '400 - 600 mg VO c/6-8h con alimentos. Máx 2400 mg/día',
+        ped: '5 - 10 mg/kg/dosis VO c/6-8h. Máx 40 mg/kg/día. No usar en < 6 meses',
+        renal: 'Evitar si eTFG < 30 mL/min; riesgo de lesión renal aguda con deshidratación',
+        warning: 'Riesgo de sangrado GI, lesión renal aguda y eventos CV. Evitar en deshidratación, dengue (riesgo de sangrado) y falla cardíaca descompensada',
+        indicaciones: ['Dolor leve a moderado', 'Fiebre', 'Dismenorrea', 'Dolor musculoesquelético'],
+        presentacion: 'Tableta 400 mg y 600 mg; suspensión 100 mg/5 mL',
+        embarazo: 'Evitar desde la semana 20; contraindicado en el 3er trimestre (cierre ductal, oligohidramnios)',
+        interacciones: ['IECA / ARA II + diurético (lesión renal aguda)', 'Anticoagulantes y antiagregantes (sangrado)', 'Ácido acetilsalicílico (bloquea su efecto antiagregante)'],
+        descripcion: 'AINE no selectivo con efecto analgésico, antipirético y antiinflamatorio.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Diclofenaco', group: 'Analgésicos',
+        adult: '50 mg VO c/8-12h con alimentos (máx 150 mg/día). IM: 75 mg dosis única, repetible a las 12h (máx 2 días)',
+        ped: '1 - 3 mg/kg/día VO dividido c/8-12h (máx 150 mg/día) en mayores de 1 año; uso restringido. No usar IM en niños',
+        renal: 'Evitar si eTFG < 30 mL/min',
+        warning: 'Mayor riesgo cardiovascular y GI que otros AINE. Evitar en cardiopatía isquémica, falla cardíaca, úlcera activa y dengue',
+        indicaciones: ['Dolor musculoesquelético', 'Cólico renal', 'Dolor posoperatorio', 'Artritis'],
+        presentacion: 'Tableta 50 mg; ampolla 75 mg/3 mL',
+        embarazo: 'Evitar; contraindicado en el 3er trimestre',
+        interacciones: ['Anticoagulantes y antiagregantes (sangrado)', 'IECA / ARA II / diuréticos (lesión renal)', 'Litio y metotrexato (aumentan niveles)'],
+        descripcion: 'AINE potente de uso frecuente en dolor agudo y cólico renal.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Dipirona (Metamizol)', group: 'Analgésicos',
+        adult: '500 - 1000 mg VO/IV c/6-8h. Máx 4 g/día. IV lento (al menos 5 min)',
+        ped: '8 - 16 mg/kg/dosis VO/IV c/6-8h. No usar en < 3 meses o < 5 kg',
+        renal: 'Reducir dosis y espaciar en insuficiencia renal grave; evitar dosis altas repetidas',
+        warning: 'Riesgo de agranulocitosis (suspender si hay fiebre, dolor de garganta o úlceras bucales) e hipotensión con infusión IV rápida. Está prohibida en algunos países: verificar la normativa local',
+        indicaciones: ['Dolor moderado', 'Fiebre refractaria', 'Cólico renal o biliar'],
+        presentacion: 'Tableta 500 mg; ampolla 1 g/2 mL; gotas (verificar concentración)',
+        embarazo: 'Evitar en el 1er trimestre y desde la semana 28-30; precaución en lactancia',
+        interacciones: ['Ciclosporina (reduce sus niveles)', 'Clorpromazina (hipotermia grave)', 'Metotrexato (toxicidad hematológica)'],
+        descripcion: 'Analgésico y antipirético con efecto espasmolítico leve.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ketorolaco', group: 'Analgésicos',
+        adult: 'IV/IM: 10 - 30 mg c/6h (15 mg si ≥ 65 años, < 50 kg o falla renal). Máx 120 mg/día IV/IM. VO: 10 mg c/6h (máx 40 mg/día). Duración máxima: 5 días',
+        ped: '0.5 mg/kg/dosis IV/IM c/6-8h (máx 15 mg/dosis), solo por 48-72h',
+        renal: 'Contraindicado si eTFG < 30 mL/min o riesgo de deshidratación',
+        warning: 'Contraindicado en sangrado activo, úlcera péptica, falla renal, dengue, asma sensible a AINE y antes de cirugía mayor. Duración máxima 5 días',
+        indicaciones: ['Dolor agudo moderado a severo', 'Cólico renal', 'Dolor posoperatorio'],
+        presentacion: 'Ampolla 30 mg/1 mL; tableta 10 mg',
+        embarazo: 'Contraindicado en trabajo de parto y en el 3er trimestre; evitar en lactancia',
+        interacciones: ['Otros AINE y anticoagulantes (sangrado)', 'Probenecid y pentoxifilina (contraindicados)', 'IECA y diuréticos (lesión renal)'],
+        descripcion: 'AINE parenteral de potencia analgésica elevada para dolor agudo de corta duración.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Tramadol', group: 'Analgésicos',
+        adult: '50 - 100 mg VO/IV lento c/6-8h. Máx 400 mg/día (300 mg/día en > 75 años)',
+        ped: 'Evitar en < 12 años (contraindicado por la FDA). En ≥ 12 años: 1 - 2 mg/kg/dosis c/6-8h (máx 100 mg/dosis)',
+        renal: 'eTFG < 30: c/12h, máx 200 mg/día',
+        warning: 'Riesgo de convulsiones, síndrome serotoninérgico, depresión respiratoria y dependencia. Náuseas y vómito frecuentes',
+        indicaciones: ['Dolor moderado a severo', 'Dolor neuropático (adyuvante)'],
+        presentacion: 'Cápsula 50 mg; gotas 100 mg/mL; ampolla 100 mg/2 mL',
+        embarazo: 'Evitar; riesgo de síndrome de abstinencia neonatal',
+        interacciones: ['ISRS / IRSN / IMAO / triptanes (síndrome serotoninérgico)', 'Carbamazepina (reduce su efecto)', 'Benzodiacepinas y otros depresores del SNC (depresión respiratoria)'],
+        descripcion: 'Opioide débil con acción inhibidora de la recaptación de serotonina y noradrenalina.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Morfina', group: 'Analgésicos',
+        adult: 'IV: 2 - 5 mg titulados c/5-15 min según respuesta (0.05 - 0.1 mg/kg). SC/IM: 5 - 10 mg c/4h. VO liberación inmediata: 5 - 15 mg c/4h',
+        ped: 'IV: 0.05 - 0.1 mg/kg/dosis c/2-4h titulada. VO: 0.2 - 0.5 mg/kg c/4-6h. Neonatos: dosis menores y monitoreo continuo',
+        renal: 'Los metabolitos activos se acumulan: reducir y espaciar si eTFG < 30; preferir fentanilo o hidromorfona',
+        warning: 'ALTO RIESGO: depresión respiratoria, hipotensión y náuseas. Tener naloxona disponible y monitoreo continuo (SatO₂, FR, sedación)',
+        indicaciones: ['Dolor severo agudo', 'Dolor del infarto agudo de miocardio', 'Disnea refractaria en cuidados paliativos'],
+        presentacion: 'Ampolla 10 mg/1 mL; tableta o solución oral (medicamento de control especial: verificar disponibilidad)',
+        embarazo: 'Precaución: solo si es necesario; riesgo de depresión respiratoria neonatal cerca del parto',
+        interacciones: ['Benzodiacepinas y alcohol (depresión respiratoria)', 'IMAO (contraindicado)', 'Otros opioides y sedantes'],
+        descripcion: 'Opioide agonista puro de referencia para dolor severo.',
+        altoRiesgo: true, verificado: false
+    },
 
-            const query = (document.getElementById('vademecum-search')?.value || '').toLowerCase().trim();
-            const filtered = vademecumData.filter(v => {
-                const matchesGrp = currentVadGroup === 'all' || v.group === currentVadGroup;
-                const matchesQuery = !query || 
-                    v.name.toLowerCase().includes(query) || 
-                    v.group.toLowerCase().includes(query) || 
-                    (v.presentacion || '').toLowerCase().includes(query) || 
-                    (v.indicaciones || []).some(ind => ind.toLowerCase().includes(query));
-                return matchesGrp && matchesQuery;
-            });
+    // =================== ANTIBIÓTICOS ===================
+    {
+        name: 'Amoxicilina', group: 'Antibióticos',
+        adult: '500 mg VO c/8h o 875 - 1000 mg c/12h. NAC leve: 1 g c/8h. Faringitis estreptocócica: 500 mg c/12h x10 días',
+        ped: '25 - 50 mg/kg/día VO dividido c/8-12h. Dosis alta (otitis media, NAC): 80 - 90 mg/kg/día c/12h. Máx 3 - 4 g/día',
+        renal: 'eTFG 10-30: 250 - 500 mg c/12h; eTFG < 10: 250 - 500 mg c/24h',
+        warning: 'Contraindicada en alergia a penicilinas. Erupción frecuente en mononucleosis infecciosa',
+        indicaciones: ['Faringoamigdalitis estreptocócica', 'Otitis media aguda', 'NAC leve', 'Sinusitis bacteriana', 'ITU en embarazo (según antibiograma)'],
+        presentacion: 'Cápsula/tableta 500 mg; suspensión 250 mg/5 mL',
+        embarazo: 'Seguro; antibiótico de elección en gestación y lactancia',
+        interacciones: ['Metotrexato (aumenta toxicidad)', 'Warfarina (puede aumentar el INR)', 'Alopurinol (mayor riesgo de erupción)'],
+        descripcion: 'Aminopenicilina de amplio uso ambulatorio con excelente biodisponibilidad oral.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Amoxicilina / Ácido clavulánico', group: 'Antibióticos',
+        adult: '875/125 mg VO c/12h o 500/125 mg c/8h. IV: 1.2 g c/8h',
+        ped: '25 - 45 mg/kg/día (componente amoxicilina) VO dividido c/12h (presentación 7:1). Dosis alta: 90 mg/kg/día c/12h (presentación 14:1)',
+        renal: 'eTFG < 30: no usar la tableta 875/125; dar 500/125 c/12h. eTFG < 10: c/24h',
+        warning: 'Hepatotoxicidad colestásica (más frecuente en ancianos y cursos prolongados). Diarrea frecuente',
+        indicaciones: ['Sinusitis y otitis media (falla a amoxicilina)', 'Mordeduras', 'Infección de piel y tejidos blandos', 'ITU', 'NAC con comorbilidad'],
+        presentacion: 'Tableta 500/125 mg y 875/125 mg; suspensión 400/57 mg por 5 mL; vial IV 1.2 g',
+        embarazo: 'Aceptable',
+        interacciones: ['Warfarina (aumenta el INR)', 'Metotrexato (aumenta toxicidad)', 'Alopurinol (erupción)'],
+        descripcion: 'Aminopenicilina con inhibidor de betalactamasa; amplía el espectro a gérmenes productores de betalactamasa y anaerobios orales.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Cefalexina', group: 'Antibióticos',
+        adult: '500 mg VO c/6h (o 1 g c/12h). Celulitis no purulenta: 500 mg c/6h x5 días',
+        ped: '25 - 50 mg/kg/día VO dividido c/6-8h (hasta 100 mg/kg/día en infecciones graves). Máx 4 g/día',
+        renal: 'eTFG 10-40: 500 mg c/8-12h; eTFG < 10: 250 - 500 mg c/12-24h',
+        warning: 'Precaución en alergia grave a penicilinas (reactividad cruzada baja)',
+        indicaciones: ['Celulitis / erisipela leve', 'Impétigo', 'ITU no complicada', 'Faringitis (alergia no grave a penicilina)'],
+        presentacion: 'Cápsula/tableta 500 mg; suspensión 250 mg/5 mL',
+        embarazo: 'Seguro',
+        interacciones: ['Metformina (aumenta sus niveles)', 'Probenecid (aumenta niveles de cefalexina)', 'Warfarina (puede aumentar el INR)'],
+        descripcion: 'Cefalosporina de primera generación oral para infecciones de piel y urinarias.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Cefazolina', group: 'Antibióticos',
+        adult: '1 - 2 g IV c/8h. Profilaxis quirúrgica: 2 g IV (3 g si > 120 kg) 30 - 60 min antes de la incisión',
+        ped: '50 - 100 mg/kg/día IV dividido c/8h (máx 6 g/día). Profilaxis quirúrgica: 30 mg/kg (máx 2 g)',
+        renal: 'eTFG 35-54: dosis habitual; 11-34: 50% de la dosis c/12h; ≤ 10: 50% c/18-24h',
+        warning: 'En alergia a penicilinas la reactividad cruzada es baja (cadenas laterales distintas): valorar el tipo de reacción',
+        indicaciones: ['Profilaxis quirúrgica', 'Celulitis y abscesos (SASM)', 'Bacteriemia por SASM', 'Osteomielitis y artritis séptica (SASM)'],
+        presentacion: 'Vial 1 g',
+        embarazo: 'Seguro',
+        interacciones: ['Probenecid (aumenta sus niveles)', 'Warfarina (puede aumentar el INR)', 'Aminoglucósidos (nefrotoxicidad aditiva)'],
+        descripcion: 'Cefalosporina de primera generación IV; elección en profilaxis quirúrgica e infecciones por estafilococo sensible.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ceftriaxona', group: 'Antibióticos',
+        adult: '1 - 2 g IV/IM c/24h. Meningitis: 2 g c/12h. Gonorrea no complicada: 500 mg IM dosis única',
+        ped: '50 - 100 mg/kg/día IV/IM c/12-24h (máx 4 g/día). Meningitis: 100 mg/kg/día c/12h',
+        renal: 'Sin ajuste (máx 2 g/día si coexiste falla hepática grave)',
+        warning: 'Neonatos: evitar con soluciones que contengan calcio y en hiperbilirrubinemia. No mezclar con calcio IV. Puede causar barro biliar',
+        indicaciones: ['NAC hospitalizada', 'Meningitis bacteriana', 'Pielonefritis', 'Sepsis de foco urinario o abdominal (con anaerobios)', 'Gonorrea'],
+        presentacion: 'Vial 500 mg y 1 g IM/IV',
+        embarazo: 'Seguro',
+        interacciones: ['Calcio IV (precipitación: no administrar simultáneamente)', 'Anticoagulantes orales (aumenta riesgo de sangrado)', 'Aminoglucósidos (no mezclar en el mismo equipo)'],
+        descripcion: 'Cefalosporina de tercera generación de amplio uso hospitalario y ambulatorio parenteral.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Piperacilina / Tazobactam', group: 'Antibióticos',
+        adult: '4.5 g IV c/6h (infusión de 30 min, o extendida de 4h: 4.5 g c/8h). Infecciones menos graves: 3.375 g c/6h',
+        ped: '2 - 9 meses: 80 mg/kg (piperacilina) c/8h. > 9 meses y ≤ 40 kg: 100 mg/kg c/8h. Máx 4 g de piperacilina por dosis',
+        renal: 'eTFG 20-40: 2.25 g c/6h; eTFG < 20: 2.25 g c/8h; hemodiálisis: 2.25 g c/8h + 0.75 g tras la diálisis',
+        warning: 'Combinado con vancomicina aumenta el riesgo de lesión renal aguda. Contraindicado en alergia grave a penicilinas',
+        indicaciones: ['Sepsis de foco abdominal o nosocomial', 'Neumonía nosocomial', 'Pie diabético infectado', 'Neutropenia febril', 'Infección por Pseudomonas'],
+        presentacion: 'Vial 4.5 g (4 g/0.5 g) y 2.25 g',
+        embarazo: 'Aceptable si es necesario',
+        interacciones: ['Vancomicina (nefrotoxicidad)', 'Anticoagulantes (alteración de la coagulación)', 'Metotrexato (aumenta sus niveles)'],
+        descripcion: 'Penicilina antipseudomónica con inhibidor de betalactamasa; amplio espectro que incluye anaerobios.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Meropenem', group: 'Antibióticos',
+        adult: '1 g IV c/8h (infusión de 30 min o extendida de 3h). Meningitis y SNC: 2 g c/8h',
+        ped: '20 mg/kg/dosis IV c/8h (meningitis: 40 mg/kg c/8h). Máx 2 g/dosis',
+        renal: 'eTFG 26-50: 1 g c/12h; 10-25: 500 mg c/12h; < 10: 500 mg c/24h',
+        warning: 'Reservar para infecciones graves o por BLEE (uso racional). Puede reducir el umbral convulsivo. No combinar con ácido valproico',
+        indicaciones: ['Infección por BLEE', 'Sepsis nosocomial grave', 'Meningitis nosocomial', 'Peritonitis complicada', 'Neutropenia febril'],
+        presentacion: 'Vial 500 mg y 1 g',
+        embarazo: 'Precaución; usar solo si es necesario',
+        interacciones: ['Ácido valproico (reduce marcadamente sus niveles: evitar combinar)', 'Probenecid (aumenta niveles de meropenem)', 'Warfarina (puede aumentar el INR)'],
+        descripcion: 'Carbapenémico de amplio espectro; antibiótico de reserva para gérmenes multirresistentes.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Vancomicina', group: 'Antibióticos',
+        adult: '15 - 20 mg/kg/dosis IV c/8-12h (carga 25 - 30 mg/kg en sepsis grave), ajustada por AUC/MIC 400-600 o por el protocolo de niveles de tu hospital. Infundir a ≤ 10 mg/min',
+        ped: '15 mg/kg/dosis IV c/6h (40 - 60 mg/kg/día), ajustada por niveles o AUC',
+        renal: 'Ajustar según función renal y niveles séricos; riesgo de nefrotoxicidad. La dosis de carga no se ajusta',
+        warning: 'ALTO RIESGO: nefrotoxicidad y ototoxicidad. Síndrome del hombre rojo con infusión rápida. Monitorear creatinina y niveles. No usar IM',
+        indicaciones: ['Infección por SARM', 'Bacteriemia y endocarditis por estafilococo resistente', 'Colitis por C. difficile (vía oral)', 'Meningitis (con ceftriaxona)'],
+        presentacion: 'Vial 500 mg y 1 g',
+        embarazo: 'Precaución; usar si es necesario',
+        interacciones: ['Piperacilina/tazobactam (mayor riesgo de lesión renal)', 'Aminoglucósidos y furosemida (nefro y ototoxicidad)', 'Anestésicos (reacciones infusionales)'],
+        descripcion: 'Glicopéptido para infecciones graves por gram positivos resistentes.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Gentamicina', group: 'Antibióticos',
+        adult: '5 - 7 mg/kg IV c/24h (dosis única diaria; usar peso ajustado en obesidad). ITU: 3 - 5 mg/kg c/24h',
+        ped: '5 - 7.5 mg/kg/día IV c/24h en > 1 mes. Neonatos: esquema por edad gestacional y postnatal',
+        renal: 'Extender el intervalo según CrCl (c/36-48h) y niveles; evitar si hay alternativas en falla renal avanzada',
+        warning: 'ALTO RIESGO: nefro y ototoxicidad; monitorear creatinina y niveles. Evitar uso prolongado (> 5-7 días)',
+        indicaciones: ['Pielonefritis y sepsis urinaria', 'Sepsis (sinergia con betalactámico)', 'Endocarditis (sinergia)'],
+        presentacion: 'Ampolla 80 mg/2 mL y 160 mg/2 mL',
+        embarazo: 'Evitar: riesgo de ototoxicidad fetal',
+        interacciones: ['Vancomicina, furosemida y AINE (nefro y ototoxicidad)', 'Bloqueadores neuromusculares (potencian el bloqueo)', 'Anfotericina B y cisplatino (nefrotoxicidad)'],
+        descripcion: 'Aminoglucósido bactericida concentración-dependiente con efecto sinérgico con betalactámicos.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Azitromicina', group: 'Antibióticos',
+        adult: '500 mg VO/IV c/24h x3 días (o 500 mg el día 1 y 250 mg x4 días). NAC con atípicos: 500 mg c/24h x3-5 días. Clamidia: 1 g dosis única',
+        ped: '10 mg/kg c/24h x3 días (o 10 mg/kg el día 1 y 5 mg/kg los días 2-5). Máx 500 mg/dosis',
+        renal: 'Sin ajuste; precaución si eTFG < 10',
+        warning: 'Prolonga el QT: evitar con otros fármacos que lo prolonguen o con hipopotasemia. Hepatotoxicidad rara',
+        indicaciones: ['NAC (cobertura de atípicos)', 'Faringitis (alergia a penicilina)', 'Clamidia / ITS', 'Diarrea bacteriana (Campylobacter, cólera)', 'Tos ferina'],
+        presentacion: 'Tableta 500 mg; suspensión 200 mg/5 mL; vial IV 500 mg',
+        embarazo: 'Aceptable',
+        interacciones: ['Fármacos que prolongan el QT (amiodarona, haloperidol, ondansetrón, quinolonas)', 'Warfarina (aumenta el INR)', 'Digoxina (aumenta sus niveles)'],
+        descripcion: 'Macrólido de vida media larga y esquemas cortos.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ciprofloxacino', group: 'Antibióticos',
+        adult: '500 mg VO c/12h (ITU: 250 - 500 mg c/12h x3-7 días). IV: 400 mg c/12h (c/8h para Pseudomonas)',
+        ped: 'Uso restringido (riesgo articular): ITU complicada, Pseudomonas, ántrax. 10 - 15 mg/kg/dosis VO c/12h (máx 750 mg/dosis)',
+        renal: 'eTFG 30-50: 250 - 500 mg c/12h; eTFG 5-29: 250 - 500 mg c/18-24h',
+        warning: 'Tendinopatía y ruptura tendinosa, neuropatía, prolongación del QT, disglucemia y efectos neuropsiquiátricos. Reservar cuando no hay alternativas. Evitar en miastenia gravis',
+        indicaciones: ['ITU complicada / pielonefritis', 'Diarrea disentérica', 'Infección por Pseudomonas', 'Prostatitis', 'Profilaxis en contactos de meningococo'],
+        presentacion: 'Tableta 500 mg; solución IV 400 mg/200 mL',
+        embarazo: 'Evitar; considerar solo si no hay alternativa',
+        interacciones: ['Antiácidos, calcio, hierro y zinc (separar 2h antes o 6h después)', 'Warfarina (aumenta el INR)', 'Teofilina (aumenta sus niveles) y fármacos que prolongan el QT'],
+        descripcion: 'Fluoroquinolona con buena biodisponibilidad oral y actividad antipseudomónica.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Trimetoprim / Sulfametoxazol (TMP/SMX)', group: 'Antibióticos',
+        adult: '160/800 mg VO c/12h (cistitis 3 días; piel/SARM 5-10 días). Neumonía por P. jirovecii: 15 - 20 mg/kg/día (TMP) IV/VO dividido c/6-8h',
+        ped: '6 - 12 mg/kg/día (componente TMP) VO dividido c/12h. Contraindicado en < 2 meses',
+        renal: 'eTFG 15-30: 50% de la dosis; eTFG < 15: evitar o usar 50% con monitoreo',
+        warning: 'Hiperpotasemia (sobre todo con IECA, ARA II o espironolactona), síndrome de Stevens-Johnson, mielosupresión. Contraindicado en déficit grave de G6PD y en < 2 meses',
+        indicaciones: ['Cistitis no complicada', 'Infección de piel por SARM comunitario', 'Neumonía por P. jirovecii', 'Diarrea del viajero'],
+        presentacion: 'Tableta 80/400 mg y 160/800 mg; suspensión 40/200 mg por 5 mL',
+        embarazo: 'Evitar en el 1er trimestre (antagonista de folato) y cerca del parto (ictericia nuclear neonatal)',
+        interacciones: ['Warfarina (aumenta mucho el INR)', 'IECA / ARA II / espironolactona (hiperpotasemia)', 'Metotrexato (toxicidad medular)'],
+        descripcion: 'Combinación bacteriostática/bactericida útil en ITU, SARM comunitario y neumonía por Pneumocystis.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Nitrofurantoína', group: 'Antibióticos',
+        adult: '100 mg VO c/12h x5 días (macrocristales/monohidrato) en cistitis no complicada',
+        ped: '5 - 7 mg/kg/día VO dividido c/6h en mayores de 1 mes, por 5-7 días',
+        renal: 'Evitar si eTFG < 30 mL/min (ineficaz y más tóxica)',
+        warning: 'No sirve para pielonefritis, prostatitis ni bacteriemia (no alcanza niveles tisulares). Neuropatía y toxicidad pulmonar en uso prolongado. Evitar en déficit de G6PD',
+        indicaciones: ['Cistitis no complicada', 'Profilaxis de ITU recurrente'],
+        presentacion: 'Cápsula 100 mg',
+        embarazo: 'Aceptable en 1er y 2º trimestre; evitar en las semanas 38-42 y en el parto (hemólisis neonatal)',
+        interacciones: ['Antiácidos con magnesio (reducen la absorción)', 'Probenecid (reduce su eficacia)', 'Quinolonas (antagonismo in vitro)'],
+        descripcion: 'Antiséptico urinario de elección en cistitis no complicada por buena actividad contra E. coli.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Metronidazol', group: 'Antibióticos',
+        adult: '500 mg VO/IV c/8h x7-10 días. Giardiasis/amebiasis: 250 - 750 mg c/8h x5-10 días. Tricomoniasis: 2 g dosis única o 500 mg c/12h x7 días',
+        ped: '7.5 mg/kg/dosis VO/IV c/8h (máx 500 mg/dosis). Amebiasis y giardiasis: esquema específico por peso',
+        renal: 'Sin ajuste habitual; reducir dosis en eTFG < 10',
+        warning: 'Efecto tipo disulfiram con alcohol (evitar hasta 48-72h después). Neuropatía y encefalopatía con uso prolongado; sabor metálico',
+        indicaciones: ['Infecciones por anaerobios', 'Colitis por C. difficile (leve)', 'Amebiasis y giardiasis', 'Vaginosis bacteriana y tricomoniasis', 'Peritonitis (combinado)'],
+        presentacion: 'Tableta 500 mg; suspensión (verificar concentración); bolsa IV 500 mg/100 mL',
+        embarazo: 'Aceptable; evitar su uso innecesario en el 1er trimestre',
+        interacciones: ['Alcohol (reacción tipo disulfiram)', 'Warfarina (aumenta el INR)', 'Litio (aumenta sus niveles)'],
+        descripcion: 'Nitroimidazol con actividad contra anaerobios y protozoos.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Penicilina G benzatínica', group: 'Antibióticos',
+        adult: 'Sífilis temprana: 2.4 millones UI IM dosis única. Sífilis latente tardía o de duración desconocida: 2.4 MUI IM semanal x3. Faringitis estreptocócica: 1.2 MUI IM dosis única',
+        ped: 'Faringitis: 600.000 UI (< 27 kg) o 1.2 MUI (≥ 27 kg) IM dosis única. Sífilis adquirida: 50.000 UI/kg (máx 2.4 MUI) IM',
+        renal: 'Sin ajuste',
+        warning: 'SOLO vía intramuscular profunda (la vía IV puede causar paro cardiorrespiratorio). Riesgo de anafilaxia: tener adrenalina disponible. Reacción de Jarisch-Herxheimer en sífilis',
+        indicaciones: ['Sífilis (incluida la gestacional)', 'Faringitis estreptocócica', 'Profilaxis de fiebre reumática'],
+        presentacion: 'Vial 1.2 MUI y 2.4 MUI (polvo para suspensión IM)',
+        embarazo: 'Tratamiento de elección en sífilis gestacional (si hay alergia, desensibilizar)',
+        interacciones: ['Probenecid (aumenta sus niveles)', 'Metotrexato (aumenta su toxicidad)', 'Tetraciclinas (antagonismo teórico)'],
+        descripcion: 'Penicilina de depósito de acción prolongada; tratamiento de elección de la sífilis.',
+        altoRiesgo: false, verificado: false
+    },
 
-            container.innerHTML = filtered.map(v => `
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2.5 text-xs flex flex-col justify-between">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
-                            <div class="flex items-center gap-2">
-                                <h4 class="font-bold text-slate-900 dark:text-white text-sm">${v.name}</h4>
-                                ${!v.verificado ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Pendiente de verificación</span>' : ''}
-                            </div>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300">${v.group}</span>
-                        </div>
-                        <p class="text-slate-600 dark:text-slate-300 italic">${v.descripcion}</p>
-                        <div><strong class="text-slate-500">Indicaciones:</strong> <span class="text-slate-800 dark:text-slate-200">${v.indicaciones.join(', ')}</span></div>
-                        <div><strong class="text-slate-500">Presentación (Colombia):</strong> <span class="text-slate-800 dark:text-slate-200">${v.presentacion}</span></div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 dark:border-slate-700">
-                            <div><strong class="text-slate-500">Dosis Adulto:</strong> <span class="text-slate-800 dark:text-slate-200 font-medium">${v.adult}</span></div>
-                            <div><strong class="text-slate-500">Dosis Pediátrica:</strong> <span class="text-slate-800 dark:text-slate-200 font-medium">${v.ped}</span></div>
-                        </div>
-                        <div><strong class="text-indigo-600 dark:text-indigo-400">Ajuste Renal:</strong> ${v.renal}</div>
-                        <div><strong class="text-rose-600 dark:text-rose-400">Embarazo:</strong> ${v.embarazo}</div>
-                        <div><strong class="text-amber-600 dark:text-amber-400">Interacciones Clave:</strong> ${v.interacciones.join('; ')}</div>
+    // =================== RESPIRATORIO ===================
+    {
+        name: 'Salbutamol (Albuterol)', group: 'Respiratorio',
+        adult: 'Crisis: 4 - 8 inhalaciones (100 mcg) con espaciador c/20 min x3, o nebulización 2.5 - 5 mg c/20 min x3; luego c/4-6h según necesidad. Rescate: 1 - 2 inhalaciones PRN',
+        ped: 'Crisis: 4 - 8 inhalaciones con espaciador c/20 min x3, o nebulización 0.15 mg/kg/dosis (mín 2.5 mg, máx 5 mg) c/20 min x3; luego c/1-4h',
+        renal: 'Sin ajuste',
+        warning: 'Hipopotasemia, taquicardia y temblor con dosis altas. Vigilar el potasio en crisis graves y con uso de corticoides o diuréticos',
+        indicaciones: ['Crisis asmática', 'Exacerbación de EPOC', 'Broncoespasmo', 'Hiperpotasemia (nebulizado, adyuvante)'],
+        presentacion: 'Inhalador 100 mcg/dosis; solución para nebulizar (verificar concentración)',
+        embarazo: 'Seguro',
+        interacciones: ['Betabloqueadores no selectivos (antagonizan el efecto y pueden causar broncoespasmo)', 'Diuréticos de asa y corticoides (hipopotasemia)', 'Digoxina (la hipopotasemia aumenta su toxicidad)'],
+        descripcion: 'Agonista beta-2 de acción corta; broncodilatador de rescate de primera línea.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Bromuro de ipratropio', group: 'Respiratorio',
+        adult: 'Crisis: 0.5 mg (500 mcg) nebulizado, o 4 - 8 inhalaciones (20 mcg), c/20 min x3; luego c/4-6h',
+        ped: 'Crisis moderada a grave: 250 mcg (< 20 kg) o 500 mcg (≥ 20 kg) nebulizado c/20 min x3 dosis, junto con salbutamol',
+        renal: 'Sin ajuste',
+        warning: 'Su beneficio es sobre todo en las primeras horas de la crisis. Cuidado con glaucoma de ángulo cerrado si cae en los ojos y con retención urinaria',
+        indicaciones: ['Crisis asmática moderada a grave (adyuvante)', 'Exacerbación de EPOC'],
+        presentacion: 'Inhalador 20 mcg/dosis; solución para nebulizar 0.25 mg/mL',
+        embarazo: 'Precaución; aceptable si es necesario',
+        interacciones: ['Otros anticolinérgicos (efectos adversos aditivos)', 'Agonistas beta-2 (sinergia deseada en crisis)'],
+        descripcion: 'Anticolinérgico inhalado de acción corta; se asocia al salbutamol en crisis moderadas y graves.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Prednisolona / Prednisona', group: 'Respiratorio',
+        adult: 'Exacerbación de asma o EPOC: 40 - 50 mg VO c/24h x5 días (sin descenso gradual). Prednisona y prednisolona son equivalentes en mg',
+        ped: 'Asma: 1 - 2 mg/kg/día VO (máx 40 - 60 mg/día) c/24h x3-5 días',
+        renal: 'Sin ajuste',
+        warning: 'Hiperglucemia, hipertensión, alteraciones del ánimo e infecciones con uso prolongado. Con más de 2-3 semanas: descenso gradual',
+        indicaciones: ['Exacerbación asmática', 'Exacerbación de EPOC', 'Croup (alternativa a dexametasona)', 'Enfermedades inflamatorias y autoinmunes'],
+        presentacion: 'Prednisona tableta 5 mg y 20 mg; prednisolona solución o tableta (verificar disponibilidad)',
+        embarazo: 'Aceptable si se requiere (menor paso placentario que dexametasona)',
+        interacciones: ['AINE (mayor riesgo de úlcera y sangrado GI)', 'Antidiabéticos e insulina (reducen su efecto)', 'Anticoagulantes orales (alteran el INR)'],
+        descripcion: 'Corticoide oral de acción intermedia; base del tratamiento de las exacerbaciones respiratorias.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Budesonida inhalada', group: 'Respiratorio',
+        adult: 'Dosis baja 200 - 400 mcg/día; media > 400 - 800 mcg/día; alta > 800 mcg/día, dividida c/12h. Enjuagar la boca tras cada uso',
+        ped: '6 - 11 años: dosis baja 100 - 200 mcg/día; media > 200 - 400 mcg/día. Nebulizada: 0.25 - 0.5 mg c/12h',
+        renal: 'Sin ajuste',
+        warning: 'Candidiasis oral y disfonía (usar espaciador y enjuagar). Controlar el crecimiento en niños con dosis medias o altas. Las guías actuales priorizan combinaciones con formoterol como rescate y mantenimiento (GINA)',
+        indicaciones: ['Asma persistente (controlador)', 'Croup (nebulizada)', 'EPOC con eosinofilia (combinada)'],
+        presentacion: 'Inhalador 100 mcg y 200 mcg; solución para nebulizar 0.25 mg/mL y 0.5 mg/mL',
+        embarazo: 'Seguro; corticoide inhalado preferido en el asma gestacional',
+        interacciones: ['Ketoconazol, itraconazol y ritonavir (aumentan niveles sistémicos)', 'Betabloqueadores (reducen el efecto broncodilatador)'],
+        descripcion: 'Corticoide inhalado, base del tratamiento controlador del asma.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Montelukast', group: 'Respiratorio',
+        adult: '10 mg VO c/24h en la noche',
+        ped: '6 meses - 5 años: 4 mg; 6 - 14 años: 5 mg; ≥ 15 años: 10 mg VO c/24h en la noche',
+        renal: 'Sin ajuste',
+        warning: 'Advertencia por efectos neuropsiquiátricos (agitación, pesadillas, depresión, ideación suicida): informar al paciente y a los cuidadores',
+        indicaciones: ['Rinitis alérgica', 'Asma leve (alternativa al corticoide inhalado)', 'Broncoconstricción inducida por ejercicio'],
+        presentacion: 'Tableta 10 mg; tableta masticable 4 mg y 5 mg; granulado 4 mg',
+        embarazo: 'Precaución; usar solo si es necesario',
+        interacciones: ['Fenobarbital y rifampicina (reducen sus niveles)', 'Gemfibrozilo (aumenta sus niveles)'],
+        descripcion: 'Antagonista de receptores de leucotrienos.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Loratadina', group: 'Respiratorio',
+        adult: '10 mg VO c/24h',
+        ped: '2 - 5 años: 5 mg c/24h; ≥ 6 años (o > 30 kg): 10 mg c/24h',
+        renal: 'eTFG < 30: 10 mg cada 48h',
+        warning: 'Antihistamínico de segunda generación poco sedante; precaución en hepatopatía grave',
+        indicaciones: ['Rinitis alérgica', 'Urticaria', 'Conjuntivitis alérgica'],
+        presentacion: 'Tableta 10 mg; jarabe 5 mg/5 mL',
+        embarazo: 'Aceptable',
+        interacciones: ['Ketoconazol y eritromicina (aumentan sus niveles)', 'Alcohol (sedación leve)'],
+        descripcion: 'Antihistamínico H1 de segunda generación.',
+        altoRiesgo: false, verificado: false
+    },
+
+    // =================== NEUROLOGÍA ===================
+    {
+        name: 'Diazepam', group: 'Neurología',
+        adult: 'Status epiléptico: 5 - 10 mg IV lento (≤ 5 mg/min), repetible a los 10-15 min (máx 30 mg). Ansiedad o espasmo muscular: 2 - 10 mg VO c/8-12h',
+        ped: 'Status: 0.1 - 0.3 mg/kg IV lento (máx 10 mg/dosis). Rectal: 0.5 mg/kg en 2-5 años (0.3 mg/kg en 6-11 años), máx 10 mg. Evitar IM por absorción errática',
+        renal: 'Sin ajuste; precaución en hepatopatía y ancianos (reducir 50%)',
+        warning: 'ALTO RIESGO: depresión respiratoria, sobre todo combinado con opioides y alcohol. Tener soporte ventilatorio y flumazenil disponibles. No diluir (precipita); riesgo de flebitis',
+        indicaciones: ['Status epiléptico', 'Convulsión febril (vía rectal)', 'Abstinencia alcohólica', 'Ansiedad aguda y espasmo muscular'],
+        presentacion: 'Tableta 10 mg; ampolla 10 mg/2 mL; solución rectal',
+        embarazo: 'Evitar: riesgo neonatal (hipotonía, abstinencia) si se usa cerca del parto',
+        interacciones: ['Opioides y alcohol (depresión respiratoria potencialmente fatal)', 'Omeprazol y cimetidina (aumentan sus niveles)', 'Fenitoína (alteración de niveles)'],
+        descripcion: 'Benzodiacepina de acción rápida; primera línea en el tratamiento inicial del status epiléptico.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Midazolam', group: 'Neurología',
+        adult: 'Status epiléptico: 10 mg IM (> 40 kg) o 5 mg IM (13 - 40 kg); IV 0.1 - 0.2 mg/kg lento (máx 10 mg). Sedación procedimental: 1 - 2.5 mg IV titulados',
+        ped: 'Status: IM 0.2 mg/kg (máx 10 mg); intranasal 0.2 mg/kg o bucal 0.3 - 0.5 mg/kg (máx 10 mg); IV 0.1 - 0.2 mg/kg. Sedación: 0.05 - 0.1 mg/kg IV titulada',
+        renal: 'Reducir dosis en falla renal y en ancianos; el metabolito activo se acumula',
+        warning: 'ALTO RIESGO: depresión respiratoria y apnea; requiere monitoreo continuo y capacidad de ventilación asistida',
+        indicaciones: ['Status epiléptico (sin acceso venoso: vía IM)', 'Sedación procedimental', 'Agitación (con haloperidol)'],
+        presentacion: 'Ampolla 5 mg/5 mL y 15 mg/3 mL',
+        embarazo: 'Evitar; riesgo neonatal si se usa cerca del parto',
+        interacciones: ['Opioides y alcohol (depresión respiratoria)', 'Claritromicina, eritromicina, fluconazol, diltiazem y verapamilo (potencian su efecto)', 'Fenitoína y carbamazepina (reducen sus niveles)'],
+        descripcion: 'Benzodiacepina de acción corta con absorción IM e intranasal fiable.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Fenitoína', group: 'Neurología',
+        adult: 'Carga: 15 - 20 mg/kg IV (máx 50 mg/min; ≤ 25 mg/min en ancianos o cardiópatas). Mantenimiento: 5 - 7 mg/kg/día (100 mg c/8h IV/VO)',
+        ped: 'Carga: 15 - 20 mg/kg IV (≤ 1 mg/kg/min, máx 50 mg/min). Mantenimiento: 5 - 8 mg/kg/día dividido c/12h',
+        renal: 'Sin ajuste de dosis; con hipoalbuminemia y uremia la fracción libre aumenta (interpretar el nivel corregido)',
+        warning: 'ALTO RIESGO: hipotensión y arritmias con infusión rápida (monitoreo ECG); extravasación (síndrome del guante púrpura). Diluir solo en SSN 0.9% (precipita con dextrosa). Margen terapéutico estrecho',
+        indicaciones: ['Status epiléptico (2ª línea)', 'Crisis tónico-clónicas generalizadas y focales', 'Prevención de crisis postraumáticas'],
+        presentacion: 'Ampolla 250 mg/5 mL; tableta o cápsula 100 mg',
+        embarazo: 'Evitar si es posible: riesgo de síndrome fetal por hidantoína; suplementar ácido fólico y vitamina K',
+        interacciones: ['Warfarina, anticonceptivos orales y múltiples fármacos (inductor enzimático potente)', 'Valproato, amiodarona, fluconazol y omeprazol (alteran sus niveles)', 'Alimentación enteral y antiácidos (reducen la absorción)'],
+        descripcion: 'Antiepiléptico bloqueador de canales de sodio; segunda línea en status epiléptico.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Ácido valproico (Valproato)', group: 'Neurología',
+        adult: 'Status: 20 - 40 mg/kg IV (máx 3000 mg) en 10 min. Epilepsia: 10 - 15 mg/kg/día VO c/8-12h, titulando hasta 20 - 30 mg/kg/día (máx 60 mg/kg/día)',
+        ped: 'Status: 20 - 40 mg/kg IV. Epilepsia: 10 - 15 mg/kg/día VO dividido c/8-12h, titulando hasta 30 - 60 mg/kg/día. Evitar en < 2 años (riesgo de hepatotoxicidad)',
+        renal: 'Sin ajuste; reducir en hipoalbuminemia (mayor fracción libre)',
+        warning: 'Contraindicado en mujeres en edad fértil y en embarazo salvo indicación estricta (teratogénico: defectos del tubo neural y trastornos del neurodesarrollo). Hepatotoxicidad, pancreatitis, hiperamonemia y trombocitopenia',
+        indicaciones: ['Epilepsia generalizada y focal', 'Status epiléptico (2ª línea)', 'Trastorno bipolar', 'Profilaxis de migraña'],
+        presentacion: 'Tableta 250 mg y 500 mg; jarabe 250 mg/5 mL; ampolla 400 mg/4 mL',
+        embarazo: 'Contraindicado salvo que no haya alternativa; requiere programa de prevención de embarazo',
+        interacciones: ['Carbapenémicos (reducen sus niveles: no combinar)', 'Lamotrigina (aumenta niveles y riesgo de erupción grave)', 'Warfarina y ácido acetilsalicílico (sangrado)'],
+        descripcion: 'Antiepiléptico de amplio espectro.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Levetiracetam', group: 'Neurología',
+        adult: '500 - 1000 mg VO/IV c/12h (máx 3000 mg/día). Status: 60 mg/kg IV (máx 4500 mg) en 10-15 min',
+        ped: '10 mg/kg/dosis c/12h, titulando hasta 30 mg/kg/dosis c/12h. Status: 60 mg/kg IV (máx 4500 mg)',
+        renal: 'eTFG 50-80: 500 - 1000 mg c/12h; 30-50: 250 - 750 mg c/12h; < 30: 250 - 500 mg c/12h',
+        warning: 'Efectos neuropsiquiátricos (irritabilidad, agresividad, depresión) y somnolencia. Retirar de forma gradual',
+        indicaciones: ['Epilepsia focal y generalizada', 'Status epiléptico (2ª línea)', 'Profilaxis de crisis en lesión cerebral'],
+        presentacion: 'Tableta 500 mg y 1000 mg; solución oral 100 mg/mL; ampolla 500 mg/5 mL',
+        embarazo: 'Uno de los antiepilépticos con menor riesgo teratogénico',
+        interacciones: ['Pocas interacciones farmacocinéticas', 'Otros depresores del SNC (sedación aditiva)'],
+        descripcion: 'Antiepiléptico con perfil favorable de interacciones; opción cómoda IV y oral.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Carbamazepina', group: 'Neurología',
+        adult: 'Inicio 200 mg VO c/12h; aumentar 200 mg por semana hasta 400 - 1200 mg/día divididos c/8-12h. Neuralgia del trigémino: inicio 100 - 200 mg c/12h',
+        ped: '10 - 20 mg/kg/día VO dividido c/8-12h, titulando (máx 35 mg/kg/día)',
+        renal: 'Sin ajuste habitual; precaución en falla renal grave',
+        warning: 'Hiponatremia, discrasias sanguíneas, hepatotoxicidad y reacciones cutáneas graves (SSJ/NET; mayor riesgo con HLA-B*1502). Inductor enzimático potente',
+        indicaciones: ['Epilepsia focal y tónico-clónica', 'Neuralgia del trigémino', 'Trastorno bipolar (alternativa)'],
+        presentacion: 'Tableta 200 mg; suspensión 100 mg/5 mL',
+        embarazo: 'Evitar si es posible; riesgo de defectos del tubo neural (suplementar ácido fólico)',
+        interacciones: ['Warfarina, anticonceptivos orales y múltiples fármacos (inducción CYP3A4)', 'Macrólidos, azoles, verapamilo y diltiazem (aumentan sus niveles: riesgo de toxicidad)', 'Fenitoína y valproato (alteran los niveles)'],
+        descripcion: 'Antiepiléptico bloqueador de canales de sodio; primera línea en neuralgia del trigémino.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Gabapentina', group: 'Neurología',
+        adult: 'Dolor neuropático: iniciar 300 mg VO c/24h en la noche, titular hasta 900 - 3600 mg/día dividido c/8h',
+        ped: '≥ 3 años: 10 - 15 mg/kg/día inicial dividido c/8h, titulando hasta 25 - 35 mg/kg/día (uso por especialista)',
+        renal: 'eTFG 30-59: 400 - 1400 mg/día c/12h; 15-29: 200 - 700 mg/día; < 15: 100 - 300 mg/día',
+        warning: 'Somnolencia, mareo y edema periférico. Riesgo de depresión respiratoria combinada con opioides o en EPOC. Retirada gradual',
+        indicaciones: ['Dolor neuropático (neuralgia posherpética, neuropatía diabética)', 'Epilepsia focal (adyuvante)'],
+        presentacion: 'Cápsula 300 mg y 400 mg; tableta 600 mg',
+        embarazo: 'Precaución; usar solo si el beneficio supera el riesgo',
+        interacciones: ['Opioides y benzodiacepinas (depresión respiratoria y sedación)', 'Antiácidos con aluminio/magnesio (reducen la absorción: separar 2h)'],
+        descripcion: 'Análogo del GABA usado en dolor neuropático y como antiepiléptico adyuvante.',
+        altoRiesgo: false, verificado: false
+    },
+
+    // =================== ENDOCRINO / METABOLISMO ===================
+    {
+        name: 'Metformina', group: 'Endocrino / Metabolismo',
+        adult: 'Iniciar 500 mg VO c/12h con las comidas; titular según tolerancia hasta 2000 - 2550 mg/día',
+        ped: '≥ 10 años (DM2): 500 mg c/12h con las comidas, hasta 2000 mg/día',
+        renal: 'eTFG ≥ 45: sin ajuste; 30-44: reducir 50% (máx 1000 mg/día) y no iniciar; < 30: contraindicada',
+        warning: 'Riesgo de acidosis láctica: suspender en sepsis, hipoxia, falla renal aguda y alrededor de contraste yodado según la función renal. Déficit de B12 con uso prolongado; molestias GI',
+        indicaciones: ['Diabetes mellitus tipo 2', 'Prediabetes', 'Síndrome de ovario poliquístico (uso fuera de indicación)'],
+        presentacion: 'Tableta 500 mg, 850 mg y 1000 mg',
+        embarazo: 'Aceptable en DM2 y diabetes gestacional según criterio clínico',
+        interacciones: ['Contrastes yodados (suspender temporalmente)', 'Alcohol (riesgo de acidosis láctica)', 'Cimetidina y dolutegravir (aumentan sus niveles)'],
+        descripcion: 'Biguanida de primera línea en DM2; no produce hipoglucemia por sí sola.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Insulina NPH', group: 'Endocrino / Metabolismo',
+        adult: 'DM2 al inicio: 0.1 - 0.2 UI/kg/día (aprox. 10 UI) SC en la noche; ajustar según la glucemia en ayunas. DM1: dosis total 0.5 - 1 UI/kg/día repartida en esquema basal-bolo',
+        ped: 'DM1: dosis total 0.5 - 1 UI/kg/día (hasta 1 - 1.5 en la pubertad), repartida en esquema basal-bolo; individualizar por especialista',
+        renal: 'Reducir dosis (la depuración de insulina disminuye); vigilar hipoglucemia',
+        warning: 'ALTO RIESGO: hipoglucemia. Verificar siempre el tipo de insulina y la dosis (no confundir con la cristalina). Rotar sitios de aplicación',
+        indicaciones: ['Diabetes mellitus tipo 1 y 2', 'Hiperglucemia por corticoides', 'Diabetes gestacional'],
+        presentacion: 'Frasco 100 UI/mL; pluma prellenada',
+        embarazo: 'Seguro; la insulina es el tratamiento de elección en el embarazo',
+        interacciones: ['Betabloqueadores (enmascaran los síntomas de hipoglucemia)', 'Corticoides y tiazidas (aumentan la glucemia)', 'Alcohol (hipoglucemia)'],
+        descripcion: 'Insulina de acción intermedia (inicio 1-2h, pico 4-10h, duración 12-18h).',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Insulina cristalina (regular)', group: 'Endocrino / Metabolismo',
+        adult: 'Cetoacidosis diabética: infusión IV 0.1 UI/kg/h (iniciar con K⁺ ≥ 3.3 mEq/L). Hiperpotasemia: 10 UI IV con 25 g de dextrosa. SC: según esquema de corrección o prandial',
+        ped: 'CAD: infusión IV 0.05 - 0.1 UI/kg/h (sin bolo), iniciada tras 1 hora de hidratación y con K⁺ ≥ 3.3 mEq/L',
+        renal: 'Reducir dosis en falla renal; vigilar hipoglucemia',
+        warning: 'ALTO RIESGO: hipoglucemia e hipopotasemia (medir el potasio antes y durante la infusión). Usar bomba de infusión y verificar la concentración preparada',
+        indicaciones: ['Cetoacidosis diabética', 'Estado hiperglucémico hiperosmolar', 'Hiperpotasemia', 'Hiperglucemia hospitalaria'],
+        presentacion: 'Frasco 100 UI/mL (para infusión se suele preparar 1 UI/mL en SSN: verificar protocolo local)',
+        embarazo: 'Seguro',
+        interacciones: ['Betabloqueadores (enmascaran la hipoglucemia)', 'Corticoides y tiazidas (aumentan la glucemia)', 'Alcohol (hipoglucemia)'],
+        descripcion: 'Insulina de acción corta, la única apta para infusión IV.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Insulina glargina', group: 'Endocrino / Metabolismo',
+        adult: 'DM2: iniciar 0.1 - 0.2 UI/kg/día (aprox. 10 UI) SC una vez al día a la misma hora; titular 2 UI cada 3 días según la glucemia en ayunas. DM1: aprox. 40 - 50% de la dosis total diaria',
+        ped: '≥ 6 años (DM1): individualizar; aprox. 40 - 50% de la dosis total diaria como basal',
+        renal: 'Reducir dosis; vigilar hipoglucemia',
+        warning: 'ALTO RIESGO: hipoglucemia. No mezclar con otras insulinas ni administrar por vía IV. Verificar la concentración (100 vs 300 UI/mL)',
+        indicaciones: ['DM1 y DM2 (insulina basal)'],
+        presentacion: 'Pluma prellenada 100 UI/mL',
+        embarazo: 'Aceptable según la experiencia disponible',
+        interacciones: ['Betabloqueadores (enmascaran la hipoglucemia)', 'Corticoides (aumentan la glucemia)', 'Análogos de GLP-1 y sulfonilureas (mayor riesgo de hipoglucemia)'],
+        descripcion: 'Análogo de insulina basal de acción prolongada (aprox. 24h).',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Glibenclamida', group: 'Endocrino / Metabolismo',
+        adult: '2.5 - 5 mg VO c/24h antes del desayuno; máx 20 mg/día (preferible ≤ 10 mg)',
+        ped: 'No recomendada',
+        renal: 'Evitar si eTFG < 60 mL/min (metabolitos activos, hipoglucemia prolongada)',
+        warning: 'Alto riesgo de hipoglucemia prolongada, sobre todo en ancianos, falla renal y ayuno. Considerar alternativas más seguras (metformina, iSGLT2, iDPP4)',
+        indicaciones: ['Diabetes mellitus tipo 2'],
+        presentacion: 'Tableta 5 mg',
+        embarazo: 'Evitar; la insulina es el tratamiento de elección',
+        interacciones: ['Fluconazol, TMP/SMX, quinolonas y warfarina (potencian la hipoglucemia)', 'Betabloqueadores (enmascaran los síntomas)', 'Alcohol'],
+        descripcion: 'Sulfonilurea de acción prolongada de uso frecuente pero con alto riesgo de hipoglucemia.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Empagliflozina', group: 'Endocrino / Metabolismo',
+        adult: '10 mg VO c/24h (en DM2 puede aumentarse a 25 mg). Falla cardíaca y enfermedad renal crónica: 10 mg c/24h',
+        ped: '≥ 10 años (DM2): 10 mg c/24h (uso por especialista)',
+        renal: 'DM2: poca eficacia glucémica con eTFG < 30; para falla cardíaca y ERC puede iniciarse con eTFG ≥ 20',
+        warning: 'Cetoacidosis euglucémica, infecciones genitourinarias micóticas, gangrena de Fournier (rara) y depleción de volumen. Suspender 3 días antes de cirugía y durante enfermedad aguda con poca ingesta',
+        indicaciones: ['DM2 con enfermedad cardiovascular o renal', 'Insuficiencia cardíaca (FEVI reducida y preservada)', 'Enfermedad renal crónica'],
+        presentacion: 'Tableta 10 mg y 25 mg (verificar cobertura en el PBS)',
+        embarazo: 'Evitar',
+        interacciones: ['Diuréticos (hipovolemia e hipotensión)', 'Insulina y sulfonilureas (aumentan el riesgo de hipoglucemia)'],
+        descripcion: 'Inhibidor SGLT2 con beneficio cardiovascular y renal demostrado.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Levotiroxina', group: 'Endocrino / Metabolismo',
+        adult: 'Hipotiroidismo: 1.6 mcg/kg/día VO en ayunas (iniciar con 12.5 - 25 mcg/día en ancianos o cardiópatas); ajustar según la TSH a las 6-8 semanas',
+        ped: 'Según la edad: 0 - 3 meses 10 - 15 mcg/kg/día; 1 - 5 años 5 - 6; 6 - 12 años 4 - 5; adolescentes 2 - 3 mcg/kg/día (por especialista)',
+        renal: 'Sin ajuste',
+        warning: 'Tomar en ayunas, 30-60 min antes del desayuno, y separada 4h de calcio, hierro y antiácidos. El exceso causa taquiarritmias, osteoporosis y angina',
+        indicaciones: ['Hipotiroidismo', 'Hipotiroidismo congénito', 'Supresión de TSH en cáncer de tiroides'],
+        presentacion: 'Tableta 25, 50, 75, 88, 100, 112, 125 y 150 mcg',
+        embarazo: 'Seguro y necesario: aumentar la dosis 25-30% al confirmar el embarazo y controlar la TSH c/4-6 semanas',
+        interacciones: ['Calcio, hierro, sucralfato, IBP y antiácidos (reducen la absorción)', 'Warfarina (aumenta el efecto anticoagulante)', 'Fenitoína y carbamazepina (aumentan su catabolismo)'],
+        descripcion: 'Hormona tiroidea sintética de reemplazo.',
+        altoRiesgo: false, verificado: false
+    },
+
+    // =================== GASTROINTESTINAL ===================
+    {
+        name: 'Omeprazol', group: 'Gastrointestinal',
+        adult: '20 - 40 mg VO c/24h en ayunas. HDA: 80 mg IV en bolo y luego 40 mg IV c/12h (o infusión de 8 mg/h)',
+        ped: '0.7 - 1 mg/kg/día VO c/24h (máx 40 mg/día)',
+        renal: 'Sin ajuste',
+        warning: 'Uso prolongado: hipomagnesemia, déficit de B12, fracturas e infección por C. difficile. Reevaluar la indicación periódicamente. Evitar junto con clopidogrel (preferir pantoprazol)',
+        indicaciones: ['ERGE y esofagitis', 'Úlcera péptica', 'Hemorragia digestiva alta', 'Gastroprotección con AINE', 'Erradicación de H. pylori'],
+        presentacion: 'Cápsula 20 mg; vial IV 40 mg',
+        embarazo: 'Aceptable',
+        interacciones: ['Clopidogrel (reduce su activación: evitar omeprazol y esomeprazol)', 'Warfarina y fenitoína (aumentan niveles)', 'Metotrexato (aumenta niveles)'],
+        descripcion: 'Inhibidor de la bomba de protones de uso muy frecuente.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Pantoprazol', group: 'Gastrointestinal',
+        adult: '40 mg VO/IV c/24h. HDA: 80 mg IV en bolo y luego 40 mg IV c/12h',
+        ped: '≥ 5 años: 20 mg (15 - 40 kg) o 40 mg (≥ 40 kg) VO c/24h',
+        renal: 'Sin ajuste',
+        warning: 'Menos interacciones que el omeprazol; mismos riesgos del uso prolongado de IBP (hipomagnesemia, déficit de B12, fracturas)',
+        indicaciones: ['Hemorragia digestiva alta', 'Gastroprotección con antiagregantes y anticoagulantes', 'ERGE', 'Úlcera péptica'],
+        presentacion: 'Tableta 40 mg; vial IV 40 mg',
+        embarazo: 'Precaución: datos limitados; el omeprazol tiene más experiencia',
+        interacciones: ['Clopidogrel (interacción mínima: IBP de elección)', 'Metotrexato en dosis altas', 'Warfarina (monitorear INR)'],
+        descripcion: 'Inhibidor de la bomba de protones con menor interacción con clopidogrel.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Metoclopramida', group: 'Gastrointestinal',
+        adult: '10 mg VO/IV/IM c/8h (máx 30 mg/día, por un máximo de 5 días)',
+        ped: '0.1 - 0.15 mg/kg/dosis c/8h (máx 0.5 mg/kg/día); evitar en < 1 año; uso breve (≤ 5 días)',
+        renal: 'eTFG ≤ 60: 50% de la dosis; falla renal grave: 25%',
+        warning: 'Distonía aguda (más frecuente en jóvenes), acatisia y discinesia tardía con uso prolongado. Contraindicada en obstrucción GI, hemorragia o perforación, feocromocitoma y epilepsia',
+        indicaciones: ['Náuseas y vómito', 'Gastroparesia', 'Migraña (coadyuvante)'],
+        presentacion: 'Tableta 10 mg; ampolla 10 mg/2 mL; gotas',
+        embarazo: 'Aceptable',
+        interacciones: ['Antipsicóticos (mayor riesgo de efectos extrapiramidales)', 'Levodopa (antagonismo)', 'Fármacos serotoninérgicos (síndrome serotoninérgico)'],
+        descripcion: 'Procinético y antiemético antagonista dopaminérgico.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ondansetrón', group: 'Gastrointestinal',
+        adult: '4 - 8 mg IV/VO c/8h (dosis IV única máx 16 mg). Profilaxis posoperatoria: 4 mg IV',
+        ped: '0.1 - 0.15 mg/kg/dosis IV (máx 4 mg). VO: 2 mg (8-15 kg), 4 mg (15-30 kg), 8 mg (> 30 kg) en dosis única en gastroenteritis',
+        renal: 'Sin ajuste',
+        warning: 'Prolonga el QT: evitar con otros fármacos que lo prolonguen o con alteraciones electrolíticas. Estreñimiento y cefalea',
+        indicaciones: ['Náuseas y vómito agudo (gastroenteritis)', 'Quimioterapia y posoperatorio', 'Hiperémesis (según criterio clínico)'],
+        presentacion: 'Tableta 4 mg y 8 mg; ampolla 4 mg/2 mL y 8 mg/4 mL',
+        embarazo: 'Precaución en el 1er trimestre (posible mayor riesgo de hendiduras orofaciales)',
+        interacciones: ['Fármacos que prolongan el QT (amiodarona, haloperidol, azitromicina, quinolonas)', 'Apomorfina (contraindicada)', 'Tramadol y serotoninérgicos (síndrome serotoninérgico)'],
+        descripcion: 'Antagonista 5-HT3; antiemético de elección con menos efectos extrapiramidales.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Hioscina (butilbromuro)', group: 'Gastrointestinal',
+        adult: '10 - 20 mg VO/IM/IV c/6-8h (máx 100 mg/día)',
+        ped: '6 - 12 años: 10 mg VO c/8h. No usar en < 6 años salvo indicación médica',
+        renal: 'Sin ajuste',
+        warning: 'Contraindicada en glaucoma de ángulo cerrado, miastenia gravis, megacolon, íleo paralítico y taquiarritmias. Puede causar taquicardia, sequedad bucal y retención urinaria',
+        indicaciones: ['Cólico biliar', 'Cólico renal (coadyuvante)', 'Espasmo gastrointestinal o ginecológico'],
+        presentacion: 'Tableta 10 mg; ampolla 20 mg/1 mL',
+        embarazo: 'Precaución; evitar en el 1er trimestre',
+        interacciones: ['Otros anticolinérgicos (antihistamínicos, tricíclicos, antipsicóticos)', 'Metoclopramida (antagonismo)', 'Agonistas beta-adrenérgicos (aumenta la taquicardia)'],
+        descripcion: 'Antiespasmódico anticolinérgico para cólicos abdominales.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Sales de rehidratación oral (SRO)', group: 'Gastrointestinal',
+        adult: 'Deshidratación leve a moderada: 75 mL/kg en 4 horas (OMS) o 200 - 400 mL tras cada deposición líquida',
+        ped: 'Plan A: 50 - 100 mL (< 2 años) o 100 - 200 mL (2 - 10 años) tras cada deposición líquida. Plan B (algún grado de deshidratación): 75 mL/kg en 4 horas, luego reevaluar',
+        renal: 'Sin ajuste; precaución en falla renal con restricción de líquidos',
+        warning: 'El vómito no contraindica las SRO: dar sorbos pequeños y frecuentes (5 mL c/1-2 min). Si hay deshidratación grave, íleo, alteración de la conciencia o falla de la vía oral: usar vía IV',
+        indicaciones: ['Diarrea aguda con o sin deshidratación', 'Gastroenteritis', 'Prevención de deshidratación'],
+        presentacion: 'Sobre de SRO de baja osmolaridad (disolver en 1 L de agua potable o hervida)',
+        embarazo: 'Seguro',
+        interacciones: ['Sin interacciones relevantes'],
+        descripcion: 'Tratamiento de elección de la deshidratación leve a moderada por diarrea (OMS).',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Loperamida', group: 'Gastrointestinal',
+        adult: '4 mg VO inicial y luego 2 mg tras cada deposición líquida (máx 16 mg/día)',
+        ped: 'No recomendada de rutina en niños. Contraindicada en < 2 años (riesgo de íleo y depresión del SNC)',
+        renal: 'Sin ajuste',
+        warning: 'Contraindicada en diarrea con sangre o moco, fiebre alta, o sospecha de colitis por C. difficile o colitis fulminante (riesgo de megacolon tóxico). Dosis altas: arritmias (QT)',
+        indicaciones: ['Diarrea acuosa aguda del adulto sin signos de invasión'],
+        presentacion: 'Cápsula o tableta 2 mg',
+        embarazo: 'Evitar en el 1er trimestre; precaución',
+        interacciones: ['Ritonavir, quinidina, itraconazol y gemfibrozilo (aumentan niveles: riesgo de QT)', 'Opioides y anticolinérgicos (estreñimiento severo)'],
+        descripcion: 'Opioide antidiarreico sin efecto central a dosis habituales.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Lactulosa', group: 'Gastrointestinal',
+        adult: 'Estreñimiento: 15 - 30 mL VO c/24h. Encefalopatía hepática: 20 - 30 g (30 - 45 mL) VO c/8-12h, titulando a 2-3 deposiciones blandas al día',
+        ped: 'Estreñimiento: 1 - 3 mL/kg/día dividido c/12-24h (máx 60 mL/día)',
+        renal: 'Sin ajuste',
+        warning: 'Distensión, flatulencia y diarrea con sobredosis (en encefalopatía puede causar deshidratación e hipernatremia). Evitar en galactosemia',
+        indicaciones: ['Estreñimiento crónico', 'Encefalopatía hepática', 'Prevención de recurrencia de encefalopatía hepática'],
+        presentacion: 'Solución 667 mg/mL (10 g/15 mL)',
+        embarazo: 'Seguro',
+        interacciones: ['Neomicina (puede reducir el efecto de la lactulosa)', 'Otros laxantes (diarrea)'],
+        descripcion: 'Disacárido no absorbible con efecto laxante y reductor de amonio.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Zinc (suplemento en diarrea)', group: 'Gastrointestinal',
+        adult: 'No indicado de rutina en diarrea del adulto (suplementación por déficit: 8 - 11 mg/día)',
+        ped: 'Diarrea aguda: < 6 meses 10 mg/día; ≥ 6 meses 20 mg/día VO x10-14 días (OMS)',
+        renal: 'Sin ajuste',
+        warning: 'Puede causar náuseas y vómito; administrar con SRO si es necesario. Uso prolongado en dosis altas: déficit de cobre',
+        indicaciones: ['Diarrea aguda en niños (reduce la duración y la recurrencia)'],
+        presentacion: 'Tableta dispersable 20 mg; jarabe 10 mg/5 mL (verificar concentración)',
+        embarazo: 'Seguro a dosis fisiológicas',
+        interacciones: ['Quinolonas y tetraciclinas (reducen su absorción: separar 2-3h)', 'Hierro y cobre (compiten por la absorción)'],
+        descripcion: 'Suplemento recomendado por la OMS junto con SRO en la diarrea aguda pediátrica.',
+        altoRiesgo: false, verificado: false
+    },
+
+    // =================== URGENCIAS / REANIMACIÓN ===================
+    {
+        name: 'Atropina', group: 'Urgencias / Reanimación',
+        adult: 'Bradicardia sintomática: 1 mg IV en bolo, repetible c/3-5 min (máx 3 mg). Organofosforados: 1 - 2 mg IV, duplicar c/5 min hasta atropinización (secreciones secas)',
+        ped: 'Bradicardia: 0.02 mg/kg IV/IO (mín 0.1 mg; máx 0.5 mg por dosis en niños y 1 mg en adolescentes), repetible una vez. Organofosforados: 0.02 - 0.05 mg/kg c/5-10 min',
+        renal: 'Sin ajuste',
+        warning: 'Dosis < 0.5 mg pueden causar bradicardia paradójica. Precaución en glaucoma de ángulo cerrado, taquicardia y retención urinaria. No sustituye el marcapasos transcutáneo en bloqueos de alto grado',
+        indicaciones: ['Bradicardia sintomática', 'Intoxicación por organofosforados y carbamatos', 'Sialorrea y secreciones'],
+        presentacion: 'Ampolla 1 mg/1 mL',
+        embarazo: 'Aceptable si es necesario',
+        interacciones: ['Otros anticolinérgicos (antihistamínicos, tricíclicos): efectos aditivos', 'Betabloqueadores (efecto contrapuesto sobre la frecuencia cardíaca)'],
+        descripcion: 'Anticolinérgico antagonista muscarínico; antídoto de los organofosforados.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Adenosina', group: 'Urgencias / Reanimación',
+        adult: 'TSV: 6 mg IV en bolo rápido (1 - 2 s) seguido de 20 mL de SSN; si no responde en 1-2 min, 12 mg; puede repetirse 12 mg una vez más',
+        ped: '0.1 mg/kg IV rápido (máx 6 mg); luego 0.2 mg/kg (máx 12 mg)',
+        renal: 'Sin ajuste',
+        warning: 'ALTO RIESGO: asistolia transitoria y sensación de muerte inminente (avisar al paciente). Contraindicada en asma con broncoespasmo y en bloqueo AV de 2º-3er grado sin marcapasos. Usar vena proximal grande con llave de 3 vías; monitoreo y desfibrilador disponibles',
+        indicaciones: ['Taquicardia supraventricular paroxística por reentrada', 'Diagnóstico de taquicardias de complejo estrecho'],
+        presentacion: 'Ampolla 6 mg/2 mL',
+        embarazo: 'Seguro; puede usarse',
+        interacciones: ['Dipiridamol y carbamazepina (potencian: reducir la dosis a 3 mg)', 'Teofilina y cafeína (antagonizan el efecto)', 'Verapamilo, diltiazem y betabloqueadores IV (bradicardia severa)'],
+        descripcion: 'Bloqueador transitorio del nodo AV de vida media ultracorta.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Naloxona', group: 'Urgencias / Reanimación',
+        adult: '0.04 - 0.4 mg IV titulada c/2-3 min hasta obtener respuesta (hasta 2 mg); IM/SC/intranasal 0.4 - 2 mg. Si recurre la depresión respiratoria: infusión a 2/3 de la dosis efectiva por hora',
+        ped: '0.01 mg/kg IV/IM/SC (puede repetirse c/2-3 min); sobredosis completa: 0.1 mg/kg (máx 2 mg)',
+        renal: 'Sin ajuste',
+        warning: 'Efecto corto (30 - 90 min) frente a opioides de acción prolongada: riesgo de renarcotización, observar 2-4h. Puede precipitar abstinencia aguda, edema pulmonar y agitación; titular en usuarios crónicos',
+        indicaciones: ['Intoxicación o depresión respiratoria por opioides', 'Reversión de opioides en el posoperatorio'],
+        presentacion: 'Ampolla 0.4 mg/1 mL',
+        embarazo: 'Usar si es necesario (puede precipitar abstinencia fetal)',
+        interacciones: ['Antagoniza todos los opioides, incluida la buprenorfina (se requieren dosis altas)', 'Clonidina (efectos variables)'],
+        descripcion: 'Antagonista opioide competitivo para sobredosis.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Dexametasona', group: 'Urgencias / Reanimación',
+        adult: 'Edema cerebral por tumor: 10 mg IV y luego 4 mg c/6h. Asma o EPOC: 6 - 10 mg IV/VO dosis única o c/24h x1-2 días. Anafilaxia (adyuvante): 4 - 8 mg IV. COVID-19 con oxígeno: 6 mg c/24h x10 días',
+        ped: 'Croup: 0.15 - 0.6 mg/kg VO/IM/IV dosis única (máx 16 mg). Asma: 0.6 mg/kg dosis única (máx 16 mg)',
+        renal: 'Sin ajuste',
+        warning: 'Hiperglucemia (controlar la glucemia en diabéticos), inmunosupresión y alteraciones del ánimo. Ante sospecha de linfoma, puede enmascarar el diagnóstico antes de la biopsia',
+        indicaciones: ['Croup', 'Edema cerebral', 'Exacerbación asmática', 'Náuseas y vómito por quimioterapia', 'Maduración pulmonar fetal'],
+        presentacion: 'Ampolla 4 mg/mL y 8 mg/2 mL; tableta 4 mg',
+        embarazo: 'Indicada para maduración pulmonar fetal (24-34 semanas); para otros usos, valorar riesgo y beneficio',
+        interacciones: ['Fenitoína, carbamazepina y rifampicina (reducen su efecto)', 'AINE (úlcera y sangrado GI)', 'Insulina y antidiabéticos (aumentan la glucemia)'],
+        descripcion: 'Corticoide de acción prolongada y alta potencia antiinflamatoria.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Hidrocortisona', group: 'Urgencias / Reanimación',
+        adult: 'Choque séptico refractario: 50 mg IV c/6h (200 mg/día). Insuficiencia suprarrenal aguda: 100 mg IV en bolo y luego 200 mg/24h (infusión o 50 mg c/6h). Anafilaxia (adyuvante): 200 mg IV',
+        ped: 'Insuficiencia suprarrenal aguda: 50 - 100 mg/m² IV en bolo (máx 100 mg), luego 50 - 100 mg/m²/día dividido c/6h. Choque refractario: 50 - 100 mg/m²/día',
+        renal: 'Sin ajuste',
+        warning: 'En insuficiencia suprarrenal no retrasar la dosis por pruebas diagnósticas. Hiperglucemia y retención de sodio. En anafilaxia nunca reemplaza a la adrenalina',
+        indicaciones: ['Insuficiencia suprarrenal aguda (crisis addisoniana)', 'Choque séptico refractario', 'Anafilaxia (adyuvante)', 'Exacerbaciones graves de asma o EPOC (alternativa)'],
+        presentacion: 'Vial 100 mg y 500 mg',
+        embarazo: 'Aceptable; corticoide de elección en crisis suprarrenal gestacional',
+        interacciones: ['Fenitoína, rifampicina y carbamazepina (reducen su efecto)', 'AINE (úlcera y sangrado)', 'Insulina y antidiabéticos (reducen su efecto)'],
+        descripcion: 'Glucocorticoide con actividad mineralocorticoide; reemplazo de urgencia en crisis suprarrenal.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Sulfato de magnesio', group: 'Urgencias / Reanimación',
+        adult: 'Preeclampsia severa o eclampsia: carga 4 - 6 g IV en 15-20 min, mantenimiento 1 - 2 g/h (hasta 24h posparto). Asma grave: 2 g IV en 20 min. Torsades de pointes: 2 g IV en 5-20 min',
+        ped: 'Asma grave: 25 - 50 mg/kg IV en 20 min (máx 2 g). Torsades de pointes: 25 - 50 mg/kg IV (máx 2 g)',
+        renal: 'Se elimina por vía renal: reducir el mantenimiento y vigilar niveles si hay oliguria o creatinina > 1.2 mg/dL',
+        warning: 'ALTO RIESGO: toxicidad por hipermagnesemia (pérdida de reflejos rotulianos, FR < 12, diuresis < 30 mL/h, hipotensión). Antídoto: gluconato de calcio 1 g IV. Monitoreo continuo en eclampsia',
+        indicaciones: ['Eclampsia y prevención de convulsiones en preeclampsia severa', 'Asma grave refractaria (adyuvante)', 'Torsades de pointes', 'Hipomagnesemia'],
+        presentacion: 'Ampolla al 20% o al 50% (verificar concentración y volumen del producto)',
+        embarazo: 'Indicado en preeclampsia severa y eclampsia (anticonvulsivante de elección)',
+        interacciones: ['Bloqueadores de calcio como el nifedipino (hipotensión y debilidad neuromuscular)', 'Bloqueadores neuromusculares (potencian el bloqueo)', 'Aminoglucósidos (debilidad neuromuscular)'],
+        descripcion: 'Electrolito con efecto anticonvulsivante, broncodilatador y antiarrítmico.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Gluconato de calcio', group: 'Urgencias / Reanimación',
+        adult: 'Hiperpotasemia con cambios en el ECG, hipocalcemia sintomática o intoxicación por magnesio: 1 - 2 g (10 - 20 mL al 10%) IV en 10 min, repetible',
+        ped: '50 - 100 mg/kg/dosis (0.5 - 1 mL/kg al 10%) IV lento en 5-10 min (máx 2 g)',
+        renal: 'Sin ajuste; vigilar la calcemia',
+        warning: 'Infundir lento con monitoreo ECG (bradicardia o asistolia con infusión rápida). La extravasación causa necrosis. No mezclar con ceftriaxona ni bicarbonato. Precaución en pacientes digitalizados',
+        indicaciones: ['Hiperpotasemia (estabilización de membrana)', 'Hipocalcemia sintomática', 'Toxicidad por sulfato de magnesio', 'Intoxicación por bloqueadores de calcio'],
+        presentacion: 'Ampolla al 10% (1 g/10 mL)',
+        embarazo: 'Seguro',
+        interacciones: ['Digoxina (riesgo de arritmias con calcio IV)', 'Ceftriaxona (precipitación: contraindicado simultáneo)', 'Bicarbonato y fosfatos (precipitan)'],
+        descripcion: 'Sal de calcio de elección por vía periférica para emergencias.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Dextrosa (hipoglucemia)', group: 'Urgencias / Reanimación',
+        adult: 'Paciente consciente: 15 - 20 g de carbohidrato VO. Hipoglucemia grave con alteración de conciencia: 25 g (50 mL de dextrosa al 50%) IV; luego infusión de dextrosa al 5-10% y control c/15 min',
+        ped: '0.5 - 1 g/kg IV (dextrosa al 10%: 5 - 10 mL/kg) en 5-10 min. Recién nacidos: dextrosa al 10% 2 mL/kg',
+        renal: 'Sin ajuste',
+        warning: 'Las soluciones concentradas (> 12.5%) por extravasación causan necrosis: preferir D10% y vena de buen calibre. Ante sospecha de alcoholismo o desnutrición, dar tiamina antes o junto con la glucosa. Controlar la glucemia c/15-30 min',
+        indicaciones: ['Hipoglucemia sintomática', 'Hiperpotasemia (con insulina)', 'Hidratación y aporte calórico'],
+        presentacion: 'Dextrosa al 5%, 10% y 50% (frascos y ampollas)',
+        embarazo: 'Seguro',
+        interacciones: ['Insulina y sulfonilureas (puede requerir dosis repetidas por hipoglucemia prolongada)', 'Diuréticos y corticoides (hiperglucemia)'],
+        descripcion: 'Tratamiento de la hipoglucemia grave.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Bicarbonato de sodio', group: 'Urgencias / Reanimación',
+        adult: 'Acidosis metabólica grave (pH < 7.0 - 7.1) o hiperpotasemia con acidosis: 1 mEq/kg IV en 15-30 min. Intoxicación por tricíclicos o salicilatos: 1 - 2 mEq/kg en bolo IV',
+        ped: '1 mEq/kg/dosis IV lento; en neonatos y lactantes diluir al 4.2% (1:1 con agua estéril)',
+        renal: 'Precaución con sobrecarga de sodio y de volumen',
+        warning: 'No usar de rutina en paro cardiorrespiratorio ni en cetoacidosis diabética (salvo pH < 6.9). Hipernatremia, hipopotasemia, alcalosis y sobrecarga de volumen. Incompatible con calcio y vasopresores en la misma línea',
+        indicaciones: ['Acidosis metabólica grave', 'Hiperpotasemia con acidosis', 'Intoxicación por antidepresivos tricíclicos o salicilatos', 'Rabdomiólisis (alcalinización urinaria, según protocolo)'],
+        presentacion: 'Ampolla 1 mEq/mL (8.4%) de 10 mL y 50 mL',
+        embarazo: 'Aceptable si es necesario',
+        interacciones: ['Calcio y catecolaminas (precipitación o inactivación en la misma línea)', 'Fármacos ácidos o básicos (modifica la excreción urinaria)'],
+        descripcion: 'Alcalinizante sistémico de uso selectivo en acidosis grave e intoxicaciones.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ketamina', group: 'Urgencias / Reanimación',
+        adult: 'Analgesia: 0.1 - 0.3 mg/kg IV. Sedación-analgesia para procedimientos: 1 - 2 mg/kg IV en 1 min (o 4 - 5 mg/kg IM). Inducción: 1 - 2 mg/kg IV',
+        ped: 'Sedación para procedimientos: 1 - 2 mg/kg IV lento (o 4 - 5 mg/kg IM)',
+        renal: 'Sin ajuste significativo',
+        warning: 'ALTO RIESGO: requiere personal con manejo de la vía aérea. Laringoespasmo (sobre todo en < 12 meses), hipersalivación, reacciones emergentes (disforia, alucinaciones), hipertensión y taquicardia. Contraindicada en < 3 meses, psicosis e hipertensión severa no controlada',
+        indicaciones: ['Sedación y analgesia para procedimientos', 'Inducción de secuencia rápida (hipotensión o asma)', 'Analgesia en trauma'],
+        presentacion: 'Vial 500 mg/10 mL (50 mg/mL); medicamento de control especial',
+        embarazo: 'Evitar; atraviesa la placenta',
+        interacciones: ['Benzodiacepinas (reducen las reacciones emergentes y aumentan la sedación)', 'Teofilina (reduce el umbral convulsivo)', 'Otros depresores del SNC (sedación aditiva)'],
+        descripcion: 'Anestésico disociativo con efecto analgésico y estabilidad hemodinámica.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Haloperidol', group: 'Urgencias / Reanimación',
+        adult: 'Agitación aguda: 2.5 - 5 mg IM/IV c/30-60 min (máx 20 mg/día); ancianos: 0.5 - 2 mg. Delirium: 0.5 - 2 mg IV/IM',
+        ped: 'Evitar en urgencias pediátricas sin indicación específica; uso por especialista',
+        renal: 'Sin ajuste; precaución en hepatopatía',
+        warning: 'Prolonga el QT (obtener ECG si hay riesgo y corregir K⁺/Mg²⁺), distonía aguda y síndrome neuroléptico maligno. Contraindicado en Parkinson, demencia con cuerpos de Lewy y depresión del SNC. Mayor mortalidad en ancianos con demencia. La vía IV no está aprobada: usar con monitoreo',
+        indicaciones: ['Agitación psicomotriz', 'Delirium', 'Psicosis aguda'],
+        presentacion: 'Ampolla 5 mg/1 mL; tableta 5 mg; gotas 2 mg/mL',
+        embarazo: 'Precaución; usar si el beneficio supera el riesgo',
+        interacciones: ['Fármacos que prolongan el QT (azitromicina, ondansetrón, amiodarona, quinolonas)', 'Metoclopramida (efectos extrapiramidales)', 'Carbamazepina y fenitoína (reducen sus niveles)'],
+        descripcion: 'Antipsicótico típico de uso frecuente en agitación aguda.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Carbón activado', group: 'Urgencias / Reanimación',
+        adult: '1 g/kg (máx 50 g) VO o por SNG dentro de 1 - 2 h de la ingestión de un tóxico adsorbible',
+        ped: '1 g/kg (máx 50 g) VO o por SNG dentro de la primera hora',
+        renal: 'Sin ajuste',
+        warning: 'Solo con la vía aérea protegida. Contraindicado en ingestión de cáusticos e hidrocarburos (riesgo de aspiración), íleo u obstrucción y depresión de conciencia sin intubación. No adsorbe alcoholes, metales (hierro, litio) ni ácidos o álcalis fuertes. Consultar toxicología',
+        indicaciones: ['Intoxicación aguda por tóxicos adsorbibles (acetaminofén, antidepresivos, carbamazepina)'],
+        presentacion: 'Polvo o suspensión 50 g',
+        embarazo: 'Seguro',
+        interacciones: ['Reduce la absorción de fármacos orales administrados al mismo tiempo', 'N-acetilcisteína oral (separar o usar vía IV)'],
+        descripcion: 'Adsorbente gastrointestinal para descontaminación en las primeras horas.',
+        altoRiesgo: false, verificado: false
+    },
+
+    // =================== CARDIOVASCULAR (más usados) ===================
+    {
+        name: 'Amlodipino', group: 'Cardiovascular',
+        adult: '5 - 10 mg VO c/24h (iniciar con 2.5 mg en ancianos o hepatopatía)',
+        ped: '6 - 17 años: 2.5 - 5 mg VO c/24h',
+        renal: 'Sin ajuste',
+        warning: 'Edema periférico dosis-dependiente, cefalea y rubor. Hipotensión al asociarlo con otros antihipertensivos',
+        indicaciones: ['Hipertensión arterial', 'Angina crónica estable'],
+        presentacion: 'Tableta 5 mg y 10 mg',
+        embarazo: 'Precaución: datos limitados; en gestación se prefieren labetalol, nifedipino o metildopa',
+        interacciones: ['Simvastatina (limitar a 20 mg/día)', 'Claritromicina, azoles y ritonavir (aumentan sus niveles)', 'Otros antihipertensivos (hipotensión)'],
+        descripcion: 'Bloqueador de canales de calcio dihidropiridínico de acción prolongada.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Hidroclorotiazida', group: 'Cardiovascular',
+        adult: '12.5 - 25 mg VO c/24h (máx 50 mg/día)',
+        ped: '1 - 2 mg/kg/día VO c/12-24h (máx 37.5 mg/día en < 2 años; 100 mg/día en 2 - 12 años)',
+        renal: 'Poco eficaz con eTFG < 30 mL/min (usar diurético de asa)',
+        warning: 'Hiponatremia, hipopotasemia, hiperuricemia o gota, hipercalcemia e hiperglucemia. Mayor riesgo de cáncer de piel no melanoma con uso prolongado (fotoprotección)',
+        indicaciones: ['Hipertensión arterial', 'Edema leve', 'Hipercalciuria y litiasis cálcica'],
+        presentacion: 'Tableta 25 mg y 50 mg',
+        embarazo: 'Evitar (reduce el volumen plasmático); no iniciar durante la gestación',
+        interacciones: ['Litio (aumenta niveles y toxicidad)', 'Digoxina (la hipopotasemia aumenta su toxicidad)', 'AINE (reducen el efecto antihipertensivo)'],
+        descripcion: 'Diurético tiazídico de primera línea en hipertensión.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Captopril', group: 'Cardiovascular',
+        adult: 'HTA: 12.5 - 50 mg VO c/8-12h (máx 150 mg/día). Crisis hipertensiva sin daño de órgano blanco: 12.5 - 25 mg VO',
+        ped: '0.3 - 0.5 mg/kg/dosis VO c/8h (máx 6 mg/kg/día)',
+        renal: 'eTFG 10-50: 75% de la dosis; < 10: 50%',
+        warning: 'Angioedema, tos seca, hiperpotasemia y deterioro de la función renal. Contraindicado en estenosis bilateral de arteria renal y en embarazo. Suspender en depleción de volumen',
+        indicaciones: ['Hipertensión arterial', 'Insuficiencia cardíaca', 'Nefropatía diabética', 'Posinfarto'],
+        presentacion: 'Tableta 25 mg y 50 mg',
+        embarazo: 'Contraindicado (fetotoxicidad en el 2º y 3er trimestre)',
+        interacciones: ['Espironolactona y suplementos de potasio (hiperpotasemia)', 'AINE (reducen el efecto y favorecen la lesión renal)', 'Litio (aumenta sus niveles)'],
+        descripcion: 'IECA de acción corta de uso frecuente en HTA y falla cardíaca.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Carvedilol', group: 'Cardiovascular',
+        adult: 'Insuficiencia cardíaca: 3.125 mg VO c/12h, duplicar cada 2 semanas según tolerancia hasta 25 mg c/12h (50 mg c/12h si > 85 kg). HTA: 12.5 mg c/24h x2 días, luego 25 mg c/24h',
+        ped: 'Uso por especialista; no recomendado de rutina',
+        renal: 'Sin ajuste',
+        warning: 'No iniciar en insuficiencia cardíaca descompensada. Bradicardia, hipotensión ortostática y broncoespasmo (no selectivo); enmascara la hipoglucemia. Contraindicado en asma y bloqueo AV de 2º-3er grado. No suspender bruscamente',
+        indicaciones: ['Insuficiencia cardíaca con FEVI reducida', 'Hipertensión arterial', 'Posinfarto con disfunción del VI'],
+        presentacion: 'Tableta 3.125, 6.25, 12.5 y 25 mg',
+        embarazo: 'Precaución; datos limitados',
+        interacciones: ['Verapamilo y diltiazem (bradicardia y bloqueo AV)', 'Insulina y antidiabéticos (enmascara la hipoglucemia)', 'Digoxina (aumenta niveles y la bradicardia)'],
+        descripcion: 'Betabloqueador no selectivo con bloqueo alfa-1 y beneficio en mortalidad en falla cardíaca.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Atorvastatina', group: 'Cardiovascular',
+        adult: '10 - 80 mg VO c/24h (alta intensidad 40 - 80 mg en síndrome coronario agudo o riesgo muy alto; 10 - 20 mg en riesgo bajo a moderado)',
+        ped: '≥ 10 años con hipercolesterolemia familiar: 10 - 20 mg c/24h (por especialista)',
+        renal: 'Sin ajuste',
+        warning: 'Miopatía y rabdomiólisis (consultar si hay dolor muscular u orina oscura), elevación de transaminasas. Contraindicada en hepatopatía activa y embarazo',
+        indicaciones: ['Dislipidemia', 'Prevención cardiovascular primaria y secundaria', 'Síndrome coronario agudo', 'ACV isquémico (prevención secundaria)'],
+        presentacion: 'Tableta 10, 20, 40 y 80 mg',
+        embarazo: 'Contraindicada; suspender al planear o confirmar el embarazo',
+        interacciones: ['Claritromicina, itraconazol y ciclosporina (aumentan niveles: riesgo de rabdomiólisis)', 'Gemfibrozilo y niacina (riesgo de miopatía)', 'Jugo de toronja en grandes cantidades'],
+        descripcion: 'Estatina de alta potencia, de uso muy extendido en prevención cardiovascular.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Ácido acetilsalicílico (ASA)', group: 'Cardiovascular',
+        adult: 'SCA: carga 160 - 325 mg VO masticado, luego 75 - 100 mg c/24h. ACV isquémico agudo: 160 - 325 mg VO. Prevención secundaria: 75 - 100 mg/día',
+        ped: 'Evitar en menores de 18 años con fiebre o infección viral (síndrome de Reye). Kawasaki y cardiopatías: solo por especialista',
+        renal: 'Evitar dosis analgésicas o antiinflamatorias si eTFG < 30; la dosis antiagregante es aceptable',
+        warning: 'Sangrado GI y de otros sitios. Contraindicado en úlcera activa, hemorragia intracraneal, dengue y alergia a AINE o asma sensible a aspirina',
+        indicaciones: ['Síndrome coronario agudo', 'Prevención secundaria cardio y cerebrovascular', 'ACV isquémico', 'Prevención de preeclampsia (dosis baja)'],
+        presentacion: 'Tableta 100 mg; tableta 500 mg (dosis analgésica)',
+        embarazo: 'Dosis baja (75 - 150 mg en la noche desde la semana 12-16) para prevenir preeclampsia en mujeres de riesgo; evitar dosis analgésicas, sobre todo en el 3er trimestre',
+        interacciones: ['Anticoagulantes y otros antiagregantes (sangrado)', 'Ibuprofeno (bloquea el efecto antiagregante)', 'Metotrexato y corticoides'],
+        descripcion: 'Antiagregante plaquetario de primera línea.',
+        altoRiesgo: false, verificado: false
+    },
+    {
+        name: 'Enoxaparina', group: 'Cardiovascular',
+        adult: 'Profilaxis: 40 mg SC c/24h (30 mg c/12h en trauma u ortopedia según protocolo). Tratamiento TVP/TEP: 1 mg/kg SC c/12h o 1.5 mg/kg c/24h. SCA: 1 mg/kg c/12h',
+        ped: 'Tratamiento: 1 mg/kg SC c/12h (lactantes < 2 meses: 1.5 mg/kg c/12h). Profilaxis: 0.5 mg/kg c/12h. Ajustar por anti-Xa (por especialista)',
+        renal: 'eTFG < 30: profilaxis 30 mg c/24h; tratamiento 1 mg/kg c/24h. Vigilar anti-Xa en falla renal, obesidad y embarazo',
+        warning: 'ALTO RIESGO: sangrado, trombocitopenia inducida por heparina y hematoma espinal (precaución con anestesia neuroaxial). Verificar la dosis por peso; en jeringa prellenada para profilaxis no se expulsa la burbuja de aire',
+        indicaciones: ['Profilaxis de tromboembolismo venoso', 'Tratamiento de TVP y TEP', 'Síndrome coronario agudo', 'Anticoagulación en embarazo'],
+        presentacion: 'Jeringa prellenada 20, 40, 60, 80 y 100 mg',
+        embarazo: 'Anticoagulante de elección en el embarazo (no atraviesa la placenta)',
+        interacciones: ['Antiagregantes, AINE y otros anticoagulantes (sangrado)', 'IECA y otros fármacos que elevan el potasio (hiperpotasemia)', 'Trombolíticos (sangrado)'],
+        descripcion: 'Heparina de bajo peso molecular de uso ambulatorio y hospitalario.',
+        altoRiesgo: true, verificado: false
+    },
+    {
+        name: 'Heparina no fraccionada', group: 'Cardiovascular',
+        adult: 'TVP/TEP: bolo 80 UI/kg IV, luego 18 UI/kg/h; ajustar por TTPa (1.5 - 2.5 veces el control). SCA: bolo 60 UI/kg (máx 4000 UI), luego 12 UI/kg/h (máx 1000 UI/h). Profilaxis: 5000 UI SC c/8-12h',
+        ped: 'Bolo 75 UI/kg IV, luego 20 UI/kg/h (28 UI/kg/h en < 1 año), ajustando por anti-Xa o TTPa (por especialista)',
+        renal: 'Sin ajuste; opción preferida en falla renal grave (eTFG < 30)',
+        warning: 'ALTO RIESGO: sangrado y trombocitopenia inducida por heparina (controlar plaquetas). Verificar la concentración y la velocidad de la bomba. Antídoto: sulfato de protamina 1 mg por cada 100 UI de heparina activa (máx 50 mg)',
+        indicaciones: ['TVP y TEP', 'Síndrome coronario agudo', 'Profilaxis de tromboembolismo', 'Circuitos extracorpóreos'],
+        presentacion: 'Vial 5000 UI/mL (5 mL = 25.000 UI)',
+        embarazo: 'Seguro (no atraviesa la placenta)',
+        interacciones: ['Antiagregantes, AINE y trombolíticos (sangrado)', 'Nitroglicerina IV (puede reducir su efecto)', 'Otros anticoagulantes'],
+        descripcion: 'Anticoagulante parenteral de acción inmediata y reversible.',
+        altoRiesgo: true, verificado: false
+    }
+];
+
+// Une la tanda 2 con tus fármacos actuales
+vademecumData.push(...vademecumTanda2);
+
+
+/* =====================================================================
+   SELECTOR ADULTO / PEDIÁTRICO
+   ===================================================================== */
+let vadPoblacion = 'adulto';
+
+function setVadPoblacion(pob) {
+    vadPoblacion = pob;
+    const on = ['bg-teal-600', 'text-white', 'shadow'];
+    const off = ['bg-transparent', 'text-slate-600', 'dark:text-slate-300'];
+    const a = document.getElementById('vad-pob-adulto');
+    const p = document.getElementById('vad-pob-ped');
+    if (a && p) {
+        [a, p].forEach(b => { b.classList.remove(...on); b.classList.add(...off); });
+        const act = pob === 'adulto' ? a : p;
+        act.classList.remove(...off);
+        act.classList.add(...on);
+    }
+    renderVademecum();
+}
+
+
+/* =====================================================================
+   RENDER DEL VADEMÉCUM (reemplaza a la función vieja)
+   ===================================================================== */
+function renderVademecum() {
+    const container = document.getElementById('vademecum-grid');
+    if (!container) return;
+
+    const query = (document.getElementById('vademecum-search')?.value || '').toLowerCase().trim();
+    const esAdulto = vadPoblacion === 'adulto';
+
+    const filtered = vademecumData.filter(v => {
+        const matchesGrp = currentVadGroup === 'all' || v.group === currentVadGroup;
+        const matchesQuery = !query ||
+            (v.name || '').toLowerCase().includes(query) ||
+            (v.group || '').toLowerCase().includes(query) ||
+            (v.presentacion || '').toLowerCase().includes(query) ||
+            (v.indicaciones || []).some(ind => ind.toLowerCase().includes(query));
+        return matchesGrp && matchesQuery;
+    });
+
+    if (!filtered.length) {
+        container.innerHTML = '<p class="text-xs text-slate-400 col-span-full">Sin fármacos aún en esta categoría.</p>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(v => {
+        const dosis = esAdulto ? v.adult : v.ped;
+        const etiqueta = esAdulto ? 'Dosis Adulto' : 'Dosis Pediátrica';
+        const cajaDosis = esAdulto
+            ? 'bg-teal-50 dark:bg-teal-950/30 border-teal-200 dark:border-teal-800'
+            : 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800';
+        const colorEtiqueta = esAdulto ? 'text-teal-700 dark:text-teal-300' : 'text-indigo-700 dark:text-indigo-300';
+
+        return `
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2.5 text-xs flex flex-col justify-between">
+            <div class="space-y-2">
+                <div class="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-2">
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">${v.name}</h4>
+                        ${v.altoRiesgo ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">⚠ Alto riesgo: doble chequeo</span>' : ''}
+                        ${!v.verificado ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Pendiente de verificación</span>' : ''}
                     </div>
-                    <p class="text-amber-800 dark:text-amber-300 bg-amber-500/10 p-2 rounded-xl mt-2"><strong>Alerta / Advertencia:</strong> ${v.warning}</p>
+                    <span class="shrink-0 px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300">${v.group}</span>
                 </div>
-            `).join('');
-        }
+                <p class="text-slate-600 dark:text-slate-300 italic">${v.descripcion || ''}</p>
+                <div><strong class="text-slate-500">Indicaciones:</strong> <span class="text-slate-800 dark:text-slate-200">${(v.indicaciones || []).join(', ')}</span></div>
+                <div><strong class="text-slate-500">Presentación (Colombia):</strong> <span class="text-slate-800 dark:text-slate-200">${v.presentacion || 'Verificar en fuente'}</span></div>
+                <div class="p-2.5 rounded-xl border ${cajaDosis}">
+                    <strong class="${colorEtiqueta}">${etiqueta}:</strong>
+                    <span class="text-slate-800 dark:text-slate-100 font-medium">${dosis || 'Sin dosis registrada: verificar en fuente'}</span>
+                </div>
+                <div><strong class="text-indigo-600 dark:text-indigo-400">Ajuste Renal:</strong> ${v.renal || 'Verificar en fuente'}</div>
+                <div><strong class="text-rose-600 dark:text-rose-400">Embarazo:</strong> ${v.embarazo || 'Verificar en fuente'}</div>
+                <div><strong class="text-amber-600 dark:text-amber-400">Interacciones Clave:</strong> ${(v.interacciones || []).join('; ')}</div>
+            </div>
+            <p class="text-amber-800 dark:text-amber-300 bg-amber-500/10 p-2 rounded-xl mt-2"><strong>Alerta / Advertencia:</strong> ${v.warning || ''}</p>
+        </div>`;
+    }).join('');
+}
 
         // SALUD PÚBLICA, SIVIGILA & RIAS LOGIC
         let spPoblacion = 'pediatria';
@@ -2616,7 +3434,11 @@
 
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
             if (tabId === 'triadas') renderTriads();
-            if (tabId === 'calculadoras') renderCalculators();
+            if (tabId === 'calculadoras') {
+                if (!window._keepCalcSearch) { const s = document.getElementById('calc-search-input'); if (s) s.value = ''; }
+                window._keepCalcSearch = false;
+                renderCalculators();
+            }
             if (tabId === 'farmaco') { renderVademecum(); calcInfusion(); }
             if (tabId === 'sivigila') switchSpSubTab('tamizaje');
             if (tabId === 'semiologia') renderSemiologia();
@@ -2647,6 +3469,7 @@
 
         function openCalc(id) {
             currentCalcCategory = 'all';
+            window._keepCalcSearch = true;
             switchTab('calculadoras');
         const c = document.getElementById('calc-search-input');
             if (c) { c.value = id; renderCalculators(); }
