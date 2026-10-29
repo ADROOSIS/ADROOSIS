@@ -2012,21 +2012,180 @@
         }
 
         // VADEMECUM & VADEMECUM RENDER
-        /* =====================================================================
-   ADROOSIS · VADEMÉCUM · TANDA 2
-   ---------------------------------------------------------------------
-   CÓMO USAR ESTE ARCHIVO (3 pasos):
-   1) En tu HTML, BORRA la función renderVademecum() completa (la vieja).
-   2) Pega TODO este archivo justo debajo del cierre "];" de vademecumData
-      y justo encima de la línea:  let currentVadGroup = 'all';
-   3) Agrega el selector Adulto/Pediátrico en el HTML (ver respuesta).
+        const vademecumData = [
+            // TANDA 1: CARDIOVASCULAR (12 FÁRMACOS ESENCIALES PBS / OMS)
+            {
+                name: 'Noradrenalina',
+                group: 'Cardiovascular',
+                adult: '0.05 - 1.0 mcg/kg/min IV en infusión continua',
+                ped: '0.05 - 0.5 mcg/kg/min IV',
+                renal: 'Sin ajuste renal requerido',
+                warning: 'Monitoreo invasivo de PA continuo por riesgo de necrosis tisular en extravasación',
+                indicaciones: ['Choque séptico', 'Choque cardiogénico', 'Hipotensión refractaria'],
+                presentacion: 'Ampolla 4 mg / 4 mL (1 mg/mL)',
+                embarazo: 'Precaución: Puede causar hipoxia fetal por vasoconstricción placentaria',
+                interacciones: ['Inhibidores de la MAO (crisis hipertensiva severa)', 'Antidepresivos tricíclicos', 'Betabloqueadores no selectivos'],
+                descripcion: 'Catecolamina endógena y agonista alfa/beta adrenérgico potente. Fármaco de primera línea en choque distributivo y séptico para restaurar la presión arterial media (PAM ≥ 65 mmHg).',
+                verificado: false
+            },
+            {
+                name: 'Adrenalina (Epinefrina)',
+                group: 'Cardiovascular',
+                adult: 'Paro cardíaco: 1 mg IV c/3-5 min. Anafilaxia: 0.3 - 0.5 mg IM',
+                ped: 'Paro: 0.01 mg/kg (0.1 mL/kg de sol 1:10.000) IV. Anafilaxia: 0.01 mg/kg IM (máx 0.5mg)',
+                renal: 'Sin ajuste renal requerido',
+                warning: 'Evitar inyección intravascular accidental en administración intramuscular',
+                indicaciones: ['Paro cardiorrespiratorio', 'Anafilaxia severa', 'Crisis asmática grave refractaria'],
+                presentacion: 'Ampolla 1 mg / 1 mL (1:1.000)',
+                embarazo: 'Precaución: Disminución transitoria del flujo uteroplacentario',
+                interacciones: ['Betabloqueadores (pueden causar hipertensión severa y bradicardia)', 'Digoxina (arritmias)', 'Antidepresivos tricíclicos'],
+                descripcion: 'Agonista alfa y beta adrenérgico potente de acción rápida. Indispensable en reanimación cerebro-cardiopulmonar avanzada y manejo de reacciones anafilácticas agudas.',
+                verificado: false
+            },
+            {
+                name: 'Dobutamina',
+                group: 'Cardiovascular',
+                adult: '2.5 - 20 mcg/kg/min IV en infusión continua',
+                ped: '2.5 - 15 mcg/kg/min IV',
+                renal: 'Sin ajuste renal requerido',
+                warning: 'Puede desencadenar taquiarritmias ventriculares o supraventriculares',
+                indicaciones: ['Choque cardiogénico', 'Insuficiencia cardíaca aguda descompensada con bajo gasto'],
+                presentacion: 'Ampolla 250 mg / 20 mL',
+                embarazo: 'Precaución: Usar solo si el beneficio maternal supera el riesgo fetal',
+                interacciones: ['Betabloqueadores (antagonizan su efecto inotrópico)', 'Inhibidores de la MAO', 'Nitroprusiato (efecto sinérgico en gasto cardíaco)'],
+                descripcion: 'Inotrópico positivo sintético con actividad selectiva beta-1 adrenérgica y leve efecto beta-2/alfa. Incrementa el gasto cardíaco en estados de falla miocárdica aguda.',
+                verificado: false
+            },
+            {
+                name: 'Nitroglicerina',
+                group: 'Cardiovascular',
+                adult: '5 - 200 mcg/min IV infusión continua',
+                ped: '0.5 - 5 mcg/kg/min IV',
+                renal: 'Sin ajuste renal requerido',
+                warning: 'Riesgo de hipotensión severa, colapso circulatorio y cefalea intensa',
+                indicaciones: ['Síndrome coronario agudo', 'Edema agudo de pulmón hipertensivo', 'Crisis hipertensiva'],
+                presentacion: 'Ampolla 50 mg / 10 mL',
+                embarazo: 'Precaución: Seguridad no establecida firmemente en primer trimestre',
+                interacciones: ['Inhibidores de la fosfodiesterasa-5 (Sildenafilo: hipotensión severa fatal)', 'Antihipertensivos', 'Alcohol'],
+                descripcion: 'Vasodilatador venoso y arterial coronario de acción directa que libera óxido nítrico. Disminuye la precarga y el consumo miocárdico de oxígeno.',
+                verificado: false
+            },
+            {
+                name: 'Amiodarona',
+                group: 'Cardiovascular',
+                adult: 'Paro: 300 mg IV bolo (seguido de 150 mg). Taquiarritmias: 150 mg en 10 min, luego 1 mg/min x 6h',
+                ped: '5 mg/kg IV en bolo lento en 20-30 min (máx 300mg/dosis)',
+                renal: 'Sin ajuste renal requerido',
+                warning: 'Riesgo de hipotensión arterial severa y bradicardia sinusal durante la infusión rápida',
+                indicaciones: ['Fibrilación ventricular / Taquicardia ventricular sin pulso', 'Taquicardias supraventriculares y ventriculares estables'],
+                presentacion: 'Ampolla 150 mg / 3 mL',
+                embarazo: 'Contraindicado: Riesgo de hipotiroidismo neonatal y bocio congénito',
+                interacciones: ['Digoxina (eleva niveles séricos)', 'Warfarina (potencia efecto anticoagulante)', 'Fármacos que prolongan el intervalo QT'],
+                descripcion: 'Antiarrítmico de clase III que bloquea canales de potasio, sodio y calcio, prolongando la repolarización y el período refractario miocárdico.',
+                verificado: false
+            },
+            {
+                name: 'Metoprolol',
+                group: 'Cardiovascular',
+                adult: 'IV: 5 mg cada 5 min (máx 15mg). VO: 50 - 200 mg c/24h',
+                ped: '1 - 2 mg/kg/día VO dividido c/12h (Dosis máxima 2 mg/kg/día)',
+                renal: 'Sin ajuste renal requerido',
+                warning: 'Contraindicado en bloqueo AV de 2º o 3er grado y asma bronquial activa',
+                indicaciones: ['Hipertensión arterial', 'Taquiarritmias supraventriculares', 'Infarto agudo de miocardio'],
+                presentacion: 'Tableta 50 mg y 100 mg; Ampolla 5 mg / 5 mL',
+                embarazo: 'Precaución: Puede asociarse a retraso del crecimiento intrauterino y bradicardia fetal',
+                interacciones: ['Verapamilo o Diltiazem IV (asistolia y bradicardia severa)', 'Insulina (enmascara síntomas de hipoglucemia)', 'Antagonistas del calcio'],
+                descripcion: 'Betabloqueador cardioselectivo (beta-1) que reduce la frecuencia cardíaca, la contractilidad miocárdica y la presión arterial.',
+                verificado: false
+            },
+            {
+                name: 'Enalapril',
+                group: 'Cardiovascular',
+                adult: '5 - 40 mg VO al día dividido en 1 o 2 tomas',
+                ped: '0.08 mg/kg/día VO (Dosis máxima 0.6 mg/kg/día)',
+                renal: 'eTFG 30-50: iniciar 5 mg/día; eTFG <30: iniciar 2.5 mg/día',
+                warning: 'Riesgo de hiperpotasemia e insuficiencia renal aguda en estenosis bilateral de arteria renal',
+                indicaciones: ['Hipertensión arterial', 'Insuficiencia cardíaca crónica', 'Nefropatía diabética'],
+                presentacion: 'Tableta 5 mg, 10 mg y 20 mg',
+                embarazo: 'Contraindicado en 2º y 3er trimestre: Fetotoxicidad y oligohidramnios',
+                interacciones: ['Suplementos de potasio o diuréticos ahorradores de potasio (hiperpotasemia grave)', 'AINEs (reducen efecto antihipertensivo)', 'Litio'],
+                descripcion: 'Inhibidor de la enzima convertidora de angiotensina (IECA). Reduce la resistencia vascular periférica y previene el remodelado ventricular.',
+                verificado: false
+            },
+            {
+                name: 'Losartán',
+                group: 'Cardiovascular',
+                adult: '50 - 100 mg VO una vez al día',
+                ped: '0.7 mg/kg VO una vez al día (Dosis máxima 50 mg/día)',
+                renal: 'Sin ajuste requerido para pacientes con falla renal leve a moderada',
+                warning: 'Monitorear niveles séricos de potasio y creatinina post-inicio',
+                indicaciones: ['Hipertensión arterial', 'Nefropatía en diabetes tipo 2', 'Reducción de riesgo cardiovascular en hipertrofia VI'],
+                presentacion: 'Tableta 50 mg y 100 mg',
+                embarazo: 'Contraindicado en 2º y 3er trimestre: Lesión renal fetal y muerte',
+                interacciones: ['Litio (riesgo de toxicidad por litio)', 'AINEs', 'Diuréticos ahorradores de potasio'],
+                descripcion: 'Antagonista de los receptores de angiotensina II (ARA II) tipo AT1. Produce vasodilatación y natriuresis sin generar tos seca asociada a IECA.',
+                verificado: false
+            },
+            {
+                name: 'Furosemida',
+                group: 'Cardiovascular',
+                adult: '20 - 80 mg IV/VO dosis única (titulable hasta 200mg)',
+                ped: '1 - 2 mg/kg/dosis IV/VO c/6-12h (Dosis máxima 6 mg/kg/dosis)',
+                renal: 'Dosis elevadas requeridas en falla renal crónica avanzada (hasta 250-500mg)',
+                warning: 'Riesgo de deshidratación severa, hipopotasemia, hiponatremia y ototoxicidad con bolos rápidos',
+                indicaciones: ['Edema agudo de pulmón', 'Insuficiencia cardíaca congestiva', 'Sobrecarga hídrica refractaria'],
+                presentacion: 'Tableta 40 mg; Ampolla 20 mg / 2 mL',
+                embarazo: 'Precaución: Usar solo si es estrictamente necesario; atraviesa la barrera placentaria',
+                interacciones: ['Aminoglucósidos (ototoxicidad potenciada)', 'Digoxina (toxicidad digitálica por hipopotasemia)', 'Litio'],
+                descripcion: 'Diurético de asa potente que inhibe el cotransportador Na+/K+/2Cl- en la rama ascendente gruesa del asa de Henle, promoviendo rápida excreción de agua y electrolitos.',
+                verificado: false
+            },
+            {
+                name: 'Espironolactona',
+                group: 'Cardiovascular',
+                adult: '25 - 100 mg VO una o dos veces al día',
+                ped: '1 - 3 mg/kg/día VO dividido c/12-24h (Dosis máxima 200 mg/día)',
+                renal: 'Contraindicado si eTFG < 30 mL/min o K+ sérico > 5.0 mEq/L',
+                warning: 'Alto riesgo de hiperpotasemia severa, especialmente al asociarse a IECA o ARA II',
+                indicaciones: ['Insuficiencia cardíaca con fracción de eyección reducida', 'Ascitis por cirrosis hepática', 'Hipertensión resistente'],
+                presentacion: 'Tableta 25 mg y 100 mg',
+                embarazo: 'Precaución: Propiedades antiandrogénicas teóricas en feto masculino',
+                interacciones: ['IECA / ARA II (riesgo letal de hiperpotasemia)', 'Suplementos de potasio', 'AINEs'],
+                descripcion: 'Diurético ahorrador de potasio antagonista competitivo de la aldosterona en el túbulo contorneado distal. Mejora la supervivencia en falla cardíaca crónica.',
+                verificado: false
+            },
+            {
+                name: 'Verapamilo',
+                group: 'Cardiovascular',
+                adult: 'IV: 5 - 10 mg en 2 min. VO: 80 - 120 mg c/8h',
+                ped: '1 - 3 mg/kg/día VO dividido c/8h (Dosis máxima 120 mg/día)',
+                renal: 'Sin ajuste significativo requerido en daño renal leve',
+                warning: 'Contraindicado en insuficiencia cardíaca descompensada y bloqueo AV avanzado',
+                indicaciones: ['Taquicardia supraventricular paroxística', 'Control de frecuencia en fibrilación atrial', 'Angina de pecho'],
+                presentacion: 'Tableta 80 mg; Ampolla 5 mg / 2 mL',
+                embarazo: 'Precaución: Puede inducir hipoxia uterina por hipotensión materna',
+                interacciones: ['Betabloqueadores IV (riesgo de bradicardia severa y asistolia)', 'Digoxina', 'Estatinas metabolizadas por CYP3A4'],
+                descripcion: 'Antagonista de los canales de calcio no dihidropiridínico que actúa directamente sobre el nodo sinusal y auriculoventricular reduciendo la contractilidad y frecuencia cardíaca.',
+                verificado: false
+            },
+            {
+                name: 'Digoxina',
+                group: 'Cardiovascular',
+                adult: 'Carga: 0.25 - 0.5 mg IV/VO, luego 0.125 - 0.25 mg/día',
+                ped: 'Neonatos/Lactantes: 0.01 - 0.02 mg/kg dosis total de carga dividida',
+                renal: 'Ajustar estrictamente según eTFG y niveles séricos (terapéutico 0.8 - 2.0 ng/mL)',
+                warning: 'Estrecho margen terapéutico; riesgo alto de intoxicación digitálica mortal',
+                indicaciones: ['Insuficiencia cardíaca crónica con FEVI reducida', 'Control de respuesta ventricular en fibrilación auricular'],
+                presentacion: 'Tableta 0.25 mg; Ampolla 0.5 mg / 2 mL',
+                embarazo: 'Precaución: Atraviesa la placenta con seguridad clínica aceptada bajo monitorización',
+                interacciones: ['Amiodarona y Verapamilo (incrementan niveles de digoxina un 50-100%)', 'Diuréticos perdedores de potasio', 'Eritromicina'],
+                descripcion: 'Glucósido cardíaco con efecto inotrópico positivo débil y cronotrópico negativo (disminuye la conducción AV a través del tono vagal).',
+                verificado: false
+            }
+        ];
 
-   ADVERTENCIA CLÍNICA:
-   - Todas las fichas están en verificado:false. Redactadas de memoria por
-     una IA con dosis estándar: DEBEN contrastarse con tu vademécum,
-     UpToDate/Lexicomp, guías del Ministerio de Salud o el servicio.
-   - Revisa primero lo marcado altoRiesgo:true (vancomicina, insulinas,
-     opioides, heparinas, antiepilépticos IV, magnesio, adenosina, etc.).
+/* =====================================================================
+   ADROOSIS · VADEMÉCUM · TANDA 2
    ===================================================================== */
 
 const vademecumTanda2 = [
@@ -3055,6 +3214,19 @@ function renderVademecum() {
         </div>`;
     }).join('');
 }
+
+        let currentVadGroup = 'all';
+
+        function filterVademecumGroup(grp) {
+            currentVadGroup = grp;
+            document.querySelectorAll('.vad-grp-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-600', 'text-white', 'shadow');
+                btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            });
+            event.target.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            event.target.classList.add('bg-teal-600', 'text-white', 'shadow');
+            renderVademecum();
+        }
 
         // SALUD PÚBLICA, SIVIGILA & RIAS LOGIC
         let spPoblacion = 'pediatria';
