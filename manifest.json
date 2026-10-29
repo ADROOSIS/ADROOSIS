@@ -1,0 +1,24 @@
+
+{
+  "id": "/ADROOSIS/",
+  "name": "ADROOSIS - Copiloto en la ronda médica",
+  "short_name": "ADROOSIS",
+  "description": "Herramientas clínicas para internos y médicos rurales.",
+  "start_url": "/ADROOSIS/",
+  "scope": "/ADROOSIS/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#123B32",
+  "icons": [
+    {
+      "src": "/ADROOSIS/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ADROOSIS/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
