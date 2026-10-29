@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramienta Médica Pro</title>
+    <title>Adroosis · Tu Aliado en la ronda Médica</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -49,8 +50,8 @@
                         <i class="fa-solid fa-user-doctor text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-lg leading-tight tracking-tight text-slate-900 dark:text-white">Herramienta<span class="text-teal-600 dark:text-teal-400"> Médica</span></h1>
-                        <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Copiloto de ronda & urgencias</p>
+                        <h1 class="font-bold text-lg leading-tight tracking-tight text-slate-900 dark:text-white">Adroos<span class="text-teal-600 dark:text-teal-400">is</span></h1>
+                        <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Tu Copiloto en la ronda Médica</p>
                     </div>
                 </div>
                 <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700">
@@ -119,7 +120,7 @@
                         <!-- Grand Search Input -->
                         <div class="relative">
                             <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-teal-400 text-lg"></i>
-                            <input type="text" id="home-main-search" onkeyup="executeGlobalSearch(this.value)" placeholder="Busca herramientas, infectología (sepsis, NAC), escalas, fármacos o tríadas..." class="w-full pl-12 pr-10 py-4 text-sm sm:text-base rounded-2xl border-2 border-teal-500/30 bg-slate-900/90 text-white placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-500/20 shadow-2xl transition-all">
+                            <input type="text" id="home-main-search" onkeydown="if(event.key==='Enter') executeGlobalSearch(this.value)" placeholder="Busca herramientas, infectología (sepsis, NAC), escalas, fármacos o tríadas..." class="w-full pl-12 pr-10 py-4 text-sm sm:text-base rounded-2xl border-2 border-teal-500/30 bg-slate-900/90 text-white placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-500/20 shadow-2xl transition-all">
                         </div>
 
                         <!-- Quick Access Pills Row -->
@@ -800,7 +801,7 @@
                     <span class="font-bold text-slate-800 dark:text-slate-200">${d.name}</span>
                     <div class="flex items-center gap-1.5 text-[11px] font-bold">
                         <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-emerald-600 has-[:checked]:text-white">
-                            <input type="radio" name="abg_${d.id}" value="S" class="hidden" checked> S
+                            <input type="radio" name="abg_${d.id}" value="S" class="hidden" > S
                         </label>
                         <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-amber-500 has-[:checked]:text-white">
                             <input type="radio" name="abg_${d.id}" value="I" class="hidden"> I
@@ -809,7 +810,7 @@
                             <input type="radio" name="abg_${d.id}" value="R" class="hidden"> R
                         </label>
                         <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-slate-400 has-[:checked]:text-white">
-                            <input type="radio" name="abg_${d.id}" value="NR" class="hidden"> NR
+                            <input type="radio" name="abg_${d.id}" value="NR" class="hidden" checked> NR
                         </label>
                     </div>
                 </div>
@@ -831,6 +832,12 @@
             const germ = document.getElementById('abg-germ-select')?.value;
             const resultBox = document.getElementById('abg-result-box');
             if (!germ || !resultBox) return;
+            const marcados = (abgPanelData[germ] || []).filter(d => getAbgVal(d.id) !== 'NR').length;
+            if (marcados === 0) {
+                resultBox.innerHTML = '<p class="text-amber-300">Marca al menos un resultado (S / I / R) antes de analizar.</p>';
+                resultBox.classList.remove('hidden');
+            return;
+        }
 
             let pheno = 'Sensible / Sin mecanismo de resistencia de alto impacto detectado';
             let options = '';
@@ -1701,6 +1708,7 @@
                         <div class="space-y-2 text-xs">
                             <input type="number" id="tfg-cr" step="0.1" placeholder="Creatinina (mg/dL)" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
                             <input type="number" id="tfg-edad" placeholder="Edad (Años)" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <select id="tfg-sexo" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="F">Mujer</option><option value="M">Hombre</option></select>
                             <button onclick="calcTFG()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular TFG</button>
                             <div id="tfg-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
                         </div>
@@ -1916,44 +1924,6 @@
         }
 
         // ADDITIONAL CALCULATORS: FRAMINGHAM, MMSE, PFEFFER, PAM, TFG, TABAQUISMO
-        function calcFramingham() {
-            const sex = document.getElementById('fr-sexo')?.value;
-            const age = parseFloat(document.getElementById('fr-edad')?.value || 55);
-            const col = parseFloat(document.getElementById('fr-col')?.value || 210);
-            const hdl = parseFloat(document.getElementById('fr-hdl')?.value || 45);
-            const pas = parseFloat(document.getElementById('fr-pas')?.value || 138);
-            const hta = document.getElementById('fr-hta')?.value === '1';
-            const fuma = document.getElementById('fr-fumador')?.checked;
-
-            let pts = 0;
-            if (age >= 70) pts += 11;
-            else if (age >= 60) pts += 8;
-            else if (age >= 50) pts += 5;
-            else if (age >= 40) pts += 3;
-
-            if (col >= 280) pts += 5;
-            else if (col >= 240) pts += 4;
-            else if (col >= 200) pts += 3;
-
-            if (hdl < 35) pts += 2;
-            else if (hdl < 45) pts += 1;
-            else if (hdl >= 60) pts -= 1;
-
-            if (pas >= 160) pts += hta ? 5 : 3;
-            else if (pas >= 140) pts += hta ? 4 : 2;
-            else if (pas >= 130) pts += hta ? 3 : 1;
-
-            if (fuma) pts += (sex === 'M') ? 4 : 3;
-
-            let riskPercent = Math.min(Math.max(pts * 1.5, 1), 30);
-            let riskCat = riskPercent < 10 ? 'Bajo Riesgo (<10%)' : (riskPercent < 20 ? 'Riesgo Moderado (10-20%)' : 'Alto Riesgo CV (>20%)');
-
-            const resEl = document.getElementById('fr-res');
-            if (!resEl) return;
-            resEl.innerHTML = `Puntaje Estimado: <span class="text-teal-600">${pts} pts</span> (${riskPercent.toFixed(1)}% a 10 años) — <span class="text-indigo-600">${riskCat}</span>`;
-            resEl.classList.remove('hidden');
-        }
-
         function calcMMSE() {
             const ot = parseInt(document.getElementById('mmse-ot')?.value || 0);
             const oe = parseInt(document.getElementById('mmse-oe')?.value || 0);
@@ -2018,7 +1988,10 @@
             if (!resEl || !cr || !edad) return;
 
             // CKD-EPI 2021 simplified estimation
-            let tfg = 142 * Math.pow(Math.min(cr / 0.9, 1), -0.544) * Math.pow(Math.max(cr / 0.9, 1), -1.200) * Math.pow(0.9938, edad);
+            const f = document.getElementById('tfg-sexo')?.value === 'F';
+            const k = f ? 0.7 : 0.9;
+            const a = f ? -0.241 : -0.302;
+            let tfg = 142 * Math.pow(Math.min(cr / k, 1), a) * Math.pow(Math.max(cr / k, 1), -1.200) * Math.pow(0.9938, edad) * (f ? 1.012 : 1);
             let estadio = tfg >= 90 ? "G1 (Normal ≥ 90)" : (tfg >= 60 ? "G2 (Ligeramente disminuida 60-89)" : (tfg >= 45 ? "G3a (Moderada 45-59)" : (tfg >= 30 ? "G3b (Moderada-Severa 30-44)" : (tfg >= 15 ? "G4 (Severa 15-29)" : "G5 (Falla Renal < 15)"))));
 
             resEl.innerHTML = `eTFG: <strong class="text-teal-600">${tfg.toFixed(1)} mL/min/1.73m²</strong> — ${estadio}`;
@@ -2053,7 +2026,7 @@
                 embarazo: 'Precaución: Puede causar hipoxia fetal por vasoconstricción placentaria',
                 interacciones: ['Inhibidores de la MAO (crisis hipertensiva severa)', 'Antidepresivos tricíclicos', 'Betabloqueadores no selectivos'],
                 descripcion: 'Catecolamina endógena y agonista alfa/beta adrenérgico potente. Fármaco de primera línea en choque distributivo y séptico para restaurar la presión arterial media (PAM ≥ 65 mmHg).',
-                verificado: true
+                verificado: false
             },
             {
                 name: 'Adrenalina (Epinefrina)',
@@ -2234,8 +2207,8 @@
                 const matchesQuery = !query || 
                     v.name.toLowerCase().includes(query) || 
                     v.group.toLowerCase().includes(query) || 
-                    v.presentacion.toLowerCase().includes(query) || 
-                    v.indicaciones.some(ind => ind.toLowerCase().includes(query));
+                    (v.presentacion || '').toLowerCase().includes(query) || 
+                    (v.indicaciones || []).some(ind => ind.toLowerCase().includes(query));
                 return matchesGrp && matchesQuery;
             });
 
@@ -2338,7 +2311,7 @@
             }
 
             if (edad >= 18) {
-                tests.push({ name: 'Perfil Lipídico / Riesgo CV (Framingham)', freq: 'Cada 5 años', goal: 'Riesgo cardiovascular y cardiometabólico', calcId: 'framingham', calcLabel: 'Abrir Calculadora Framingham' });
+                tests.push({ name: 'Perfil Lipídico / Riesgo CV (Framingham)', freq: 'Cada 5 años', goal: 'Riesgo cardiovascular y cardiometabólico', calcId: null });
                 tests.push({ name: 'Tamizaje de Diabetes (FINDRISC)', freq: 'Cada 3-5 años según riesgo', goal: 'Detección temprana de Diabetes Mellitus Tipo 2', calcId: 'findrisc', calcLabel: 'Abrir Test FINDRISC' });
             } else {
                 tests.push({ name: 'Valoración del Crecimiento y Desarrollo', freq: 'Según esquema de control RIAS primera infancia/infancia', goal: 'Monitoreo pondero-estatural y nutricional', calcId: null });
@@ -2357,7 +2330,7 @@
                     </div>
                     ${t.calcId ? `
                         <div class="pt-2 border-t border-slate-100 dark:border-slate-700">
-                            <button onclick="switchTab('calculadoras'); setTimeout(() => { filterCalcCategory('all'); }, 50);" class="w-full py-1.5 px-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-[11px] shadow transition-all flex items-center justify-center gap-1.5">
+                            <button onclick="openCalc('${t.calcId}')" class="w-full py-1.5 px-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-[11px] shadow transition-all flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-calculator"></i> ${t.calcLabel}
                             </button>
                         </div>
@@ -2396,7 +2369,6 @@
                 focus: 'Riesgo Cardiovascular, Tamizaje Cáncer de Cérvix, Mama, Próstata y Colorrectal.', 
                 interventions: ['Valoración de riesgo cardiovascular cada 5 años.', 'Mamografía cada 2 años (50-69 años).', 'PSA + Tacto rectal cada 5 años (50-75 años).'],
                 calculators: [
-                    { label: 'Riesgo CV (Framingham)', id: 'framingham' },
                     { label: 'Riesgo Diabetes (FINDRISC)', id: 'findrisc' },
                     { label: 'Índice de Tabaquismo', id: 'tabaquismo' },
                     { label: 'Tasa Filtración Glomerular (eTFG)', id: 'tfg' }
@@ -2444,7 +2416,7 @@
                             <strong class="text-teal-600 dark:text-teal-400 block font-bold">Calculadoras & Escalas Aplicables en este Ciclo:</strong>
                             <div class="flex flex-wrap items-center gap-2">
                                 ${data.calculators.map(c => `
-                                    <button onclick="switchTab('calculadoras'); setTimeout(() => { filterCalcCategory('all'); }, 50);" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-teal-600 hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
+                                    <button onclick="openCalc('${c.id}')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-teal-600 hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
                                         <i class="fa-solid fa-calculator text-teal-500"></i> ${c.label}
                                     </button>
                                 `).join('')}
@@ -2501,7 +2473,7 @@
                     </div>
                     ${s.calcId ? `
                         <div class="pt-2 border-t border-slate-100 dark:border-slate-700">
-                            <button onclick="switchTab('calculadoras'); setTimeout(() => { filterCalcCategory('all'); }, 50);" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] shadow transition-all flex items-center justify-center gap-1.5">
+                            <button onclick="openCalc('${s.calcId}')" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] shadow transition-all flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-calculator"></i> ${s.calcLabel}
                             </button>
                         </div>
@@ -2662,6 +2634,46 @@
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
         }
+        function calcCHA2DS2VASc() {
+            const pts = ['ch-c','ch-h','ch-d','ch-v','ch-a','ch-sc'].filter(i => document.getElementById(i)?.checked).length
+              + (document.getElementById('ch-a2')?.checked ? 2 : 0)
+              + (document.getElementById('ch-s2')?.checked ? 2 : 0);
+            const resEl = document.getElementById('chads-res');
+                if (!resEl) return;
+            const rec = pts >= 2 ? "Indicación de anticoagulación oral" : (pts === 1 ? "Considerar ACO (valorar caso)" : "Bajo riesgo");
+            resEl.innerHTML = `Puntaje: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
+        resEl.classList.remove('hidden');
+        }
+
+        function openCalc(id) {
+            currentCalcCategory = 'all';
+            switchTab('calculadoras');
+        const c = document.getElementById('calc-search-input');
+            if (c) { c.value = id; renderCalculators(); }
+        }
+
+        const sivigilaDirectory = [
+    { code: '', name: 'Dengue', urgency: '', ficha: '', action: '' }
+    // Agrega aquí los demás eventos, tomados del listado oficial del INS
+];
+
+        function renderSivigilaDirectory() {
+            const container = document.getElementById('sivigila-directory-grid');
+            if (!container) return;
+            const q = (document.getElementById('sivigila-search')?.value || '').toLowerCase().trim();
+            const list = sivigilaDirectory.filter(e => !q || e.name.toLowerCase().includes(q) || String(e.code).includes(q));
+            container.innerHTML = list.length ? list.map(e => `
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2 text-xs">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">${e.name}</h4>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800">${e.code || 'Verificar'}</span>
+                    </div>
+                    <p><strong class="text-slate-500">Notificación:</strong> ${e.urgency || 'Verificar en protocolo INS'}</p>
+                    <p><strong class="text-slate-500">Ficha:</strong> ${e.ficha || '—'}</p>
+                    <p>${e.action || ''}</p>
+                </div>`).join('')
+                : '<p class="text-xs text-slate-400 col-span-full">No hay eventos que coincidan.</p>';
+}
 
         // INITIALIZATION
         window.onload = function() {
