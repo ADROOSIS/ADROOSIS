@@ -3137,7 +3137,7 @@ vademecumData.push(...vademecumTanda2);
 /* =====================================================================
    SELECTOR ADULTO / PEDIÁTRICO
    ===================================================================== */
-let vadPoblacion = 'adulto';
+let vadPoblacion = 'adulto'; 
 
 function setVadPoblacion(pob) {
     vadPoblacion = pob;
@@ -3628,16 +3628,6 @@ function renderVademecum() {
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
         }
-        function calcCHA2DS2VASc() {
-            const pts = ['ch-c','ch-h','ch-d','ch-v','ch-a','ch-sc'].filter(i => document.getElementById(i)?.checked).length
-              + (document.getElementById('ch-a2')?.checked ? 2 : 0)
-              + (document.getElementById('ch-s2')?.checked ? 2 : 0);
-            const resEl = document.getElementById('chads-res');
-                if (!resEl) return;
-            const rec = pts >= 2 ? "Indicación de anticoagulación oral" : (pts === 1 ? "Considerar ACO (valorar caso)" : "Bajo riesgo");
-            resEl.innerHTML = `Puntaje: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
-        resEl.classList.remove('hidden');
-        }
 
         function openCalc(id) {
             currentCalcCategory = 'all';
@@ -3668,12 +3658,294 @@ function renderVademecum() {
                     <p>${e.action || ''}</p>
                 </div>`).join('')
                 : '<p class="text-xs text-slate-400 col-span-full">No hay eventos que coincidan.</p>';
+        }
+
+        /* =====================================================================   
+   ===================================================================== */
+
+        const novedadesData = [
+            {
+                id: 'sepsis-ssc-2026',
+                especialidad: 'Cuidado crítico',
+                icono: 'fa-heart-pulse',
+                color: 'rose',
+                titulo: 'Sepsis: guías Surviving Sepsis Campaign 2026',
+                fecha: 'Mar 2026',
+                cambiaPractica: true,
+                cifra: 'Antibiótico en ≤ 1 h',
+                cifraTexto: 'Sepsis probable o choque séptico. Si la sepsis solo es posible y no hay choque: estudio acotado y antibiótico en ≤ 3 h (esto se mantiene desde 2021).',
+                cambios: [
+                    {
+                        antes: 'Infusión prolongada de betalactámicos: sugerencia condicional (2021).',
+                        ahora: 'Recomendación fuerte de mantener la infusión prolongada después de la dosis de carga.'
+                    },
+                    {
+                        antes: 'Desescalonar el antibiótico: sugerencia condicional.',
+                        ahora: 'Recomendación fuerte de pasar a un antibiótico más estrecho cuando se conozcan el germen y la sensibilidad.'
+                    },
+                    {
+                        antes: 'Evidencia de certeza baja a favor de cristaloides balanceados.',
+                        ahora: 'Certeza moderada: cristaloides balanceados sobre solución salina 0.9%; y cristaloide solo sobre cristaloide más albúmina.'
+                    }
+                ],
+                detalle: 'Son 129 recomendaciones, 46 de ellas nuevas. Se mantiene: al menos 30 mL/kg de cristaloide en las primeras 3 h ante hipoperfusión o choque (usar peso ajustado o ideal si IMC > 30). Nuevo: sugerir una herramienta estándar de tamizaje de sepsis y una meta inicial de PAM > 65 mmHg (en mayores de 65 años se sigue sugiriendo 60 - 65). La noradrenalina sigue siendo el vasopresor de primera línea.',
+                fuente: { texto: 'SCCM: Surviving Sepsis Campaign, adultos 2026', url: 'https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026' },
+                aplica: { label: 'Ver Sepsis en Infectología', tipo: 'tab', id: 'infectologia' },
+                revisado: '29 oct 2026',
+                verificado: false
+            },
+            {
+                id: 'nac-ats-2025',
+                especialidad: 'Neumología',
+                icono: 'fa-lungs',
+                color: 'cyan',
+                titulo: 'Neumonía adquirida en la comunidad: actualización ATS 2025',
+                fecha: '2025',
+                cambiaPractica: true,
+                cifra: 'Mínimo 3 días',
+                cifraTexto: 'Antibiótico en pacientes estables con NAC no grave (ambulatorios u hospitalizados). En NAC grave: 5 días o más.',
+                cambios: [
+                    {
+                        antes: 'Duración mínima de 5 días (guía 2019).',
+                        ahora: 'Menos de 5 días, con mínimo de 3, si el paciente alcanza estabilidad clínica y la NAC no es grave.'
+                    },
+                    {
+                        antes: 'Corticoides: no usarlos de rutina, ni siquiera en NAC grave.',
+                        ahora: 'NAC no grave hospitalizada: se recomienda no usarlos. NAC grave: se sugieren (excepto en neumonía por influenza).'
+                    },
+                    {
+                        ahora: 'La ecografía pulmonar queda como alternativa a la radiografía de tórax para el diagnóstico.'
+                    }
+                ],
+                detalle: 'CURB-65 y PSI no se diseñaron para decidir el ingreso a UCI y no definen la NAC grave en esta guía. Si el panel viral sale positivo: en NAC no grave hospitalizada se sugiere igual dar antibiótico empírico; en NAC grave, siempre. Una publicación señala que la IDSA no respaldó esta actualización: confirma el estado actual en la fuente.',
+                fuente: { texto: 'Guideline Central: comparación ATS/IDSA 2019 vs 2025', url: 'https://www.guidelinecentral.com/insights/nov-2025-atsidsa-cap-guideline-timeline/' },
+                aplica: { label: 'Abrir CURB-65', tipo: 'calc', id: 'curb65' },
+                revisado: '29 oct 2026',
+                verificado: false
+            },
+            {
+                id: 'fa-esc-2024',
+                especialidad: 'Cardiología',
+                icono: 'fa-bolt',
+                color: 'amber',
+                titulo: 'Fibrilación auricular: de CHA₂DS₂-VASc a CHA₂DS₂-VA (ESC 2024)',
+                fecha: '2024',
+                cambiaPractica: true,
+                cifra: 'CHA₂DS₂-VA ≥ 2',
+                cifraTexto: 'Anticoagulación oral recomendada. Con 1 punto, considerarla de forma individualizada. Igual en hombres y mujeres.',
+                cambios: [
+                    {
+                        antes: 'CHA₂DS₂-VASc: el sexo femenino sumaba 1 punto.',
+                        ahora: 'CHA₂DS₂-VA: se elimina la categoría de sexo.'
+                    },
+                    {
+                        antes: 'Umbral distinto según sexo (≥ 2 en hombres, ≥ 3 en mujeres).',
+                        ahora: 'Un solo umbral: ≥ 2 recomendado, 1 punto se considera.'
+                    }
+                ],
+                detalle: 'La razón es que el sexo femenino se comporta como modificador del riesgo y no como factor de riesgo independiente. La calculadora de Adroosis ahora muestra los dos puntajes (CHA₂DS₂-VA y CHA₂DS₂-VASc).',
+                fuente: { texto: 'Revisión de las guías ESC/EACTS 2024 de FA (PMC)', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11666470' },
+                aplica: { label: 'Abrir CHA₂DS₂-VASc', tipo: 'calc', id: 'chads' },
+                revisado: '29 oct 2026',
+                verificado: false
+            },
+            {
+                id: 'hta-aha-2025',
+                especialidad: 'Cardiología',
+                icono: 'fa-heart',
+                color: 'indigo',
+                titulo: 'Hipertensión: guía AHA/ACC 2025',
+                fecha: 'Ago 2025',
+                cambiaPractica: false,
+                cifra: '≥ 130/80 mmHg',
+                cifraTexto: 'El umbral diagnóstico se mantiene. PREVENT ayuda a decidir a quién tratar con fármacos en estadio 1.',
+                cambios: [
+                    {
+                        antes: 'Riesgo cardiovascular a 10 años con ASCVD (guía 2017).',
+                        ahora: 'Calculadora PREVENT: riesgo a 10 y a 30 años, con función renal y datos metabólicos.'
+                    },
+                    {
+                        antes: 'Cociente albúmina/creatinina en orina: prueba opcional.',
+                        ahora: 'Se recomienda en todos los pacientes con hipertensión.'
+                    },
+                    {
+                        ahora: 'Meta de PAS < 130 mmHg en adultos con hipertensión, con énfasis en prevenir el deterioro cognitivo y la demencia.'
+                    }
+                ],
+                detalle: 'La guía de 2025 reemplaza a la de 2017 e incluye recomendaciones antes, durante y después del embarazo. Es una guía estadounidense: compárala con la guía colombiana y el protocolo de tu servicio. En Adroosis todavía no hay calculadora PREVENT: está pendiente de agregar.',
+                fuente: { texto: 'ACC: nueva guía de hipertensión AHA/ACC 2025', url: 'https://www.acc.org/Latest-in-Cardiology/Journal-Scans/2025/08/14/15/36/New-ACC-AHA-Guideline-Addresses-Prevention-Detection-Evaluation-and-Management-of-HBP' },
+                aplica: null,
+                revisado: '29 oct 2026',
+                verificado: false
+            },
+            {
+                id: 'arbovirus-oms-2025',
+                especialidad: 'Infectología tropical',
+                icono: 'fa-virus',
+                color: 'emerald',
+                titulo: 'Dengue, chikungunya, Zika y fiebre amarilla: guía OMS 2025',
+                fecha: 'Jul 2025',
+                cambiaPractica: true,
+                cifra: '4 virus · 1 guía',
+                cifraTexto: 'Primera guía global de la OMS que cubre las cuatro arbovirosis, desde la atención comunitaria hasta la hospitalización.',
+                cambios: [
+                    {
+                        antes: 'Sin una guía global conjunta para las cuatro enfermedades.',
+                        ahora: 'Guía integrada, útil cuando circulan varios arbovirus a la vez y no hay pruebas disponibles.'
+                    },
+                    {
+                        ahora: 'Manejo guiado por monitoreo clínico: llenado capilar, lactato y respuesta a los líquidos.'
+                    },
+                    {
+                        ahora: 'Se desaconsejan tratamientos sin respaldo: esteroides, inmunoglobulinas y transfusión profiláctica de plaquetas.'
+                    }
+                ],
+                detalle: 'Es una de las fuentes más útiles para el rural en zonas con transmisión. En Adroosis falta agregar dengue al módulo de Infectología: usa esta guía junto con el protocolo vigente del INS y del Ministerio de Salud.',
+                fuente: { texto: 'OMS: guía clínica de arbovirosis 2025', url: 'https://www.who.int/publications/i/item/9789240111110' },
+                aplica: { label: 'Ir a Infectología', tipo: 'tab', id: 'infectologia' },
+                revisado: '29 oct 2026',
+                verificado: false
+            },
+            {
+                id: 'ada-2026',
+                especialidad: 'Endocrinología',
+                icono: 'fa-droplet',
+                color: 'violet',
+                titulo: 'Diabetes: Standards of Care ADA 2026',
+                fecha: '2026',
+                cambiaPractica: false,
+                cifra: 'MCG desde el diagnóstico',
+                cifraTexto: 'Monitoreo continuo de glucosa para cualquier persona que pueda beneficiarse, no solo quienes usan insulina.',
+                cambios: [
+                    {
+                        antes: 'MCG pensada sobre todo para quienes usan insulina o tienen riesgo de hipoglucemia.',
+                        ahora: 'Se recomienda desde el inicio de la diabetes y en cualquier momento posterior si puede beneficiar.'
+                    },
+                    {
+                        antes: 'Bombas e insulina automatizada condicionadas por tipo de diabetes, péptido C o autoanticuerpos.',
+                        ahora: 'El criterio es usar insulina, no el tipo de diabetes; se ofrecen sistemas automatizados a adultos con DM2 en insulina.'
+                    }
+                ],
+                detalle: 'La guía se actualiza cada enero. También aclara los factores de riesgo, el tamizaje y el manejo de la cetoacidosis diabética. En zonas rurales el acceso a MCG y bombas es limitado: aplica lo que tu servicio tenga disponible.',
+                fuente: { texto: 'ADA: resumen de revisiones 2026 (Diabetes Care)', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12690167' },
+                aplica: { label: 'Ver Vademécum', tipo: 'tab', id: 'farmaco' },
+                revisado: '29 oct 2026',
+                verificado: false
+            }
+        ];
+
+const novColorMap = {
+    rose:    { bar: 'bg-rose-500',    chip: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300',       soft: 'bg-rose-50 dark:bg-rose-950/30',       text: 'text-rose-700 dark:text-rose-300' },
+    cyan:    { bar: 'bg-cyan-500',    chip: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300',       soft: 'bg-cyan-50 dark:bg-cyan-950/30',       text: 'text-cyan-700 dark:text-cyan-300' },
+    amber:   { bar: 'bg-amber-500',   chip: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',   soft: 'bg-amber-50 dark:bg-amber-950/30',     text: 'text-amber-700 dark:text-amber-300' },
+    indigo:  { bar: 'bg-indigo-500',  chip: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300', soft: 'bg-indigo-50 dark:bg-indigo-950/30', text: 'text-indigo-700 dark:text-indigo-300' },
+    emerald: { bar: 'bg-emerald-500', chip: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300', soft: 'bg-emerald-50 dark:bg-emerald-950/30', text: 'text-emerald-700 dark:text-emerald-300' },
+    violet:  { bar: 'bg-violet-500',  chip: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300', soft: 'bg-violet-50 dark:bg-violet-950/30', text: 'text-violet-700 dark:text-violet-300' }
+};
+
+function renderNovedades() {
+    const track = document.getElementById('novedades-track');
+    if (!track) return;
+
+    const act = document.getElementById('nov-actualizado');
+    if (act && novedadesData.length) act.textContent = novedadesData[0].revisado;
+
+    track.innerHTML = novedadesData.map(n => {
+        const c = novColorMap[n.color] || novColorMap.indigo;
+
+        const filas = (n.cambios || []).map(ch => `
+            <div class="text-[11px] leading-snug space-y-1">
+                ${ch.antes ? `
+                <div class="flex gap-2">
+                    <span class="shrink-0 w-11 font-bold uppercase tracking-wide text-slate-400">Antes</span>
+                    <span class="text-slate-500 dark:text-slate-400">${ch.antes}</span>
+                </div>` : ''}
+                <div class="flex gap-2">
+                    <span class="shrink-0 w-11 font-bold uppercase tracking-wide ${c.text}">Ahora</span>
+                    <span class="text-slate-800 dark:text-slate-100 font-medium">${ch.ahora}</span>
+                </div>
+            </div>`).join('<div class="border-t border-dashed border-slate-200 dark:border-slate-700"></div>');
+
+        const boton = n.aplica
+            ? `<button onclick="novAplicar('${n.aplica.tipo}', '${n.aplica.id}')" class="px-3 py-1.5 rounded-lg ${c.chip} font-bold text-[11px] hover:opacity-80 transition-all"><i class="fa-solid fa-arrow-right mr-1"></i>${n.aplica.label}</button>`
+            : '';
+
+        return `
+        <article class="snap-start shrink-0 w-[88%] sm:w-[400px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col">
+            <div class="h-1.5 ${c.bar}"></div>
+            <div class="p-4 space-y-3 flex-1 flex flex-col">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-[10px] font-bold ${c.chip}"><i class="fa-solid ${n.icono}"></i> ${n.especialidad}</span>
+                    ${n.cambiaPractica ? '<span class="px-2 py-1 rounded-lg text-[10px] font-extrabold bg-rose-600 text-white">Cambia tu práctica</span>' : ''}
+                </div>
+                <h4 class="font-extrabold text-sm text-slate-900 dark:text-white leading-snug">${n.titulo}</h4>
+
+                <div class="rounded-xl p-3 ${c.soft}">
+                    <p class="text-xl font-black ${c.text} leading-tight">${n.cifra}</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1 leading-snug">${n.cifraTexto}</p>
+                </div>
+
+                <div class="space-y-2">${filas}</div>
+
+                <div id="nov-det-${n.id}" class="hidden p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-[11px] text-slate-600 dark:text-slate-300 leading-snug">${n.detalle || ''}</div>
+
+                <div class="mt-auto pt-2 space-y-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="toggleNovDetalle('${n.id}')" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-[11px] hover:opacity-80 transition-all">Ver detalle</button>
+                        ${boton}
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-1 text-[10px] text-slate-400">
+                        <a href="${n.fuente.url}" target="_blank" rel="noopener" class="underline hover:text-teal-600"><i class="fa-solid fa-link mr-1"></i>${n.fuente.texto}</a>
+                        <span>${n.fecha} · revisado ${n.revisado}</span>
+                    </div>
+                    ${!n.verificado ? '<span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Pendiente de verificación</span>' : ''}
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+}
+
+function toggleNovDetalle(id) {
+    const el = document.getElementById('nov-det-' + id);
+    if (el) el.classList.toggle('hidden');
+}
+
+function scrollNovedades(dir) {
+    const t = document.getElementById('novedades-track');
+    if (t) t.scrollBy({ left: dir * 340, behavior: 'smooth' });
+}
+
+function novAplicar(tipo, id) {
+    if (tipo === 'calc') openCalc(id);
+    else if (tipo === 'tab') switchTab(id);
+}
+
+/* =====================================================================
+   CALCULADORA CHA2DS2-VA / CHA2DS2-VASc (reemplaza a la función vieja)
+   ===================================================================== */
+function calcCHA2DS2VASc() {
+    const g = id => (document.getElementById(id)?.checked ? 1 : 0);
+    const vasc = g('ch-c') + g('ch-h') + 2 * g('ch-a2') + g('ch-d') + 2 * g('ch-s2') + g('ch-v') + g('ch-a') + g('ch-sc');
+    const va = vasc - g('ch-sc');
+
+    const resEl = document.getElementById('chads-res');
+    if (!resEl) return;
+
+    const rec = va >= 2
+        ? 'Anticoagulación oral recomendada (ESC 2024)'
+        : (va === 1 ? 'Considerar anticoagulación de forma individualizada' : 'Sin indicación de anticoagulación por puntaje');
+
+    resEl.innerHTML = `
+        CHA₂DS₂-VA: <span class="text-teal-600">${va} pts</span> — ${rec}
+        <div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">CHA₂DS₂-VASc (con sexo): ${vasc} pts. Valora siempre el riesgo de sangrado.</div>`;
+    resEl.classList.remove('hidden');
 }
 
         // INITIALIZATION
         window.onload = function() {
             renderSidebarModules();
             rotatePerla();
+            renderNovedades();
             switchTab('inicio');
         };
     </script>
