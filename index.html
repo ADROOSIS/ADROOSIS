@@ -42,6 +42,13 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hc-chip{padding:.3rem .65rem;border-radius:9999px;font-size:11px;font-weight:600;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;cursor:pointer;transition:all .15s}
+.hc-chip:hover{border-color:#14b8a6}
+.hc-chip.on{background:#0d9488;border-color:#0d9488;color:#fff}
+.hc-chip.neg.on{background:#64748b;border-color:#64748b}
+.dark .hc-chip{background:#0f172a;border-color:#334155;color:#cbd5e1}
+.dark .hc-chip.on{background:#0d9488;border-color:#0d9488;color:#fff}
+.dark .hc-chip.neg.on{background:#64748b;border-color:#64748b}
     </style>
 </head>
 <body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200">
@@ -140,6 +147,9 @@
                     </div>
 
                         <!-- Quick Access Pills Row -->
+                         <button onclick="switchTab('hc')" class="shrink-0 px-4 py-2.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-file-medical text-emerald-200"></i> Historia Clínica
+                            </button>
                         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 text-xs">
                             <button onclick="switchTab('infectologia')" class="shrink-0 px-4 py-2.5 rounded-xl bg-teal-600/90 hover:bg-teal-500 text-white font-bold shadow-md transition-all flex items-center gap-2">
                                 <i class="fa-solid fa-bugs text-teal-200"></i> Infectología
@@ -202,12 +212,24 @@
                     </div>
 
                     <!-- CATÁLOGO DE MÓDULOS EN TARJETAS POR CATEGORÍA -->
-                    <div class="space-y-4 pt-2">
-                        <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                            <i class="fa-solid fa-grid-2 text-teal-500"></i> Todos los Módulos Clínicos
-                        </h3>
+                                                <div class="space-y-4 pt-2">
+                                                    <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                                                        <i class="fa-solid fa-grid-2 text-teal-500"></i> Todos los Módulos Clínicos
+                                                </h3>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                                                        <div onclick="switchTab('hc')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md hover:border-teal-500 transition-all space-y-3 group">
+                                <div class="flex items-center justify-between">
+                                    <div class="p-3 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                                        <i class="fa-solid fa-file-medical text-xl"></i>
+                                    </div>
+                                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">Abrir <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white text-base">Historia Clínica Guiada</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Anamnesis ALICIA, revisión por sistemas, antecedentes, signos vitales con alertas, examen físico y plan. Con panel de lo que no se te puede pasar.</p>
+                                    </div>
+                            </div>
                             <!-- Category Card: Infectología -->
                             <div onclick="switchTab('infectologia')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md hover:border-teal-500 transition-all space-y-3 group">
                                 <div class="flex items-center justify-between">
@@ -308,6 +330,79 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- SECTION HC: HISTORIA CLÍNICA -->
+<section id="tab-hc" class="tab-content space-y-5 hidden">
+    <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-file-medical text-teal-500"></i> Historia Clínica · Anamnesis Guiada
+            </h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Marca, completa y copia. El panel de la derecha te recuerda lo que no se te puede pasar.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+            <select id="hc-ambito" onchange="hcUpdate()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold text-slate-700 dark:text-slate-200">
+                <option>Urgencias</option><option>Consulta externa</option><option>Hospitalización</option><option>Atención rural / domiciliaria</option>
+            </select>
+            <div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 font-bold">
+                <button type="button" id="hc-pob-adulto" onclick="setHcPob('adulto')" class="px-3 py-1.5 rounded-xl bg-teal-600 text-white shadow transition-all"><i class="fa-solid fa-user mr-1"></i>Adulto</button>
+                <button type="button" id="hc-pob-pediatrico" onclick="setHcPob('pediatrico')" class="px-3 py-1.5 rounded-xl bg-transparent text-slate-600 dark:text-slate-300 transition-all"><i class="fa-solid fa-child mr-1"></i>Pediátrico</button>
+                <button type="button" id="hc-pob-gestante" onclick="setHcPob('gestante')" class="px-3 py-1.5 rounded-xl bg-transparent text-slate-600 dark:text-slate-300 transition-all"><i class="fa-solid fa-person-pregnant mr-1"></i>Gestante</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hc-stepper" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 items-start">
+        <div id="hc-form" class="xl:col-span-2 space-y-4"></div>
+
+        <aside class="xl:sticky xl:top-0 space-y-4">
+            <!-- Panel: No se te pase -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-list-check text-teal-500"></i> No se te pase</h3>
+                    <span id="hc-progress-txt" class="text-[11px] font-bold text-teal-600 dark:text-teal-400">0%</span>
+                </div>
+                <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden"><div id="hc-progress-bar" class="h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all" style="width:0%"></div></div>
+                <div id="hc-pending" class="space-y-1 max-h-72 overflow-y-auto no-scrollbar"></div>
+                <div id="hc-sivi-alert" class="hidden p-3 rounded-xl bg-amber-500/10 border-l-4 border-amber-500 text-[11px] text-amber-900 dark:text-amber-200 space-y-1.5">
+                    <strong><i class="fa-solid fa-bell mr-1"></i>Posible evento SIVIGILA:</strong> revisa si requiere notificación obligatoria.
+                    <button type="button" onclick="switchTab('sivigila'); switchSpSubTab('sivigila')" class="block font-bold underline">Abrir directorio SIVIGILA</button>
+                </div>
+            </div>
+
+            <!-- Exportar -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 space-y-2 text-xs font-bold">
+                <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-file-export text-teal-500"></i> Historia lista</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button" onclick="hcCopy()" class="py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white shadow"><i class="fa-solid fa-copy mr-1"></i>Copiar</button>
+                    <button type="button" onclick="hcDownload()" class="py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-download mr-1"></i>.txt</button>
+                    <button type="button" onclick="hcPrint()" class="py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-print mr-1"></i>Imprimir</button>
+                    <button type="button" onclick="hcClear()" class="py-2 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300"><i class="fa-solid fa-eraser mr-1"></i>Limpiar</button>
+                </div>
+                <p id="hc-copy-msg" class="text-emerald-600 dark:text-emerald-400 text-[11px] h-3"></p>
+                <p class="text-[10px] font-normal text-slate-400 leading-snug">Nada se guarda ni se envía: los datos viven solo en esta pantalla. La historia legal es la de tu institución (Res. 1995/1999) y tiene reserva: cuida dónde pegas datos identificables.</p>
+            </div>
+
+            <!-- Mnemotecnias -->
+            <details class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 text-xs">
+                <summary class="font-extrabold text-sm text-slate-900 dark:text-white cursor-pointer"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Mnemotecnias rápidas</summary>
+                <div class="mt-3 space-y-2 text-slate-600 dark:text-slate-300 leading-snug">
+                    <p><strong class="text-teal-600 dark:text-teal-400">ALICIA:</strong> Aparición · Localización · Intensidad · Carácter · Irradiación · Atenuantes/Agravantes.</p>
+                    <p><strong class="text-teal-600 dark:text-teal-400">SAMPLE:</strong> Síntomas · Alergias · Medicamentos · Patologías previas · Última comida · Eventos previos.</p>
+                    <p><strong class="text-rose-600 dark:text-rose-400">Antes de cerrar:</strong> alergias, medicamentos, embarazo, peso, signos de alarma y control.</p>
+                </div>
+            </details>
+        </aside>
+    </div>
+
+    <!-- Vista previa -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 space-y-2">
+        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-eye text-teal-500"></i> Vista previa de la historia</h3>
+        <pre id="hc-output" class="whitespace-pre-wrap text-[11px] leading-relaxed font-mono text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 rounded-xl p-4 max-h-96 overflow-y-auto"></pre>
+    </div>
+</section>
 
                 <!-- SECTION 1: INFECTOLOGÍA -->
                 <section id="tab-infectologia" class="tab-content space-y-6 hidden">
@@ -3688,6 +3783,7 @@ function renderVademecum() {
 
         function resetModuleOrder() {
             moduleList = [
+                { id: 'hc', label: 'Historia Clínica', icon: 'fa-file-medical', kw: 'anamnesis historia clinica alicia sample motivo de consulta enfermedad actual revision por sistemas antecedentes examen fisico signos vitales plan nota medica' },
                 { id: 'infectologia', label: 'Infectología', icon: 'fa-bugs' },
                 { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
                 { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
@@ -3740,6 +3836,7 @@ function renderVademecum() {
                 if (overlay) overlay.classList.add('hidden');
             }
 
+            if (tabId === 'hc') hcOpen();
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'calculadoras') {
@@ -4376,6 +4473,492 @@ function gsKey(ev) {
 document.addEventListener('click', e => {
     if (!e.target.closest('#global-search-wrap')) document.getElementById('global-search-results')?.classList.add('hidden');
 });
+
+/* =====================================================================
+   HISTORIA CLÍNICA · ANAMNESIS GUIADA
+   ===================================================================== */
+const HC = { pob: 'adulto', rendered: false, vis: [] };
+const hcEsc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+// Fábricas de campos
+const hcT = (k, l, x = {}) => ({ k, l, ty: 'text', ...x });
+const hcN = (k, l, x = {}) => ({ k, l, ty: 'number', ...x });
+const hcA = (k, l, x = {}) => ({ k, l, ty: 'area', ...x });
+const hcS = (k, l, o, x = {}) => ({ k, l, ty: 'select', o, ...x });
+const hcC = (k, l, o, x = {}) => ({ k, l, ty: 'chips', o, wide: true, ...x });
+
+const HC_ROS = [
+    { k: 'ros_gen',  l: 'General', o: ['Fiebre', 'Escalofríos', 'Astenia / adinamia', 'Pérdida de peso', 'Sudoración nocturna', 'Hiporexia'] },
+    { k: 'ros_piel', l: 'Piel y faneras', o: ['Rash / exantema', 'Prurito', 'Ictericia', 'Lesiones', 'Petequias / equimosis'] },
+    { k: 'ros_orl',  l: 'Cabeza, ojos, oído, nariz y garganta', o: ['Cefalea', 'Mareo / vértigo', 'Alteración visual', 'Otalgia', 'Rinorrea / congestión', 'Odinofagia', 'Epistaxis'] },
+    { k: 'ros_cr',   l: 'Cardiorrespiratorio', o: ['Dolor torácico', 'Disnea', 'Ortopnea', 'Palpitaciones', 'Tos', 'Expectoración', 'Hemoptisis', 'Edema', 'Síncope'] },
+    { k: 'ros_gi',   l: 'Gastrointestinal', o: ['Náuseas', 'Vómito', 'Dolor abdominal', 'Diarrea', 'Estreñimiento', 'Melenas / hematoquecia', 'Disfagia', 'Pirosis'] },
+    { k: 'ros_gu',   l: 'Genitourinario', o: ['Disuria', 'Polaquiuria', 'Hematuria', 'Oliguria / poliuria', 'Secreción genital', 'Alteración menstrual'] },
+    { k: 'ros_neu',  l: 'Neurológico', o: ['Convulsiones', 'Pérdida de fuerza', 'Parestesias', 'Alteración del lenguaje', 'Alteración de la conciencia', 'Temblor'] },
+    { k: 'ros_msk',  l: 'Musculoesquelético', o: ['Dolor articular', 'Mialgias', 'Lumbalgia', 'Limitación funcional', 'Trauma reciente'] },
+    { k: 'ros_endo', l: 'Endocrino / metabólico', o: ['Polidipsia', 'Polifagia', 'Poliuria', 'Intolerancia al frío / calor', 'Cambios de peso'] },
+    { k: 'ros_psi',  l: 'Psiquiátrico / sueño', o: ['Ánimo bajo', 'Ansiedad', 'Insomnio', 'Ideación suicida', 'Alucinaciones'] },
+    { k: 'ros_hem',  l: 'Hematológico', o: ['Sangrado fácil', 'Palidez', 'Adenopatías'] }
+];
+
+const HC_EF = [
+    { k: 'ef_gen',  l: 'Aspecto general', n: 'Buen estado general, alerta, hidratado, afebril, sin dificultad respiratoria.' },
+    { k: 'ef_cab',  l: 'Cabeza y cuello', n: 'Normocéfalo, pupilas isocóricas normorreactivas, mucosa oral húmeda, orofaringe sin eritema ni exudados, cuello móvil sin adenopatías ni ingurgitación yugular.' },
+    { k: 'ef_cp',   l: 'Cardiopulmonar', n: 'Tórax simétrico, ruidos cardíacos rítmicos sin soplos, murmullo vesicular conservado sin agregados.' },
+    { k: 'ef_abd',  l: 'Abdomen', n: 'Blando, depresible, no doloroso, sin masas ni visceromegalias, ruidos intestinales presentes, sin signos de irritación peritoneal.' },
+    { k: 'ef_gu',   l: 'Genitourinario', n: 'Puño percusión bilateral negativa, sin globo vesical.' },
+    { k: 'ef_ext',  l: 'Extremidades', n: 'Simétricas, sin edemas, pulsos distales presentes, llenado capilar < 2 segundos.' },
+    { k: 'ef_neu',  l: 'Neurológico', n: 'Alerta, orientado en las tres esferas, Glasgow 15/15, pares craneales sin déficit, fuerza 5/5, sensibilidad conservada, sin signos meníngeos.' },
+    { k: 'ef_piel', l: 'Piel y faneras', n: 'Íntegra, sin lesiones, rash ni petequias, buena coloración.' }
+];
+
+const HC_FORM = [
+    { id: 'ident', t: 'Identificación', short: 'Identificación', ic: 'fa-id-card', f: [
+        hcT('nombre', 'Nombre completo'), hcT('doc', 'Documento de identidad'),
+        hcN('edad', 'Edad'), hcS('edadu', 'Unidad de edad', ['años', 'meses', 'días']),
+        hcS('sexo', 'Sexo', ['', 'Femenino', 'Masculino']),
+        hcS('fuente', 'Fuente de la información', ['Paciente', 'Familiar / acompañante', 'Historia previa', 'Mixta']),
+        hcT('eps', 'EPS / régimen'), hcT('ocup', 'Ocupación'),
+        hcT('proc', 'Procedencia / residencia'),
+        hcT('resp', 'Acompañante / responsable (parentesco y teléfono)')
+    ]},
+    { id: 'motivo', t: 'Motivo de consulta', short: 'Motivo', ic: 'fa-comment-medical',
+      quick: ['Dolor torácico', 'Dolor abdominal', 'Fiebre', 'Dificultad respiratoria', 'Cefalea', 'Vómito / diarrea', 'Trauma', 'Mareo', 'Control'],
+      f: [ hcA('motivo', 'En palabras del paciente (entre comillas)', { rows: 2, wide: true, ph: '"Me duele el pecho desde ayer"' }) ]},
+    { id: 'actual', t: 'Enfermedad actual (ALICIA)', short: 'Enf. actual', ic: 'fa-stethoscope', f: [
+        hcT('evol', 'Tiempo de evolución', { ph: 'Ej: 3 días' }),
+        hcS('ap', 'Aparición / forma de inicio', ['', 'Súbita', 'Progresiva', 'Intermitente / episódica', 'Continua']),
+        hcT('loc', 'Localización'),
+        hcN('int', 'Intensidad EVA (0-10)', { min: 0, max: 10 }),
+        hcT('irr', 'Irradiación'),
+        hcT('ate', 'Atenuantes (qué lo mejora)'),
+        hcT('agr', 'Agravantes (qué lo empeora)'),
+        hcC('car', 'Carácter / calidad', ['Opresivo', 'Punzante', 'Cólico', 'Ardor / quemante', 'Pulsátil', 'Sordo', 'Eléctrico']),
+        hcC('aso', 'Síntomas asociados', ['Fiebre', 'Náuseas / vómito', 'Disnea', 'Diaforesis', 'Mareo', 'Síncope', 'Diarrea', 'Tos', 'Pérdida de peso']),
+        hcA('narr', 'Relato cronológico', { rows: 4, wide: true, ph: 'Inicio, evolución, qué ha hecho el paciente...' }),
+        hcA('prev', 'Consultas y tratamientos previos por este cuadro', { rows: 2, wide: true })
+    ]},
+    { id: 'ros', t: 'Revisión por sistemas', short: 'Sistemas', ic: 'fa-list-check',
+      f: HC_ROS.map(s => hcC(s.k, s.l, [...s.o, 'Sin síntomas'], { ex: 'Sin síntomas', noo: true })) },
+    { id: 'ant', t: 'Antecedentes', short: 'Antecedentes', ic: 'fa-clock-rotate-left', f: [
+        hcC('alerg', 'Alergias (medicamentos, látex, alimentos)', ['Niega alergias conocidas', 'Penicilina / betalactámicos', 'AINE', 'Sulfas', 'Látex', 'Alimentos', 'Contraste yodado'], { ex: 'Niega alergias conocidas', crit: true }),
+        hcA('meds', 'Medicamentos actuales (nombre, dosis, frecuencia)', { rows: 2, wide: true, crit: true, ph: 'Escribe "ninguno" si no toma' }),
+        hcC('pat', 'Patológicos', ['Niega antecedentes', 'HTA', 'Diabetes mellitus', 'Dislipidemia', 'Asma', 'EPOC', 'ERC', 'Insuficiencia cardíaca', 'Cardiopatía isquémica', 'ACV', 'Epilepsia', 'Hipotiroidismo', 'Cáncer', 'Tuberculosis', 'VIH', 'Enfermedad hepática', 'Depresión / ansiedad', 'Obesidad'], { ex: 'Niega antecedentes' }),
+        hcT('qx', 'Quirúrgicos y hospitalizaciones previas', { wide: true }),
+        hcC('tox', 'Hábitos y exposiciones', ['Niega hábitos tóxicos', 'Tabaquismo', 'Alcohol', 'Sustancias psicoactivas', 'Humo de leña / biomasa', 'Plaguicidas / agroquímicos'], { ex: 'Niega hábitos tóxicos' }),
+        hcC('fam', 'Familiares', ['Sin antecedentes familiares relevantes', 'HTA', 'Diabetes', 'Cardiopatía / muerte súbita', 'Cáncer', 'ACV', 'Asma / atopia', 'Enfermedad mental', 'Enfermedad hereditaria'], { ex: 'Sin antecedentes familiares relevantes' }),
+        hcT('inm', 'Inmunizaciones (PAI, influenza, tétanos, COVID-19)', { wide: true, vis: () => HC.pob !== 'pediatrico' })
+    ]},
+    { id: 'gineco', t: 'Gineco-obstétricos', short: 'Gineco', ic: 'fa-venus', vis: () => hcGet('sexo') === 'Femenino' && HC.pob !== 'pediatrico', f: [
+        hcT('gpac', 'G / P / A / C / V', { ph: 'Ej: G2P1A0C0V1' }),
+        { k: 'fum', l: 'Fecha de última menstruación (FUM / FUR)', ty: 'date' },
+        hcT('ciclos', 'Ciclos menstruales'),
+        hcT('planif', 'Método de planificación'),
+        hcT('cito', 'Última citología / tamizaje', { wide: true })
+    ]},
+    { id: 'gest', t: 'Gestación actual', short: 'Gestación', ic: 'fa-person-pregnant', vis: () => HC.pob === 'gestante',
+      after: '<div id="hc-gest-calc" class="p-3 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-xs text-teal-900 dark:text-teal-200"></div>', f: [
+        hcT('cpn', 'Controles prenatales (número y lugar)'),
+        hcT('gs', 'Grupo sanguíneo y Rh'),
+        hcS('mov', 'Movimientos fetales', ['', 'Presentes', 'Disminuidos', 'Ausentes', 'No aplica (< 20 semanas)']),
+        hcT('labs', 'Paraclínicos prenatales (VIH, sífilis, ecografía)'),
+        hcC('alarm', 'Signos de alarma obstétrica', ['Niega signos de alarma', 'Sangrado vaginal', 'Pérdida de líquido', 'Contracciones', 'Cefalea intensa / visión borrosa', 'Edema marcado / epigastralgia', 'Fiebre', 'Disminución de movimientos fetales'], { ex: 'Niega signos de alarma', crit: true })
+    ]},
+    { id: 'ped', t: 'Datos pediátricos', short: 'Pediatría', ic: 'fa-baby', vis: () => HC.pob === 'pediatrico', f: [
+        hcT('eg', 'Edad gestacional al nacer (semanas)'),
+        hcS('parto', 'Tipo de parto', ['', 'Vaginal', 'Cesárea']),
+        hcT('pn', 'Peso y talla al nacer'),
+        hcT('apgar', 'APGAR'),
+        hcT('perin', 'Complicaciones perinatales', { wide: true }),
+        hcS('lact', 'Alimentación', ['', 'Lactancia materna exclusiva', 'Lactancia mixta', 'Fórmula', 'Alimentación complementaria', 'Dieta del adulto']),
+        hcS('vac', 'Vacunación', ['', 'Esquema PAI completo para la edad', 'Esquema incompleto', 'Desconocido / sin carné']),
+        hcT('des', 'Desarrollo psicomotor / escolaridad', { wide: true }),
+        hcN('pc', 'Perímetro cefálico (cm)')
+    ]},
+    { id: 'vit', t: 'Signos vitales', short: 'Signos vitales', ic: 'fa-heart-pulse',
+      after: '<div id="hc-vit-calc" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-xs space-y-2"></div>', f: [
+        hcN('ta_s', 'TA sistólica (mmHg)'), hcN('ta_d', 'TA diastólica (mmHg)'),
+        hcN('fc', 'FC (lpm)'), hcN('fr', 'FR (rpm)'),
+        hcN('temp', 'Temperatura (°C)'), hcN('sat', 'SatO₂ (%)'),
+        hcS('o2', 'SatO₂ medida con', ['Aire ambiente', 'O₂ suplementario']),
+        hcN('gluc', 'Glucometría (mg/dL)'),
+        hcN('peso', 'Peso (kg)'), hcN('talla', 'Talla (cm)')
+    ]},
+    { id: 'ef', t: 'Examen físico', short: 'Examen físico', ic: 'fa-user-doctor',
+      hdr: { l: 'Todo normal', on: 'hcAllNormal()' },
+      f: HC_EF.map(e => hcA(e.k, e.l, { rows: 2, wide: true, normal: true })) },
+    { id: 'dx', t: 'Análisis, diagnóstico y plan', short: 'Dx y plan', ic: 'fa-clipboard-check', f: [
+        hcA('ana', 'Análisis clínico', { rows: 4, wide: true, ph: 'Síntesis, razonamiento y diagnósticos diferenciales...' }),
+        hcA('dx', 'Impresión diagnóstica (uno por línea, con CIE-10 si puedes)', { rows: 3, wide: true }),
+        hcC('plan', 'Conducta (marca todo lo que aplique)', ['Hospitalizar', 'Observación en urgencias', 'Egreso con manejo ambulatorio', 'Remisión a mayor nivel', 'Paraclínicos solicitados', 'Imágenes solicitadas', 'Fórmula médica entregada', 'Incapacidad', 'Signos de alarma explicados', 'Control / seguimiento', 'Interconsulta', 'Notificación SIVIGILA'], { noo: true }),
+        hcA('conducta', 'Plan detallado: paraclínicos, fórmula, indicaciones y controles', { rows: 4, wide: true }),
+        hcT('medico', 'Médico responsable (nombre y registro médico)'),
+        { k: 'fh', l: 'Fecha y hora de la atención', ty: 'datetime-local' }
+    ]}
+];
+
+/* ---------- Render ---------- */
+function hcField(f) {
+    const id = 'hc-' + f.k;
+    const cls = 'w-full p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20';
+    let inner;
+    if (f.ty === 'select') {
+        inner = `<select id="${id}" onchange="hcUpdate()" class="${cls}">${f.o.map(o => `<option value="${hcEsc(o)}">${o || '— Seleccionar —'}</option>`).join('')}</select>`;
+    } else if (f.ty === 'area') {
+        inner = `<textarea id="${id}" rows="${f.rows || 3}" oninput="hcUpdate()" placeholder="${hcEsc(f.ph || '')}" class="${cls}"></textarea>`;
+    } else if (f.ty === 'chips') {
+        inner = `<div class="flex flex-wrap gap-1.5">${f.o.map(o => `<button type="button" class="hc-chip${o === f.ex ? ' neg' : ''}" data-k="${f.k}" data-v="${hcEsc(o)}" data-ex="${hcEsc(f.ex || '')}" onclick="hcChip(this)">${o}</button>`).join('')}</div>`
+            + (f.noo ? '' : `<input id="${id}__o" type="text" oninput="hcUpdate()" placeholder="Otros (escribe aquí)" class="${cls} mt-1.5">`);
+    } else {
+        inner = `<input id="${id}" type="${f.ty || 'text'}" ${f.ty === 'number' ? 'step="any"' : ''} ${f.min != null ? `min="${f.min}" max="${f.max}"` : ''} oninput="hcUpdate()" placeholder="${hcEsc(f.ph || '')}" class="${cls}">`;
+    }
+    const lab = `<label class="flex items-center justify-between gap-2 font-bold text-slate-700 dark:text-slate-300 mb-1 text-[11px]"><span>${f.l}${f.crit ? ' <span class="ml-1 px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300 text-[9px]">No olvidar</span>' : ''}</span>${f.normal ? `<button type="button" onclick="hcNormal('${f.k}')" class="px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 text-[10px] font-bold">Normal</button>` : ''}</label>`;
+    return `<div id="hc-f-${f.k}" class="${f.wide ? 'sm:col-span-2' : ''}">${lab}${inner}</div>`;
+}
+
+function hcSection(s) {
+    const hdr = s.hdr ? `<button type="button" onclick="${s.hdr.on}" class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 text-[11px] font-bold">${s.hdr.l}</button>` : '';
+    const quick = s.quick ? `<div class="flex flex-wrap gap-1.5"><span class="text-[10px] font-bold text-slate-400 self-center">Atajos:</span>${s.quick.map(q => `<button type="button" class="hc-chip" onclick="hcQuick('motivo','${q}')">${q}</button>`).join('')}</div>` : '';
+    return `
+    <section id="hc-sec-${s.id}" class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between gap-2 px-4 py-3 border-b border-slate-100 dark:border-slate-700">
+            <button type="button" onclick="hcToggle('${s.id}')" class="flex items-center gap-2.5 font-extrabold text-sm text-slate-900 dark:text-white text-left">
+                <span class="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 flex items-center justify-center text-sm"><i class="fa-solid ${s.ic}"></i></span>${s.t}
+            </button>
+            <div class="flex items-center gap-2">${hdr}<i id="hc-chev-${s.id}" class="fa-solid fa-chevron-up text-slate-400 text-xs"></i></div>
+        </div>
+        <div id="hc-body-${s.id}" class="p-4 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${s.f.map(hcField).join('')}</div>
+            ${quick}${s.after || ''}
+        </div>
+    </section>`;
+}
+
+function hcRender() {
+    HC.vis = [];
+    document.getElementById('hc-form').innerHTML = HC_FORM.map(hcSection).join('');
+    document.getElementById('hc-stepper').innerHTML = HC_FORM.map(s =>
+        `<button type="button" id="hc-step-${s.id}" onclick="hcGo('${s.id}')" class="shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"><i class="fa-solid ${s.ic} mr-1"></i>${s.short}</button>`).join('');
+    HC_FORM.forEach(s => {
+        if (s.vis) HC.vis.push({ ids: ['hc-sec-' + s.id, 'hc-step-' + s.id], fn: s.vis });
+        s.f.forEach(f => { if (f.vis) HC.vis.push({ ids: ['hc-f-' + f.k], fn: f.vis }); });
+    });
+    const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    const fh = document.getElementById('hc-fh'); if (fh) fh.value = d.toISOString().slice(0, 16);
+    hcUpdate();
+}
+
+function hcOpen() {
+    if (!HC.rendered) { hcRender(); HC.rendered = true; } else hcUpdate();
+}
+
+/* ---------- Lectura de datos ---------- */
+function hcGet(k) { const el = document.getElementById('hc-' + k); return el ? (el.value || '').trim() : ''; }
+function hcChips(k) {
+    const arr = [...document.querySelectorAll(`.hc-chip.on[data-k="${k}"]`)].map(b => b.dataset.v);
+    const o = (document.getElementById('hc-' + k + '__o')?.value || '').trim();
+    if (o) arr.push(o);
+    return arr;
+}
+
+/* ---------- Interacciones ---------- */
+function hcChip(b) {
+    const on = !b.classList.contains('on');
+    const k = b.dataset.k, ex = b.dataset.ex;
+    if (on && ex) {
+        document.querySelectorAll(`.hc-chip.on[data-k="${k}"]`).forEach(x => {
+            if (b.dataset.v === ex || x.dataset.v === ex) x.classList.remove('on');
+        });
+    }
+    b.classList.toggle('on', on);
+    hcUpdate();
+}
+function hcQuick(k, text) {
+    const el = document.getElementById('hc-' + k); if (!el) return;
+    el.value = el.value ? el.value + ', ' + text.toLowerCase() : text;
+    hcUpdate();
+}
+function hcNormal(k) {
+    const e = HC_EF.find(x => x.k === k), el = document.getElementById('hc-' + k);
+    if (e && el) { el.value = e.n; hcUpdate(); }
+}
+function hcAllNormal() {
+    HC_EF.forEach(e => { const el = document.getElementById('hc-' + e.k); if (el && !el.value.trim()) el.value = e.n; });
+    hcUpdate();
+}
+function hcToggle(id) {
+    const b = document.getElementById('hc-body-' + id), c = document.getElementById('hc-chev-' + id);
+    if (!b) return;
+    const hide = !b.classList.contains('hidden');
+    b.classList.toggle('hidden', hide);
+    if (c) { c.classList.toggle('fa-chevron-up', !hide); c.classList.toggle('fa-chevron-down', hide); }
+}
+function hcGo(id) {
+    document.getElementById('hc-body-' + id)?.classList.remove('hidden');
+    document.getElementById('hc-sec-' + id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function setHcPob(p) {
+    HC.pob = p;
+    ['adulto', 'pediatrico', 'gestante'].forEach(x => {
+        const b = document.getElementById('hc-pob-' + x); if (!b) return;
+        const on = x === p;
+        b.classList.toggle('bg-teal-600', on); b.classList.toggle('text-white', on); b.classList.toggle('shadow', on);
+        b.classList.toggle('bg-transparent', !on); b.classList.toggle('text-slate-600', !on); b.classList.toggle('dark:text-slate-300', !on);
+    });
+    if (p === 'gestante') { const s = document.getElementById('hc-sexo'); if (s) s.value = 'Femenino'; }
+    if (HC.rendered) hcUpdate();
+}
+function hcClear() {
+    if (!confirm('¿Borrar todo lo escrito en la historia?')) return;
+    hcRender();
+}
+
+/* ---------- Cálculos ---------- */
+function hcVitals() {
+    const n = k => { const v = parseFloat(hcGet(k)); return isNaN(v) ? null : v; };
+    const s = n('ta_s'), d = n('ta_d'), fc = n('fc'), fr = n('fr'), t = n('temp'), sat = n('sat'), p = n('peso'), h = n('talla'), g = n('gluc');
+    const pam = (s != null && d != null) ? (s + 2 * d) / 3 : null;
+    const imc = (p && h) ? p / Math.pow(h / 100, 2) : null;
+    const si = (fc != null && s) ? fc / s : null;
+    const flags = [];
+    let qs = false;
+    if (HC.pob !== 'pediatrico') {
+        if (s != null && (s >= 180 || (d != null && d >= 120))) flags.push(['r', 'Crisis hipertensiva (≥ 180/120): busca daño de órgano blanco']);
+        if ((s != null && s < 90) || (pam != null && pam < 65)) flags.push(['r', 'Hipotensión / PAM < 65: descarta choque']);
+        if (fc != null && fc > 100) flags.push(['a', 'Taquicardia (> 100 lpm)']);
+        if (fc != null && fc < 60) flags.push(['a', 'Bradicardia (< 60 lpm)']);
+        if (fr != null && fr >= 22) flags.push(['a', 'Taquipnea (FR ≥ 22)']);
+        if (fr != null && fr < 12) flags.push(['a', 'Bradipnea (FR < 12)']);
+        if (t != null && t >= 38) flags.push(['a', 'Fiebre (≥ 38 °C)']);
+        if (t != null && t < 36) flags.push(['a', 'Hipotermia (< 36 °C)']);
+        if (sat != null && sat < 90) flags.push(['r', 'Hipoxemia (SatO₂ < 90%): considera oxígeno. A gran altitud el rango normal es más bajo.']);
+        if (g != null && g < 70) flags.push(['r', 'Hipoglucemia (< 70 mg/dL): trátala primero']);
+        if (g != null && g > 250) flags.push(['a', 'Glucemia > 250: descarta CAD / EHH']);
+        if (si != null && si >= 0.9) flags.push(['a', 'Índice de shock ≥ 0.9']);
+        if (fr != null && fr >= 22 && s != null && s <= 100) { flags.push(['r', 'qSOFA ≥ 2 (FR y PAS): sospecha sepsis']); qs = true; }
+    }
+    return { s, d, fc, fr, t, sat, p, h, g, pam, imc, si, flags, qs };
+}
+
+function hcVitalsUI() {
+    const el = document.getElementById('hc-vit-calc'); if (!el) return;
+    const v = hcVitals();
+    const bits = [];
+    if (v.pam != null) bits.push(`PAM <b>${v.pam.toFixed(0)} mmHg</b>`);
+    if (v.imc != null) {
+        const c = v.imc < 18.5 ? 'bajo peso' : v.imc < 25 ? 'peso normal' : v.imc < 30 ? 'sobrepeso' : 'obesidad';
+        bits.push(`IMC <b>${v.imc.toFixed(1)}</b> (${c})`);
+    }
+    if (v.si != null) bits.push(`Índice de shock <b>${v.si.toFixed(2)}</b>`);
+    const col = { r: 'text-rose-600 dark:text-rose-400', a: 'text-amber-600 dark:text-amber-400' };
+    let html = bits.length ? `<div class="text-slate-700 dark:text-slate-200">${bits.join(' · ')}</div>` : '<div class="text-slate-400">Ingresa los signos vitales para ver PAM, IMC y alertas.</div>';
+    if (HC.pob === 'pediatrico') html += '<div class="text-slate-500">En pediatría las alertas automáticas se desactivan: compara con la tabla de signos vitales por edad.</div>';
+    html += v.flags.map(f => `<div class="font-semibold ${col[f[0]]}"><i class="fa-solid fa-triangle-exclamation mr-1"></i>${f[1]}</div>`).join('');
+    html += `<div class="flex flex-wrap gap-1.5 pt-1"><span class="text-[10px] font-bold text-slate-400 self-center">Escalas útiles:</span>
+        <button type="button" onclick="openCalc('qsofa')" class="hc-chip">qSOFA</button>
+        <button type="button" onclick="openCalc('glasgow')" class="hc-chip">Glasgow</button>
+        <button type="button" onclick="openCalc('curb65')" class="hc-chip">CURB-65</button></div>`;
+    el.innerHTML = html;
+}
+
+function hcEG() {
+    const v = hcGet('fum'); if (!v) return null;
+    const f = new Date(v + 'T00:00:00');
+    const days = Math.floor((Date.now() - f.getTime()) / 86400000);
+    if (isNaN(days) || days < 0 || days > 300) return null;
+    return { sem: Math.floor(days / 7), d: days % 7, fpp: new Date(f.getTime() + 280 * 86400000).toLocaleDateString('es-CO') };
+}
+function hcGestUI() {
+    const el = document.getElementById('hc-gest-calc'); if (!el) return;
+    const eg = hcEG();
+    el.innerHTML = eg ? `EG por FUR: <b>${eg.sem}+${eg.d} semanas</b> · FPP (Naegele): <b>${eg.fpp}</b>` : 'Ingresa la FUM (sección Gineco-obstétricos) para calcular edad gestacional y FPP.';
+}
+
+/* ---------- Checklist "No se te pase" ---------- */
+function hcChecks() {
+    const f = k => !!hcGet(k), c = k => hcChips(k).length > 0;
+    const fem = hcGet('sexo') === 'Femenino', age = parseFloat(hcGet('edad')), yrs = hcGet('edadu') === 'años';
+    const ped = HC.pob === 'pediatrico', ges = HC.pob === 'gestante';
+    const car = [f('loc'), f('ap'), f('int'), c('car'), f('irr'), f('ate') || f('agr')].filter(Boolean).length;
+    const L = [
+        { sec: 'ident', t: 'Nombre, documento, edad y sexo', ok: f('nombre') && f('doc') && f('edad') && f('sexo') },
+        { sec: 'motivo', t: 'Motivo de consulta en palabras del paciente', ok: f('motivo') },
+        { sec: 'actual', t: 'Tiempo de evolución', ok: f('evol') },
+        { sec: 'actual', t: 'Caracterizar el síntoma principal (ALICIA, ≥ 3 datos)', ok: car >= 3 },
+        { sec: 'ant', t: 'ALERGIAS interrogadas', ok: c('alerg'), crit: true },
+        { sec: 'ant', t: 'MEDICAMENTOS actuales', ok: f('meds'), crit: true },
+        { sec: 'ant', t: 'Antecedentes patológicos', ok: c('pat') },
+        { sec: 'ant', t: 'Quirúrgicos / hospitalizaciones', ok: f('qx') },
+        { sec: 'ant', t: 'Hábitos y exposiciones', ok: c('tox') },
+        { sec: 'ant', t: 'Antecedentes familiares', ok: c('fam') },
+        { sec: 'ros', t: 'Revisión por sistemas (≥ 3 sistemas)', ok: HC_ROS.filter(s => c(s.k)).length >= 3 },
+        { sec: 'vit', t: 'Signos vitales: TA, FC, FR, T° y SatO₂', ok: ['ta_s', 'ta_d', 'fc', 'fr', 'temp', 'sat'].every(f), crit: true },
+        { sec: 'vit', t: 'PESO (lo necesitas para dosificar)', ok: f('peso'), crit: true },
+        { sec: 'ef', t: 'Examen físico (≥ 4 sistemas)', ok: HC_EF.filter(e => f(e.k)).length >= 4 },
+        { sec: 'dx', t: 'Análisis clínico', ok: f('ana') },
+        { sec: 'dx', t: 'Impresión diagnóstica', ok: f('dx') },
+        { sec: 'dx', t: 'Plan y conducta', ok: c('plan') || f('conducta') },
+        { sec: 'dx', t: 'Signos de alarma explicados al paciente', ok: hcChips('plan').includes('Signos de alarma explicados'), crit: true },
+        { sec: 'dx', t: 'Médico responsable, registro y fecha', ok: f('medico') && f('fh') }
+    ];
+    if (fem && !ped && yrs && age >= 10 && age <= 50) L.push({ sec: 'gineco', t: 'FUM y posibilidad de embarazo', ok: f('fum'), crit: true });
+    if (ped) L.push({ sec: 'ped', t: 'Vacunación', ok: f('vac') }, { sec: 'ped', t: 'Alimentación / lactancia', ok: f('lact') }, { sec: 'ped', t: 'Desarrollo psicomotor', ok: f('des') });
+    if (ges) L.push({ sec: 'gest', t: 'Controles prenatales', ok: f('cpn') }, { sec: 'gest', t: 'Grupo sanguíneo y Rh', ok: f('gs') }, { sec: 'gest', t: 'Signos de alarma obstétrica', ok: c('alarm'), crit: true });
+    return L;
+}
+
+function hcAside() {
+    const checks = hcChecks();
+    const ok = checks.filter(x => x.ok).length;
+    const pct = checks.length ? Math.round(ok * 100 / checks.length) : 0;
+    document.getElementById('hc-progress-bar').style.width = pct + '%';
+    document.getElementById('hc-progress-txt').textContent = `${pct}% · ${ok}/${checks.length}`;
+    const pend = checks.filter(x => !x.ok).sort((a, b) => (b.crit ? 1 : 0) - (a.crit ? 1 : 0));
+    document.getElementById('hc-pending').innerHTML = pend.length
+        ? pend.map(x => `<button type="button" onclick="hcGo('${x.sec}')" class="w-full text-left flex items-start gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-[11px] ${x.crit ? 'font-bold text-rose-700 dark:text-rose-300' : 'text-slate-600 dark:text-slate-300'}"><i class="fa-solid ${x.crit ? 'fa-triangle-exclamation' : 'fa-circle'} mt-0.5 text-[9px] ${x.crit ? '' : 'text-slate-300 dark:text-slate-600'}"></i><span>${x.t}</span></button>`).join('')
+        : '<div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 p-2"><i class="fa-solid fa-circle-check mr-1"></i>Historia completa. Buen trabajo.</div>';
+
+    const txt = (hcGet('dx') + ' ' + hcGet('motivo') + ' ' + hcGet('ana')).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const sivi = /dengue|tuberculosis|\btb\b|sifilis|\bvih\b|intoxicaci|violencia|maltrato|malaria|chagas|leishmania|varicela|sarampion|tos ferina|meningitis|rabia|mordedura|leptospirosis|zika|chikungunya|hepatitis/.test(txt);
+    document.getElementById('hc-sivi-alert')?.classList.toggle('hidden', !sivi);
+
+    HC_FORM.forEach(s => {
+        const b = document.getElementById('hc-step-' + s.id); if (!b) return;
+        const mine = checks.filter(x => x.sec === s.id);
+        const done = mine.length > 0 && mine.every(x => x.ok);
+        const hidden = b.classList.contains('hidden');
+        b.className = 'shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ' + (done ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300') + (hidden ? ' hidden' : '');
+    });
+}
+
+/* ---------- Construcción de la historia ---------- */
+function hcBuild() {
+    const L = [], add = t => L.push(t ?? ''), H = t => { add(''); add(t.toUpperCase()); };
+    const g = hcGet, ch = hcChips;
+    const eg = hcEG(), sx = g('sexo');
+    const pobL = { adulto: '', pediatrico: ' · PEDIÁTRICA', gestante: ' · GESTANTE' }[HC.pob];
+
+    add(`HISTORIA CLÍNICA — ${(g('ambito') || 'Urgencias').toUpperCase()}${pobL}`);
+    if (g('fh')) add(`Fecha y hora: ${g('fh').replace('T', ' ')}`);
+
+    H('Identificación');
+    const idl = [['Nombre', g('nombre')], ['Documento', g('doc')], ['Edad', g('edad') ? `${g('edad')} ${g('edadu')}` : ''], ['Sexo', sx], ['EPS', g('eps')], ['Ocupación', g('ocup')], ['Procedencia', g('proc')], ['Acompañante/Responsable', g('resp')], ['Fuente', g('fuente')]]
+        .filter(x => x[1]).map(x => `${x[0]}: ${x[1]}`);
+    add(idl.join(' | ') || '—');
+
+    H('Motivo de consulta'); add(g('motivo') || '[PENDIENTE]');
+
+    H('Enfermedad actual');
+    const who = sx === 'Femenino' ? 'femenina' : sx === 'Masculino' ? 'masculino' : '';
+    const pa = g('edad') ? `Paciente ${who} de ${g('edad')} ${g('edadu')}`.replace(/\s+/g, ' ') : 'Paciente';
+    let p = `${pa}${HC.pob === 'gestante' && eg ? `, gestante de ${eg.sem}+${eg.d} semanas por FUR` : ''}, con cuadro clínico${g('evol') ? ` de ${g('evol')} de evolución` : ''}`;
+    p += g('narr') ? ` consistente en: ${g('narr')}${/[.!?]$/.test(g('narr')) ? '' : '.'}` : '.';
+    add(p);
+    [['Aparición', g('ap')], ['Localización', g('loc')], ['Intensidad', g('int') ? `EVA ${g('int')}/10` : ''], ['Carácter', ch('car').join(', ')], ['Irradiación', g('irr')],
+     ['Atenuantes', g('ate')], ['Agravantes', g('agr')], ['Síntomas asociados', ch('aso').join(', ')], ['Manejo previo', g('prev')]]
+        .filter(x => x[1]).forEach(x => add(`- ${x[0]}: ${x[1]}`));
+
+    H('Revisión por sistemas');
+    let any = false;
+    HC_ROS.forEach(s => {
+        const a = ch(s.k); if (!a.length) return; any = true;
+        const neg = a.length === 1 && a[0] === 'Sin síntomas';
+        add(`- ${s.l}: ${neg ? 'niega síntomas' : 'refiere ' + a.filter(x => x !== 'Sin síntomas').join(', ')}`);
+    });
+    if (!any) add('[PENDIENTE]');
+
+    H('Antecedentes');
+    add(`Alergias: ${ch('alerg').join(', ') || '[NO INTERROGADAS]'}`);
+    add(`Medicamentos actuales: ${g('meds') || '[NO REGISTRADOS]'}`);
+    [['Patológicos', ch('pat').join(', ')], ['Quirúrgicos / hospitalarios', g('qx')], ['Hábitos y exposiciones', ch('tox').join(', ')], ['Familiares', ch('fam').join(', ')], ['Inmunizaciones', HC.pob !== 'pediatrico' ? g('inm') : '']]
+        .forEach(x => x[1] && add(`${x[0]}: ${x[1]}`));
+    if (sx === 'Femenino' && HC.pob !== 'pediatrico') {
+        const gi = [['G/P/A/C/V', g('gpac')], ['FUM', g('fum')], ['Ciclos', g('ciclos')], ['Planificación', g('planif')], ['Citología', g('cito')]].filter(x => x[1]).map(x => `${x[0]} ${x[1]}`);
+        if (HC.pob === 'gestante' && eg) gi.push(`EG ${eg.sem}+${eg.d} sem`, `FPP ${eg.fpp}`);
+        if (gi.length) add('Gineco-obstétricos: ' + gi.join(' | '));
+    }
+    if (HC.pob === 'gestante') {
+        const ge = [['Controles prenatales', g('cpn')], ['Grupo y Rh', g('gs')], ['Movimientos fetales', g('mov')], ['Paraclínicos', g('labs')], ['Signos de alarma', ch('alarm').join(', ')]].filter(x => x[1]).map(x => `${x[0]}: ${x[1]}`);
+        if (ge.length) add('Gestación actual: ' + ge.join(' | '));
+    }
+    if (HC.pob === 'pediatrico') {
+        const pe = [['EG al nacer', g('eg')], ['Parto', g('parto')], ['Peso/talla al nacer', g('pn')], ['APGAR', g('apgar')], ['Complicaciones perinatales', g('perin')], ['Alimentación', g('lact')], ['Vacunación', g('vac')], ['Desarrollo', g('des')], ['PC', g('pc') ? g('pc') + ' cm' : '']].filter(x => x[1]).map(x => `${x[0]}: ${x[1]}`);
+        if (pe.length) add('Pediátricos: ' + pe.join(' | '));
+    }
+
+    H('Signos vitales');
+    const v = hcVitals(), vv = [];
+    if (v.s != null && v.d != null) vv.push(`TA ${v.s}/${v.d} mmHg (PAM ${v.pam.toFixed(0)})`);
+    if (v.fc != null) vv.push(`FC ${v.fc} lpm`);
+    if (v.fr != null) vv.push(`FR ${v.fr} rpm`);
+    if (v.t != null) vv.push(`T ${v.t} °C`);
+    if (v.sat != null) vv.push(`SatO₂ ${v.sat}% (${g('o2').toLowerCase()})`);
+    if (v.g != null) vv.push(`Glucometría ${v.g} mg/dL`);
+    if (v.p != null) vv.push(`Peso ${v.p} kg`);
+    if (v.h != null) vv.push(`Talla ${v.h} cm`);
+    if (v.imc != null) vv.push(`IMC ${v.imc.toFixed(1)}`);
+    add(vv.join(' | ') || '[PENDIENTE]');
+
+    H('Examen físico');
+    let e = false;
+    HC_EF.forEach(x => { if (g(x.k)) { e = true; add(`- ${x.l}: ${g(x.k)}`); } });
+    if (!e) add('[PENDIENTE]');
+
+    H('Análisis'); add(g('ana') || '[PENDIENTE]');
+    H('Impresión diagnóstica'); add(g('dx') || '[PENDIENTE]');
+    H('Plan y conducta');
+    ch('plan').forEach(x => add(`- ${x}`));
+    if (g('conducta')) add(g('conducta'));
+    if (!ch('plan').length && !g('conducta')) add('[PENDIENTE]');
+
+    add('');
+    add(`Médico responsable: ${g('medico') || '[PENDIENTE]'}`);
+    return L.join('\n');
+}
+
+/* ---------- Actualización general ---------- */
+function hcApplyVis() {
+    HC.vis.forEach(v => {
+        const show = !!v.fn();
+        v.ids.forEach(id => document.getElementById(id)?.classList.toggle('hidden', !show));
+    });
+}
+function hcUpdate() {
+    if (!document.getElementById('hc-form')?.children.length) return;
+    hcApplyVis();
+    hcVitalsUI();
+    hcGestUI();
+    hcAside();
+    const out = document.getElementById('hc-output'); if (out) out.textContent = hcBuild();
+}
+
+/* ---------- Exportar ---------- */
+function hcToast(m) {
+    const b = document.getElementById('hc-copy-msg');
+    if (b) { b.textContent = m; setTimeout(() => b.textContent = '', 2500); }
+}
+function hcFallbackCopy(t) {
+    const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); hcToast('Historia copiada ✓'); } catch (e) { alert('No se pudo copiar. Selecciona el texto de la vista previa.'); }
+    ta.remove();
+}
+function hcCopy() {
+    const t = hcBuild();
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(() => hcToast('Historia copiada ✓')).catch(() => hcFallbackCopy(t));
+    else hcFallbackCopy(t);
+}
+function hcDownload() {
+    const blob = new Blob([hcBuild()], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'historia_clinica_' + new Date().toISOString().slice(0, 10) + '.txt';
+    a.click(); URL.revokeObjectURL(a.href);
+}
+function hcPrint() {
+    const w = window.open('', '_blank'); if (!w) { alert('Permite las ventanas emergentes para imprimir.'); return; }
+    w.document.write('<pre style="font:13px/1.5 monospace;white-space:pre-wrap;padding:24px">' + hcEsc(hcBuild()) + '</pre>');
+    w.document.close(); w.focus(); w.print();
+}
 
         // INITIALIZATION
         window.onload = function() {
