@@ -117,11 +117,15 @@
                             <h2 class="text-2xl sm:text-3xl font-black tracking-tight">¿Qué necesitas consultar hoy?</h2>
                         </div>
 
-                        <!-- Grand Search Input -->
-                        <div class="relative">
-                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-teal-400 text-lg"></i>
-                            <input type="text" id="home-main-search" onkeydown="if(event.key==='Enter') executeGlobalSearch(this.value)" placeholder="Busca herramientas, infectología (sepsis, NAC), escalas, fármacos o tríadas..." class="w-full pl-12 pr-10 py-4 text-sm sm:text-base rounded-2xl border-2 border-teal-500/30 bg-slate-900/90 text-white placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-500/20 shadow-2xl transition-all">
-                        </div>
+                        <!-- Grand Search Input (BUSCADOR GLOBAL) -->
+                            <div class="relative z-20" id="global-search-wrap">
+                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-teal-400 text-lg pointer-events-none"></i>
+                                <input type="text" id="home-main-search" autocomplete="off"
+                                oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)" onkeydown="gsKey(event)"
+                                placeholder="Busca lo que sea: fármacos, escalas, sepsis, tríadas, SIVIGILA, dosis, interacciones..."
+                            class="w-full pl-12 pr-10 py-4 text-sm sm:text-base rounded-2xl border-2 border-teal-500/30 bg-slate-900/90 text-white placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-500/20 shadow-2xl transition-all">
+                        <div id="global-search-results" class="hidden absolute left-0 right-0 top-full mt-2 max-h-[26rem] overflow-y-auto no-scrollbar rounded-2xl bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 shadow-2xl p-2"></div>
+                    </div>
 
                         <!-- Quick Access Pills Row -->
                         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 text-xs">
@@ -583,7 +587,16 @@
                             <i class="fa-solid fa-pills text-teal-500"></i> Vademécum & Infusiones Continuas (PBS Colombia)
                         </h2>
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Medicamentos esenciales OMS / PBS Colombia (Urgencias, Hospitalización y Consulta Externa) con perfiles clínicos detallados y calculadora de infusiones en mcg/kg/min.</p>
-                    </div>
+                        <!-- Selector Poblacional Vademécum (Adulto / Pediátrico) -->
+                            <div class="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 w-fit text-xs font-bold">
+                                <button onclick="setVadPoblacion('adulto')" id="vad-pob-adulto" class="px-3.5 py-1.5 rounded-xl bg-teal-600 text-white shadow transition-all flex items-center gap-1.5">
+                                    <i class="fa-solid fa-user-doctor"></i> Adulto
+                                </button>
+                                <button onclick="setVadPoblacion('pediatrico')" id="vad-pob-ped" class="px-3.5 py-1.5 rounded-xl bg-transparent text-slate-600 dark:text-slate-300 transition-all flex items-center gap-1.5">
+                                    <i class="fa-solid fa-child"></i> Pediátrico
+                                </button>
+                            </div>
+                        </div>
 
                     <!-- Calculadora de Infusiones Continuas de Alto Riesgo -->
                     <div class="bg-gradient-to-br from-slate-900 to-teal-950 text-white rounded-2xl p-5 shadow-lg border border-teal-800/60 space-y-4">
@@ -1021,7 +1034,7 @@
             const container = document.getElementById('inf-sindromes-container');
             if (!container) return;
 
-            const sindromes = [
+            const sindromes = window.sindromesData = [
                 { title: 'Sepsis y Choque Séptico', germs: 'E. coli, Klebsiella, S. aureus, P. aeruginosa', gravity: 'qSOFA ≥ 2. Lactato > 2 mmol/L, PAM < 65 mmHg', empiric: 'Cefepime 2g IV c/8h O Piperacilina/Tazobactam 4.5g IV c/6h + Vancomicina 15-20 mg/kg IV', alt: 'Alergia Penicilina: Aztreonam 2g IV c/8h + Vancomicina', duration: '7 - 10 días' },
                 { title: 'Neumonía Adquirida en la Comunidad (NAC)', germs: 'S. pneumoniae, Mycoplasma, L. pneumophila', gravity: 'CURB-65 ≥ 2 o PSI IV-V.', empiric: 'Ambulatorio: Amoxicilina/Clavulanato + Azitromicina. Hospitalizado: Ceftriaxona 2g IV c/24h + Claritromicina 500mg IV c/12h.', alt: 'Levofloxacino 750mg IV/VO c/24h', duration: '5 - 7 días' },
                 { title: 'Infección Urinaria (ITU) / Pielonefritis', germs: 'E. coli (80%), K. pneumoniae, Proteus', gravity: 'Sepsis urinaria, embarazo, monorreno.', empiric: 'Cistitis: Nitrofurantoína 100mg VO c/12h x 5d. Pielonefritis: Ceftriaxona 1-2g IV c/24h.', alt: 'Gentamicina 5mg/kg IV c/24h', duration: 'Cistitis: 3-5d. Pielonefritis: 7-10d' },
@@ -1056,7 +1069,7 @@
             const container = document.getElementById('inf-germenes-container');
             if (!container) return;
 
-            const germenes = [
+            const germenes = window.germenesData = [
                 { name: 'Escherichia coli', cat: 'gram_neg', type: 'Bacilo Gram -', infections: 'ITU, Sepsis, Peritonitis', primary: 'Ceftriaxona, Ciprofloxacino, Nitrofurantoína' },
                 { name: 'Staphylococcus aureus', cat: 'gram_pos', type: 'Coco Gram +', infections: 'Bacteremia, Endocarditis, SSTI', primary: 'SASM: Cefazolina / Oxacilina. SARM: Vancomicina' },
                 { name: 'Pseudomonas aeruginosa', cat: 'gram_neg', type: 'Bacilo Gram - no fermentador', infections: 'Neumonía nosocomial, Quemaduras', primary: 'Cefepime, Piperacilina/Tazobactam, Meropenem' },
@@ -1242,7 +1255,7 @@
             const container = document.getElementById('calculators-grid');
             if (!container) return;
 
-            const calcs = [
+            const calcs = window.calcsData = [
                 // 1. GLASGOW COMA SCALE
                 {
                     id: 'glasgow',
@@ -3749,9 +3762,15 @@ function renderVademecum() {
         }
 
         const sivigilaDirectory = [
-    { code: '', name: 'Dengue', urgency: '', ficha: '', action: '' }
-    // Agrega aquí los demás eventos, tomados del listado oficial del INS
+    { code: '210', name: 'Dengue', urgency: 'Semanal (Inmediata si es Grave)', ficha: 'Ficha 210', action: 'Caso probable: hidratación, cuadro hemático y seguimiento diario.' },
+    { code: '875', name: 'Tuberculosis pulmonar y extrapulmonar', urgency: 'Semanal', ficha: 'Ficha 875', action: 'Baciloscopia seriada, cultivo, PPD y notificación a secretaría.' },
+    { code: '450', name: 'Infección Respiratoria Aguda Grave (IRAG)', urgency: 'Semanal / Inmediata', ficha: 'Ficha 450', action: 'Toma de panel viral/PCR, aislamiento y valoración de criterios UCI.' },
+    { code: '580', name: 'Intoxicaciones (Plaguicidas, sustancias, fármacos)', urgency: 'Inmediata', ficha: 'Ficha 580', action: 'Soporte vital, descontaminación según vía y manejo toxicológico.' },
+    { code: '830', name: 'Violencia de género y maltrato infantil', urgency: 'Semanal', ficha: 'Ficha 830', action: 'Activación de ruta RIAS, valoración integral y reporte a entidades.' },
+    { code: '850', name: 'Sífilis gestacional y congénita', urgency: 'Semanal', ficha: 'Ficha 850', action: 'Pruebas treponémicas/no treponémicas, tratamiento a gestante y pareja.' },
+    { code: '685', name: 'VIH / SIDA', urgency: 'Semanal', ficha: 'Ficha 685', action: 'Prueba confirmatoria, consejería, derivación a infectología y TARV.' }
 ];
+    // Agrega aquí los demás eventos, tomados del listado oficial del INS
 
         function renderSivigilaDirectory() {
             const container = document.getElementById('sivigila-directory-grid');
@@ -4052,11 +4071,307 @@ function calcCHA2DS2VASc() {
     resEl.classList.remove('hidden');
 }
 
+/* =====================================================================
+   BUSCADOR GLOBAL
+   ===================================================================== */
+const GS_GROUPS = {
+    calc: { label: 'Calculadoras y escalas', icon: 'fa-calculator',   cls: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300' },
+    vad:  { label: 'Vademécum',              icon: 'fa-pills',        cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' },
+    sem:  { label: 'Síndromes clínicos',     icon: 'fa-notes-medical',cls: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' },
+    inf:  { label: 'Infectología',           icon: 'fa-bugs',         cls: 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300' },
+    tri:  { label: 'Tríadas clínicas',       icon: 'fa-layer-group',  cls: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' },
+    sp:   { label: 'Salud pública y RIAS',   icon: 'fa-hospital-user',cls: 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300' },
+    nov:  { label: 'Novedades clínicas',     icon: 'fa-newspaper',    cls: 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300' },
+    gen:  { label: 'Herramientas y módulos', icon: 'fa-toolbox',      cls: 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200' }
+};
+
+let _gsIndex = null, _gsShown = [], _gsActive = -1;
+
+function gsNorm(s) {
+    return String(s ?? '')
+        .replace(/<[^>]*>/g, ' ').replace(/&[a-z]+;/gi, ' ')
+        .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+function gsPlain(s) {
+    return String(s ?? '').replace(/<[^>]*>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+}
+function gsScroll(id) {
+    setTimeout(() => {
+        const el = typeof id === 'string' ? document.getElementById(id) : id;
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+}
+
+function gsBuildIndex() {
+    const idx = [];
+    const add = o => { o.t = gsNorm(o.title); o.k = gsNorm(o.keys); o.b = gsNorm(o.body); idx.push(o); };
+
+    // Calculadoras y escalas
+    (window.calcsData || []).forEach(c => add({
+        g: 'calc', title: c.title, sub: c.desc, keys: c.id + ' ' + c.cat, body: c.body,
+        go: () => { document.querySelector('.calc-cat-btn')?.click(); openCalc(c.id); gsScroll('calculators-grid'); }
+    }));
+
+    // Vademécum
+    (typeof vademecumData !== 'undefined' ? vademecumData : []).forEach(v => add({
+        g: 'vad', title: v.name, sub: v.group + ' · ' + (v.indicaciones || []).join(', '),
+        keys: [v.group, (v.indicaciones || []).join(' '), v.presentacion].join(' '),
+        body: [v.descripcion, v.adult, v.ped, v.renal, v.embarazo, v.warning, (v.interacciones || []).join(' ')].join(' '),
+        go: () => {
+            switchTab('farmaco');
+            document.querySelector('.vad-grp-btn')?.click();
+            const s = document.getElementById('vademecum-search'); if (s) s.value = v.name;
+            renderVademecum(); gsScroll('vademecum-search');
+        }
+    }));
+
+    // Síndromes semiológicos
+    semiologiaData.forEach(s => add({
+        g: 'sem', title: s.title, sub: s.desc, keys: s.desc, body: s.alicia + ' ' + s.redFlags + ' ' + (s.calcLabel || ''),
+        go: () => {
+            switchTab('semiologia');
+            const i = document.getElementById('semiologia-search'); if (i) i.value = s.title;
+            renderSemiologia(); gsScroll('semiologia-cards-container');
+        }
+    }));
+
+    // Infectología: síndromes
+    (window.sindromesData || []).forEach(s => add({
+        g: 'inf', title: s.title, sub: 'Síndrome · ' + s.empiric, keys: s.germs + ' ' + s.gravity,
+        body: s.empiric + ' ' + s.alt + ' ' + s.duration,
+        go: () => {
+            switchTab('infectologia'); switchInfectoSubTab('sindrome');
+            const i = document.getElementById('inf-sindrome-search'); if (i) i.value = s.title;
+            renderInfectoSindromes(); gsScroll('inf-sindromes-container');
+        }
+    }));
+
+    // Infectología: gérmenes
+    (window.germenesData || []).forEach(g => add({
+        g: 'inf', title: g.name, sub: 'Germen · ' + g.infections, keys: g.type + ' ' + g.infections, body: g.primary,
+        go: () => {
+            switchTab('infectologia'); switchInfectoSubTab('germen');
+            document.querySelector('.germ-cat-btn')?.click();
+            const i = document.getElementById('inf-germen-search'); if (i) i.value = g.name;
+            renderInfectoGermenes(); gsScroll('inf-germenes-container');
+        }
+    }));
+
+    // Infectología: antibiograma por microorganismo
+    document.querySelectorAll('#abg-germ-select option').forEach(op => {
+        const drugs = (abgPanelData[op.value] || []).map(d => d.name).join(' ');
+        add({
+            g: 'inf', title: 'Interpretar antibiograma: ' + op.textContent, sub: 'Marca S/I/R y recibe fenotipo y recomendación',
+            keys: 'antibiograma sensibilidad resistencia blee sarm carbapenemasa ' + op.value, body: drugs,
+            go: () => {
+                switchTab('infectologia'); switchInfectoSubTab('antibiograma');
+                const s = document.getElementById('abg-germ-select'); if (s) { s.value = op.value; loadAbgGermPanel(); }
+                gsScroll('inf-view-antibiograma');
+            }
+        });
+    });
+
+    // Infectología: arbovirosis (módulo estático)
+    add({
+        g: 'inf', title: 'Arbovirosis: dengue, Zika, chikungunya (OMS 2025)',
+        sub: 'Fases, signos de alarma y lo que se desaconseja',
+        keys: 'dengue zika chikungunya fiebre amarilla arbovirosis',
+        body: 'fase febril fase crítica recuperación signos de alarma dolor abdominal vómito persistente hepatomegalia letargia plaquetas hemoconcentración AINEs ibuprofeno naproxeno aspirina corticoides inmunoglobulinas transfusión plaquetas',
+        go: () => { switchTab('infectologia'); switchInfectoSubTab('sindrome'); gsScroll(document.querySelector('#inf-view-sindrome > div')); }
+    });
+
+    // Tríadas
+    triadsDatabase.forEach(t => add({
+        g: 'tri', title: t.name, sub: t.entity, keys: t.entity + ' ' + t.category, body: t.items.join(' ') + ' ' + t.pearl,
+        go: () => {
+            switchTab('triadas');
+            document.querySelector('.triad-filter-btn')?.click();
+            const i = document.getElementById('triad-search'); if (i) i.value = t.name;
+            renderTriads(); gsScroll('triads-grid');
+        }
+    }));
+
+    // SIVIGILA
+    sivigilaDirectory.filter(e => e.name).forEach(e => add({
+        g: 'sp', title: 'SIVIGILA: ' + e.name, sub: 'Evento de notificación obligatoria', keys: String(e.code || '') + ' sivigila notificacion',
+        body: [e.urgency, e.ficha, e.action].join(' '),
+        go: () => {
+            switchTab('sivigila'); switchSpSubTab('sivigila');
+            const i = document.getElementById('sivigila-search'); if (i) i.value = e.name;
+            renderSivigilaDirectory(); gsScroll('sivigila-directory-grid');
+        }
+    }));
+
+    // Rutas RIAS
+    Object.entries(riasLifecycles).forEach(([key, r]) => add({
+        g: 'sp', title: 'RIAS: ' + r.title, sub: r.focus, keys: 'rias ruta ciclo de vida resolucion 3280', body: r.interventions.join(' '),
+        go: () => {
+            switchTab('sivigila'); switchSpSubTab('rias');
+            setTimeout(() => {
+                filterRiasLifecycle(key);
+                document.querySelectorAll('.rias-cycle-btn').forEach(b => {
+                    const on = (b.getAttribute('onclick') || '').includes("'" + key + "'");
+                    b.classList.toggle('bg-teal-600', on); b.classList.toggle('text-white', on); b.classList.toggle('shadow', on);
+                    b.classList.toggle('bg-transparent', !on);
+                });
+                gsScroll('rias-detail-card');
+            }, 0);
+        }
+    }));
+
+    // Tamizaje preventivo (módulo)
+    add({
+        g: 'sp', title: 'Tamizaje preventivo por edad y sexo (Res. 3280)', sub: 'Citología, ADN-VPH, mamografía, PSA, FIT, perfil lipídico',
+        keys: 'tamizaje citologia adn vph mamografia psa colon prostata cuello uterino cancer',
+        body: 'frecuencia objetivo clínico edad genero',
+        go: () => { switchTab('sivigila'); switchSpSubTab('tamizaje'); gsScroll('sp-view-tamizaje'); }
+    });
+
+    // Novedades clínicas
+    novedadesData.forEach(n => add({
+        g: 'nov', title: n.titulo, sub: n.cifra + ' · ' + n.especialidad, keys: n.especialidad + ' ' + n.cifra,
+        body: n.cifraTexto + ' ' + (n.cambios || []).map(c => (c.antes || '') + ' ' + c.ahora).join(' ') + ' ' + (n.detalle || ''),
+        go: () => {
+            switchTab('inicio');
+            document.getElementById('nov-det-' + n.id)?.classList.remove('hidden');
+            setTimeout(() => document.getElementById('nov-det-' + n.id)?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }), 80);
+        }
+    }));
+
+    // Perlas clínicas
+    perlasData.forEach((p, i) => add({
+        g: 'nov', title: 'Perla: ' + p.text.slice(0, 70) + '…', sub: p.author, keys: 'perla clinica ' + p.author, body: p.text,
+        go: () => {
+            switchTab('inicio');
+            perlaIdx = (i - 1 + perlasData.length) % perlasData.length; rotatePerla();
+            gsScroll('perla-text');
+        }
+    }));
+
+    // Herramientas sueltas y módulos
+    add({
+        g: 'gen', title: 'Gases arteriales y equilibrio ácido-base', sub: 'Winter, anion gap, delta, PaFi, SDRA',
+        keys: 'gases arteriales gasometria acido base ph paco2 hco3 pao2 fio2 pafi winter anion gap albumina sdra acidosis alcalosis',
+        body: 'gradiente A-a oxigenación compensación trastorno primario',
+        go: () => { switchTab('gases'); }
+    });
+    add({
+        g: 'gen', title: 'Calculadora de infusión continua (mcg/kg/min → mL/h)', sub: 'Vasopresores, sedantes, dosis por peso',
+        keys: 'infusion continua mcg kg min ml h noradrenalina dopamina dobutamina vasopresores sedantes bomba',
+        body: 'dosis deseada peso concentración dilución velocidad de infusión',
+        go: () => { switchTab('farmaco'); gsScroll('inf-dose'); }
+    });
+    moduleList.forEach(m => add({
+        g: 'gen', title: 'Módulo: ' + m.label, sub: 'Abrir sección', keys: m.id, body: '',
+        go: () => switchTab(m.id)
+    }));
+
+    _gsIndex = idx;
+}
+
+function globalSearch(q) {
+    const box = document.getElementById('global-search-results');
+    if (!box) return;
+    const tokens = gsNorm(q).split(' ').filter(t => t.length > 1);
+    _gsActive = -1;
+    if (!tokens.length) { box.classList.add('hidden'); _gsShown = []; return; }
+    if (!_gsIndex) gsBuildIndex();
+
+    const scored = [];
+    _gsIndex.forEach(e => {
+        let total = 0, ok = true;
+        for (const tk of tokens) {
+            let s = 0;
+            if (e.t.includes(tk)) s += 10 + (e.t.startsWith(tk) ? 5 : 0);
+            if (e.k.includes(tk)) s += 4;
+            if (e.b.includes(tk)) s += 1;
+            if (!s) { ok = false; break; }
+            total += s;
+        }
+        if (ok) scored.push({ e, total });
+    });
+    scored.sort((a, b) => b.total - a.total);
+
+    // Agrupar (máx. 5 por grupo, 40 en total), en orden de relevancia
+    const groups = {}, order = [];
+    scored.forEach(({ e }) => {
+        if (!groups[e.g]) { groups[e.g] = []; order.push(e.g); }
+        if (groups[e.g].length < 5) groups[e.g].push(e);
+    });
+    _gsShown = [];
+    order.forEach(g => _gsShown.push(...groups[g]));
+    _gsShown = _gsShown.slice(0, 40);
+
+    if (!_gsShown.length) {
+        box.innerHTML = `<div class="p-4 text-xs text-slate-500 dark:text-slate-400">Sin resultados para "<strong>${gsPlain(q)}</strong>". Prueba con otra palabra (nombre del fármaco, escala, síndrome o germen).</div>`;
+        box.classList.remove('hidden');
+        return;
+    }
+
+    let html = `<div class="px-3 pt-2 pb-1 text-[11px] text-slate-400">${scored.length} resultado${scored.length === 1 ? '' : 's'} · ↑ ↓ para moverte, Enter para abrir</div>`;
+    let i = 0;
+    order.forEach(g => {
+        const items = _gsShown.filter(e => e.g === g);
+        if (!items.length) return;
+        const G = GS_GROUPS[g];
+        html += `<div class="px-3 pt-3 pb-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">${G.label}</div>`;
+        items.forEach(e => {
+            const sub = gsPlain(e.sub).slice(0, 110);
+            html += `
+            <button type="button" data-i="${i}" onclick="gsOpen(${i})" class="gs-item w-full text-left px-3 py-2 rounded-xl hover:bg-teal-50 dark:hover:bg-slate-700 flex items-start gap-3 transition-colors">
+                <span class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm ${G.cls}"><i class="fa-solid ${G.icon}"></i></span>
+                <span class="min-w-0">
+                    <span class="block text-xs font-bold text-slate-900 dark:text-white truncate">${gsPlain(e.title)}</span>
+                    <span class="block text-[11px] text-slate-500 dark:text-slate-400 truncate">${sub}</span>
+                </span>
+            </button>`;
+            i++;
+        });
+    });
+    box.innerHTML = html;
+    box.classList.remove('hidden');
+}
+
+function gsOpen(i) {
+    const e = _gsShown[i];
+    if (!e) return;
+    const box = document.getElementById('global-search-results');
+    const inp = document.getElementById('home-main-search');
+    if (box) box.classList.add('hidden');
+    if (inp) { inp.value = ''; inp.blur(); }
+    e.go();
+}
+
+function gsKey(ev) {
+    const box = document.getElementById('global-search-results');
+    const items = document.querySelectorAll('#global-search-results .gs-item');
+    if (ev.key === 'Escape') { box?.classList.add('hidden'); return; }
+    if (!items.length) return;
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        ev.preventDefault();
+        _gsActive = ev.key === 'ArrowDown' ? Math.min(_gsActive + 1, items.length - 1) : Math.max(_gsActive - 1, 0);
+        items.forEach((el, idx) => el.classList.toggle('bg-teal-50', idx === _gsActive));
+        items.forEach((el, idx) => el.classList.toggle('dark:bg-slate-700', idx === _gsActive));
+        items[_gsActive].scrollIntoView({ block: 'nearest' });
+    } else if (ev.key === 'Enter') {
+        ev.preventDefault();
+        gsOpen(_gsActive >= 0 ? _gsActive : 0);
+    }
+}
+
+document.addEventListener('click', e => {
+    if (!e.target.closest('#global-search-wrap')) document.getElementById('global-search-results')?.classList.add('hidden');
+});
+
         // INITIALIZATION
         window.onload = function() {
             renderSidebarModules();
             rotatePerla();
             renderNovedades();
+            renderCalculators();        // <- nuevo (llena window.calcsData)
+            renderInfectoSindromes();   // <- nuevo
+            renderInfectoGermenes();    // <- nuevo
             switchTab('inicio');
         };
     </script>
