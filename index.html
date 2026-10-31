@@ -268,7 +268,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-slate-900 dark:text-white text-base">Síndromes Semiológicos</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Guía ALICIA/PQRST, pródromos, maniobras clínicas, Red Flags y enlace directo a calculadoras.</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Guía ALICIA, banderas rojas y enlace directo a la calculadora de cada cuadro.</p>
                                 </div>
                             </div>
 
@@ -602,6 +602,14 @@
                                 <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Albúmina (g/dL)</label>
                                 <input type="number" id="gas-alb" step="0.1" placeholder="4.0" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
                             </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Edad (años)</label>
+                                <input type="number" id="gas-edad" placeholder="Para el gradiente A-a" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Altitud (msnm)</label>
+                                <input type="number" id="gas-alt" placeholder="Ej: Bogotá ≈ 2600" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
+                            </div>
                         </form>
 
                         <div class="pt-2 flex flex-wrap items-center gap-2 text-xs border-t border-slate-100 dark:border-slate-700">
@@ -646,7 +654,7 @@
                         <h2 class="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-notes-medical text-indigo-500"></i> Síndromes Semiológicos & Motivos de Consulta
                         </h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Guía semiológica avanzada de guardia: Caracterización ALICIA/PQRST, pródromos, maniobras clínicas, banderas rojas y enlace directo a escalas asociadas.</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Guía semiológica de guardia: caracterización ALICIA, banderas rojas y enlace directo a las escalas asociadas.</p>
                     </div>
 
                     <div class="relative max-w-xl">
@@ -838,6 +846,9 @@
                     <!-- SUB-VIEW 3: DIRECTORIO SIVIGILA -->
                     <div id="sp-view-sivigila" class="space-y-4 hidden">
                         <div class="relative max-w-xl">
+                        <div class="p-3 rounded-xl bg-amber-500/10 border-l-4 border-amber-500 text-[11px] text-amber-900 dark:text-amber-200">
+                        Códigos contrastados con boletines epidemiológicos del INS y de la Secretaría de Salud de Bogotá. La periodicidad (inmediata o semanal) y las fichas pueden cambiar: confirma en el protocolo vigente del INS antes de notificar.
+                        </div>
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                             <input type="text" id="sivigila-search" onkeyup="renderSivigilaDirectory()" placeholder="Buscar por evento SIVIGILA, código o diagnóstico (ej: Dengue, 210, Tuberculosis, Violencia)..." class="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
                         </div>
@@ -1145,7 +1156,12 @@
                 { title: 'Sepsis y Choque Séptico', germs: 'E. coli, Klebsiella, S. aureus, P. aeruginosa', gravity: 'qSOFA ≥ 2. Lactato > 2 mmol/L, PAM < 65 mmHg', empiric: 'Cefepime 2g IV c/8h O Piperacilina/Tazobactam 4.5g IV c/6h + Vancomicina 15-20 mg/kg IV', alt: 'Alergia Penicilina: Aztreonam 2g IV c/8h + Vancomicina', duration: '7 - 10 días' },
                 { title: 'Neumonía Adquirida en la Comunidad (NAC)', germs: 'S. pneumoniae, Mycoplasma, L. pneumophila', gravity: 'CURB-65 ≥ 2 o PSI IV-V.', empiric: 'Ambulatorio: Amoxicilina/Clavulanato + Azitromicina. Hospitalizado: Ceftriaxona 2g IV c/24h + Claritromicina 500mg IV c/12h.', alt: 'Levofloxacino 750mg IV/VO c/24h', duration: '5 - 7 días' },
                 { title: 'Infección Urinaria (ITU) / Pielonefritis', germs: 'E. coli (80%), K. pneumoniae, Proteus', gravity: 'Sepsis urinaria, embarazo, monorreno.', empiric: 'Cistitis: Nitrofurantoína 100mg VO c/12h x 5d. Pielonefritis: Ceftriaxona 1-2g IV c/24h.', alt: 'Gentamicina 5mg/kg IV c/24h', duration: 'Cistitis: 3-5d. Pielonefritis: 7-10d' },
-                { title: 'Piel y Tejidos Blandos (Celulitis / Erisipela)', germs: 'S. pyogenes, S. aureus', gravity: 'Afectación sistémica, crepitación (fascitis).', empiric: 'Sin SARM: Cefazolina 1-2g IV c/8h o Oxacilina 2g IV c/4h. Con SARM: TMP/SMX o Vancomicina.', alt: 'Clindamicina 300-450mg VO c/8h', duration: '5 - 7 días' }
+                { title: 'Piel y Tejidos Blandos (Celulitis / Erisipela)', germs: 'S. pyogenes, S. aureus', gravity: 'Afectación sistémica, crepitación (fascitis).', empiric: 'Sin SARM: Cefazolina 1-2g IV c/8h o Oxacilina 2g IV c/4h. Con SARM: TMP/SMX o Vancomicina.', alt: 'Clindamicina 300-450mg VO c/8h', duration: '5 - 7 días' },
+                { title: 'Meningitis Bacteriana Aguda', germs: 'S. pneumoniae, N. meningitidis, L. monocytogenes (> 50 años, inmunosuprimidos), H. influenzae', gravity: 'Fiebre + cefalea + rigidez de nuca + alteración del estado mental; petequias o púrpura (meningococo); choque. Urgencia: no retrases el antibiótico.', empiric: 'Ceftriaxona 2g IV c/12h + Vancomicina 15-20 mg/kg IV c/8-12h + Dexametasona 0.15 mg/kg IV c/6h x 4 días (primera dosis antes o con el antibiótico). Si > 50 años, inmunosupresión o embarazo: agregar Ampicilina 2g IV c/4h (Listeria).', alt: 'Alergia grave a betalactámicos: consulta a Infectología (p. ej. Vancomicina + Moxifloxacino; TMP/SMX si se cubre Listeria).', duration: 'Neumococo 10-14 d · Meningococo 7 d · Listeria ≥ 21 d' },
+                { title: 'Infección Intraabdominal Complicada (peritonitis, colecistitis, diverticulitis)', germs: 'Enterobacterales (E. coli, Klebsiella), Bacteroides, estreptococos, enterococos', gravity: 'Peritonitis difusa, sepsis o choque, foco no controlable, inmunosupresión. El control del foco (cirugía / drenaje) es parte del tratamiento.', empiric: 'Comunitaria leve-moderada: Ceftriaxona 2g IV c/24h + Metronidazol 500 mg IV c/8h. Grave o nosocomial: Piperacilina/Tazobactam 4.5g IV c/6h.', alt: 'Ertapenem 1g IV c/24h. Alergia grave a penicilina: consulta a Infectología.', duration: '≈ 4 días tras un control adecuado del foco' },
+                { title: 'Diarrea Aguda Infecciosa', germs: 'Virus (rotavirus, norovirus), E. coli, Shigella, Salmonella, Campylobacter, V. cholerae', gravity: 'Deshidratación grave, sangre en heces con fiebre alta, inmunosupresión, > 7 días, ancianos o lactantes.', empiric: 'La mayoría NO requiere antibiótico: rehidratación (SRO, Planes A/B/C) y zinc en niños. Si hay disentería o cuadro grave: Azitromicina 500 mg VO c/24h x 3 días (niños 10 mg/kg c/24h).', alt: 'Ciprofloxacino 500 mg VO c/12h x 3 días en adultos (evítalo si sospechas E. coli productora de toxina Shiga). Loperamida solo en diarrea acuosa sin fiebre ni sangre.', duration: '3 días de antibiótico, si está indicado' },
+                { title: 'Faringoamigdalitis Estreptocócica', germs: 'S. pyogenes (estreptococo del grupo A)', gravity: 'Absceso periamigdalino, trismus, sialorrea, estridor (epiglotitis).', empiric: 'Confirma con Centor + prueba rápida. Penicilina G benzatínica 1.2 millones UI IM dosis única, o Amoxicilina 500 mg VO c/12h x 10 días (niños 50 mg/kg/día).', alt: 'Alergia no grave a penicilina: Cefalexina 500 mg VO c/12h x 10 días. Alergia grave: Azitromicina o Clindamicina.', duration: '10 días (vía oral)' },
+                { title: 'Malaria no complicada', germs: 'Plasmodium vivax, P. falciparum', gravity: 'Malaria complicada: alteración de la conciencia, convulsiones, ictericia, falla renal, hipoglucemia, hemorragias, hiperparasitemia, choque. Remite de inmediato.', empiric: 'Confirma con gota gruesa o prueba rápida y define la especie. P. falciparum: Artemeter-Lumefantrina x 3 días + Primaquina dosis única. P. vivax: Cloroquina x 3 días + Primaquina (duración según la guía vigente).', alt: 'Dosis por peso según la guía vigente del Ministerio de Salud / INS. Antes de la primaquina: descarta embarazo y valora déficit de G6PD.', duration: '3 días (+ primaquina según especie)' }
             ];
 
             const query = (document.getElementById('inf-sindrome-search')?.value || '').toLowerCase();
@@ -1180,7 +1196,15 @@
                 { name: 'Escherichia coli', cat: 'gram_neg', type: 'Bacilo Gram -', infections: 'ITU, Sepsis, Peritonitis', primary: 'Ceftriaxona, Ciprofloxacino, Nitrofurantoína' },
                 { name: 'Staphylococcus aureus', cat: 'gram_pos', type: 'Coco Gram +', infections: 'Bacteremia, Endocarditis, SSTI', primary: 'SASM: Cefazolina / Oxacilina. SARM: Vancomicina' },
                 { name: 'Pseudomonas aeruginosa', cat: 'gram_neg', type: 'Bacilo Gram - no fermentador', infections: 'Neumonía nosocomial, Quemaduras', primary: 'Cefepime, Piperacilina/Tazobactam, Meropenem' },
-                { name: 'Streptococcus pneumoniae', cat: 'gram_pos', type: 'Diplococo Gram +', infections: 'NAC, Meningitis, Otitis', primary: 'Penicilina, Amoxicilina, Ceftriaxona' }
+                { name: 'Streptococcus pneumoniae', cat: 'gram_pos', type: 'Diplococo Gram +', infections: 'NAC, Meningitis, Otitis', primary: 'Penicilina, Amoxicilina, Ceftriaxona' },
+                { name: 'Klebsiella pneumoniae', cat: 'gram_neg', type: 'Bacilo Gram - encapsulado', infections: 'Neumonía, ITU, bacteriemia, absceso hepático, infección nosocomial', primary: 'Según antibiograma: Ceftriaxona si es sensible; BLEE: Meropenem o Ertapenem; carbapenemasa (KPC): Ceftazidima/Avibactam (con Infectología)' },
+                { name: 'Enterococcus faecalis / faecium', cat: 'gram_pos', type: 'Coco Gram + en cadenas', infections: 'ITU, endocarditis, infección intraabdominal, bacteriemia por catéter', primary: 'E. faecalis: Ampicilina. E. faecium resistente a ampicilina: Vancomicina si es sensible; VRE: Linezolid o Daptomicina' },
+                { name: 'Streptococcus pyogenes (grupo A)', cat: 'gram_pos', type: 'Coco Gram + en cadenas', infections: 'Faringoamigdalitis, erisipela, impétigo, fascitis necrosante', primary: 'Penicilina o Amoxicilina. Fascitis necrosante: Clindamicina + Penicilina + cirugía urgente' },
+                { name: 'Bacteroides fragilis', cat: 'anaerobios', type: 'Bacilo Gram - anaerobio', infections: 'Infección intraabdominal, abscesos, infección pélvica', primary: 'Metronidazol, Piperacilina/Tazobactam, Amoxicilina/Clavulanato o carbapenémicos' },
+                { name: 'Clostridioides difficile', cat: 'anaerobios', type: 'Bacilo Gram + esporulado anaerobio', infections: 'Colitis asociada a antibióticos', primary: 'Vancomicina VO 125 mg c/6h x 10 días (o Fidaxomicina). Suspende el antibiótico desencadenante si es posible' },
+                { name: 'Mycoplasma pneumoniae', cat: 'atipicos', type: 'Atípico (sin pared celular)', infections: 'NAC leve ("neumonía ambulante"), traqueobronquitis', primary: 'Azitromicina o Doxiciclina (no responde a betalactámicos)' },
+                { name: 'Legionella pneumophila', cat: 'atipicos', type: 'Bacilo Gram - intracelular', infections: 'NAC grave, a veces con diarrea, hiponatremia y hepatitis', primary: 'Levofloxacino o Azitromicina' },
+                { name: 'Chlamydia trachomatis', cat: 'atipicos', type: 'Bacteria intracelular obligada', infections: 'Uretritis, cervicitis, enfermedad inflamatoria pélvica, conjuntivitis', primary: 'Doxiciclina 100 mg VO c/12h x 7 días (o Azitromicina 1 g dosis única)' }
             ];
 
             const query = (document.getElementById('inf-germen-search')?.value || '').toLowerCase();
@@ -1199,74 +1223,123 @@
         }
 
         // GASES ARTERIALES ANALYSIS
-        function analyzeGases() {
-            const ph = parseFloat(document.getElementById('gas-ph')?.value);
-            const paco2 = parseFloat(document.getElementById('gas-paco2')?.value);
-            const hco3 = parseFloat(document.getElementById('gas-hco3')?.value);
-            const pao2 = parseFloat(document.getElementById('gas-pao2')?.value);
-            const fio2 = parseFloat(document.getElementById('gas-fio2')?.value || 21);
-            const na = parseFloat(document.getElementById('gas-na')?.value);
-            const cl = parseFloat(document.getElementById('gas-cl')?.value);
-            const alb = parseFloat(document.getElementById('gas-alb')?.value || 4.0);
+function analyzeGases() {
+    const num = id => parseFloat(document.getElementById(id)?.value);
+    const ph = num('gas-ph'), paco2 = num('gas-paco2'), hco3 = num('gas-hco3'), pao2 = num('gas-pao2');
+    const na = num('gas-na'), cl = num('gas-cl'), edad = num('gas-edad');
+    let fio2 = num('gas-fio2'); if (isNaN(fio2) || fio2 <= 0) fio2 = 21;
+    let alb = num('gas-alb'); const albDado = !isNaN(alb); if (!albDado) alb = 4.0;
+    let alt = num('gas-alt'); if (isNaN(alt) || alt < 0) alt = 0;
+    const container = document.getElementById('gas-steps-container');
+    if (!container || isNaN(ph) || isNaN(paco2) || isNaN(hco3)) { alert('Por favor ingresa al menos pH, PaCO₂ y HCO₃⁻.'); return; }
 
-            const container = document.getElementById('gas-steps-container');
-            if (!container || isNaN(ph) || isNaN(paco2) || isNaN(hco3)) {
-                alert("Por favor ingresa al menos pH, PaCO₂ y HCO₃⁻.");
-                return;
-            }
+    // 1. pH
+    const acid = ph < 7.35, alk = ph > 7.45;
+    const phTxt = acid ? 'Acidemia (pH < 7.35)' : alk ? 'Alcalemia (pH > 7.45)' : 'Normal (7.35 - 7.45)';
 
-            // 1. Estado pH
-            let phStatus = "Normal (7.35 - 7.45)";
-            if (ph < 7.35) phStatus = "Acidemia (pH < 7.35)";
-            else if (ph > 7.45) phStatus = "Alcalemia (pH > 7.45)";
+    // 2. Trastorno primario
+    const mAc = hco3 < 22, mAl = hco3 > 26, rAc = paco2 > 45, rAl = paco2 < 35;
+    let prim = 'N', primTxt;
+    if (acid) {
+        if (mAc && rAc) { prim = 'MIX'; primTxt = 'Acidosis mixta (metabólica + respiratoria)'; }
+        else if (mAc) { prim = 'AcM'; primTxt = 'Acidosis metabólica'; }
+        else if (rAc) { prim = 'AcR'; primTxt = 'Acidosis respiratoria'; }
+        else primTxt = 'Acidemia sin HCO₃⁻ bajo ni PaCO₂ alta: revisa los datos ingresados';
+    } else if (alk) {
+        if (mAl && rAl) { prim = 'MIX'; primTxt = 'Alcalosis mixta (metabólica + respiratoria)'; }
+        else if (mAl) { prim = 'AlM'; primTxt = 'Alcalosis metabólica'; }
+        else if (rAl) { prim = 'AlR'; primTxt = 'Alcalosis respiratoria'; }
+        else primTxt = 'Alcalemia sin HCO₃⁻ alto ni PaCO₂ baja: revisa los datos ingresados';
+    } else {
+        primTxt = (mAc || mAl || rAc || rAl)
+            ? 'pH normal con HCO₃⁻ / PaCO₂ alterados: trastorno compensado o mixto con efectos opuestos'
+            : 'Equilibrio ácido-base normal';
+    }
 
-            // 2. Trastorno primario
-            let primary = "";
-            if (ph < 7.35) {
-                if (hco3 < 22) primary = "Acidosis Metabólica Primaria";
-                else if (paco2 > 45) primary = "Acidosis Respiratoria Primaria";
-            } else if (ph > 7.45) {
-                if (hco3 > 26) primary = "Alcalosis Metabólica Primaria";
-                else if (paco2 < 35) primary = "Alcalosis Respiratoria Primaria";
-            } else {
-                primary = "pH Normal / Trastorno Mixto Compensado";
-            }
+    // 3. Compensación
+    let comp = 'No aplica (sin un trastorno primario único definido).';
+    if (prim === 'AcM') {
+        const e = 1.5 * hco3 + 8, lo = e - 2, hi = e + 2;
+        comp = `Winter: PaCO₂ esperada ${e.toFixed(1)} ± 2 (${lo.toFixed(1)}–${hi.toFixed(1)}). ` +
+            (paco2 > hi ? '<b>PaCO₂ mayor a la esperada → acidosis respiratoria agregada.</b>'
+                : paco2 < lo ? '<b>PaCO₂ menor a la esperada → alcalosis respiratoria agregada.</b>'
+                : 'Compensación respiratoria adecuada.');
+    } else if (prim === 'AlM') {
+        const e = 40 + 0.7 * (hco3 - 24), lo = e - 5, hi = e + 5;
+        comp = `PaCO₂ esperada ${e.toFixed(1)} ± 5 (${lo.toFixed(1)}–${hi.toFixed(1)}). ` +
+            (paco2 > hi ? '<b>PaCO₂ mayor a la esperada → acidosis respiratoria agregada.</b>'
+                : paco2 < lo ? '<b>PaCO₂ menor a la esperada → alcalosis respiratoria agregada.</b>'
+                : 'Compensación respiratoria adecuada.');
+    } else if (prim === 'AcR') {
+        const a = 24 + 0.1 * (paco2 - 40), c = 24 + 0.35 * (paco2 - 40);
+        comp = `HCO₃⁻ esperado ≈ ${a.toFixed(1)} si es AGUDA; ≈ ${c.toFixed(1)} si es CRÓNICA. ` +
+            (hco3 < a - 2 ? '<b>HCO₃⁻ menor al esperado → acidosis metabólica agregada.</b>'
+                : hco3 > c + 2 ? '<b>HCO₃⁻ mayor al esperado → alcalosis metabólica agregada.</b>'
+                : hco3 <= a + 2 ? 'Compatible con trastorno AGUDO.'
+                : hco3 >= c - 2 ? 'Compatible con trastorno CRÓNICO (o agudizado sobre crónico).'
+                : 'Compatible con fase subaguda.');
+    } else if (prim === 'AlR') {
+        const a = 24 - 0.2 * (40 - paco2), c = 24 - 0.4 * (40 - paco2);
+        comp = `HCO₃⁻ esperado ≈ ${a.toFixed(1)} si es AGUDA; ≈ ${c.toFixed(1)} si es CRÓNICA. ` +
+            (hco3 > a + 2 ? '<b>HCO₃⁻ mayor al esperado → alcalosis metabólica agregada.</b>'
+                : hco3 < c - 2 ? '<b>HCO₃⁻ menor al esperado → acidosis metabólica agregada.</b>'
+                : hco3 >= a - 2 ? 'Compatible con trastorno AGUDO.'
+                : hco3 <= c + 2 ? 'Compatible con trastorno CRÓNICO.'
+                : 'Compatible con fase subaguda.');
+    } else if (prim === 'MIX') comp = 'Los dos componentes se suman: no hay compensación que calcular.';
 
-            // 3. Compensación
-            let expPaco2 = (1.5 * hco3) + 8; // Winter
-            let compText = `PaCO₂ esperada (Winter): ${expPaco2.toFixed(1)} ± 2 mmHg.`;
-
-            // 4. Anion Gap
-            let agText = "N/A (ingresa Na y Cl)";
-            if (!isNaN(na) && !isNaN(cl)) {
-                let ag = na - (cl + hco3);
-                let agCorr = ag + 2.5 * (4.0 - alb);
-                agText = `Anion Gap: ${ag.toFixed(1)} mEq/L (Corregido por albúmina: ${agCorr.toFixed(1)} mEq/L). Rango normal 8 - 12.`;
-            }
-
-            // 5. Oxigenación (PaFi)
-            let pafiText = "N/A (ingresa PaO₂ y FiO₂)";
-            if (!isNaN(pao2)) {
-                let pafi = pao2 / (fio2 / 100);
-                let sdr = "Normal";
-                if (pafi <= 100) sdr = "SDRA SEVERO (≤ 100)";
-                else if (pafi <= 200) sdr = "SDRA MODERADO (101 - 200)";
-                else if (pafi <= 300) sdr = "SDRA LEVE (201 - 300)";
-                pafiText = `PaFi (PaO₂/FiO₂): ${pafi.toFixed(0)} mmHg — ${sdr}`;
-            }
-
-            container.innerHTML = `
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-3 text-xs">
-                    <h3 class="font-extrabold text-sm text-teal-600 dark:text-teal-400 border-b pb-2">Resultados del Análisis Arterial</h3>
-                    <p><strong>1. Estado del pH:</strong> ${phStatus}</p>
-                    <p><strong>2. Trastorno Primario:</strong> ${primary}</p>
-                    <p><strong>3. Respuesta Compensatoria:</strong> ${compText}</p>
-                    <p><strong>4. Anion Gap:</strong> ${agText}</p>
-                    <p><strong>5. Oxigenación:</strong> ${pafiText}</p>
-                </div>
-            `;
-            container.classList.remove('hidden');
+    // 4. Anion gap + delta ratio
+    let agTxt = 'Ingresa Na⁺ y Cl⁻ para calcular el anion gap y el delta ratio.';
+    if (!isNaN(na) && !isNaN(cl)) {
+        const ag = na - (cl + hco3), agc = ag + 2.5 * (4.0 - alb);
+        agTxt = `Anion gap: <b>${ag.toFixed(1)}</b> mEq/L · corregido por albúmina${albDado ? '' : ' (asumida 4.0 g/dL)'}: <b>${agc.toFixed(1)}</b> (normal ≈ 8–12).`;
+        if (agc > 12) {
+            agTxt += ' <b>Anion gap elevado:</b> piensa en GOLDMARK (glicoles, 5-oxoprolina, L-lactato, D-lactato, metanol, aspirina, renal, cetoacidosis).';
+            if (hco3 < 24) {
+                const dr = (agc - 12) / (24 - hco3);
+                const t = dr < 0.4 ? 'acidosis hiperclorémica (brecha normal) predominante'
+                    : dr < 0.8 ? 'acidosis mixta: brecha elevada + hiperclorémica'
+                    : dr <= 2 ? 'acidosis metabólica de brecha elevada pura'
+                    : 'brecha elevada + alcalosis metabólica concomitante (o HCO₃⁻ basal alto)';
+                agTxt += `<br>Delta ratio (ΔAG/ΔHCO₃⁻): <b>${dr.toFixed(2)}</b> → ${t}.`;
+            } else agTxt += '<br>Delta ratio: con HCO₃⁻ ≥ 24 sugiere alcalosis metabólica concomitante.';
+        } else if (mAc) {
+            agTxt += ' Acidosis con brecha normal (hiperclorémica): diarrea, acidosis tubular renal, exceso de suero salino, fístulas, acetazolamida.';
         }
+    }
+
+    // 5. Oxigenación (con altitud)
+    const patm = 760 * Math.pow(1 - 2.25577e-5 * alt, 5.25588);
+    let oxTxt = 'Ingresa PaO₂ (y FiO₂) para calcular PaFi y gradiente A-a.';
+    if (!isNaN(pao2)) {
+        const f = fio2 / 100, pafi = pao2 / f;
+        const cat = v => v <= 100 ? 'severa (≤ 100)' : v <= 200 ? 'moderada (101-200)' : v <= 300 ? 'leve (201-300)' : '> 300 (sin criterio de gravedad)';
+        oxTxt = `PaFi medida: <b>${pafi.toFixed(0)}</b> mmHg`;
+        if (alt > 1000) {
+            const pc = pafi * patm / 760;
+            oxTxt += ` · corregida por altitud (Berlín, Patm ≈ ${patm.toFixed(0)} mmHg): <b>${pc.toFixed(0)}</b> → hipoxemia ${cat(pc)}. <i>La corrección de Berlín es discutida en altura: interpreta con la clínica.</i>`;
+        } else oxTxt += ` → hipoxemia ${cat(pafi)}.`;
+        oxTxt += '<br><i>Estas categorías solo hablan de SDRA si se cumplen los demás criterios de Berlín: inicio ≤ 1 semana, opacidades bilaterales, no explicado solo por falla cardíaca y PEEP/CPAP ≥ 5.</i>';
+        const alv = f * (patm - 47) - paco2 / 0.8, aa = alv - pao2;
+        oxTxt += `<br>PAO₂ alveolar ≈ ${alv.toFixed(0)} mmHg · Gradiente A-a: <b>${aa.toFixed(0)} mmHg</b>`;
+        if (!isNaN(edad)) {
+            const ex = edad / 4 + 4;
+            oxTxt += ` (esperado ≈ ${ex.toFixed(0)} en aire ambiente)`;
+            if (fio2 === 21) oxTxt += aa > ex
+                ? ' → <b>elevado</b>: shunt, desequilibrio V/Q o alteración de difusión.'
+                : ' → normal: si hay hipoxemia, piensa en hipoventilación o en la menor PiO₂ por la altitud.';
+            else oxTxt += ' — el gradiente aumenta con la FiO₂: no lo compares con el valor de aire ambiente.';
+        }
+    }
+
+    const steps = [['Estado del pH', phTxt], ['Trastorno primario', primTxt], ['Respuesta compensatoria', comp], ['Anion gap y delta ratio', agTxt], ['Oxigenación', oxTxt]];
+    container.innerHTML = `
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-3 text-xs">
+            <h3 class="font-extrabold text-sm text-teal-600 dark:text-teal-400 border-b pb-2">Resultados del Análisis Arterial</h3>
+            ${steps.map((s, i) => `<p><strong>${i + 1}. ${s[0]}:</strong> ${s[1]}</p>`).join('')}
+        </div>`;
+    container.classList.remove('hidden');
+}
 
         function loadGasPreset(ph, paco2, hco3, pao2, fio2, na, cl, alb) {
             document.getElementById('gas-ph').value = ph;
@@ -1292,7 +1365,13 @@
             { id: 'charcot', name: 'Tríada de Charcot', category: 'gastro', entity: 'Colangitis Aguda', items: ['1. Fiebre', '2. Ictericia', '3. Dolor en HCD'], pearl: 'Añadir shock y mental alterado = Péntada de Reynolds.' },
             { id: 'reynolds', name: 'Péntada de Reynolds', category: 'gastro', entity: 'Colangitis Severa', items: ['1. Fiebre', '2. Ictericia', '3. Dolor en HCD', '4. Shock / Hipotensión', '5. Alteración del estado mental'], pearl: 'Drenaje biliar urgente por CPRE.' },
             { id: 'virchow', name: 'Tríada de Virchow', category: 'urgencias', entity: 'Trombosis (TVP/TEP)', items: ['1. Estasis venosa', '2. Lesión endotelial', '3. Hipercoagulabilidad'], pearl: 'Eje fisiopatológico de la trombogénesis.' },
-            { id: 'cushing', name: 'Tríada de Cushing', category: 'neuro', entity: 'Hipertensión Intracraneal Severa', items: ['1. Hipertensión con pulso amplio', '2. Bradicardia', '3. Irregularidad respiratoria'], pearl: 'Signo pre-terminal de herniación cerebral.' }
+            { id: 'cushing', name: 'Tríada de Cushing', category: 'neuro', entity: 'Hipertensión Intracraneal Severa', items: ['1. Hipertensión con pulso amplio', '2. Bradicardia', '3. Irregularidad respiratoria'], pearl: 'Signo pre-terminal de herniación cerebral.' },
+            { id: 'whipple', name: 'Tríada de Whipple', category: 'urgencias', entity: 'Hipoglucemia', items: ['1. Síntomas compatibles con hipoglucemia', '2. Glucosa plasmática baja documentada (< 55 mg/dL)', '3. Resolución de los síntomas al corregir la glucosa'], pearl: 'Confirma que los síntomas SON por hipoglucemia. Si falta algún elemento, busca otra causa del cuadro.' },
+            { id: 'samter', name: 'Tríada de Samter', category: 'urgencias', entity: 'Enfermedad respiratoria exacerbada por aspirina', items: ['1. Asma', '2. Poliposis nasosinusal', '3. Reacción a aspirina y AINE'], pearl: 'Evita aspirina y AINE; el acetaminofén suele tolerarse. La aspirina solo con desensibilización supervisada.' },
+            { id: 'wernicke', name: 'Tríada de Wernicke', category: 'neuro', entity: 'Encefalopatía de Wernicke (déficit de tiamina)', items: ['1. Confusión / alteración del estado mental', '2. Ataxia de la marcha', '3. Oftalmoplejía / nistagmo'], pearl: 'Tiamina IV ANTES de la glucosa en alcohólicos o desnutridos. La tríada completa aparece solo en una minoría.' },
+            { id: 'horner', name: 'Tríada de Horner', category: 'neuro', entity: 'Síndrome de Horner (lesión de la vía simpática)', items: ['1. Miosis', '2. Ptosis leve', '3. Anhidrosis ipsilateral'], pearl: 'Horner doloroso agudo: descarta disección carotídea. Con dolor apical y de hombro: tumor de Pancoast.' },
+            { id: 'mackler', name: 'Tríada de Mackler', category: 'gastro', entity: 'Rotura esofágica (síndrome de Boerhaave)', items: ['1. Vómito intenso previo', '2. Dolor torácico / epigástrico', '3. Enfisema subcutáneo cervical'], pearl: 'Emergencia con alta mortalidad si se retrasa el diagnóstico. Sospecha en vómito forzado + dolor torácico.' },
+            { id: 'meningitis', name: 'Tríada de la meningitis', category: 'neuro', entity: 'Meningitis bacteriana aguda', items: ['1. Fiebre', '2. Cefalea', '3. Rigidez de nuca'], pearl: 'La tríada completa está presente en menos de la mitad de los casos; con alteración del estado mental, dos de cuatro ya es sospecha. No retrases el antibiótico por la TC.' }
         ];
 
         let currentTriadCategory = 'all';
@@ -1413,7 +1492,7 @@
                     id: 'apgar',
                     cat: 'urgencias',
                     title: 'Test de APGAR (Recién Nacido)',
-                    desc: 'Evaluación vital al 1 y 5 minutos de vida (Apariencia, Pulso, Glicemia/Reflejos, Actividad, Respiración).',
+                    desc: 'Apariencia, Pulso, Gesticulación/reflejos, Actividad, Respiración',
                     body: `
                         <div class="space-y-2 text-xs">
                             <div class="grid grid-cols-2 gap-2">
@@ -1557,7 +1636,12 @@
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-t" class="cn-chk"> <span>Ausencia de tos (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-a" class="cn-chk"> <span>Adenopatías cervicales anteriores dolorosas (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-e" class="cn-chk"> <span>Exudado o hipertrofia amigdalina (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-ed" class="cn-chk"> <span>Edad 3 - 14 años (+1) | Edad 15-44 (0) | Edad &ge; 45 (-1)</span></label>
+<div><label class="block font-medium text-slate-500 mb-0.5">Edad:</label>
+<select id="cn-ed" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+    <option value="0">15 - 44 años (0)</option>
+    <option value="1">3 - 14 años (+1)</option>
+    <option value="-1">≥ 45 años (−1)</option>
+</select></div>                            
                             <button onclick="calcCentor()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Centor</button>
                             <div id="centor-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
                         </div>
@@ -1602,6 +1686,15 @@
                                     <input type="number" id="mmse-leng" min="0" max="9" value="9" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
                                 </div>
                             </div>
+                            <div>
+    <label class="block font-medium text-slate-500 mb-0.5">Escolaridad (define el punto de corte):</label>
+    <select id="mmse-esc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+        <option value="18">Analfabeta (sospecha si ≤ 18)</option>
+        <option value="21">1 - 3 años (sospecha si ≤ 21)</option>
+        <option value="23">4 - 7 años (sospecha si ≤ 23)</option>
+        <option value="23" selected>≥ 8 años (sospecha si ≤ 23)</option>
+    </select>
+</div>
                             <button onclick="calcMMSE()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow transition-all">Evaluar MMSE</button>
                             <div id="mmse-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
                         </div>
@@ -1609,22 +1702,25 @@
                 },
                 // 3. PFEFFER (FAQ)
                 {
-                    id: 'pfeffer',
-                    cat: 'neuro',
-                    title: 'Cuestionario de Actividades Funcionales de Pfeffer (FAQ)',
-                    desc: 'Evaluación funcional del adulto mayor a través del cuidador (Punto de corte ≥ 6 indica deterioro funcional/demencia).',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <p class="text-[11px] text-slate-500">Evalúa 10 actividades instrumentales (0=Normal, 1=Con dificultad pero solo, 2=Requiere ayuda, 3=Incapaz):</p>
-                            <div>
-                                <label class="block font-medium text-slate-500 mb-0.5">Puntaje Total Acumulado (0 a 30 puntos):</label>
-                                <input type="number" id="pfeffer-score" min="0" max="30" value="2" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold text-sm">
-                            </div>
-                            <button onclick="calcPfeffer()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow transition-all">Evaluar Pfeffer</button>
-                            <div id="pfeffer-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
-                        </div>
-                    `
-                },
+    id: 'pfeffer',
+    cat: 'neuro',
+    title: 'Cuestionario de Actividades Funcionales de Pfeffer (FAQ)',
+    desc: 'Evaluación funcional del adulto mayor a través del cuidador (punto de corte ≥ 6 sugiere deterioro funcional; algunos autores usan ≥ 9).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[11px] text-slate-500">0 = normal (o nunca lo hizo y podría), 1 = con dificultad pero lo hace solo, 2 = necesita ayuda, 3 = dependiente.</p>
+            ${PFEFFER_ITEMS.map((t, i) => `
+            <div class="flex items-center justify-between gap-2">
+                <span class="flex-1">${i + 1}. ${t}</span>
+                <select id="pf-${i + 1}" class="pf-sel w-24 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                </select>
+            </div>`).join('')}
+            <button onclick="calcPfeffer()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow transition-all">Evaluar Pfeffer</button>
+            <div id="pfeffer-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
+        </div>
+    `
+},
                 // 4. CHA2DS2-VASc
                 {
                     id: 'chads',
@@ -1655,13 +1751,14 @@
                     body: `
                         <div class="space-y-1.5 text-xs">
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-h" class="hb-chk"> <span>H - HTA no controlada (PAS > 160) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-a" class="hb-chk"> <span>A - Función Renal o Hepática alterada (+1 o +2)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-s" class="hb-chk"> <span>S - ACV previo (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-b" class="hb-chk"> <span>B - Antecedente de Sangrado (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-l" class="hb-chk"> <span>L - INR Lábil (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-e" class="hb-chk"> <span>E - Edad > 65 años (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-d" class="hb-chk"> <span>D - Fármacos (AINEs/Antiagregantes) o Alcohol (+1 o +2)</span></label>
-                            <button onclick="calcHASBLED()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular HAS-BLED</button>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-a1" class="hb-chk"> <span>A - Función renal alterada (diálisis, trasplante, Cr &gt; 2.26 mg/dL) (+1)</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-a2" class="hb-chk"> <span>A - Función hepática alterada (cirrosis, bilirrubina &gt; 2x o transaminasas &gt; 3x) (+1)</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-d1" class="hb-chk"> <span>D - Antiagregantes o AINE (+1)</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-d2" class="hb-chk"> <span>D - Alcohol (≥ 8 tragos por semana) (+1)</span></label>                            <button onclick="calcHASBLED()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular HAS-BLED</button>
                             <div id="hasbled-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
                         </div>
                     `
@@ -1862,6 +1959,22 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="grid grid-cols-2 gap-2">
+    <div>
+        <label class="block font-medium text-slate-500 mb-0.5">Verduras o frutas:</label>
+        <select id="fd-fruta" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="0">Todos los días (0 pt)</option>
+            <option value="1">No todos los días (1 pt)</option>
+        </select>
+    </div>
+    <div>
+        <label class="block font-medium text-slate-500 mb-0.5">Medicación antihipertensiva:</label>
+        <select id="fd-hta" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="0">No la toma (0 pt)</option>
+            <option value="2">Sí la toma (2 pts)</option>
+        </select>
+    </div>
+</div>
                             <button onclick="calcFindrisc()" class="w-full py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow transition-all">Calcular FINDRISC</button>
                             <div id="fd-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
                         </div>
@@ -1929,6 +2042,42 @@
                             <div id="tab-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
                         </div>
                     `
+                },
+                {
+                    id: 'framingham',
+                    cat: 'cardio',
+                    title: 'Riesgo Cardiovascular a 10 años (Framingham 2008)',
+                    desc: 'Riesgo global de evento cardiovascular a 10 años en prevención primaria (30-74 años). Incluye colesterol, HDL, PAS, tabaquismo y diabetes.',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <div class="grid grid-cols-2 gap-2">
+                            <input type="number" id="fr-edad" placeholder="Edad (30-74)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <select id="fr-sexo" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="F">Mujer</option><option value="M">Hombre</option></select>
+                            <input type="number" id="fr-ct" placeholder="Colesterol total (mg/dL)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <input type="number" id="fr-hdl" placeholder="HDL (mg/dL)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <input type="number" id="fr-pas" placeholder="PAS (mmHg)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <select id="fr-trat" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="0">PA sin tratamiento</option><option value="1">En tratamiento antihipertensivo</option></select>
+                        </div>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="fr-fuma"> <span>Fumador actual</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="fr-dm"> <span>Diabetes mellitus</span></label>
+                        <button onclick="calcFramingham()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular riesgo a 10 años</button>
+                        <div id="fr-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'lawton',
+                    cat: 'neuro',
+                    title: 'Escala de Lawton-Brody (Actividades Instrumentales)',
+                    desc: 'Dependencia en actividades instrumentales de la vida diaria del adulto mayor. Marca lo que la persona hace SIN ayuda (0-8).',
+                    body: `
+                        <div class="space-y-1.5 text-xs">
+                        ${['Usa el teléfono por sí mismo', 'Hace sus compras solo', 'Prepara su comida', 'Cuida la casa', 'Lava su ropa', 'Usa medios de transporte', 'Maneja sus medicamentos (dosis y horario)', 'Maneja su dinero'].map((t, i) =>
+                            `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="lw-${i + 1}" class="lw-chk"> <span>${t} (+1)</span></label>`).join('')}
+                        <button onclick="calcLawton()" class="w-full py-2 bg-indigo-600 text-white font-bold rounded-xl mt-2">Evaluar Lawton-Brody</button>
+                        <div id="lawton-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
+                        </div>
+                    `
                 }
             ];
 
@@ -1944,8 +2093,7 @@
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
                     <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
                         <h3 class="font-bold text-slate-900 dark:text-white text-sm">${c.title}</h3>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">${c.cat}</span>
-                    </div>
+                        <div class="flex items-center gap-1.5 shrink-0"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">${c.cat}</span>${favStar('calc:' + c.id)}</div>                    </div>
                     <p class="text-xs text-slate-500 dark:text-slate-400">${c.desc}</p>
                     ${c.body}
                 </div>
@@ -2010,40 +2158,29 @@
 
             resEl.innerHTML = `
                 <div>IMC: <strong class="text-teal-600">${imc.toFixed(1)} kg/m²</strong> — ${cat}</div>
-                <div>Superficie Corporal (Du Bois): <strong class="text-indigo-600">${sc.toFixed(2)} m²</strong></div>
+                <div>Superficie Corporal (Mosteller): <strong class="text-indigo-600">${sc.toFixed(2)} m²</strong></div>
             `;
             resEl.classList.remove('hidden');
         }
 
         function calcCentor() {
-            let pts = 0;
-            document.querySelectorAll('.cn-chk:checked').forEach(el => {
-                if (el.id === 'cn-ed') {
-                    // evaluated dynamically
-                } else {
-                    pts += 1;
-                }
-            });
-            const edElem = document.getElementById('cn-ed');
-            // Age adjustment
-            // If checked user can include logic, let's keep it simple based on checked items
-            const resEl = document.getElementById('centor-res');
-            if (!resEl) return;
-
-            let rec = pts >= 4 ? "Riesgo alto (50-60%): Indicar cultivo o prueba rápida y tratamiento antibiótico empírico" : (pts === 2 || pts === 3 ? "Riesgo moderado (15-32%): Valorar prueba rápida o cultivo" : "Bajo riesgo (<10%): No requiere antibióticos");
-            resEl.innerHTML = `Puntaje Centor: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
-            resEl.classList.remove('hidden');
-        }
+    const pts = document.querySelectorAll('.cn-chk:checked').length + parseInt(document.getElementById('cn-ed')?.value || 0);
+    const resEl = document.getElementById('centor-res'); if (!resEl) return;
+    const rec = pts >= 4 ? 'Riesgo alto (≈ 51-53%): prueba rápida o cultivo; si no hay prueba disponible, considera tratamiento empírico'
+        : pts >= 2 ? 'Riesgo intermedio (≈ 11-35%): prueba rápida o cultivo; trata solo si es positiva'
+        : 'Riesgo bajo (< 10%): sin prueba ni antibiótico';
+    resEl.innerHTML = `Puntaje Centor modificado: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
+    resEl.classList.remove('hidden');
+}
 
         function calcHASBLED() {
-            let pts = 0;
-            document.querySelectorAll('.hb-chk:checked').forEach(() => pts += 1);
-            const resEl = document.getElementById('hasbled-res');
-            if (!resEl) return;
-            let rec = pts >= 3 ? "Alto riesgo de sangrado (Precaución, controlar factores modificables)" : "Riesgo de sangrado bajo/moderado";
-            resEl.innerHTML = `Puntaje: <span class="text-rose-600">${pts} pts</span> — ${rec}`;
-            resEl.classList.remove('hidden');
-        }
+    const pts = document.querySelectorAll('.hb-chk:checked').length;
+    const resEl = document.getElementById('hasbled-res'); if (!resEl) return;
+    const rec = pts >= 3 ? 'Riesgo ALTO de sangrado (≥ 3): corrige los factores modificables y vigila más de cerca'
+        : pts === 2 ? 'Riesgo moderado (2)' : 'Riesgo bajo (0-1)';
+    resEl.innerHTML = `Puntaje: <span class="text-rose-600">${pts} / 9</span> — ${rec}<div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">Un puntaje alto, por sí solo, no es motivo para negar la anticoagulación.</div>`;
+    resEl.classList.remove('hidden');
+}
 
         function calcCURB65() {
             let pts = 0;
@@ -2126,31 +2263,20 @@
 
         // ADDITIONAL CALCULATORS: FRAMINGHAM, MMSE, PFEFFER, PAM, TFG, TABAQUISMO
         function calcMMSE() {
-            const ot = parseInt(document.getElementById('mmse-ot')?.value || 0);
-            const oe = parseInt(document.getElementById('mmse-oe')?.value || 0);
-            const fij = parseInt(document.getElementById('mmse-fij')?.value || 0);
-            const at = parseInt(document.getElementById('mmse-at')?.value || 0);
-            const mem = parseInt(document.getElementById('mmse-mem')?.value || 0);
-            const leng = parseInt(document.getElementById('mmse-leng')?.value || 0);
-
-            const total = ot + oe + fij + at + mem + leng;
-            let interp = total >= 24 ? "Cognición Normal (24-30 pts)" : (total >= 19 ? "Deterioro Cognitivo Leve (19-23 pts)" : (total >= 14 ? "Deterioro Cognitivo Moderado (14-18 pts)" : "Deterioro Cognitivo Severo (<14 pts)"));
-
-            const resEl = document.getElementById('mmse-res');
-            if (!resEl) return;
-            resEl.innerHTML = `Puntaje MMSE: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}`;
-            resEl.classList.remove('hidden');
-        }
-
-        function calcPfeffer() {
-            const total = parseInt(document.getElementById('pfeffer-score')?.value || 0);
-            let interp = total >= 6 ? "Puntaje ≥ 6: Sospecha de Deterioro Funcional / Demencia" : "Puntaje < 6: Desempeño funcional autónomo normal";
-
-            const resEl = document.getElementById('pfeffer-res');
-            if (!resEl) return;
-            resEl.innerHTML = `Puntaje Pfeffer: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}`;
-            resEl.classList.remove('hidden');
-        }
+    const g = id => parseInt(document.getElementById(id)?.value || 0);
+    const total = g('mmse-ot') + g('mmse-oe') + g('mmse-fij') + g('mmse-at') + g('mmse-mem') + g('mmse-leng');
+    const corte = g('mmse-esc') || 23;
+    const resEl = document.getElementById('mmse-res'); if (!resEl) return;
+    let interp;
+    if (total > corte) interp = `Sin sospecha de deterioro para su escolaridad (corte ≤ ${corte})`;
+    else {
+        const sev = total >= 19 ? 'leve' : total >= 14 ? 'moderado' : 'grave';
+        interp = `Sospecha de deterioro cognitivo ${sev} (puntaje ≤ ${corte})`;
+    }
+    resEl.innerHTML = `Puntaje MMSE: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}
+        <div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">Los cortes por escolaridad son orientativos: en Colombia no hay un único consenso (algunas propuestas suben el corte en alta escolaridad, con más sensibilidad y menos especificidad). Es una prueba de tamizaje: confirma con valoración funcional (Pfeffer, Lawton-Brody) y clínica.</div>`;
+    resEl.classList.remove('hidden');
+}
 
         function calcFindrisc() {
             const e = parseInt(document.getElementById('fd-edad')?.value || 0);
@@ -2160,7 +2286,9 @@
             const g = parseInt(document.getElementById('fd-glucosa')?.value || 0);
             const f = parseInt(document.getElementById('fd-fam')?.value || 0);
 
-            const total = e + i + p + a + g + f;
+            const fr = parseInt(document.getElementById('fd-fruta')?.value || 0);
+            const ht = parseInt(document.getElementById('fd-hta')?.value || 0);
+            const total = e + i + p + a + g + f + fr + ht;;
             let risk = total < 7 ? "Bajo (1%)" : (total <= 11 ? "Ligeramente Elevado (4%)" : (total <= 14 ? "Moderado (17%)" : (total <= 20 ? "Alto (33%)" : "Muy Alto (50%)")));
 
             const resEl = document.getElementById('fd-res');
@@ -3398,8 +3526,8 @@ function renderVademecum() {
                         ${v.altoRiesgo ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">⚠ Alto riesgo: doble chequeo</span>' : ''}
                         ${!v.verificado ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Pendiente de verificación</span>' : ''}
                     </div>
-                    <span class="shrink-0 px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300">${v.group}</span>
-                </div>
+                    <div class="flex items-center gap-1.5 shrink-0"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300">${v.group}</span>${favStar('drug:' + v.name)}</div>             
+                    </div>
                 <p class="text-slate-600 dark:text-slate-300 italic">${v.descripcion || ''}</p>
                 <div><strong class="text-slate-500">Indicaciones:</strong> <span class="text-slate-800 dark:text-slate-200">${(v.indicaciones || []).join(', ')}</span></div>
                 <div><strong class="text-slate-500">Presentación (Colombia):</strong> <span class="text-slate-800 dark:text-slate-200">${v.presentacion || 'Verificar en fuente'}</span></div>
@@ -3502,8 +3630,7 @@ function renderVademecum() {
             }
 
             if (edad >= 18) {
-                tests.push({ name: 'Perfil Lipídico / Riesgo CV (Framingham)', freq: 'Cada 5 años', goal: 'Riesgo cardiovascular y cardiometabólico', calcId: null });
-                tests.push({ name: 'Tamizaje de Diabetes (FINDRISC)', freq: 'Cada 3-5 años según riesgo', goal: 'Detección temprana de Diabetes Mellitus Tipo 2', calcId: 'findrisc', calcLabel: 'Abrir Test FINDRISC' });
+                tests.push({ name: 'Perfil Lipídico / Riesgo CV (Framingham)', freq: 'Cada 5 años', goal: 'Riesgo cardiovascular y cardiometabólico', calcId: 'framingham', calcLabel: 'Abrir Framingham' });                tests.push({ name: 'Tamizaje de Diabetes (FINDRISC)', freq: 'Cada 3-5 años según riesgo', goal: 'Detección temprana de Diabetes Mellitus Tipo 2', calcId: 'findrisc', calcLabel: 'Abrir Test FINDRISC' });
             } else {
                 tests.push({ name: 'Valoración del Crecimiento y Desarrollo', freq: 'Según esquema de control RIAS primera infancia/infancia', goal: 'Monitoreo pondero-estatural y nutricional', calcId: null });
                 tests.push({ name: 'Tamizaje de Agudeza Visual', freq: 'A los 3, 5, 7, 11, 16 años', goal: 'Detección temprana de ambliopía y vicios de refracción', calcId: null });
@@ -3847,6 +3974,7 @@ function renderVademecum() {
             if (tabId === 'farmaco') { renderVademecum(); calcInfusion(); }
             if (tabId === 'sivigila') switchSpSubTab('tamizaje');
             if (tabId === 'semiologia') renderSemiologia();
+            if (tabId === 'favoritos') renderFavoritos();
         }
 
         function toggleSidebar() {
@@ -3871,14 +3999,35 @@ function renderVademecum() {
         }
 
         const sivigilaDirectory = [
-    { code: '210', name: 'Dengue', urgency: 'Semanal (Inmediata si es Grave)', ficha: 'Ficha 210', action: 'Caso probable: hidratación, cuadro hemático y seguimiento diario.' },
-    { code: '875', name: 'Tuberculosis pulmonar y extrapulmonar', urgency: 'Semanal', ficha: 'Ficha 875', action: 'Baciloscopia seriada, cultivo, PPD y notificación a secretaría.' },
-    { code: '450', name: 'Infección Respiratoria Aguda Grave (IRAG)', urgency: 'Semanal / Inmediata', ficha: 'Ficha 450', action: 'Toma de panel viral/PCR, aislamiento y valoración de criterios UCI.' },
-    { code: '580', name: 'Intoxicaciones (Plaguicidas, sustancias, fármacos)', urgency: 'Inmediata', ficha: 'Ficha 580', action: 'Soporte vital, descontaminación según vía y manejo toxicológico.' },
-    { code: '830', name: 'Violencia de género y maltrato infantil', urgency: 'Semanal', ficha: 'Ficha 830', action: 'Activación de ruta RIAS, valoración integral y reporte a entidades.' },
-    { code: '850', name: 'Sífilis gestacional y congénita', urgency: 'Semanal', ficha: 'Ficha 850', action: 'Pruebas treponémicas/no treponémicas, tratamiento a gestante y pareja.' },
-    { code: '685', name: 'VIH / SIDA', urgency: 'Semanal', ficha: 'Ficha 685', action: 'Prueba confirmatoria, consejería, derivación a infectología y TARV.' }
+    { code: '210', name: 'Dengue', urgency: 'Semanal', ficha: 'Ficha 210', action: 'Clasifica signos de alarma, hidratación y hemograma; seguimiento diario. Evita AINE.' },
+    { code: '220', name: 'Dengue grave', urgency: 'Inmediata', ficha: 'Ficha 220', action: 'Estabilización, líquidos IV guiados por la clínica y remisión urgente.' },
+    { code: '580', name: 'Mortalidad por dengue', urgency: 'Inmediata', ficha: 'Ficha 580', action: '' },
+    { code: '217', name: 'Chikungunya', urgency: 'Semanal', ficha: 'Ficha 217', action: 'Manejo sintomático; vigila dolor articular persistente y formas graves.' },
+    { code: '895', name: 'Zika', urgency: 'Semanal', ficha: 'Ficha 895', action: 'Prioriza a las gestantes (riesgo de microcefalia) y su seguimiento.' },
+    { code: '465', name: 'Malaria', urgency: 'Semanal', ficha: 'Ficha 465', action: 'Gota gruesa o prueba rápida antes de tratar; define la especie y descarta complicaciones.' },
+    { code: '455', name: 'Leptospirosis', urgency: 'Semanal', ficha: 'Ficha 455', action: 'Sospecha en fiebre + mialgias + exposición a agua o roedores; vigila falla renal y hepática.' },
+    { code: '813', name: 'Tuberculosis (todas las formas / farmacorresistente)', urgency: 'Semanal', ficha: 'Ficha 813', action: 'Baciloscopia y cultivo (o prueba molecular), estudio de contactos y notificación a la secretaría.' },
+    { code: '850', name: 'VIH / SIDA / mortalidad por SIDA', urgency: 'Semanal', ficha: 'Ficha 850', action: 'Prueba confirmatoria, consejería y derivación para tratamiento antirretroviral.' },
+    { code: '750', name: 'Sífilis gestacional', urgency: 'Semanal', ficha: 'Ficha 750', action: 'Penicilina benzatínica, tratamiento de la pareja y seguimiento serológico.' },
+    { code: '740', name: 'Sífilis congénita', urgency: 'Semanal', ficha: 'Ficha 740', action: 'Valoración y tratamiento del recién nacido según el antecedente materno.' },
+    { code: '875', name: 'Violencias de género e intrafamiliar', urgency: 'Semanal', ficha: 'Ficha 875', action: 'Atención en salud y activación de ruta. En violencia sexual: urgencia médica (profilaxis ITS/VIH y anticoncepción de emergencia).' },
+    { code: '356', name: 'Intento de suicidio', urgency: 'Semanal', ficha: 'Ficha 356', action: 'Valoración de riesgo, seguridad del paciente y remisión a salud mental.' },
+    { code: '300', name: 'Agresiones por animales potencialmente transmisores de rabia', urgency: 'Semanal', ficha: 'Ficha 300', action: 'Lavado con agua y jabón, valoración de profilaxis antirrábica según el tipo de exposición.' },
+    { code: '535', name: 'Meningitis', urgency: 'Inmediata si es meningocócica', ficha: 'Ficha 535', action: 'Antibiótico sin demora, aislamiento respiratorio y profilaxis de contactos.' },
+    { code: '549', name: 'Morbilidad materna extrema', urgency: 'Semanal', ficha: 'Ficha 549', action: 'Criterios: preeclampsia severa, hemorragia grave, sepsis o disfunción orgánica.' },
+    { code: '551', name: 'Mortalidad materna', urgency: 'Inmediata', ficha: 'Ficha 551', action: '' },
+    { code: '113', name: 'Desnutrición aguda moderada y severa en menores de 5 años', urgency: 'Semanal', ficha: 'Ficha 113', action: 'Valoración antropométrica, manejo nutricional y ruta de atención.' },
+    { code: '348', name: 'Infección respiratoria aguda grave (IRAG inusitado)', urgency: 'Inmediata', ficha: 'Ficha 348', action: 'Aislamiento, toma de muestras y valoración de criterios de UCI.' },
+    { code: '340', name: 'Hepatitis B, C y coinfección B-D', urgency: 'Semanal', ficha: 'Ficha 340', action: '' },
+    { code: '831', name: 'Varicela individual', urgency: 'Semanal', ficha: 'Ficha 831', action: '' },
+    { code: '620', name: 'Parotiditis', urgency: 'Semanal', ficha: 'Ficha 620', action: '' },
+    { code: '800', name: 'Tos ferina', urgency: '', ficha: 'Ficha 800', action: '' },
+    { code: '452', name: 'Lesiones por artefactos explosivos (pólvora y minas antipersonal)', urgency: 'Semanal', ficha: 'Ficha 452', action: '' },
+    { code: '215', name: 'Defectos congénitos', urgency: 'Semanal', ficha: 'Ficha 215', action: '' },
+    { code: '', name: 'Accidente ofídico', urgency: '', ficha: '', action: 'Inmoviliza la extremidad, traslado urgente y suero antiofídico según el género de la serpiente. Busca el código en el listado del INS.' },
+    { code: '', name: 'Intoxicaciones por sustancias químicas (plaguicidas, medicamentos, otras)', urgency: '', ficha: '', action: 'Soporte vital, descontaminación según la vía y consulta a toxicología. Busca el código en el listado del INS.' }
 ];
+
     // Agrega aquí los demás eventos, tomados del listado oficial del INS
 
 
@@ -4960,12 +5109,131 @@ function hcPrint() {
     w.document.close(); w.focus(); w.print();
 }
 
+/* ===== FAVORITOS ===== */
+let favs = [];
+try { favs = JSON.parse(localStorage.getItem('adroosis_favs') || '[]'); } catch (e) { favs = []; }
+const favEsc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+function favSave() { try { localStorage.setItem('adroosis_favs', JSON.stringify(favs)); } catch (e) {} }
+function isFav(key) { return favs.includes(key); }
+
+function favStar(key) {
+    const on = isFav(key);
+    return `<button type="button" class="fav-btn shrink-0 w-7 h-7 rounded-lg flex items-center justify-center hover:bg-amber-50 dark:hover:bg-amber-950/30 ${on ? 'text-amber-500' : 'text-slate-300 dark:text-slate-600'}" data-fav="${favEsc(key)}" onclick="event.stopPropagation(); toggleFav(this.dataset.fav)" title="Guardar en Mis Favoritos"><i class="fa-${on ? 'solid' : 'regular'} fa-star text-sm"></i></button>`;
+}
+
+function toggleFav(key) {
+    favs = isFav(key) ? favs.filter(k => k !== key) : [...favs, key];
+    favSave();
+    document.querySelectorAll('.fav-btn').forEach(b => {
+        if (b.dataset.fav !== key) return;
+        const on = isFav(key);
+        b.querySelector('i').className = `fa-${on ? 'solid' : 'regular'} fa-star text-sm`;
+        b.classList.toggle('text-amber-500', on);
+        b.classList.toggle('text-slate-300', !on);
+        b.classList.toggle('dark:text-slate-600', !on);
+    });
+    renderFavoritos();
+}
+
+function favOpenDrug(name) {
+    switchTab('farmaco');
+    document.querySelector('.vad-grp-btn')?.click();
+    const s = document.getElementById('vademecum-search'); if (s) s.value = name;
+    renderVademecum();
+}
+
+function renderFavoritos() {
+    const box = document.getElementById('favoritos-container'); if (!box) return;
+    const btnCls = 'mt-2 px-3 py-1 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-[11px] font-bold';
+    const cards = favs.map(key => {
+        const i = key.indexOf(':'), type = key.slice(0, i), id = key.slice(i + 1);
+        let icon, tone, title, sub, btn;
+        if (type === 'calc') {
+            const c = (window.calcsData || []).find(x => x.id === id); if (!c) return '';
+            icon = 'fa-calculator'; tone = 'bg-cyan-100 text-cyan-600 dark:bg-cyan-900/40 dark:text-cyan-400';
+            title = c.title; sub = c.desc;
+            btn = `<button type="button" onclick="openCalc('${c.id}')" class="${btnCls}">Abrir</button>`;
+        } else if (type === 'drug') {
+            const d = vademecumData.find(x => x.name === id); if (!d) return '';
+            icon = 'fa-pills'; tone = 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400';
+            title = d.name; sub = `${d.group} · ${(d.indicaciones || []).join(', ')}`;
+            btn = `<button type="button" data-n="${favEsc(d.name)}" onclick="favOpenDrug(this.dataset.n)" class="${btnCls}">Ver ficha</button>`;
+        } else return '';
+        return `
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+            <span class="shrink-0 w-9 h-9 rounded-xl ${tone} flex items-center justify-center"><i class="fa-solid ${icon}"></i></span>
+            <div class="min-w-0 flex-1">
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white">${favEsc(title)}</h4>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">${favEsc(sub)}</p>
+                ${btn}
+            </div>
+            ${favStar(key)}
+        </div>`;
+    }).filter(Boolean);
+    box.innerHTML = cards.length ? cards.join('')
+        : '<p class="text-xs text-slate-400 col-span-full">Aún no has guardado ninguna herramienta en tus favoritos. Haz clic en la estrella ★ de cualquier escala o fármaco para anclarla aquí.</p>';
+}
+
+function calcFramingham() {
+    const v = id => parseFloat(document.getElementById(id)?.value);
+    const age = v('fr-edad'), tc = v('fr-ct'), hdl = v('fr-hdl'), sbp = v('fr-pas');
+    const fem = document.getElementById('fr-sexo')?.value === 'F';
+    const trat = document.getElementById('fr-trat')?.value === '1';
+    const smoke = document.getElementById('fr-fuma')?.checked ? 1 : 0;
+    const dm = document.getElementById('fr-dm')?.checked ? 1 : 0;
+    const resEl = document.getElementById('fr-res'); if (!resEl) return;
+    if ([age, tc, hdl, sbp].some(x => isNaN(x) || x <= 0)) {
+        resEl.textContent = 'Completa edad, colesterol total, HDL y PAS.'; resEl.classList.remove('hidden'); return;
+    }
+    // Coeficientes: D'Agostino et al., Circulation 2008 (Framingham Heart Study)
+    const k = fem
+        ? { age: 2.32888, tc: 1.20904, hdl: -0.70833, sbp: trat ? 2.82263 : 2.76157, sm: 0.52873, dm: 0.69154, mean: 26.1931, s0: 0.95012 }
+        : { age: 3.06117, tc: 1.12370, hdl: -0.93263, sbp: trat ? 1.99881 : 1.93303, sm: 0.65451, dm: 0.57367, mean: 23.9802, s0: 0.88936 };
+    const sum = k.age * Math.log(age) + k.tc * Math.log(tc) + k.hdl * Math.log(hdl) + k.sbp * Math.log(sbp) + k.sm * smoke + k.dm * dm;
+    const risk = (1 - Math.pow(k.s0, Math.exp(sum - k.mean))) * 100;
+    const cat = risk < 10 ? ['Bajo (< 10%)', 'text-emerald-600'] : risk < 20 ? ['Intermedio (10-19%)', 'text-amber-600'] : ['Alto (≥ 20%)', 'text-rose-600'];
+    resEl.innerHTML = `Riesgo CV a 10 años: <strong class="${cat[1]}">${risk.toFixed(1)}%</strong> — ${cat[0]}`
+        + (age < 30 || age > 74 ? '<div class="text-[11px] text-amber-600 mt-1">Edad fuera del rango de validación (30-74 años).</div>' : '')
+        + `<div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">Framingham 2008: estima eventos CV globales (coronarios, cerebrovasculares, arteriopatía periférica e IC). No está recalibrado para población colombiana y no aplica si ya hay enfermedad CV establecida. Interprétalo con el criterio clínico.</div>`;
+    resEl.classList.remove('hidden');
+}
+
+function calcLawton() {
+    const pts = document.querySelectorAll('.lw-chk:checked').length;
+    const resEl = document.getElementById('lawton-res'); if (!resEl) return;
+    const cat = pts === 8 ? 'Independiente' : pts >= 6 ? 'Dependencia ligera' : pts >= 4 ? 'Dependencia moderada' : pts >= 2 ? 'Dependencia severa' : 'Dependencia total';
+    resEl.innerHTML = `Lawton-Brody: <span class="text-indigo-600">${pts} / 8</span> — ${cat}`;
+    resEl.classList.remove('hidden');
+}
+
+const PFEFFER_ITEMS = [
+    'Manejar dinero, pagar cuentas, llevar cuentas del hogar',
+    'Ordenar papeles y asuntos de negocios o impuestos',
+    'Hacer compras solo (ropa, mercado, artículos del hogar)',
+    'Jugar juegos de habilidad o trabajar en un pasatiempo',
+    'Calentar agua, preparar café y apagar la estufa',
+    'Preparar una comida completa',
+    'Mantenerse al tanto de los acontecimientos recientes',
+    'Prestar atención y entender un programa, libro o revista',
+    'Recordar citas, ocasiones familiares y medicamentos',
+    'Viajar fuera del vecindario, conducir u organizar el transporte'
+];
+
+function calcPfeffer() {
+    const total = [...document.querySelectorAll('.pf-sel')].reduce((s, el) => s + parseInt(el.value || 0), 0);
+    const resEl = document.getElementById('pfeffer-res'); if (!resEl) return;
+    const interp = total >= 6 ? 'Puntaje ≥ 6: sospecha de deterioro funcional / demencia' : 'Puntaje < 6: desempeño funcional autónomo';
+    resEl.innerHTML = `Puntaje Pfeffer: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}`;
+    resEl.classList.remove('hidden');
+}
+
         // INITIALIZATION
         window.onload = function() {
             renderSidebarModules();
             rotatePerla();
             renderNovedades();
             renderCalculators();        // <- nuevo (llena window.calcsData)
+            renderFavoritos();
             renderInfectoSindromes();   // <- nuevo
             renderInfectoGermenes();    // <- nuevo
             switchTab('inicio');
