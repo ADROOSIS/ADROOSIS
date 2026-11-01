@@ -712,6 +712,14 @@
                                 </button>
                             </div>
                         </div>
+                        
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 space-y-2">
+    <div id="vad-stats" class="space-y-1.5"></div>
+    <label class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer">
+        <input type="checkbox" id="vad-only-verified" onchange="renderVademecum()"> Mostrar solo fármacos verificados con fuente
+    </label>
+    <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">Herramienta de apoyo: no sustituye la ficha técnica, la guía de tu institución ni el juicio clínico. Las fichas con ✔ muestran su fuente y el alcance de lo verificado; las demás siguen pendientes. Las presentaciones comerciales de Colombia (INVIMA / PBS) aún no se han verificado: contrástalas con tu listado local.</p>
+</div>
 
                     <!-- Calculadora de Infusiones Continuas de Alto Riesgo -->
                     <div class="bg-gradient-to-br from-slate-900 to-teal-950 text-white rounded-2xl p-5 shadow-lg border border-teal-800/60 space-y-4">
@@ -3462,6 +3470,99 @@ const vademecumTanda2 = [
 // Une la tanda 2 con tus fármacos actuales
 vademecumData.push(...vademecumTanda2);
 
+/* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 1 · 31 oct 2026) ===== */
+const VAD_VERSION = 'v1.1 · 1 Nov 2026';
+
+const VAD_VERIF = {
+    'Atropina': {
+        fuente: { t: 'MSD Manual · medicamentos de reanimación (PALS/ACLS)', url: 'https://www.msdmanuals.com/professional/multimedia/table/medications-commonly-used-for-resuscitation' },
+        alcance: 'Dosis de bradicardia (adulto y pediátrica). El esquema de organofosforados no está verificado.'
+    },
+    'Adrenalina (Epinefrina)': {
+        fuente: { t: 'MSD Manual · medicamentos de reanimación (PALS/ACLS)', url: 'https://www.msdmanuals.com/professional/multimedia/table/medications-commonly-used-for-resuscitation' },
+        alcance: 'Dosis en paro cardíaco (adulto y pediátrica). Las dosis de anafilaxia no están verificadas en este lote.'
+    },
+    'Adenosina': {
+        fuente: { t: 'MSD Manual · medicamentos de reanimación (PALS/ACLS)', url: 'https://www.msdmanuals.com/professional/multimedia/table/medications-commonly-used-for-resuscitation' },
+        alcance: 'Dosis en taquicardia supraventricular (adulto y pediátrica).'
+    },
+    'Dextrosa (hipoglucemia)': {
+        fuente: { t: 'MSD Manual · medicamentos de reanimación (PALS/ACLS)', url: 'https://www.msdmanuals.com/professional/multimedia/table/medications-commonly-used-for-resuscitation' },
+        alcance: 'Dosis de hipoglucemia grave (adulto y pediátrica).'
+    },
+    'Bicarbonato de sodio': {
+        fuente: { t: 'MSD Manual · medicamentos de reanimación (PALS 2020)', url: 'https://www.msdmanuals.com/professional/multimedia/table/medications-commonly-used-for-resuscitation' },
+        alcance: 'Dosis (1 mEq/kg) e indicaciones pediátricas de PALS 2020. El criterio de pH en CAD no está verificado.',
+        warning: 'No usar de rutina en paro cardiorrespiratorio. En pediatría, PALS 2020 solo lo contempla en hiperpotasemia, hipocalcemia, hipermagnesemia e intoxicación por tricíclicos o bloqueadores de canales de calcio. En cetoacidosis diabética solo con pH muy bajo. Riesgo de hipernatremia, hipopotasemia, alcalosis y sobrecarga de volumen. Incompatible con calcio y vasopresores en la misma línea.'
+    },
+    'Midazolam': {
+        fuente: { t: 'Guía AES 2016 · estado epiléptico convulsivo', url: 'https://renaissance.stonybrookmedicine.edu/sites/default/files/CSE%20Treatment%20chart-final_rerelease.pdf' },
+        alcance: 'Dosis en estado epiléptico (IM, IV, intranasal y bucal). Las dosis de sedación no están verificadas.'
+    },
+    'Diazepam': {
+        fuente: { t: 'Guía AES 2016 · estado epiléptico convulsivo', url: 'https://renaissance.stonybrookmedicine.edu/sites/default/files/CSE%20Treatment%20chart-final_rerelease.pdf' },
+        alcance: 'Dosis en estado epiléptico (IV y rectal). Las dosis de ansiolisis y espasmo muscular no están verificadas.',
+        adult: 'Status epiléptico: 0.15 - 0.2 mg/kg IV lento (máx 10 mg/dosis, ≤ 5 mg/min), repetible una vez a los 5 min. Ansiedad o espasmo muscular: 2 - 10 mg VO c/8-12h',
+        ped: 'Status: 0.15 - 0.2 mg/kg IV lento (máx 10 mg/dosis), repetible una vez. Rectal: 0.2 - 0.5 mg/kg (máx 20 mg), dosis única. Evitar IM por absorción errática'
+    },
+    'Levetiracetam': {
+        fuente: { t: 'Guía AES 2016 · estado epiléptico convulsivo', url: 'https://renaissance.stonybrookmedicine.edu/sites/default/files/CSE%20Treatment%20chart-final_rerelease.pdf' },
+        alcance: 'Dosis de carga en estado epiléptico. El mantenimiento y el ajuste renal no están verificados.'
+    },
+    'Ácido valproico (Valproato)': {
+        fuente: { t: 'Guía AES 2016 · estado epiléptico convulsivo', url: 'https://renaissance.stonybrookmedicine.edu/sites/default/files/CSE%20Treatment%20chart-final_rerelease.pdf' },
+        alcance: 'Dosis de carga en estado epiléptico. Las dosis de epilepsia crónica no están verificadas.',
+        adult: 'Status: 40 mg/kg IV (máx 3000 mg), dosis única en unos 10 min. Epilepsia: 10 - 15 mg/kg/día VO c/8-12h, titulando hasta 20 - 30 mg/kg/día (máx 60 mg/kg/día)',
+        ped: 'Status: 40 mg/kg IV (máx 3000 mg). Epilepsia: 10 - 15 mg/kg/día VO dividido c/8-12h, titulando hasta 30 - 60 mg/kg/día. Evitar en < 2 años (riesgo de hepatotoxicidad)'
+    },
+    'Ketorolaco': {
+        fuente: { t: 'Ficha técnica de ketorolaco inyectable (Pfizer)', url: 'https://www.pfizermedical.com/ketorolac-inj/dosage-admin' },
+        alcance: 'Dosis IV/IM/VO del adulto, máximos diarios y duración. La dosis pediátrica es fuera de indicación.',
+        adult: 'Dosis única: IV 30 mg (15 mg si ≥ 65 años, < 50 kg o falla renal); IM 60 mg (30 mg en esos casos). Dosis múltiples IV/IM: 30 mg c/6h (máx 120 mg/día); si ≥ 65 años, < 50 kg o falla renal: 15 mg c/6h (máx 60 mg/día). VO solo como continuación: 10 mg c/4-6h (máx 40 mg/día). Duración total máxima (IV/IM + VO): 5 días. Bolo IV en ≥ 15 segundos',
+        ped: 'No indicado en < 17 años según la ficha. Uso pediátrico fuera de indicación: 0.5 mg/kg IV (máx 15 mg), solo por especialista y por 48-72h',
+        renal: 'Contraindicado en insuficiencia renal avanzada o riesgo de falla renal por hipovolemia (corrígela antes). En insuficiencia renal leve a moderada: 15 mg c/6h (máx 60 mg/día)',
+        warning: 'Contraindicado en sangrado activo, úlcera péptica, dengue, asma sensible a AINE, trabajo de parto y antes de cirugía mayor. Duración total máxima 5 días. No mezclar en la misma jeringa con morfina, meperidina, prometazina ni hidroxizina (precipita).'
+    },
+    'Sulfato de magnesio': {
+        fuente: { t: 'ACOG (checklist de eclampsia) y OMS (WHOPAR)', url: 'https://www.scdhhs.gov/sites/default/files/ACOG-District-II-Checklist-Eclampsia.pdf' },
+        alcance: 'Esquemas de eclampsia / preeclampsia severa, monitoreo y toxicidad. Las dosis de asma y torsades son orientativas.',
+        adult: 'Preeclampsia severa / eclampsia: carga 4 - 6 g IV en 20 - 30 min, mantenimiento 1 - 2 g/h (hasta 24 h posparto). Convulsión recurrente: 2 g IV adicionales en 5 min. Sin acceso IV: 10 g IM (5 g en cada glúteo) y luego 5 g IM c/4h. Asma grave: 2 g IV en 20 min. Torsades de pointes: 1 - 2 g IV en 5 - 20 min',
+        renal: 'Se elimina por vía renal. Con oliguria o creatinina ≥ 1 mg/dL: reducir el mantenimiento (1 g/h) y vigilar niveles de magnesio c/4-6h',
+        warning: 'ALTO RIESGO. Continuar solo si FR ≥ 16/min, reflejos rotulianos presentes y diuresis ≥ 30 mL/h. Rango terapéutico 5 - 9 mg/dL; pérdida de reflejos > 9; depresión respiratoria > 12. Toxicidad: suspender, dar oxígeno y gluconato de calcio 1 g (10 mL al 10%) IV lento. Evitar en edema pulmonar, falla renal y miastenia gravis.'
+    },
+    'Enoxaparina': {
+        fuente: { t: 'Ficha de Lovenox y guía de dosificación del NHS (Gloucestershire)', url: 'https://hemonc.org/docs/packageinsert/enoxaparin.pdf' },
+        alcance: 'Dosis de profilaxis, tratamiento, SCA e IAMCEST del adulto y ajuste renal. La dosis pediátrica no está verificada.',
+        adult: 'Profilaxis: 40 mg SC c/24h (cirugía abdominal y pacientes médicos con movilidad limitada); rodilla: 30 mg c/12h; cadera: 30 mg c/12h o 40 mg c/24h. Tratamiento TVP/TEP: 1 mg/kg SC c/12h o 1.5 mg/kg c/24h (hospitalizado); TVP ambulatoria sin TEP: 1 mg/kg c/12h. Angina inestable / IAM sin elevación ST: 1 mg/kg c/12h con aspirina. IAMCEST: < 75 años 30 mg IV en bolo + 1 mg/kg SC y luego 1 mg/kg c/12h; ≥ 75 años 0.75 mg/kg c/12h sin bolo',
+        renal: 'Ajustar por aclaramiento de creatinina (Cockcroft-Gault), NO por eTFG. Con ClCr < 30 mL/min: profilaxis 30 mg c/24h; tratamiento 1 mg/kg c/24h. Considera anti-Xa en peso extremo (< 45 kg o > 150 kg).',
+        warning: 'ALTO RIESGO: sangrado, trombocitopenia inducida por heparina y hematoma espinal (precaución con anestesia neuroaxial). Verifica la dosis por peso y calcula el ClCr antes de dosificar. En la jeringa prellenada de profilaxis no se expulsa la burbuja de aire.'
+    },
+    'Insulina cristalina (regular)': {
+        fuente: { t: 'Consenso ADA 2024 (revisión CCJM) e ISPAD 2022', url: 'https://www.ccjm.org/content/92/3/152' },
+        alcance: 'Dosis de cetoacidosis y estado hiperosmolar (adulto y pediátrica) y umbrales de potasio. La dosis de hiperpotasemia no está verificada.',
+        adult: 'Cetoacidosis diabética: infusión IV fija de 0.1 UI/kg/h, solo si K⁺ ≥ 3.5 mEq/L (si es menor, repón potasio primero y retrasa la insulina). Estado hiperosmolar: 0.05 UI/kg/h (si hay cetosis o acidosis significativas, tratar como CAD). Hiperpotasemia: 10 UI IV con 25 g de dextrosa. SC: según esquema de corrección o prandial',
+        ped: 'CAD: infusión IV 0.05 - 0.1 UI/kg/h (0.05 si pH > 7.15 o < 5 años), SIN bolo, iniciada al menos 1 hora después de comenzar la hidratación. Si K⁺ < 3.0 mmol/L: retrasa la insulina y repón potasio primero',
+        warning: 'ALTO RIESGO: hipoglucemia e hipopotasemia (mide el potasio antes de iniciar y durante la infusión). Usa bomba de infusión y verifica la concentración preparada. En niños no se da bolo IV inicial.'
+    },
+    // ---- Con ajuste de texto pero SIN verificar (fuente insuficiente) ----
+    'Gluconato de calcio': {
+        verificado: false,
+        nota: 'Discrepancia pendiente: la tabla de reanimación del MSD Manual da 30 mg/kg de gluconato (20 mg/kg de cloruro) en paro; esta ficha usa 50 - 100 mg/kg para hipocalcemia / hiperpotasemia. Confirma según la indicación antes de usar.'
+    },
+    'Amiodarona': {
+        verificado: false,
+        nota: 'Texto pediátrico ajustado con fuente secundaria (bolo en paro; 20 - 60 min con pulso). Falta confirmar con la ficha técnica.',
+        ped: '5 mg/kg IV (máx 300 mg/dosis): en paro, en bolo; con pulso, en 20 - 60 min con monitoreo. Puede repetirse hasta 15 mg/kg'
+    }
+};
+
+vademecumData.forEach(v => {
+    const o = VAD_VERIF[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = o.verificado !== false;
+    v.revisado = '31 oct 2026';
+});
 
 /* =====================================================================
    SELECTOR ADULTO / PEDIÁTRICO
@@ -3487,12 +3588,27 @@ function setVadPoblacion(pob) {
 /* =====================================================================
    RENDER DEL VADEMÉCUM (reemplaza a la función vieja)
    ===================================================================== */
+function vadStats() {
+    const el = document.getElementById('vad-stats'); if (!el) return;
+    const total = vademecumData.length, ok = vademecumData.filter(v => v.verificado).length;
+    const pct = total ? Math.round(ok * 100 / total) : 0;
+    el.innerHTML = `
+        <div class="flex items-center justify-between text-xs font-bold">
+            <span class="text-slate-800 dark:text-slate-100">${ok} de ${total} fármacos verificados con fuente</span>
+            <span class="text-emerald-600 dark:text-emerald-400">${pct}%</span>
+        </div>
+        <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden"><div class="h-full bg-gradient-to-r from-emerald-500 to-teal-500" style="width:${pct}%"></div></div>
+        <div class="text-[10px] text-slate-400">Vademécum ${VAD_VERSION}</div>`;
+}
+
 function renderVademecum() {
     const container = document.getElementById('vademecum-grid');
     if (!container) return;
+    vadStats();
 
     const query = (document.getElementById('vademecum-search')?.value || '').toLowerCase().trim();
     const esAdulto = vadPoblacion === 'adulto';
+    const soloVerif = !!document.getElementById('vad-only-verified')?.checked;
 
     const filtered = vademecumData.filter(v => {
         const matchesGrp = currentVadGroup === 'all' || v.group === currentVadGroup;
@@ -3501,11 +3617,11 @@ function renderVademecum() {
             (v.group || '').toLowerCase().includes(query) ||
             (v.presentacion || '').toLowerCase().includes(query) ||
             (v.indicaciones || []).some(ind => ind.toLowerCase().includes(query));
-        return matchesGrp && matchesQuery;
+        return matchesGrp && matchesQuery && (!soloVerif || v.verificado);
     });
 
     if (!filtered.length) {
-        container.innerHTML = '<p class="text-xs text-slate-400 col-span-full">Sin fármacos aún en esta categoría.</p>';
+        container.innerHTML = `<p class="text-xs text-slate-400 col-span-full">${soloVerif ? 'Ningún fármaco verificado coincide con tu búsqueda.' : 'Sin fármacos aún en esta categoría.'}</p>`;
         return;
     }
 
@@ -3516,6 +3632,10 @@ function renderVademecum() {
             ? 'bg-teal-50 dark:bg-teal-950/30 border-teal-200 dark:border-teal-800'
             : 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800';
         const colorEtiqueta = esAdulto ? 'text-teal-700 dark:text-teal-300' : 'text-indigo-700 dark:text-indigo-300';
+        const fuente = v.verificado && v.fuente
+            ? `<div class="text-[10px] text-slate-500 dark:text-slate-400 leading-snug">Fuente: <a href="${v.fuente.url}" target="_blank" rel="noopener" class="underline hover:text-teal-600">${v.fuente.t}</a> · revisado ${v.revisado}<br><span class="italic">Alcance: ${v.alcance || ''}</span></div>`
+            : '';
+        const nota = v.nota ? `<div class="p-2 rounded-xl bg-rose-500/10 border-l-4 border-rose-500 text-[11px] text-rose-800 dark:text-rose-300"><strong>Pendiente:</strong> ${v.nota}</div>` : '';
 
         return `
         <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2.5 text-xs flex flex-col justify-between">
@@ -3524,10 +3644,15 @@ function renderVademecum() {
                     <div class="flex flex-wrap items-center gap-1.5">
                         <h4 class="font-bold text-slate-900 dark:text-white text-sm">${v.name}</h4>
                         ${v.altoRiesgo ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">⚠ Alto riesgo: doble chequeo</span>' : ''}
-                        ${!v.verificado ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Pendiente de verificación</span>' : ''}
+                        ${v.verificado
+                            ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">✔ Verificado</span>'
+                            : '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Pendiente de verificación</span>'}
                     </div>
-                    <div class="flex items-center gap-1.5 shrink-0"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300">${v.group}</span>${favStar('drug:' + v.name)}</div>             
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300">${v.group}</span>
+                        ${favStar('drug:' + v.name)}
                     </div>
+                </div>
                 <p class="text-slate-600 dark:text-slate-300 italic">${v.descripcion || ''}</p>
                 <div><strong class="text-slate-500">Indicaciones:</strong> <span class="text-slate-800 dark:text-slate-200">${(v.indicaciones || []).join(', ')}</span></div>
                 <div><strong class="text-slate-500">Presentación (Colombia):</strong> <span class="text-slate-800 dark:text-slate-200">${v.presentacion || 'Verificar en fuente'}</span></div>
@@ -3540,6 +3665,9 @@ function renderVademecum() {
                 <div><strong class="text-amber-600 dark:text-amber-400">Interacciones Clave:</strong> ${(v.interacciones || []).join('; ')}</div>
             </div>
             <p class="text-amber-800 dark:text-amber-300 bg-amber-500/10 p-2 rounded-xl mt-2"><strong>Alerta / Advertencia:</strong> ${v.warning || ''}</p>
+            ${nota}
+            ${fuente}
+            <button type="button" data-n="${favEsc(v.name)}" onclick="vadReport(this.dataset.n)" class="self-start text-[10px] font-bold text-slate-400 hover:text-rose-600"><i class="fa-solid fa-flag mr-1"></i>Reportar un error</button>
         </div>`;
     }).join('');
 }
