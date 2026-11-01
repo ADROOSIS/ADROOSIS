@@ -169,6 +169,9 @@
                             <button onclick="switchTab('gases')" class="shrink-0 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-teal-300 font-bold border border-teal-800/60 shadow-md transition-all flex items-center gap-2">
                                 <i class="fa-solid fa-vial-circle-check text-teal-400"></i> Gases Arteriales
                             </button>
+                            <button onclick="switchTab('algoritmos')" class="shrink-0 px-4 py-2.5 rounded-xl bg-fuchsia-600/90 hover:bg-fuchsia-500 text-white font-bold shadow-md transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-diagram-project text-fuchsia-200"></i> Algoritmos
+                            </button>
                             <button onclick="switchTab('favoritos')" class="shrink-0 px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold border border-amber-500/40 shadow-md transition-all flex items-center gap-2">
                                 <i class="fa-solid fa-star text-amber-400"></i> Mis Favoritas ★
                             </button>
@@ -327,6 +330,18 @@
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Biblioteca patognomónica rápida de tríadas clínicas (Beck, Charcot, Reynolds, Virchow, Cushing, Whipple, Samter, etc.).</p>
                                 </div>
                             </div>
+
+                            <!-- Category Card: algoritmos -->
+                            <div onclick="switchTab('algoritmos')" class="cursor-pointer bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md hover:border-teal-500 transition-all space-y-3 group">
+                                <div class="flex items-center justify-between">
+                                    <div class="p-3 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-600 dark:text-fuchsia-400 group-hover:bg-fuchsia-600 group-hover:text-white transition-colors"><i class="fa-solid fa-diagram-project text-xl"></i></div>
+                                        <span class="text-xs font-bold text-fuchsia-600 dark:text-fuchsia-400 group-hover:translate-x-1 transition-transform">Abrir <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                                    </div>
+                                <div>
+                                <h4 class="font-bold text-slate-900 dark:text-white text-base">Algoritmos de Decisión</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Paso a paso interactivo con dosis por peso: anafilaxia, estado epiléptico y deshidratación pediátrica. Con fuente y fecha de revisión.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -432,7 +447,7 @@
                     </div>
 
                     <!-- SUB-VIEW: POR SÍNDROME -->
-                <div id="inf-view-sindrome" class="space-y-4">
+                    <div id="inf-view-sindrome" class="space-y-4">
         
                     <!-- MÓDULO EXPRÉS: ARBOVIROSIS (OMS 2025) -->
                     <div class="bg-white dark:bg-slate-800 rounded-2xl border border-emerald-200 dark:border-emerald-900/50 shadow-sm overflow-hidden mb-4">
@@ -497,9 +512,9 @@
                     <div class="relative max-w-xl">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         <input type="text" id="inf-sindrome-search" onkeyup="renderInfectoSindromes()" placeholder="Buscar síndrome (ej: sepsis, NAC, ITU, celulitis, meningitis)..." class="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+                        </div>
+                        <div id="inf-sindromes-container" class="space-y-4"></div>
                     </div>
-                    <div id="inf-sindromes-container" class="space-y-4"></div>
-                </div>
 
                     <!-- SUB-VIEW: POR GERMEN -->
                     <div id="inf-view-germen" class="space-y-4 hidden">
@@ -619,8 +634,8 @@
                         </div>
                     </div>
 
-                    <div id="gas-steps-container" class="space-y-4 hidden"></div>
-                </section>
+                     <div id="gas-steps-container" class="space-y-4 hidden"></div>
+                    </section>
 
                 <!-- SECTION 3: TRIADAS CLÍNICAS -->
                 <section id="tab-triadas" class="tab-content space-y-6 hidden">
@@ -647,6 +662,18 @@
 
                     <div id="triads-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
                 </section>
+
+                <!-- SECTION: ALGORITMOS -->
+                    <section id="tab-algoritmos" class="tab-content space-y-5 hidden">
+                        <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4">
+                            <h2 class="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                                <i class="fa-solid fa-diagram-project text-fuchsia-500"></i> Algoritmos de Decisión
+                            </h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Paso a paso para la guardia, con dosis por peso. Apoyo a la decisión: no sustituye la guía de tu institución ni el juicio clínico.</p>
+                        </div>
+                        <div id="alg-list-view" class="space-y-4"></div>
+                        <div id="alg-run-view" class="hidden space-y-4"></div>
+                    </section>
 
                 <!-- SECTION 4:SÍNDROMES SEMIOLÓGICOS -->
                 <section id="tab-semiologia" class="tab-content space-y-6 hidden">
@@ -908,7 +935,8 @@
             { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
             { id: 'farmaco', label: 'Vademécum', icon: 'fa-pills' },
             { id: 'sivigila', label: 'Salud Pública / RIAS', icon: 'fa-hospital-user' },
-            { id: 'triadas', label: 'Tríadas Clínicas', icon: 'fa-layer-group' }
+            { id: 'triadas', label: 'Tríadas Clínicas', icon: 'fa-layer-group' },
+            { id: 'algoritmos', label: 'Algoritmos', icon: 'fa-diagram-project', kw: 'algoritmo flujograma decision paso a paso anafilaxia estado epileptico convulsion diarrea deshidratacion planes A B C urgencias de campo' },
         ];
 
         let currentGermCategory = 'all';
@@ -4045,7 +4073,8 @@ function renderVademecum() {
                 { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
                 { id: 'farmaco', label: 'Vademécum', icon: 'fa-pills' },
                 { id: 'sivigila', label: 'Salud Pública / RIAS', icon: 'fa-hospital-user' },
-                { id: 'triadas', label: 'Tríadas Clínicas', icon: 'fa-layer-group' }
+                { id: 'triadas', label: 'Tríadas Clínicas', icon: 'fa-layer-group' },
+                { id: 'algoritmos', label: 'Algoritmos', icon: 'fa-diagram-project', kw: 'algoritmo flujograma decision paso a paso anafilaxia estado epileptico convulsion diarrea deshidratacion planes A B C urgencias de campo' }
             ];
             renderSidebarModules();
             closeReorderModal();
@@ -4103,6 +4132,7 @@ function renderVademecum() {
             if (tabId === 'sivigila') switchSpSubTab('tamizaje');
             if (tabId === 'semiologia') renderSemiologia();
             if (tabId === 'favoritos') renderFavoritos();
+            if (tabId === 'algoritmos') algInit();
         }
 
         function toggleSidebar() {
@@ -5353,6 +5383,418 @@ function calcPfeffer() {
     const interp = total >= 6 ? 'Puntaje ≥ 6: sospecha de deterioro funcional / demencia' : 'Puntaje < 6: desempeño funcional autónomo';
     resEl.innerHTML = `Puntaje Pfeffer: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}`;
     resEl.classList.remove('hidden');
+}
+
+/* =====================================================================
+   ALGORITMOS · motor interactivo + primeros 3 algoritmos
+   ===================================================================== */
+const ALG = { cur: null, path: [], pob: 'adulto', peso: '', fArea: 'all', fPob: 'all' };
+const POB_L = { adulto: 'Adulto', pediatrico: 'Pediátrico' };
+const algEsc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+const algPick = (v, pob) => (v && typeof v === 'object' && !Array.isArray(v) && ('adulto' in v || 'pediatrico' in v)) ? (v[pob] ?? v.adulto ?? v.pediatrico) : v;
+const fmtN = d => d >= 100 ? Math.round(d) : (d >= 10 ? +d.toFixed(1) : +d.toFixed(2));
+
+// Dosis por mg/kg con tope
+const dMgKg = (n, mgkg, max, nota) => ({ n, nota, f: kg => {
+    let d = kg * mgkg, t = '';
+    if (max != null && d > max) { d = max; t = ' (dosis máxima)'; }
+    return `${fmtN(d)} mg${t}`;
+}});
+
+// Adrenalina IM (1 mg/mL: mg = mL). Tope según edad.
+const DOSIS_ADRE = { n: 'Adrenalina IM (ampolla 1 mg/mL)', nota: 'Tope: 0.5 mg en adultos y adolescentes; 0.3 mg en niños prepúberes.', f: (kg, pob) => {
+    const tope = pob === 'pediatrico' ? 0.3 : 0.5;
+    let d = 0.01 * kg, t = '';
+    if (d > tope) { d = tope; t = ' (dosis máxima)'; }
+    return `${fmtN(d)} mg = ${fmtN(d)} mL${t}`;
+}};
+
+const ALG_DATA = [
+{
+    id: 'anafilaxia', titulo: 'Anafilaxia', area: 'Urgencias', pob: ['adulto', 'pediatrico'], peso: true,
+    fuente: { t: 'WAO 2020 · parámetros prácticos de anafilaxia 2020', url: 'https://waojournal.biomedcentral.com/articles/10.1097/WOX.0b013e318211496c/tables/5' },
+    revisado: '1 nov 2026',
+    alcance: 'Adrenalina IM (dosis, tope y repetición), líquidos, tratamientos adyuvantes y observación. El glucagón y la infusión de adrenalina IV provienen de fuentes secundarias.',
+    kw: 'anafilaxia reaccion alergica adrenalina epinefrina urticaria angioedema picadura alergia shock anafilactico estridor',
+    nodos: {
+        inicio: { tipo: 'q', corto: 'Reconocer anafilaxia',
+            t: '¿Inicio agudo (minutos a pocas horas) tras un posible alérgeno, con alguna de estas combinaciones?',
+            det: ['Piel o mucosas (urticaria, prurito, angioedema) MÁS dificultad respiratoria (sibilancias, estridor, disnea, hipoxemia) o hipotensión / mala perfusión',
+                  'Dos o más de: piel/mucosas, respiratorio, hipotensión, síntomas digestivos persistentes (vómito, dolor cólico)',
+                  'Hipotensión aislada tras exposición a un alérgeno conocido para ese paciente'],
+            opts: [{ t: 'Sí, cumple al menos una', to: 'adrenalina' },
+                   { t: 'Dudoso, pero hay compromiso respiratorio o circulatorio', to: 'adrenalina' },
+                   { t: 'No: solo síntomas cutáneos aislados', to: 'local' }] },
+        local: { tipo: 'fin', tono: 'warn', corto: 'Reacción localizada',
+            t: 'Reacción alérgica localizada (sin criterios de anafilaxia)',
+            det: ['Retira el alérgeno y trata los síntomas cutáneos con un antihistamínico oral de segunda generación',
+                  'Explica los signos de alarma: dificultad para respirar, hinchazón de lengua o garganta, mareo o desmayo, vómito repetido',
+                  'Si aparece cualquiera de ellos: adrenalina IM y consulta urgente (vuelve a este algoritmo)'],
+            links: [{ l: 'Ver Loratadina', drug: 'Loratadina' }] },
+        adrenalina: { tipo: 'act', corto: 'Adrenalina IM',
+            t: 'Aplica adrenalina IM AHORA. No esperes el acceso venoso ni los exámenes.',
+            det: {
+                adulto: ['Cara anterolateral del muslo (tercio medio), solución 1 mg/mL (1:1000)',
+                         'Dosis: 0.01 mg/kg, máximo 0.5 mg. Sin peso conocido: 0.5 mg IM',
+                         'Anota la hora de cada dosis',
+                         'En paralelo: pide ayuda, acuesta al paciente con las piernas elevadas (no lo sientes ni lo pongas de pie de golpe), retira el alérgeno y da oxígeno si hay dificultad respiratoria'],
+                pediatrico: ['Cara anterolateral del muslo (tercio medio), solución 1 mg/mL (1:1000)',
+                         'Dosis: 0.01 mg/kg; máximo 0.3 mg en niños prepúberes (0.5 mg en adolescentes)',
+                         'Sin balanza (dosis fijas orientativas): 0.1 mg si pesa 7.5-15 kg, 0.15 mg si 15-30 kg, 0.3 mg si ≥ 30 kg, 0.5 mg si es adolescente ≥ 50 kg',
+                         'Anota la hora de cada dosis',
+                         'En paralelo: pide ayuda, acuesta al niño con las piernas elevadas, retira el alérgeno y da oxígeno si hay dificultad respiratoria'] },
+            dosis: [DOSIS_ADRE],
+            links: [{ l: 'Ver Adrenalina en el vademécum', drug: 'Adrenalina (Epinefrina)' }],
+            sig: 'reeval' },
+        reeval: { tipo: 'q', corto: 'Reevaluar a los 5 min',
+            t: 'A los 5 minutos: ¿mejoraron la respiración y la presión?',
+            opts: [{ t: 'Mejoró y está estable', to: 'estable' },
+                   { t: 'Persisten síntomas o empeora', to: 'repetir' }] },
+        repetir: { tipo: 'act', corto: 'Repetir y escalar',
+            t: 'Repite la adrenalina IM cada 5-15 minutos mientras persistan los síntomas y escala el soporte',
+            det: ['Misma dosis que la primera; no hay una dosis acumulada máxima si se necesita repetir',
+                  'Acceso IV/IO y bolo de cristaloide (ver dosis); repite según respuesta',
+                  'Broncoespasmo: salbutamol nebulizado 2.5-5 mg (no reemplaza la adrenalina)',
+                  'Si toma betabloqueadores y no responde: glucagón 1-5 mg IV lento (adultos)',
+                  'Estridor o edema de vía aérea progresivo: asegura la vía aérea de forma temprana (puede requerir vía aérea quirúrgica)'],
+            dosis: [DOSIS_ADRE,
+                { n: 'Bolo de cristaloide (SSN 0.9% o Ringer)', nota: 'Adulto: 5-10 mL/kg en los primeros 5-10 min. Niño: 10 mL/kg.',
+                  f: (kg, pob) => pob === 'pediatrico' ? `${Math.round(10 * kg)} mL` : `${Math.round(5 * kg)} - ${Math.round(10 * kg)} mL` }],
+            links: [{ l: 'Ver Salbutamol', drug: 'Salbutamol (Albuterol)' }],
+            opts: [{ t: 'Mejoró', to: 'estable' },
+                   { t: 'Persiste tras 3 dosis de adrenalina IM', to: 'remitir' }] },
+        remitir: { tipo: 'fin', tono: 'crit', corto: 'Refractaria',
+            t: 'Anafilaxia refractaria: remisión urgente a UCI',
+            det: ['Infusión de adrenalina IV solo con monitoreo continuo (iniciar cerca de 0.1 mcg/kg/min y titular a la respuesta)',
+                  'Continúa los líquidos y agrega vasopresor según disponibilidad',
+                  'Durante el traslado: oxígeno, adrenalina IM repetida si no hay infusión y vía aérea asegurada si hay compromiso',
+                  'Entrega al receptor la hora y el número de dosis de adrenalina'],
+            links: [{ l: 'Calculadora de infusión (vademécum)', tab: 'farmaco' }] },
+        estable: { tipo: 'fin', tono: 'ok', corto: 'Observación y salida',
+            t: 'Paciente estabilizado: observación y plan de salida',
+            det: ['Observa hasta que los síntomas se resuelvan por completo; más tiempo si la reacción fue grave o necesitó más de una dosis (riesgo de reacción bifásica). La práctica común es al menos 4-6 horas, con evidencia limitada',
+                  'Antihistamínicos y corticoides no son tratamiento de primera línea ni previenen la reacción bifásica: úsalos solo para síntomas cutáneos',
+                  'Antes de la salida: explica los signos de alarma y entrega un plan de acción por escrito',
+                  'Si está disponible, prescribe autoinyector de adrenalina (0.15 mg para 15-30 kg; 0.3 mg para ≥ 30 kg) y remite a alergología',
+                  'Investiga el desencadenante y evita la reexposición'] }
+    }
+},
+{
+    id: 'estatus', titulo: 'Estado epiléptico (convulsión activa)', area: 'Neurología', pob: ['adulto', 'pediatrico'], peso: true,
+    fuente: { t: 'Guía AES 2016 · estado epiléptico convulsivo', url: 'https://renaissance.stonybrookmedicine.edu/sites/default/files/CSE%20Treatment%20chart-final_rerelease.pdf' },
+    revisado: '1 nov 2026',
+    alcance: 'Benzodiacepinas de primera línea, segunda línea y tiempos según AES 2016, y glucemia según guía pediátrica canadiense. La dosis de midazolam en < 13 kg no es de AES y la fenitoína queda pendiente de verificar.',
+    kw: 'estado epileptico convulsion crisis status epilepticus midazolam diazepam lorazepam levetiracetam valproato fosfenitoina fenitoina convulsionando',
+    nodos: {
+        inicio: { tipo: 'q', corto: 'Convulsión activa',
+            t: '¿Convulsión activa por 5 minutos o más, o crisis repetidas sin recuperar la conciencia entre ellas?',
+            opts: [{ t: 'Sí', to: 'estab' }, { t: 'No: la crisis ya terminó', to: 'post' }] },
+        post: { tipo: 'fin', tono: 'warn', corto: 'Crisis resuelta',
+            t: 'Crisis ya resuelta: cuidado post-ictal y búsqueda de la causa',
+            det: ['Posición lateral de seguridad, vía aérea, oxígeno y signos vitales',
+                  'Glucemia capilar',
+                  'Busca la causa: trauma, fiebre, intoxicación, hipoglucemia, alteración del sodio, embarazo (eclampsia)',
+                  'Observa hasta la recuperación completa; remite si es una primera crisis, no recupera la conciencia, hay lesión o foco neurológico'] },
+        estab: { tipo: 'act', corto: 'Estabilizar',
+            t: 'Estabiliza mientras preparas el tratamiento (primeros 5 minutos)',
+            det: ['Vía aérea, oxígeno y posición lateral; aspira secreciones; no pongas nada en la boca',
+                  'Monitoreo (SatO₂, pulso, PA) y acceso IV/IO',
+                  'Glucemia capilar inmediata, pero NO retrases la benzodiacepina esperando el resultado',
+                  'Mujer embarazada o en posparto con hipertensión: trátala como eclampsia con sulfato de magnesio'],
+            links: [{ l: 'Ver Sulfato de magnesio', drug: 'Sulfato de magnesio' }],
+            sig: 'gluc' },
+        gluc: { tipo: 'q', corto: 'Glucemia',
+            t: '¿La glucemia capilar es menor de 60 mg/dL?',
+            opts: [{ t: 'Sí: hipoglucemia', to: 'hipo' }, { t: 'No, o no tengo glucómetro', to: 'benzo' }] },
+        hipo: { tipo: 'act', corto: 'Tratar hipoglucemia',
+            t: 'Corrige la hipoglucemia',
+            det: { adulto: ['Dextrosa al 50%: 25 g (50 mL) IV', 'Si sospechas alcoholismo o desnutrición, da tiamina antes o junto con la glucosa'],
+                   pediatrico: ['Dextrosa al 10%: 5 mL/kg IV (0.5 g/kg) en 5-10 minutos', 'Recién nacidos: dextrosa al 10%, 2 mL/kg'] },
+            links: [{ l: 'Ver Dextrosa', drug: 'Dextrosa (hipoglucemia)' }],
+            sig: 'benzo' },
+        benzo: { tipo: 'act', corto: 'Benzodiacepina',
+            t: 'Da UNA benzodiacepina ahora (las tres opciones son equivalentes)',
+            det: ['Midazolam IM: la opción más práctica si no hay vía IV',
+                  'Lorazepam IV: 0.1 mg/kg (máx 4 mg), repetible una vez, si está disponible',
+                  'Diazepam IV: 0.15-0.2 mg/kg (máx 10 mg), repetible una vez a los 5 minutos',
+                  'Sin vía IV ni IM: diazepam rectal 0.2-0.5 mg/kg (máx 20 mg) o midazolam intranasal / bucal',
+                  'Vigila la depresión respiratoria y ten bolsa-mascarilla lista'],
+            dosis: [
+                { n: 'Midazolam IM (o intranasal)', nota: 'AES 2016: 10 mg si pesa más de 40 kg; 5 mg si pesa 13-40 kg. En menos de 13 kg se muestra 0.2 mg/kg (esquema pediátrico canadiense, no es de AES).',
+                  f: kg => kg > 40 ? '10 mg' : kg >= 13 ? '5 mg' : `${fmtN(0.2 * kg)} mg (0.2 mg/kg)` },
+                { n: 'Diazepam IV lento', nota: 'Máximo 5 mg/min. Repetible una vez.',
+                  f: kg => `${fmtN(Math.min(0.15 * kg, 10))} - ${fmtN(Math.min(0.2 * kg, 10))} mg (máx 10 mg)` },
+                dMgKg('Lorazepam IV', 0.1, 4, 'Velocidad máxima 2 mg/min. Repetible una vez a los 5-10 min.')
+            ],
+            links: [{ l: 'Ver Midazolam', drug: 'Midazolam' }, { l: 'Ver Diazepam', drug: 'Diazepam' }],
+            opts: [{ t: 'La convulsión cesó', to: 'cesa' }, { t: 'Sigue convulsionando', to: 'segunda' }] },
+        cesa: { tipo: 'fin', tono: 'ok', corto: 'Controlada',
+            t: 'Convulsión controlada',
+            det: ['Vigila la respiración y el nivel de conciencia (riesgo de depresión respiratoria)',
+                  'Si las crisis recurren o hay epilepsia conocida, la decisión de iniciar o ajustar un anticonvulsivante de mantenimiento se toma con neurología',
+                  'Busca y trata la causa; remite a un centro con laboratorio y neuroimagen',
+                  'Eclampsia sospechada: sulfato de magnesio'] },
+        segunda: { tipo: 'act', corto: 'Segunda línea',
+            t: 'Si persiste a los 5-20 minutos sin respuesta: dosis ÚNICA de UNO de estos fármacos',
+            det: ['Levetiracetam 60 mg/kg IV (máx 4500 mg)',
+                  'Fosfenitoína 20 mg PE/kg IV (máx 1500 mg PE)',
+                  'Valproato 40 mg/kg IV (máx 3000 mg); evítalo en embarazo y en mujeres en edad fértil si hay alternativa',
+                  'Fenitoína IV es la alternativa si no hay fosfenitoína: consulta la ficha del vademécum (verificación pendiente)',
+                  'Las tres primeras tuvieron eficacia similar (≈ 45-47% de cese) en el estudio ESETT'],
+            dosis: [dMgKg('Levetiracetam IV', 60, 4500, 'Infusión en 5-10 minutos.'),
+                    dMgKg('Fosfenitoína IV (mg de equivalentes de fenitoína, PE)', 20, 1500, 'Velocidad hasta 150 mg PE/min.'),
+                    dMgKg('Valproato IV', 40, 3000, 'Infusión en unos 10 minutos.')],
+            links: [{ l: 'Ver Levetiracetam', drug: 'Levetiracetam' }, { l: 'Ver Valproato', drug: 'Ácido valproico (Valproato)' }, { l: 'Ver Fenitoína', drug: 'Fenitoína' }],
+            opts: [{ t: 'La convulsión cesó', to: 'cesa' }, { t: 'Persiste más de 40 minutos', to: 'refrac' }] },
+        refrac: { tipo: 'fin', tono: 'crit', corto: 'Refractario',
+            t: 'Estado epiléptico refractario: UCI',
+            det: ['Remisión urgente a un centro con UCI y EEG continuo',
+                  'Requiere anestésicos en infusión (midazolam, propofol, ketamina o barbitúricos) con ventilación mecánica',
+                  'Mientras tanto: soporte de vía aérea, ventilación y presión arterial; busca causas tratables (glucosa, sodio, tóxicos, infección del SNC, eclampsia)',
+                  'Si hay fiebre y sospecha de meningitis: antibiótico sin demora (Infectología → Meningitis bacteriana aguda)'],
+            links: [{ l: 'Ir a Infectología', tab: 'infectologia' }] }
+    }
+},
+{
+    id: 'deshidratacion', titulo: 'Diarrea aguda y deshidratación del niño (Planes A, B y C)', area: 'Pediatría', pob: ['pediatrico'], peso: true,
+    fuente: { t: 'Planes de rehidratación de la OMS · guías MSF e IAP', url: 'https://medicalguidelines.msf.org/en/viewport/mme/english/appendix-14-plan-rehydration-who-32408338.html' },
+    revisado: '1 nov 2026',
+    alcance: 'Volúmenes y tiempos de los Planes A, B y C, zinc y desnutrición grave. La lista de signos de deshidratación (AIEPI) sigue el estándar de la OMS y no se re-verificó en este lote.',
+    kw: 'diarrea deshidratacion nino pediatria suero oral SRO plan A plan B plan C ringer lactato zinc AIEPI gastroenteritis',
+    nodos: {
+        inicio: { tipo: 'q', corto: 'Descartar gravedad',
+            t: '¿Es menor de 2 meses, tiene desnutrición aguda grave, vómito biliar, distensión importante o sospecha de abdomen quirúrgico?',
+            opts: [{ t: 'Sí', to: 'remitir' }, { t: 'No', to: 'eval' }] },
+        remitir: { tipo: 'fin', tono: 'crit', corto: 'Manejo especializado',
+            t: 'Requiere valoración y manejo especializado: remite',
+            det: ['La desnutrición aguda grave se rehidrata con un esquema distinto (ReSoMal o SRO diluida con potasio y glucosa): NO uses los planes estándar',
+                  'Lactante menor de 2 meses con diarrea: valoración pediátrica urgente',
+                  'Mientras se traslada: SRO en sorbos pequeños y frecuentes si puede beber; continúa la lactancia'] },
+        eval: { tipo: 'q', corto: 'Deshidratación grave',
+            t: '¿Tiene DOS O MÁS de estos signos?',
+            det: ['Letárgico o inconsciente', 'Ojos hundidos', 'No puede beber o bebe mal', 'El pliegue cutáneo vuelve muy lentamente (más de 2 segundos)'],
+            opts: [{ t: 'Sí: deshidratación GRAVE', to: 'c' }, { t: 'No', to: 'eval2' }] },
+        eval2: { tipo: 'q', corto: 'Algún grado de deshidratación',
+            t: '¿Tiene DOS O MÁS de estos signos?',
+            det: ['Inquieto o irritable', 'Ojos hundidos', 'Bebe ávidamente, con sed', 'El pliegue cutáneo vuelve lentamente'],
+            opts: [{ t: 'Sí: ALGÚN grado de deshidratación', to: 'b' }, { t: 'No: sin deshidratación', to: 'a' }] },
+        a: { tipo: 'fin', tono: 'ok', corto: 'Plan A',
+            t: 'Plan A: tratamiento en casa',
+            det: ['Más líquidos: SRO después de cada deposición líquida. Menor de 2 años: 50-100 mL; 2-10 años: 100-200 mL; mayor: a voluntad',
+                  'Continúa la lactancia y la alimentación habitual',
+                  'Zinc: 10 mg/día si es menor de 6 meses; 20 mg/día si tiene 6 meses o más, por 10-14 días',
+                  'Sangre en las heces (disentería) o sospecha de cólera: requiere antibiótico y control (Infectología → Diarrea aguda infecciosa)',
+                  'Signos de alarma para volver: no puede beber, empeora, fiebre alta, sangre en las heces, vómito persistente o sed intensa'],
+            links: [{ l: 'Ver SRO', drug: 'Sales de rehidratación oral (SRO)' }, { l: 'Ver Zinc', drug: 'Zinc (suplemento en diarrea)' }, { l: 'Diarrea aguda infecciosa', tab: 'infectologia' }] },
+        b: { tipo: 'act', corto: 'Plan B',
+            t: 'Plan B: rehidratación oral supervisada en el servicio de salud',
+            det: ['SRO de baja osmolaridad: 75 mL/kg en 4 horas',
+                  'Si vomita: espera 5-10 minutos y reinicia más despacio. Si el vómito impide la SRO, el ondansetrón en dosis única puede ayudar',
+                  'Continúa la lactancia; no des otros alimentos durante las primeras 4 horas',
+                  'Reevalúa a las 4 horas: sin signos → Plan A; sin cambios → repite el Plan B; empeora → Plan C'],
+            dosis: [{ n: 'SRO en 4 horas (Plan B)', nota: 'Volumen aproximado: peso en kg × 75 mL.',
+                      f: kg => `${Math.round(75 * kg)} mL en 4 h (≈ ${Math.round(75 * kg / 4)} mL/h)` }],
+            links: [{ l: 'Ver SRO', drug: 'Sales de rehidratación oral (SRO)' }, { l: 'Ver Ondansetrón', drug: 'Ondansetrón' }],
+            opts: [{ t: 'Reevaluación: sin deshidratación', to: 'a' }, { t: 'Sigue con algún grado de deshidratación', to: 'b' }, { t: 'Progresó a deshidratación grave', to: 'c' }] },
+        c: { tipo: 'act', corto: 'Plan C',
+            t: 'Plan C: deshidratación grave. Líquidos IV YA',
+            det: ['Lactato de Ringer 100 mL/kg (si no hay: solución salina 0.9%; NUNCA solo dextrosa al 5%)',
+                  'Menor de 12 meses: 30 mL/kg en 1 hora y luego 70 mL/kg en 5 horas',
+                  '12 meses o más: 30 mL/kg en 30 minutos y luego 70 mL/kg en 2.5 horas',
+                  'Repite los 30 mL/kg si el pulso radial sigue débil o ausente',
+                  'Reevalúa cada 15-30 minutos y da SRO (5 mL/kg/h) apenas pueda beber',
+                  'Sin acceso IV/IO: SRO por sonda nasogástrica a 20 mL/kg/h por 6 horas',
+                  'Reevalúa a las 6 horas (lactantes) o 3 horas (mayores) y elige el plan que corresponda'],
+            dosis: [{ n: 'Lactato de Ringer (Plan C)', nota: 'Primero 30 mL/kg; luego 70 mL/kg.',
+                      f: kg => `Menor de 12 meses: ${Math.round(30 * kg)} mL en 1 h y ${Math.round(70 * kg)} mL en 5 h · 12 meses o más: ${Math.round(30 * kg)} mL en 30 min y ${Math.round(70 * kg)} mL en 2.5 h` }],
+            opts: [{ t: 'Rehidratado: continúa con Plan B / A', to: 'b' }, { t: 'Persiste grave o hay choque', to: 'remitir_c' }] },
+        remitir_c: { tipo: 'fin', tono: 'crit', corto: 'No responde',
+            t: 'No responde al Plan C: remite',
+            det: ['Si persiste la deshidratación grave tras el ciclo de líquidos o hay choque, remite a un centro con cuidados intensivos pediátricos',
+                  'Considera sepsis o choque séptico si no corrige con líquidos (el esquema de líquidos cambia)',
+                  'Durante el traslado: continúa los líquidos y la SRO'] }
+    }
+}
+];
+
+/* ---------- Motor ---------- */
+const ALG_TONES = {
+    indigo:  { box: 'border-indigo-300 dark:border-indigo-700 bg-indigo-50/70 dark:bg-indigo-950/30', lab: 'text-indigo-600 dark:text-indigo-400', name: 'PREGUNTA' },
+    teal:    { box: 'border-teal-300 dark:border-teal-700 bg-teal-50/70 dark:bg-teal-950/30', lab: 'text-teal-600 dark:text-teal-400', name: 'ACCIÓN' },
+    emerald: { box: 'border-emerald-300 dark:border-emerald-700 bg-emerald-50/70 dark:bg-emerald-950/30', lab: 'text-emerald-600 dark:text-emerald-400', name: 'RESULTADO · CONTROLADO' },
+    amber:   { box: 'border-amber-300 dark:border-amber-700 bg-amber-50/70 dark:bg-amber-950/30', lab: 'text-amber-600 dark:text-amber-400', name: 'RESULTADO · ATENCIÓN' },
+    rose:    { box: 'border-rose-300 dark:border-rose-700 bg-rose-50/70 dark:bg-rose-950/30', lab: 'text-rose-600 dark:text-rose-400', name: 'RESULTADO · URGENTE' },
+    slate:   { box: 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800', lab: 'text-slate-500', name: 'RESULTADO' }
+};
+
+function algInit() { if (ALG.cur) algShowRun(); else algShowList(); }
+
+function algShowList() {
+    ALG.cur = null; ALG.path = [];
+    document.getElementById('alg-run-view')?.classList.add('hidden');
+    const lv = document.getElementById('alg-list-view'); if (!lv) return;
+    lv.classList.remove('hidden');
+    const areas = [...new Set(ALG_DATA.map(a => a.area))];
+    const chip = (on, label, js) => `<button type="button" class="hc-chip${on ? ' on' : ''}" onclick="${js}">${label}</button>`;
+    const fa = [chip(ALG.fArea === 'all', 'Todas las áreas', "ALG.fArea='all';algShowList()"), ...areas.map(x => chip(ALG.fArea === x, x, `ALG.fArea='${x}';algShowList()`))].join('');
+    const fp = [['all', 'Todas las edades'], ['pediatrico', 'Pediátrico'], ['adulto', 'Adulto']].map(([v, l]) => chip(ALG.fPob === v, l, `ALG.fPob='${v}';algShowList()`)).join('');
+    const list = ALG_DATA.filter(a => (ALG.fArea === 'all' || a.area === ALG.fArea) && (ALG.fPob === 'all' || a.pob.includes(ALG.fPob)));
+    lv.innerHTML = `
+        <div class="space-y-2"><div class="flex flex-wrap gap-1.5">${fa}</div><div class="flex flex-wrap gap-1.5">${fp}</div></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        ${list.map(a => `
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between gap-3">
+                <div class="space-y-2">
+                    <div class="flex items-start justify-between gap-2">
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white leading-snug">${a.titulo}</h3>
+                        ${favStar('alg:' + a.id)}
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 text-[10px] font-bold">
+                        <span class="px-2 py-0.5 rounded bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/40 dark:text-fuchsia-300">${a.area}</span>
+                        ${a.pob.map(p => `<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">${POB_L[p]}</span>`).join('')}
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">Fuente: ${a.fuente.t} · revisado ${a.revisado}</p>
+                </div>
+                <button type="button" onclick="algOpen('${a.id}')" class="py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow">Abrir algoritmo <i class="fa-solid fa-arrow-right ml-1"></i></button>
+            </div>`).join('') || '<p class="text-xs text-slate-400 col-span-full">No hay algoritmos con esos filtros.</p>'}
+        </div>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">En preparación: dolor torácico, sepsis y choque, crisis asmática, hipoglucemia y cetoacidosis, preeclampsia y hemorragia posparto, fiebre del lactante menor de 3 meses y urgencias de campo (ofidismo, organofosforados, rabia, tétanos).</p>`;
+}
+
+function algOpen(id) {
+    const a = ALG_DATA.find(x => x.id === id); if (!a) return;
+    ALG.cur = a; ALG.path = [{ id: 'inicio', choice: '' }];
+    ALG.pob = a.pob.includes(ALG.pob) ? ALG.pob : a.pob[0];
+    algShowRun();
+}
+
+function algShowRun() {
+    const a = ALG.cur; if (!a) { algShowList(); return; }
+    document.getElementById('alg-list-view')?.classList.add('hidden');
+    const rv = document.getElementById('alg-run-view'); if (!rv) return;
+    rv.classList.remove('hidden');
+    const pobBtns = a.pob.length > 1
+        ? `<div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs font-bold">${a.pob.map(p => `<button type="button" onclick="algSetPob('${p}')" class="px-3 py-1.5 rounded-xl ${ALG.pob === p ? 'bg-teal-600 text-white shadow' : 'bg-transparent text-slate-600 dark:text-slate-300'}">${POB_L[p]}</button>`).join('')}</div>`
+        : `<span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">${POB_L[a.pob[0]]}</span>`;
+    const pesoBox = a.peso
+        ? `<div class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300"><label for="alg-peso">Peso (kg):</label><input id="alg-peso" type="number" step="any" min="0" value="${algEsc(ALG.peso)}" oninput="algPeso(this.value)" placeholder="Ej: 20" class="w-24 p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white"></div>` : '';
+    rv.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-bold">
+            <button type="button" onclick="algBack()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-arrow-left mr-1"></i>Todos los algoritmos</button>
+            <button type="button" onclick="algRestart()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-rotate-left mr-1"></i>Reiniciar</button>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 space-y-3">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+                <div><h3 class="font-extrabold text-base text-slate-900 dark:text-white">${a.titulo}</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Fuente: <a href="${a.fuente.url}" target="_blank" rel="noopener" class="underline hover:text-teal-600">${a.fuente.t}</a> · revisado ${a.revisado}</p></div>
+                <div class="flex flex-wrap items-center gap-3">${pobBtns}${pesoBox}</div>
+            </div>
+            <p class="text-[10px] text-slate-400 italic leading-snug">Alcance de la verificación: ${a.alcance}</p>
+        </div>
+        <div id="alg-trail"></div>
+        <div id="alg-node"></div>
+        <p class="text-[10px] text-slate-400 leading-snug">Apoyo a la decisión clínica: no sustituye la guía de tu institución, la ficha técnica ni el juicio clínico. Confirma las dosis antes de administrar.</p>`;
+    algRenderNode();
+}
+
+function algRenderNode() {
+    const a = ALG.cur; if (!a) return;
+    const pob = ALG.pob, kg = parseFloat(ALG.peso), hasKg = !isNaN(kg) && kg > 0;
+    const trail = ALG.path.slice(0, -1).map((p, i) => {
+        const n = a.nodos[p.id];
+        return `<button type="button" onclick="algGoStep(${i})" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-[11px] text-slate-600 dark:text-slate-300 hover:bg-teal-100 dark:hover:bg-teal-900/40 text-left">${i + 1}. ${n.corto}${p.choice ? ': <b>' + algEsc(p.choice) + '</b>' : ''}</button>`;
+    }).join('');
+    document.getElementById('alg-trail').innerHTML = trail
+        ? `<div class="flex flex-wrap gap-1.5"><span class="text-[10px] font-bold text-slate-400 self-center">Recorrido (toca un paso para volver):</span>${trail}</div>` : '';
+
+    const cur = ALG.path[ALG.path.length - 1], n = a.nodos[cur.id];
+    const box = document.getElementById('alg-node');
+    if (!n) { box.innerHTML = `<p class="text-xs text-rose-600">Error: el nodo "${algEsc(cur.id)}" no existe.</p>`; return; }
+
+    const T = ALG_TONES[n.tipo === 'q' ? 'indigo' : n.tipo === 'act' ? 'teal' : ({ ok: 'emerald', warn: 'amber', crit: 'rose' }[n.tono] || 'slate')];
+    const det = algPick(n.det, pob) || [];
+    const detHtml = det.length ? `<ul class="space-y-1.5 text-xs text-slate-700 dark:text-slate-200">${det.map(d => `<li class="flex gap-2"><i class="fa-solid fa-angle-right text-teal-500 mt-0.5 shrink-0"></i><span>${d}</span></li>`).join('')}</ul>` : '';
+
+    let dosisHtml = '';
+    if (n.dosis) {
+        const rows = n.dosis.map(d => {
+            const val = hasKg ? `<b class="text-teal-700 dark:text-teal-300">${d.f(kg, pob)}</b>` : '<span class="text-slate-400 font-normal">ingresa el peso</span>';
+            return `<div class="py-1.5 border-b border-slate-100 dark:border-slate-700 last:border-0"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-bold">${d.n}</span>${val}</div>${d.nota ? `<div class="text-[10px] text-slate-500 dark:text-slate-400">${d.nota}</div>` : ''}</div>`;
+        }).join('');
+        dosisHtml = `<div class="p-3 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 text-xs"><div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Dosis para ${hasKg ? kg + ' kg' : 'el paciente'}</div>${rows}</div>`;
+    }
+
+    const links = (n.links || []).map(l => {
+        if (l.calc) return `<button type="button" onclick="openCalc('${l.calc}')" class="hc-chip">${l.l}</button>`;
+        if (l.drug) return `<button type="button" data-n="${algEsc(l.drug)}" onclick="algOpenDrug(this.dataset.n)" class="hc-chip">${l.l}</button>`;
+        return `<button type="button" onclick="switchTab('${l.tab}')" class="hc-chip">${l.l}</button>`;
+    }).join('');
+
+    let actions;
+    if (n.opts) actions = `<div class="flex flex-col sm:flex-row flex-wrap gap-2 pt-1">${n.opts.map((o, i) => `<button type="button" onclick="algChoose(${i})" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 hover:border-teal-500 hover:bg-teal-50 dark:hover:bg-teal-900/30 text-xs font-bold text-left">${o.t}</button>`).join('')}</div>`;
+    else if (n.sig) actions = `<button type="button" onclick="algChoose(-1)" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow">Continuar <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
+    else actions = `<div class="flex flex-wrap gap-2 pt-1 text-xs font-bold">
+            <button type="button" onclick="algToHC()" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white shadow"><i class="fa-solid fa-file-medical mr-1"></i>Llevar al plan de la Historia Clínica</button>
+            <button type="button" onclick="algCopy()" class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-copy mr-1"></i>Copiar recorrido</button>
+            <button type="button" onclick="algRestart()" class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-rotate-left mr-1"></i>Reiniciar</button>
+            <span id="alg-msg" class="self-center text-emerald-600 dark:text-emerald-400 font-normal"></span></div>`;
+
+    box.innerHTML = `
+        <div class="rounded-2xl border-2 p-5 space-y-3 ${T.box}">
+            <div class="text-[10px] font-extrabold tracking-wider ${T.lab}">${T.name}</div>
+            <h3 class="font-extrabold text-base text-slate-900 dark:text-white leading-snug">${algPick(n.t, pob)}</h3>
+            ${detHtml}${dosisHtml}
+            ${links ? `<div class="flex flex-wrap gap-1.5">${links}</div>` : ''}
+            ${actions}
+        </div>`;
+}
+
+function algChoose(i) {
+    const a = ALG.cur, last = ALG.path[ALG.path.length - 1], n = a.nodos[last.id];
+    let to;
+    if (i >= 0) { const o = n.opts[i]; last.choice = o.t; to = o.to; } else { last.choice = ''; to = n.sig; }
+    ALG.path.push({ id: to, choice: '' });
+    algRenderNode();
+    document.getElementById('alg-node')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function algGoStep(i) { ALG.path = ALG.path.slice(0, i + 1); ALG.path[i].choice = ''; algRenderNode(); }
+function algRestart() { ALG.path = [{ id: 'inicio', choice: '' }]; algRenderNode(); }
+function algBack() { ALG.cur = null; ALG.path = []; algShowList(); }
+function algPeso(v) { ALG.peso = v; algRenderNode(); }
+function algSetPob(p) { ALG.pob = p; algShowRun(); }
+function algOpenDrug(name) {
+    switchTab('farmaco');
+    document.querySelector('.vad-grp-btn')?.click();
+    const s = document.getElementById('vademecum-search'); if (s) s.value = name;
+    renderVademecum();
+}
+
+/* ---------- Resumen del recorrido ---------- */
+function algSummary() {
+    const a = ALG.cur, pob = ALG.pob, kg = parseFloat(ALG.peso);
+    const L = [`ALGORITMO: ${a.titulo}${a.pob.length > 1 ? ' (' + POB_L[pob].toLowerCase() + ')' : ''}${!isNaN(kg) && kg > 0 ? ' · peso ' + kg + ' kg' : ''}`,
+               `Fuente: ${a.fuente.t} · revisado ${a.revisado}`];
+    ALG.path.forEach((p, i) => {
+        const n = a.nodos[p.id], last = i === ALG.path.length - 1;
+        L.push(`${i + 1}. ${n.corto}${p.choice ? ': ' + p.choice : ''}`);
+        if (n.tipo === 'act' || last) L.push(`   → ${algPick(n.t, pob)}`);
+        if (last) (algPick(n.det, pob) || []).forEach(d => L.push(`   - ${d}`));
+    });
+    return L.join('\n');
+}
+function algCopy() {
+    const t = algSummary(), msg = () => { const m = document.getElementById('alg-msg'); if (m) { m.textContent = 'Recorrido copiado ✓'; setTimeout(() => m.textContent = '', 2500); } };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(msg);
+    else { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); msg(); } catch (e) {} ta.remove(); }
+}
+function algToHC() {
+    if (typeof hcOpen !== 'function') { alert('Para usar esta función necesitas el módulo Historia Clínica.'); return; }
+    const txt = algSummary();
+    switchTab('hc');
+    const el = document.getElementById('hc-conducta'); if (!el) return;
+    el.value = (el.value ? el.value + '\n\n' : '') + txt;
+    hcUpdate();
+    document.getElementById('hc-sec-dx')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
         // INITIALIZATION
