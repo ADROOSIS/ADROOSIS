@@ -185,7 +185,7 @@
                                 <span class="w-8 h-8 rounded-xl bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-newspaper"></i></span>
                                 <div>
                                     <h3 class="font-extrabold text-slate-900 dark:text-white text-base">Novedades Clínicas 2025–2026</h3>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Actualizaciones de guías internacionales · Revisado <span id="nov-actualizado">29 oct 2026</span></p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Actualizaciones de guías internacionales · Revisado <span id="nov-actualizado">04 Nov 2026</span></p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-1">
@@ -4427,6 +4427,37 @@ function renderVademecum() {
    ===================================================================== */
 
         const novedadesData = [
+            
+            {
+                id: 'urosepsis-itu-2026',
+                especialidad: 'Infectología',
+                icono: 'fa-user-nurse',
+                color: 'blue',
+                titulo: 'Manejo de Urosepsis e ITU Complicada: Actualización 2026',
+                fecha: 'Nov 2026',
+                cambiaPractica: true,
+                cifra: 'Descompresión urgente en ≤ 6 h',
+                cifraTexto: 'Ante urosepsis con obstrucción urinaria (litiasis o compresión), el drenaje urgente (nefrostomía o catéter doble J) es prioridad absoluta antes o al mismo tiempo que los antibióticos.',
+                cambios: [
+                    {
+                        antes: 'Uso empírico prolongado de fluoroquinolonas o aminoglucósidos en áreas con alta resistencia.',
+                        ahora: 'Evitar fluoroquinolonas empíricas si la resistencia local a E. coli supera el 10%; preferir carbapenémicos de inicio o piperacilina/tazobactam según gravedad.'
+                    },
+                    {
+                        antes: 'Duración estándar de tratamiento en urosepsis de 10 a 14 días.',
+                        ahora: 'Se acorta la duración a 7 días en pacientes con resolución clínica completa y fuente de infección controlada.'
+                    },
+                    {
+                        antes: 'Cultivo de control rutinario al finalizar el tratamiento antimicrobiano.',
+                        ahora: 'No se recomienda urocultivo de control post-tratamiento en pacientes asintomáticos.'
+                    }
+                ],
+                detalle: 'Se enfatiza la reanimación dirigida por metas y la toma de hemocultivos y urocultivo previo al inicio del antibiótico. En pacientes embarazadas o con anomalías anatómicas, se mantiene el umbral de precaución estricta y manejo intrahospitalario inmediato.',
+                fuente: { texto: 'IDSA / EAU Guidelines Update 2026', url: 'https://www.idsociety.org' },
+                aplica: { label: 'Ver Cuidado Crítico', tipo: 'tab', id: 'cuidado-critico' },
+                revisado: '04 nov 2026',
+                verificado: false
+            },
             {
                 id: 'sepsis-ssc-2026',
                 especialidad: 'Cuidado crítico',
