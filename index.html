@@ -692,6 +692,67 @@
                     <div id="semiologia-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                 </section>
 
+                  <!-- SECTION: PLANTILLAS MÉDICAS -->
+                <section id="tab-plantillas" class="tab-content space-y-6 hidden">
+                    <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4">
+                        <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-file-pen text-teal-500"></i> Plantillas Médicas
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Borradores clínicos para agilizar el registro. Revisa y valida todo antes de incorporarlo a la historia clínica.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 md:p-5 space-y-4">
+                            <div>
+                                <label for="tpl-type" class="block text-xs font-bold mb-1.5 text-slate-700 dark:text-slate-200">Tipo de plantilla</label>
+                                <select id="tpl-type" onchange="tplUpdateLabels()" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm">
+                                    <option value="ingreso">Ingreso / Historia clínica inicial</option>
+                                    <option value="urgencias">Atención inicial de urgencias</option>
+                                    <option value="evolucion">Evolución médica</option>
+                                    <option value="egreso">Nota de egreso</option>
+                                    <option value="remision">Remisión / Referencia</option>
+                                    <option value="interconsulta">Solicitud de interconsulta</option>
+                                    <option value="turno">Entrega de turno (SBAR)</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div><label class="block text-xs font-bold mb-1">Fecha y hora</label><input id="tpl-fecha" type="datetime-local" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-2.5 text-sm"></div>
+                                <div><label class="block text-xs font-bold mb-1">Edad / sexo</label><input id="tpl-edad" type="text" placeholder="Ej. 62 años, femenino" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-2.5 text-sm"></div>
+                            </div>
+                            <div><label class="block text-xs font-bold mb-1">Identificador no nominal</label><input id="tpl-id" type="text" placeholder="Ej. iniciales o número de historia (sin nombre completo)" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-2.5 text-sm"></div>
+                            <div><label id="tpl-label-motivo" class="block text-xs font-bold mb-1">Motivo de consulta</label><textarea id="tpl-motivo" rows="2" placeholder="¿Por qué consulta o cuál es el problema principal?" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label id="tpl-label-actual" class="block text-xs font-bold mb-1">Enfermedad actual / situación</label><textarea id="tpl-actual" rows="4" placeholder="Cronología, síntomas, contexto y datos relevantes. Usa ALICIA cuando corresponda." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label class="block text-xs font-bold mb-1">Antecedentes y medicamentos</label><textarea id="tpl-antecedentes" rows="3" placeholder="Antecedentes, alergias, medicamentos, adherencia y factores relevantes." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label class="block text-xs font-bold mb-1">Signos vitales</label><textarea id="tpl-vitales" rows="2" placeholder="PA, FC, FR, temperatura, SatO₂, peso, talla..." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label class="block text-xs font-bold mb-1">Examen físico / hallazgos</label><textarea id="tpl-examen" rows="4" placeholder="Describe únicamente lo evaluado. No marques como normal lo que no examinaste." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label class="block text-xs font-bold mb-1">Análisis / impresión diagnóstica</label><textarea id="tpl-analisis" rows="3" placeholder="Problemas activos, impresión clínica y diagnósticos diferenciales." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label class="block text-xs font-bold mb-1">Plan / conducta</label><textarea id="tpl-plan" rows="4" placeholder="Tratamiento, estudios, monitorización, educación, seguimiento y criterios de alarma." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                            <div><label class="block text-xs font-bold mb-1">Pendientes / recomendaciones</label><textarea id="tpl-pendientes" rows="2" placeholder="Pendientes, reevaluación, controles o indicaciones al equipo." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm"></textarea></div>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 md:p-5 space-y-4">
+                                <div><h3 class="font-extrabold text-slate-900 dark:text-white">Indicadores visuales</h3><p class="text-xs text-slate-500 mt-1">Selecciona el estado observado. El color ayuda a revisar; no sustituye la descripción clínica.</p></div>
+                                <div><label class="block text-xs font-bold mb-1.5">Estado clínico actual</label><select id="tpl-estado" onchange="tplPaintStatus(this)" class="tpl-status w-full rounded-xl border p-3 text-sm bg-emerald-50 border-emerald-300 text-emerald-800"><option value="na" selected>No evaluado</option><option value="verde">🟢 Favorable / estable</option><option value="naranja">🟠 Intermedio / parcialmente controlado</option><option value="rojo">🔴 Desfavorable / alterado</option></select></div>
+                                <div><label class="block text-xs font-bold mb-1.5">Adherencia al tratamiento (si aplica)</label><select id="tpl-adherencia" onchange="tplPaintStatus(this)" class="tpl-status w-full rounded-xl border p-3 text-sm bg-emerald-50 border-emerald-300 text-emerald-800"><option value="na" selected>No evaluada / no aplica</option><option value="verde">🟢 Buena adherencia</option><option value="naranja">🟠 Adherencia parcial / irregular</option><option value="rojo">🔴 No adherente / no cumple</option></select></div>
+                                <div class="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-3 text-xs text-amber-900 dark:text-amber-200"><strong>Importante:</strong> el rojo no se elimina automáticamente: puede representar un hallazgo clínico relevante (por ejemplo, no adherencia). “No aplica” o “No evaluado” se omiten del resumen si no aportan información.</div>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 md:p-5 space-y-3">
+                                <div class="flex items-center justify-between gap-2"><h3 class="font-extrabold text-slate-900 dark:text-white">Borrador generado</h3><span class="text-[10px] text-slate-500">Editable antes de copiar</span></div>
+                                <div id="tpl-alerts" class="hidden rounded-xl p-3 text-xs space-y-1"></div>
+                                <textarea id="tpl-output" rows="22" placeholder="Completa los campos y pulsa Generar borrador..." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-3 text-sm font-mono leading-relaxed"></textarea>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="tplGenerate()" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Generar borrador</button>
+                                    <button onclick="tplCopy()" class="px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold"><i class="fa-solid fa-copy mr-1"></i> Copiar</button>
+                                    <button onclick="tplClear()" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold">Limpiar</button>
+                                </div>
+                                <p id="tpl-msg" class="text-xs text-teal-600 dark:text-teal-400" aria-live="polite"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-500">Privacidad: evita ingresar nombres completos, documentos, direcciones u otros datos identificables. El borrador se genera localmente en el navegador; revisa la política de almacenamiento del dispositivo y no lo dejes abierto en equipos compartidos.</p>
+                </section>
+                
                 <!-- SECTION 5: CALCULADORAS Y ESCALAS -->
                 <section id="tab-calculadoras" class="tab-content space-y-6 hidden">
                     <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4 space-y-3">
@@ -933,6 +994,7 @@
             { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
             { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
             { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
+            { id: 'plantillas', label: 'Plantillas Médicas', icon: 'fa-file-pen' },
             { id: 'farmaco', label: 'Vademécum', icon: 'fa-pills' },
             { id: 'sivigila', label: 'Salud Pública / RIAS', icon: 'fa-hospital-user' },
             { id: 'triadas', label: 'Tríadas Clínicas', icon: 'fa-layer-group' },
@@ -2575,6 +2637,96 @@ function analyzeGases() {
             const antibiotic = vent || n === 3 || (n === 2 && p);
             r.innerHTML = `<strong class="text-teal-600">${type}</strong><div>${n}/3 síntomas cardinales presentes.</div><div class="mt-1">${antibiotic ? 'Cumple características en las que suele considerarse antibiótico, tras valoración clínica y según protocolo local.' : 'Los criterios cardinales seleccionados no establecen por sí solos indicación de antibiótico.'}</div><div class="mt-1 text-[11px] font-normal text-slate-500">Valora gravedad, gases, necesidad de soporte ventilatorio y diagnósticos diferenciales (neumonía, TEP, insuficiencia cardiaca, neumotórax).</div>`;
             r.classList.remove('hidden');
+        }
+
+           // PLANTILLAS MÉDICAS: generación local de borradores
+        const tplTitles = {
+            ingreso: 'INGRESO / HISTORIA CLÍNICA INICIAL',
+            urgencias: 'NOTA DE ATENCIÓN INICIAL DE URGENCIAS',
+            evolucion: 'NOTA DE EVOLUCIÓN MÉDICA',
+            egreso: 'NOTA DE EGRESO',
+            remision: 'REMISIÓN / REFERENCIA',
+            interconsulta: 'SOLICITUD DE INTERCONSULTA',
+            turno: 'ENTREGA DE TURNO – SBAR'
+        };
+        function tplUpdateLabels() {
+            const type = document.getElementById('tpl-type')?.value || 'ingreso';
+            const labels = {
+                ingreso: ['Motivo de consulta', 'Enfermedad actual'],
+                urgencias: ['Motivo de consulta / triage', 'Enfermedad actual y evaluación inicial'],
+                evolucion: ['Problemas activos / motivo de seguimiento', 'Evolución desde la última valoración'],
+                egreso: ['Diagnóstico(s) de egreso', 'Resumen de evolución durante la estancia'],
+                remision: ['Motivo de remisión', 'Resumen clínico y justificación del traslado'],
+                interconsulta: ['Especialidad solicitada y motivo', 'Resumen del problema y pregunta clínica'],
+                turno: ['Situación actual (S)', 'Antecedentes relevantes y evolución (B)']
+            };
+            const pair = labels[type] || labels.ingreso;
+            document.getElementById('tpl-label-motivo').textContent = pair[0];
+            document.getElementById('tpl-label-actual').textContent = pair[1];
+        }
+        function tplPaintStatus(el) {
+            if (!el) return;
+            el.classList.remove('bg-emerald-50','border-emerald-300','text-emerald-800','bg-amber-50','border-amber-300','text-amber-800','bg-rose-50','border-rose-300','text-rose-800','bg-slate-100','border-slate-300','text-slate-700');
+            const c = el.value === 'verde' ? ['bg-emerald-50','border-emerald-300','text-emerald-800'] : el.value === 'naranja' ? ['bg-amber-50','border-amber-300','text-amber-800'] : el.value === 'rojo' ? ['bg-rose-50','border-rose-300','text-rose-800'] : ['bg-slate-100','border-slate-300','text-slate-700'];
+            el.classList.add(...c);
+        }
+        function tplVal(id) { return (document.getElementById(id)?.value || '').trim(); }
+        function tplGenerate() {
+            const type = tplVal('tpl-type') || 'ingreso';
+            // Campos mínimos para evitar borradores aparentemente completos con datos ausentes.
+            const required = ['tpl-edad','tpl-motivo','tpl-actual','tpl-analisis','tpl-plan'];
+            const recommended = ['tpl-fecha','tpl-vitales','tpl-examen'];
+            const labels = { 'tpl-edad':'Edad / sexo', 'tpl-motivo':'Motivo', 'tpl-actual':'Situación actual', 'tpl-analisis':'Análisis', 'tpl-plan':'Plan', 'tpl-fecha':'Fecha y hora', 'tpl-vitales':'Signos vitales', 'tpl-examen':'Examen físico' };
+            const missing = required.filter(id => !tplVal(id));
+            const suggested = recommended.filter(id => !tplVal(id));
+            [...required, ...recommended].forEach(id => { const el = document.getElementById(id); if (el) { el.classList.remove('border-rose-500','ring-1','ring-rose-400','border-amber-400'); if (missing.includes(id)) el.classList.add('border-rose-500','ring-1','ring-rose-400'); else if (suggested.includes(id)) el.classList.add('border-amber-400'); } });
+            const alertBox = document.getElementById('tpl-alerts');
+            if (alertBox) {
+                alertBox.classList.remove('hidden','bg-rose-50','text-rose-800','border','border-rose-200','bg-amber-50','text-amber-800','border-amber-200');
+                if (missing.length) { alertBox.classList.add('bg-rose-50','text-rose-800','border','border-rose-200'); alertBox.innerHTML = '<strong>Rojo – Completa antes de usar:</strong><ul class="list-disc pl-5">' + missing.map(id => '<li>' + labels[id] + '</li>').join('') + '</ul>'; }
+                else if (suggested.length) { alertBox.classList.add('bg-amber-50','text-amber-800','border','border-amber-200'); alertBox.innerHTML = '<strong>Naranja – Revisa si corresponde:</strong><ul class="list-disc pl-5">' + suggested.map(id => '<li>' + labels[id] + '</li>').join('') + '</ul>'; }
+                else { alertBox.classList.add('bg-emerald-50','text-emerald-800','border','border-emerald-200'); alertBox.innerHTML = '<strong>Verde:</strong> los campos mínimos están completos. Aún debes verificar su exactitud clínica.'; }
+            }
+            const lines = [tplTitles[type], ''];
+            const add = (label, value) => { if (value) lines.push(label + ': ' + value, ''); };
+            add('Fecha y hora', tplVal('tpl-fecha'));
+            add('Identificador', tplVal('tpl-id'));
+            add('Edad / sexo', tplVal('tpl-edad'));
+            add(document.getElementById('tpl-label-motivo')?.textContent || 'Motivo', tplVal('tpl-motivo'));
+            add(document.getElementById('tpl-label-actual')?.textContent || 'Situación actual', tplVal('tpl-actual'));
+            add('Antecedentes y medicamentos', tplVal('tpl-antecedentes'));
+            add('Signos vitales', tplVal('tpl-vitales'));
+            add('Examen físico / hallazgos', tplVal('tpl-examen'));
+            add('Análisis / impresión diagnóstica', tplVal('tpl-analisis'));
+            add('Plan / conducta', tplVal('tpl-plan'));
+            add('Pendientes / recomendaciones', tplVal('tpl-pendientes'));
+            const estado = tplVal('tpl-estado');
+            const adherencia = tplVal('tpl-adherencia');
+            const estadoTxt = { verde: 'Favorable / estable', naranja: 'Intermedio / parcialmente controlado', rojo: 'Desfavorable / alterado' };
+            const adhTxt = { verde: 'Buena adherencia', naranja: 'Adherencia parcial / irregular', rojo: 'No adherente / no cumple' };
+            if (estado !== 'na') add('Estado clínico (indicador de revisión)', estadoTxt[estado]);
+            if (adherencia !== 'na') add('Adherencia al tratamiento (indicador de revisión)', adhTxt[adherencia]);
+            if (type === 'turno') {
+                lines.push('A – VALORACIÓN:', tplVal('tpl-analisis') || '[Completar valoración]', '', 'R – RECOMENDACIÓN:', tplVal('tpl-plan') || '[Completar recomendaciones]', '');
+            }
+            lines.push('');
+            lines.push('Borrador generado como apoyo de redacción. Verificar datos, hallazgos, dosis, fechas y pertinencia clínica antes de firmar o incorporar a la historia.');
+            const output = document.getElementById('tpl-output');
+            if (output) output.value = lines.join('\n').trim();
+            const msg = document.getElementById('tpl-msg'); if (msg) msg.textContent = 'Borrador generado. Revisa que cada dato corresponda a la valoración real.';
+        }
+        function tplCopy() {
+            const el = document.getElementById('tpl-output'); if (!el || !el.value.trim()) { alert('Primero genera el borrador.'); return; }
+            el.select();
+            if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(el.value).then(() => { const m = document.getElementById('tpl-msg'); if (m) m.textContent = 'Borrador copiado.'; }).catch(() => document.execCommand('copy'));
+            else { document.execCommand('copy'); const m = document.getElementById('tpl-msg'); if (m) m.textContent = 'Borrador copiado.'; }
+        }
+        function tplClear() {
+            ['tpl-id','tpl-edad','tpl-motivo','tpl-actual','tpl-antecedentes','tpl-vitales','tpl-examen','tpl-analisis','tpl-plan','tpl-pendientes','tpl-output'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            const f = document.getElementById('tpl-fecha'); if (f) f.value = '';
+            const e = document.getElementById('tpl-estado'); if (e) { e.value = 'na'; tplPaintStatus(e); }
+            const a = document.getElementById('tpl-adherencia'); if (a) { a.value = 'na'; tplPaintStatus(a); }
+            const m = document.getElementById('tpl-msg'); if (m) m.textContent = 'Campos limpiados.';
         }
 
         // VADEMECUM & VADEMECUM RENDER
@@ -4489,6 +4641,7 @@ function renderVademecum() {
                 { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
                 { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
                 { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
+                { id: 'plantillas', label: 'Plantillas Médicas', icon: 'fa-file-pen' },
                 { id: 'farmaco', label: 'Vademécum', icon: 'fa-pills' },
                 { id: 'sivigila', label: 'Salud Pública / RIAS', icon: 'fa-hospital-user' },
                 { id: 'triadas', label: 'Tríadas Clínicas', icon: 'fa-layer-group' },
