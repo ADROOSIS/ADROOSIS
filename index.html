@@ -539,7 +539,7 @@
                         <div class="bg-amber-500/10 border-l-4 border-amber-500 p-3.5 rounded-r-xl text-xs flex items-center gap-3">
                             <i class="fa-solid fa-triangle-exclamation text-amber-500 text-lg shrink-0"></i>
                             <div class="text-amber-900 dark:text-amber-200">
-                                <strong>Aviso legal y clínico:</strong> Herramienta de apoyo a la decisión basada en estándares <em>CLSI / EUCAST según la versión utilizada por el laboratorio.</em>. Prevalecen el informe del laboratorio de microbiología y el juicio clínico.
+                                <strong>Aviso legal y clínico:</strong> Herramienta de apoyo a la decisión basada en estándares <em>CLSI M100 (Ed. 34) / EUCAST (v14.0)</em>. Prevalecen el informe del laboratorio de microbiología y el juicio clínico.
                             </div>
                         </div>
 
@@ -548,73 +548,13 @@
                             <div class="space-y-1.5">
                                 <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">1. Selecciona el Microorganismo Aislado:</label>
                                 <select id="abg-germ-select" onchange="loadAbgGermPanel()" class="w-full sm:w-80 p-2.5 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
-<option value="ecoli">Escherichia coli</option>
-<option value="klebsiella">Klebsiella pneumoniae</option>
-<option value="enterobacter">Enterobacter cloacae complex</option>
-<option value="proteus">Proteus mirabilis</option>
-<option value="serratia">Serratia marcescens</option>
-<option value="citrobacter">Citrobacter freundii</option>
-
-<option value="saureus">Staphylococcus aureus</option>
-<option value="sepider">Staphylococcus epidermidis</option>
-<option value="enterococcus">Enterococcus faecalis</option>
-<option value="efaecium">Enterococcus faecium</option>
-<option value="spneumoniae">Streptococcus pneumoniae</option>
-<option value="spyogenes">Streptococcus pyogenes</option>
-<option value="sagalactiae">Streptococcus agalactiae</option>
-
-<option value="paeruginosa">Pseudomonas aeruginosa</option>
-<option value="acinetobacter">Acinetobacter baumannii</option>
-<option value="stenotrophomonas">Stenotrophomonas maltophilia</option>
-<option value="hinfluenzae">Haemophilus influenzae</option>
-<option value="moraxella">Moraxella catarrhalis</option>
-
-<option value="salmonella">Salmonella spp.</option>
-<option value="shigella">Shigella spp.</option>
-<option value="campylobacter">Campylobacter jejuni</option>                                    
+                                    <option value="ecoli">Escherichia coli</option>
+                                    <option value="klebsiella">Klebsiella pneumoniae</option>
+                                    <option value="saureus">Staphylococcus aureus</option>
+                                    <option value="paeruginosa">Pseudomonas aeruginosa</option>
+                                    <option value="enterococcus">Enterococcus faecalis / faecium</option>
+                                    <option value="spneumoniae">Streptococcus pneumoniae</option>
                                 </select>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-
-    <div>
-        <label class="block text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
-            Estándar utilizado por el laboratorio
-        </label>
-        <select id="abg-standard"
-            class="w-full p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
-            <option value="">No especificado</option>
-            <option value="CLSI">CLSI</option>
-            <option value="EUCAST">EUCAST</option>
-        </select>
-    </div>
-
-    <div>
-        <label class="block text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
-            Tipo de muestra
-        </label>
-        <select id="abg-sample"
-            class="w-full p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
-            <option value="">No especificada</option>
-            <option>Orina</option>
-            <option>Sangre / Hemocultivo</option>
-            <option>Esputo</option>
-            <option>Secreción respiratoria</option>
-            <option>Herida / Tejido</option>
-            <option>Líquido cefalorraquídeo</option>
-            <option>Líquido peritoneal</option>
-            <option>Otra</option>
-        </select>
-    </div>
-
-    <div class="sm:col-span-2">
-        <label class="block text-xs font-bold mb-1 text-slate-700 dark:text-slate-300">
-            Foco clínico (opcional)
-        </label>
-        <input id="abg-focus" type="text"
-            placeholder="Ej. ITU, neumonía, bacteriemia..."
-            class="w-full p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
-    </div>
-
-</div>
                             </div>
 
                             <div class="space-y-3">
@@ -1136,294 +1076,89 @@
 
         // ANTIBIOGRAM INTERPRETER LOGIC
         const abgPanelData = {
-    ecoli: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'sam',name:'Ampicilina / Sulbactam'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'fep',name:'Cefepime'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'ert',name:'Ertapenem'},
-        {id:'mer',name:'Meropenem'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'gen',name:'Gentamicina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'},
-        {id:'nit',name:'Nitrofurantoína'},
-        {id:'fos',name:'Fosfomicina'}
-    ],
-
-    klebsiella: [
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'fep',name:'Cefepime'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'ert',name:'Ertapenem'},
-        {id:'mer',name:'Meropenem'},
-        {id:'imi',name:'Imipenem'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'gen',name:'Gentamicina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    enterobacter: [
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'fep',name:'Cefepime'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'ert',name:'Ertapenem'},
-        {id:'mer',name:'Meropenem'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    proteus: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'fep',name:'Cefepime'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'ert',name:'Ertapenem'},
-        {id:'mer',name:'Meropenem'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    serratia: [
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'fep',name:'Cefepime'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'mer',name:'Meropenem'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    citrobacter: [
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'fep',name:'Cefepime'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'ert',name:'Ertapenem'},
-        {id:'mer',name:'Meropenem'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    saureus: [
-        {id:'oxa',name:'Oxacilina'},
-        {id:'fox',name:'Cefoxitina'},
-        {id:'van',name:'Vancomicina'},
-        {id:'cli',name:'Clindamicina'},
-        {id:'ery',name:'Eritromicina'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'},
-        {id:'line',name:'Linezolid'},
-        {id:'dap',name:'Daptomicina'}
-    ],
-
-    sepider: [
-        {id:'oxa',name:'Oxacilina'},
-        {id:'fox',name:'Cefoxitina'},
-        {id:'van',name:'Vancomicina'},
-        {id:'line',name:'Linezolid'},
-        {id:'dap',name:'Daptomicina'},
-        {id:'rif',name:'Rifampicina'}
-    ],
-
-    enterococcus: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'van',name:'Vancomicina'},
-        {id:'line',name:'Linezolid'},
-        {id:'dap',name:'Daptomicina'},
-        {id:'teico',name:'Teicoplanina'}
-    ],
-
-    efaecium: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'van',name:'Vancomicina'},
-        {id:'line',name:'Linezolid'},
-        {id:'dap',name:'Daptomicina'},
-        {id:'teico',name:'Teicoplanina'}
-    ],
-
-    spneumoniae: [
-        {id:'pen',name:'Penicilina'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'cefot',name:'Cefotaxima'},
-        {id:'ery',name:'Eritromicina'},
-        {id:'clinda',name:'Clindamicina'},
-        {id:'levo',name:'Levofloxacino'},
-        {id:'van',name:'Vancomicina'}
-    ],
-
-    spyogenes: [
-        {id:'pen',name:'Penicilina'},
-        {id:'amp',name:'Ampicilina'},
-        {id:'ery',name:'Eritromicina'},
-        {id:'clinda',name:'Clindamicina'}
-    ],
-
-    sagalactiae: [
-        {id:'pen',name:'Penicilina'},
-        {id:'amp',name:'Ampicilina'},
-        {id:'ery',name:'Eritromicina'},
-        {id:'clinda',name:'Clindamicina'},
-        {id:'van',name:'Vancomicina'}
-    ],
-
-    paeruginosa: [
-        {id:'fep',name:'Cefepime'},
-        {id:'ceft',name:'Ceftazidima'},
-        {id:'tzp',name:'Piperacilina / Tazobactam'},
-        {id:'mer',name:'Meropenem'},
-        {id:'imi',name:'Imipenem'},
-        {id:'azt',name:'Aztreonam'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'ami',name:'Amikacina'},
-        {id:'tobra',name:'Tobramicina'}
-    ],
-
-    acinetobacter: [
-        {id:'sul',name:'Ampicilina / Sulbactam'},
-        {id:'mer',name:'Meropenem'},
-        {id:'imi',name:'Imipenem'},
-        {id:'ami',name:'Amikacina'},
-        {id:'tobra',name:'Tobramicina'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'mino',name:'Minociclina'},
-        {id:'col',name:'Colistina'}
-    ],
-
-    stenotrophomonas: [
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'},
-        {id:'mino',name:'Minociclina'},
-        {id:'levo',name:'Levofloxacino'},
-        {id:'cef',name:'Cefiderocol'}
-    ],
-
-    hinfluenzae: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'amc',name:'Amoxicilina / Clavulanato'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'cefot',name:'Cefotaxima'},
-        {id:'azi',name:'Azitromicina'},
-        {id:'cip',name:'Ciprofloxacino'}
-    ],
-
-    moraxella: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'amc',name:'Amoxicilina / Clavulanato'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'azi',name:'Azitromicina'},
-        {id:'doxy',name:'Doxiciclina'}
-    ],
-
-    salmonella: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'azi',name:'Azitromicina'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    shigella: [
-        {id:'amp',name:'Ampicilina'},
-        {id:'cro',name:'Ceftriaxona'},
-        {id:'azi',name:'Azitromicina'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'sxt',name:'Trimetoprim / Sulfametoxazol'}
-    ],
-
-    campylobacter: [
-        {id:'azi',name:'Azitromicina'},
-        {id:'ery',name:'Eritromicina'},
-        {id:'cip',name:'Ciprofloxacino'},
-        {id:'tetra',name:'Tetraciclina'}
-    ]
-};
+            ecoli: [
+                { id: 'amp', name: 'Ampicilina' },
+                { id: 'sam', name: 'Ampicilina / Sulbactam' },
+                { id: 'cro', name: 'Ceftriaxona' },
+                { id: 'fep', name: 'Cefepime' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'nit', name: 'Nitrofurantoína (sólo ITU)' }
+            ],
+            klebsiella: [
+                { id: 'sam', name: 'Ampicilina / Sulbactam' },
+                { id: 'cro', name: 'Ceftriaxona' },
+                { id: 'fep', name: 'Cefepime' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'ami', name: 'Amikacina' }
+            ],
+            saureus: [
+                { id: 'oxa', name: 'Oxacilina' },
+                { id: 'fox', name: 'Cefoxitina (Tamizaje SARM)' },
+                { id: 'van', name: 'Vancomicina' },
+                { id: 'cli', name: 'Clindamicina' },
+                { id: 'sxt', name: 'TMP / SMX' },
+                { id: 'dap', name: 'Daptomicina' }
+            ],
+            paeruginosa: [
+                { id: 'fep', name: 'Cefepime' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'azt', name: 'Aztreonam' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'ami', name: 'Amikacina' }
+            ],
+            enterococcus: [
+                { id: 'amp', name: 'Ampicilina' },
+                { id: 'van', name: 'Vancomicina' },
+                { id: 'lzd', name: 'Linezolid' },
+                { id: 'dap', name: 'Daptomicina' }
+            ],
+            spneumoniae: [
+                { id: 'pen', name: 'Penicilina' },
+                { id: 'cro', name: 'Ceftriaxona' },
+                { id: 'van', name: 'Vancomicina' },
+                { id: 'lvo', name: 'Levofloxacino' }
+            ]
+        };
 
         function loadAbgGermPanel() {
-    const select = document.getElementById('abg-germ-select');
-    const grid = document.getElementById('abg-drugs-grid');
+            const select = document.getElementById('abg-germ-select');
+            const grid = document.getElementById('abg-drugs-grid');
+            if (!select || !grid) return;
 
-    if (!select || !grid) return;
+            const germ = select.value;
+            const drugs = abgPanelData[germ] || [];
 
-    const germ = select.value;
-    const drugs = abgPanelData[germ] || [];
-
-    grid.innerHTML = drugs.map(d => `
-        <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-3">
-
-            <span class="font-bold text-slate-800 dark:text-slate-200">
-                ${d.name}
-            </span>
-
-            <div class="flex items-center gap-1.5 text-[11px] font-bold">
-
-                <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-emerald-600 has-[:checked]:text-white">
-                    <input type="radio" name="abg_${d.id}" value="S" class="hidden">
-                    S
-                </label>
-
-                <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-amber-500 has-[:checked]:text-white">
-                    <input type="radio" name="abg_${d.id}" value="I" class="hidden">
-                    I
-                </label>
-
-                <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-rose-600 has-[:checked]:text-white">
-                    <input type="radio" name="abg_${d.id}" value="R" class="hidden">
-                    R
-                </label>
-
-                <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-slate-400 has-[:checked]:text-white">
-                    <input type="radio" name="abg_${d.id}" value="NR" class="hidden" checked>
-                    NR
-                </label>
-
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">
-                    CMI (mg/L) · Opcional
-                </label>
-
-                <input
-                    type="number"
-                    step="any"
-                    min="0"
-                    id="abg_mic_${d.id}"
-                    placeholder="Ej. 1"
-                    class="w-full p-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
-                                </div>
-
-                    <!-- CMI opcional -->
-                    <div class="grid grid-cols-2 gap-2 mt-2">
-                        <select id="abg_mic_op_${d.id}"
-                            class="w-full p-2 text-sm rounded-lg border dark:bg-slate-800 dark:border-slate-700">
-                            <option value="">Operador</option>
-                            <option value="&lt;">&lt;</option>
-                            <option value="&lt;=">≤</option>
-                            <option value=">">&gt;</option>
-                            <option value=">=">≥</option>
-                        </select>
-
-                        <input
-                            id="abg_mic_${d.id}"
-                            type="number"
-                            step="any"
-                            min="0"
-                            placeholder="CMI mg/L"
-                            class="w-full p-2 text-sm rounded-lg border dark:bg-slate-800 dark:border-slate-700">
+            grid.innerHTML = drugs.map(d => `
+                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-2">
+                    <span class="font-bold text-slate-800 dark:text-slate-200">${d.name}</span>
+                    <div class="flex items-center gap-1.5 text-[11px] font-bold">
+                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-emerald-600 has-[:checked]:text-white">
+                            <input type="radio" name="abg_${d.id}" value="S" class="hidden" > S
+                        </label>
+                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-amber-500 has-[:checked]:text-white">
+                            <input type="radio" name="abg_${d.id}" value="I" class="hidden"> I
+                        </label>
+                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-rose-600 has-[:checked]:text-white">
+                            <input type="radio" name="abg_${d.id}" value="R" class="hidden"> R
+                        </label>
+                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-slate-400 has-[:checked]:text-white">
+                            <input type="radio" name="abg_${d.id}" value="NR" class="hidden" checked> NR
+                        </label>
                     </div>
                 </div>
             `).join('');
 
-    const resultBox = document.getElementById('abg-result-box');
-
-    if (resultBox) {
-        resultBox.classList.add('hidden');
-        resultBox.innerHTML = '';
-    }
-}
+            const resultBox = document.getElementById('abg-result-box');
+            if (resultBox) {
+                resultBox.classList.add('hidden');
+                resultBox.innerHTML = '';
+            }
+        }
 
         function getAbgVal(drugId) {
             const rad = document.querySelector(`input[name="abg_${drugId}"]:checked`);
@@ -1431,176 +1166,97 @@
         }
 
         function runAntibiogramAnalysis() {
-    const germ = document.getElementById('abg-germ-select')?.value;
-    const resultBox = document.getElementById('abg-result-box');
+            const germ = document.getElementById('abg-germ-select')?.value;
+            const resultBox = document.getElementById('abg-result-box');
+            if (!germ || !resultBox) return;
+            const marcados = (abgPanelData[germ] || []).filter(d => getAbgVal(d.id) !== 'NR').length;
+            if (marcados === 0) {
+                resultBox.innerHTML = '<p class="text-amber-300">Marca al menos un resultado (S / I / R) antes de analizar.</p>';
+                resultBox.classList.remove('hidden');
+            return;
+        }
 
-    if (!germ || !resultBox) return;
+            let pheno = 'Sensible / Sin mecanismo de resistencia de alto impacto detectado';
+            let options = '';
+            let avoid = '';
+            let warnings = 'Confirmar siempre con el laboratorio de microbiología local.';
 
-    const drugs = abgPanelData[germ] || [];
+            if (germ === 'ecoli' || germ === 'klebsiella') {
+                const cro = getAbgVal('cro');
+                const mer = getAbgVal('mer');
 
-    const registrados = drugs.filter(d => getAbgVal(d.id) !== 'NR');
+                if (mer === 'R' || mer === 'I') {
+                    pheno = '🚨 Sospecha de CARBAPENEMASA (KPC / MBL / OXA-48)';
+                    options = 'Colistina, Ceftazidima/Avibactam, Cefiderocol, Tigeciclina.';
+                    avoid = 'Todos los Betalactámicos y Carbapenémicos convencionales.';
+                    warnings = 'Interconsulta URGENTE a Infectología. Aislamiento de contacto estricto.';
+                } else if (cro === 'R') {
+                    pheno = '⚠️ Fenotipo BLEE (Betalactamasa de Espectro Extendido)';
+                    options = 'Primera línea: Meropenem 1g IV c/8h o Ertapenem 1g IV c/24h. En ITU: Fosfomicina o Nitrofurantoína.';
+                    avoid = 'Todas las Penicilinas, Cefalosporinas (Ceftriaxona, Cefepime) y Aztreonam.';
+                } else {
+                    options = 'Ceftriaxona 1-2g IV c/24h, Ampicilina/Sulbactam 1.5-3g IV c/6h, TMP/SMX o Ciprofloxacino.';
+                }
+            } else if (germ === 'saureus') {
+                const oxa = getAbgVal('oxa');
+                const fox = getAbgVal('fox');
 
-    if (registrados.length === 0) {
-        resultBox.innerHTML = `
-            <p class="text-amber-300">
-                Registra al menos un resultado del antibiograma.
-            </p>`;
-        resultBox.classList.remove('hidden');
-        return;
-    }
+                if (oxa === 'R' || fox === 'R') {
+                    pheno = '⚠️ SARM / MRSA (Staphylococcus aureus Resistente a Meticilina)';
+                    options = 'Vancomicina (15-20 mg/kg IV c/8-12h), Daptomicina (6-10 mg/kg IV c/24h), Linezolid (600 mg IV/VO c/12h).';
+                    avoid = 'Todos los Betalactámicos (Oxacilina, Cefazolin, Ceftriaxona, Meropenem).';
+                } else {
+                    pheno = 'SASM (Staphylococcus aureus Sensible a Meticilina)';
+                    options = 'Cefazolina 1-2g IV c/8h u Oxacilina 2g IV c/4h.';
+                    avoid = 'Evitar Vancomicina si es sensible a Oxacilina (mayor mortalidad).';
+                }
+            } else if (germ === 'paeruginosa') {
+                const fep = getAbgVal('fep');
+                const mer = getAbgVal('mer');
 
-    const standard = document.getElementById('abg-standard')?.value || 'No especificado';
-    const sample = document.getElementById('abg-sample')?.value || 'No especificada';
-    const focus = document.getElementById('abg-focus')?.value.trim() || 'No especificado';
+                if (mer === 'R' && fep === 'R') {
+                    pheno = '🚨 Pseudomonas aeruginosa Multirresistente (MDR)';
+                    options = 'Ceftolozano/Tazobactam, Ceftazidima/Avibactam o Colistina + Amikacina.';
+                    avoid = 'Betalactámicos antipseudomónicos convencionales.';
+                } else {
+                    options = 'Cefepime 2g IV c/8h, Piperacilina/Tazobactam 4.5g IV c/6h o Meropenem 1g IV c/8h.';
+                    avoid = 'Ceftriaxona, Ertapenem, Ampicilina/Sulbactam.';
+                }
+            } else {
+                options = 'Ajustar según perfiles de sensibilidad estandarizados CLSI / EUCAST.';
+            }
 
-    const counts = {
-        S: 0,
-        I: 0,
-        R: 0,
-        NR: 0
-    };
-
-    drugs.forEach(d => {
-        const value = getAbgVal(d.id);
-        counts[value] = (counts[value] || 0) + 1;
-    });
-
-    const color = {
-        S: 'text-emerald-600 dark:text-emerald-400',
-        I: 'text-amber-600 dark:text-amber-400',
-        R: 'text-rose-600 dark:text-rose-400'
-    };
-
-    const labels = {
-        S: 'Sensible',
-        I: 'Categoría I',
-        R: 'Resistente'
-    };
-
-    const rows = registrados.map(d => {
-        const value = getAbgVal(d.id);
-const mic = document.getElementById(`abg_mic_${d.id}`)?.value;
-const micOp = document.getElementById(`abg_mic_op_${d.id}`)?.value || '=';
-const micText = mic !== '' && mic != null
-    ? ` · CMI: ${micOp} ${mic} mg/L`
-    : '';
-        return `
-            <div class="flex flex-wrap justify-between gap-2 py-2 border-b border-slate-700/40">
-                <span class="text-slate-200">${d.name}</span>
-
-                <span class="font-bold ${color[value]}">
-                    ${labels[value]}
-                    ${mic !== '' ? ` · CMI: ${mic} mg/L` : ''}
-                </span>
-            </div>
-        `;
-    }).join('');
-
-    const warnings = [];
-
-    if (!document.getElementById('abg-standard')?.value) {
-        warnings.push('No se especificó el estándar utilizado por el laboratorio.');
-    }
-
-    if (counts.R > 0) {
-        warnings.push('Se registraron resultados resistentes. Revisa su relevancia clínica y los mecanismos de resistencia con el laboratorio.');
-    }
-
-    if (counts.I > 0) {
-        warnings.push('Hay resultados en categoría I. Su significado debe interpretarse según el estándar seleccionado.');
-    }
-
-    if (germ === 'enterobacter' || germ === 'citrobacter' || germ === 'serratia') {
-        warnings.push('Considera los mecanismos de resistencia propios del grupo y las recomendaciones específicas del laboratorio.');
-    }
-
-    const warningHTML = warnings.length
-        ? warnings.map(w => `
-            <p class="text-amber-300 text-xs">
-                <i class="fa-solid fa-triangle-exclamation mr-1"></i>${w}
-            </p>
-        `).join('')
-        : `
-            <p class="text-slate-300 text-xs">
-                No se identificaron alertas generales con los datos registrados.
-                Esto no descarta mecanismos de resistencia.
-            </p>
-        `;
-
-    resultBox.innerHTML = `
-        <div class="space-y-4">
-
-            <div class="border-b border-slate-700 pb-3">
-                <h4 class="font-bold text-amber-400 text-sm">
-                    <i class="fa-solid fa-microscope mr-1"></i>
-                    Informe del antibiograma
-                </h4>
-
-                <p class="text-xs text-slate-300 mt-2">
-                    Microorganismo: <strong>${germ}</strong>
-                </p>
-
-                <p class="text-xs text-slate-300">
-                    Estándar: <strong>${standard}</strong>
-                </p>
-
-                <p class="text-xs text-slate-300">
-                    Muestra: <strong>${sample}</strong>
-                </p>
-
-                <p class="text-xs text-slate-300">
-                    Foco clínico: <strong>${focus}</strong>
-                </p>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 text-center">
-
-                <div class="p-3 rounded-xl bg-emerald-500/10">
-                    <strong class="block text-emerald-400 text-xl">${counts.S}</strong>
-                    <span class="text-[10px] text-slate-300">Sensible</span>
+            resultBox.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between border-b border-rose-800/80 pb-2">
+                        <h4 class="font-bold text-sm text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-microscope"></i> Interpretación del Fenotipo
+                        </h4>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-900/80 text-rose-200">CLSI M100 / EUCAST</span>
+                    </div>
+                    <div>
+                        <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">Fenotipo Probable:</strong>
+                        <p class="font-extrabold text-white text-sm mt-0.5">${pheno}</p>
+                    </div>
+                    <div>
+                        <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">Opciones Recomendadas:</strong>
+                        <p class="text-slate-200 mt-0.5">${options}</p>
+                    </div>
+                    ${avoid ? `
+                        <div>
+                            <strong class="text-rose-400 block text-[11px] uppercase tracking-wider">A Evitar:</strong>
+                            <p class="text-rose-200 mt-0.5">${avoid}</p>
+                        </div>
+                    ` : ''}
+                    <div class="p-3 bg-slate-800 rounded-xl text-slate-300 border border-slate-700 space-y-1">
+                        <strong class="text-amber-400 block">Alertas Clínicas:</strong>
+                        <p>${warnings}</p>
+                    </div>
                 </div>
+            `;
 
-                <div class="p-3 rounded-xl bg-amber-500/10">
-                    <strong class="block text-amber-400 text-xl">${counts.I}</strong>
-                    <span class="text-[10px] text-slate-300">Categoría I</span>
-                </div>
-
-                <div class="p-3 rounded-xl bg-rose-500/10">
-                    <strong class="block text-rose-400 text-xl">${counts.R}</strong>
-                    <span class="text-[10px] text-slate-300">Resistente</span>
-                </div>
-
-            </div>
-
-            <div>
-                <h5 class="font-bold text-slate-200 text-xs mb-2">
-                    Resultados registrados
-                </h5>
-
-                ${rows}
-            </div>
-
-            <div class="p-3 bg-slate-800 rounded-xl border border-slate-700 space-y-2">
-                <strong class="text-amber-400 text-xs">
-                    Alertas de interpretación
-                </strong>
-
-                ${warningHTML}
-            </div>
-
-            <div class="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl">
-                <p class="text-xs text-rose-200 font-semibold">
-                    Esta herramienta organiza los resultados del laboratorio.
-                    No confirma BLEE, carbapenemasas ni otros mecanismos de resistencia,
-                    y no genera recomendaciones terapéuticas automáticas.
-                </p>
-            </div>
-
-        </div>
-    `;
-
-    resultBox.classList.remove('hidden');
-}
+            resultBox.classList.remove('hidden');
+        }
 
         function resetAntibiogramForm() {
             loadAbgGermPanel();
