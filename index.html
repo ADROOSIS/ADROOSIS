@@ -2079,75 +2079,6 @@ function analyzeGases() {
                         </div>
                     `
                 },
-                
-                {
-        id: 'mmrc-epoc',
-        titulo: 'Escala mMRC (Modified Medical Research Council)',
-        especialidad: 'Neumología',
-        icono: 'fa-lungs',
-        color: 'blue',
-        descripcion: 'Evalúa la gravedad de la disnea en pacientes con EPOC en las actividades cotidianas.',
-        rango: '0 - 4',
-        niveles: [
-            { valor: 0, descripcion: 'Ausencia de disnea salvo al realizar ejercicio intenso.' },
-            { valor: 1, descripcion: 'Disnea al caminar de prisa en plano o al subir una pendiente ligera.' },
-            { valor: 2, descripcion: 'Incapacidad para mantener el paso de otras personas de la misma edad en plano, o tener que detenerse al caminar en plano al propio paso.' },
-            { valor: 3, descripcion: 'Detenerse por disnea al caminar unos 100 metros o a los pocos minutos de caminar en plano.' },
-            { valor: 4, descripcion: 'Disnea al realizar pequeños esfuerzos (vestirse, desvestirse) o incapacidad para salir de casa.' }
-        ],
-        usoClinico: 'Clasificación inicial GOLD (Grupos A, B y E) junto con el cuestionario CAT o mMRC.'
-    },
-    {
-        id: 'cat-epoc',
-        titulo: 'Cuestionario CAT (COPD Assessment Test)',
-        especialidad: 'Neumología',
-        icono: 'fa-clipboard-question',
-        color: 'blue',
-        descripcion: 'Cuestionario de 8 ítems que cuantifica el impacto global de la EPOC en la calidad de vida y síntomas.',
-        rango: '0 - 40',
-        interpretacion: [
-            { rango: '0 - 9', impacto: 'Impacto Bajo' },
-            { rango: '10 - 20', impacto: 'Impacto Moderado' },
-            { rango: '21 - 30', impacto: 'Impacto Alto' },
-            { rango: '>= 31', impacto: 'Impacto Muy Alto' }
-        ],
-        usoClinico: 'Puntaje mayor o igual a 10 define síntomas significativos y guía el tratamiento broncodilatador dual.'
-    },
-    {
-        id: 'bode-index',
-        titulo: 'Índice BODE (Pronóstico Multidimensional en EPOC)',
-        especialidad: 'Neumología / Cuidado Crítico',
-        icono: 'fa-chart-line',
-        color: 'rose',
-        descripcion: 'Sistema pronóstico multidimensional que evalúa el riesgo de mortalidad y supervivencia en EPOC.',
-        rango: '0 - 10 puntos',
-        componentes: [
-            { letra: 'B', variable: 'Índice de Masa Corporal (IMC)', corte: '> 21.9 (0 pts) | <= 21.9 (1 pt)' },
-            { letra: 'O', variable: 'Obstrucción (FEV1 % predicho)', corte: '>= 65% (0) | 50-64% (1) | 36-49% (2) | <= 35% (3)' },
-            { letra: 'D', variable: 'Disnea (Escala mMRC)', corte: 'Grado 0-1 (0) | Grado 2 (1) | Grado 3 (2) | Grado 4 (3)' },
-            { letra: 'E', variable: 'Capacidad de ejercicio (Caminata 6 min)', corte: '>= 350m (0) | 250-349m (1) | 150-249m (2) | < 150m (3)' }
-        ],
-        usoClinico: 'Muy superior al FEV1 aislado para predecir mortalidad a 4 años y necesidad de valoración por trasplante pulmonar.'
-    },
-    {
-        id: 'anthonisen-exacerbacion',
-        titulo: 'Criterios de Anthonisen para Exacerbación de EPOC',
-        especialidad: 'Urgencias / Neumología',
-        icono: 'fa-triangle-exclamation',
-        color: 'amber',
-        descripcion: 'Define la gravedad de la exacerbación aguda basada en la presencia de tres síntomas cardinales.',
-        sintomasCardinales: [
-            'Aumento de la disnea',
-            'Aumento del volumen del esputo',
-            'Aumento de la purulencia del esputo (esputo purulento)'
-        ],
-        tipos: [
-            { tipo: 'Tipo I (Grave)', condicion: 'Presenta los 3 síntomas cardinales', manejo: 'Indicación absoluta de antibioticoterapia empírica.' },
-            { tipo: 'Tipo II (Moderada)', condicion: 'Presenta 2 de los 3 síntomas cardinales', manejo: 'Indicación de antibióticos según gravedad o comorbilidades.' },
-            { tipo: 'Tipo III (Leve)', condicion: 'Presenta 1 síntoma cardinal + infección respiratoria alta, fiebre o sibilancias', manejo: 'No requiere antibióticos de rutina.' }
-        ],
-        usoClinico: 'Guía rápida en urgencias para iniciar antibióticos de forma oportuna y evitar resistencia antimicrobiana innecesaria.'
-    },
                 {
                     id: 'framingham',
                     cat: 'cardio',
@@ -2183,7 +2114,117 @@ function analyzeGases() {
                         <div id="lawton-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
                         </div>
                     `
-                }
+                },
+
+                // EPOC: evaluación de síntomas, obstrucción, pronóstico y exacerbación
+                {
+                    id: 'epoc-cat', cat: 'urgencias',
+                    title: 'CAT / CAAT — Impacto de la EPOC',
+                    desc: 'Registra el puntaje total de la versión validada (0–40). No reproduce el cuestionario protegido.',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <label class="block font-semibold">Puntaje total CAT/CAAT (0–40)</label>
+                            <input type="number" id="epoc-cat-score" min="0" max="40" step="1" placeholder="Ej.: 12" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <button type="button" onclick="calcEpocCAT()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Interpretar CAT/CAAT</button>
+                            <div id="epoc-cat-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <p class="text-[10px] text-slate-500">CAT/CAAT: 8 ítems, 0–5 cada uno. Introduce el total obtenido al aplicar el instrumento oficial; ≥10 indica mayor carga de síntomas para la evaluación GOLD.</p>
+                        </div>`
+                },
+                {
+                    id: 'epoc-mmrc', cat: 'urgencias',
+                    title: 'mMRC — Escala de disnea',
+                    desc: 'Gradúa la limitación por disnea de 0 a 4; útil para evaluación de síntomas y BODE/DOSE.',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <label class="block font-semibold">Selecciona el grado que describe al paciente</label>
+                            <select id="epoc-mmrc-grade" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                                <option value="0">0 — Disnea solo con ejercicio intenso</option>
+                                <option value="1">1 — Disnea al apresurarse o subir una pendiente leve</option>
+                                <option value="2">2 — Camina más lento que personas de su edad o debe parar a respirar</option>
+                                <option value="3">3 — Se detiene por disnea tras unos 100 m o pocos minutos</option>
+                                <option value="4">4 — No puede salir de casa o presenta disnea al vestirse</option>
+                            </select>
+                            <button type="button" onclick="calcEpocMMRC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Interpretar mMRC</button>
+                            <div id="epoc-mmrc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                        </div>`
+                },
+                {
+                    id: 'epoc-gold', cat: 'urgencias',
+                    title: 'Clasificación GOLD — Espirometría y grupos ABE',
+                    desc: 'Clasifica el grado de obstrucción (GOLD 1–4) y el grupo clínico A, B o E según síntomas y exacerbaciones.',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <label class="block font-semibold">Relación FEV₁/CVF posbroncodilatador</label>
+                            <select id="epoc-gold-ratio" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                                <option value="yes">Menor de 0,70</option><option value="no">0,70 o mayor</option>
+                            </select>
+                            <label class="block font-semibold">FEV₁ posbroncodilatador (% del predicho)</label>
+                            <input type="number" id="epoc-gold-fev" min="1" max="150" step="0.1" placeholder="Ej.: 58" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <label class="block font-semibold">Puntaje CAT/CAAT total (0–40)</label>
+                            <input type="number" id="epoc-gold-cat" min="0" max="40" step="1" placeholder="Ej.: 14" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <label class="block font-semibold">Grado mMRC (0–4)</label>
+                            <select id="epoc-gold-mmrc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                            </select>
+                            <label class="block font-semibold">Exacerbaciones moderadas o graves en los últimos 12 meses</label>
+                            <input type="number" id="epoc-gold-exac" min="0" max="30" step="1" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <button type="button" onclick="calcEpocGOLD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Clasificar EPOC</button>
+                            <div id="epoc-gold-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <p class="text-[10px] text-slate-500">El diagnóstico requiere FEV₁/CVF posbroncodilatador &lt;0,70 en el contexto clínico apropiado. El grupo E corresponde a ≥1 exacerbación moderada o grave en el último año.</p>
+                        </div>`
+                },
+                {
+                    id: 'epoc-bode', cat: 'urgencias',
+                    title: 'Índice BODE — Pronóstico multidimensional',
+                    desc: 'Integra IMC, FEV₁ (% predicho), disnea mMRC y distancia recorrida en caminata de 6 minutos.',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="epoc-bode-weight" min="1" step="0.1" placeholder="Peso (kg)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                                <input type="number" id="epoc-bode-height" min="50" step="0.1" placeholder="Talla (cm)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                                <input type="number" id="epoc-bode-fev" min="1" max="150" step="0.1" placeholder="FEV₁ (% predicho)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                                <select id="epoc-bode-mmrc" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="0">mMRC 0</option><option value="1">mMRC 1</option><option value="2">mMRC 2</option><option value="3">mMRC 3</option><option value="4">mMRC 4</option></select>
+                            </div>
+                            <label class="block font-semibold">Distancia en caminata de 6 minutos (metros)</label>
+                            <input type="number" id="epoc-bode-walk" min="0" max="1200" step="1" placeholder="Ej.: 320" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                            <button type="button" onclick="calcEpocBODE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular BODE</button>
+                            <div id="epoc-bode-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <p class="text-[10px] text-slate-500">Usa espirometría posbroncodilatador y una caminata de 6 minutos estandarizada. El puntaje va de 0 a 10; mayor puntaje indica peor pronóstico, no determina por sí solo una conducta.</p>
+                        </div>`
+                },
+                {
+                    id: 'epoc-dose', cat: 'urgencias',
+                    title: 'Índice DOSE — Carga y riesgo en EPOC',
+                    desc: 'Combina disnea mMRC, obstrucción FEV₁, tabaquismo actual y número de exacerbaciones anuales.',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="block font-semibold mb-1">mMRC</label><select id="epoc-dose-mmrc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                                <div><label class="block font-semibold mb-1">FEV₁ (% predicho)</label><input type="number" id="epoc-dose-fev" min="1" max="150" step="0.1" placeholder="Ej.: 45" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"></div>
+                                <div><label class="block font-semibold mb-1">¿Fumador actual?</label><select id="epoc-dose-smoke" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="0">No</option><option value="1">Sí</option></select></div>
+                                <div><label class="block font-semibold mb-1">Exacerbaciones en 12 meses</label><input type="number" id="epoc-dose-exac" min="0" max="30" step="1" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"></div>
+                            </div>
+                            <button type="button" onclick="calcEpocDOSE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular DOSE</button>
+                            <div id="epoc-dose-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <p class="text-[10px] text-slate-500">Puntaje 0–8. Es una herramienta de estratificación y seguimiento; no sustituye la evaluación clínica ni la clasificación GOLD ABE.</p>
+                        </div>`
+                },
+                {
+                    id: 'epoc-anthonisen', cat: 'urgencias',
+                    title: 'Criterios de Anthonisen — Exacerbación',
+                    desc: 'Clasifica el cambio agudo de disnea, volumen y purulencia del esputo (tipos I, II y III).',
+                    body: `
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2"><input type="checkbox" id="epoc-anth-dysp"> <span>Aumento de la disnea respecto al estado basal</span></label>
+                            <label class="flex items-center gap-2"><input type="checkbox" id="epoc-anth-vol"> <span>Aumento del volumen del esputo</span></label>
+                            <label class="flex items-center gap-2"><input type="checkbox" id="epoc-anth-pur"> <span>Aumento de la purulencia del esputo</span></label>
+                            <label class="flex items-center gap-2"><input type="checkbox" id="epoc-anth-vent"> <span>Requiere ventilación mecánica invasiva o no invasiva</span></label>
+                            <button type="button" onclick="calcEpocAnthonisen()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Clasificar exacerbación</button>
+                            <div id="epoc-anth-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <p class="text-[10px] text-slate-500">Anthonisen describe síntomas cardinales. La decisión de antibiótico requiere integrar gravedad, purulencia, ventilación, diagnósticos diferenciales y guía local.</p>
+                        </div>`
+                }  
+
             ];
 
             const query = (document.getElementById('calc-search-input')?.value || '').toLowerCase().trim();
@@ -2442,6 +2483,98 @@ function analyzeGases() {
 
             resEl.innerHTML = `Índice de Tabaquismo: <strong class="text-teal-600">${paq.toFixed(1)} Paquetes/Año</strong> — ${riesgo}`;
             resEl.classList.remove('hidden');
+        }
+        /* ================================================================
+           CALCULADORAS EPOC — GOLD 2026 / BODE / DOSE / ANTHONISEN
+           ================================================================ */
+        function epocNum(id) {
+            const el = document.getElementById(id);
+            if (!el || el.value.trim() === '') return null;
+            const n = Number(el.value);
+            return Number.isFinite(n) ? n : null;
+        }
+        function epocValid(res, message) {
+            if (res) { res.innerHTML = `<span class="text-rose-600">${message}</span>`; res.classList.remove('hidden'); }
+            return false;
+        }
+        function calcEpocCAT() {
+            const v = epocNum('epoc-cat-score'), r = document.getElementById('epoc-cat-res');
+            if (!r) return;
+            if (v === null || !Number.isInteger(v) || v < 0 || v > 40) return epocValid(r, 'Ingresa un puntaje entero entre 0 y 40.');
+            const level = v < 10 ? 'Menor carga de síntomas (CAT/CAAT < 10)' : 'Mayor carga de síntomas (CAT/CAAT ≥ 10)';
+            r.innerHTML = `<strong class="text-teal-600">CAT/CAAT: ${v}/40</strong><div>${level}</div><div class="mt-1 font-normal text-[11px]">Interpreta junto con mMRC, exacerbaciones, espirometría y contexto clínico.</div>`;
+            r.classList.remove('hidden');
+        }
+        function calcEpocMMRC() {
+            const v = epocNum('epoc-mmrc-grade'), r = document.getElementById('epoc-mmrc-res');
+            if (!r) return;
+            if (v === null || !Number.isInteger(v) || v < 0 || v > 4) return epocValid(r, 'Selecciona un grado mMRC de 0 a 4.');
+            r.innerHTML = `<strong class="text-teal-600">mMRC ${v}/4</strong><div>${v >= 2 ? 'Disnea clínicamente más sintomática (mMRC ≥ 2).' : 'Menor grado de disnea (mMRC 0–1).'}</div><div class="mt-1 font-normal text-[11px]">La escala mide limitación por disnea; no mide por sí sola la obstrucción espirométrica.</div>`;
+            r.classList.remove('hidden');
+        }
+        function calcEpocGOLD() {
+            const ratio = document.getElementById('epoc-gold-ratio')?.value;
+            const fev = epocNum('epoc-gold-fev'), cat = epocNum('epoc-gold-cat');
+            const mmrc = epocNum('epoc-gold-mmrc'), ex = epocNum('epoc-gold-exac');
+            const r = document.getElementById('epoc-gold-res'); if (!r) return;
+            if (fev === null || fev <= 0 || fev > 150) return epocValid(r, 'Ingresa FEV₁ (% predicho) válido.');
+            if (cat === null || !Number.isInteger(cat) || cat < 0 || cat > 40) return epocValid(r, 'Ingresa CAT/CAAT entero entre 0 y 40.');
+            if (mmrc === null || !Number.isInteger(mmrc) || mmrc < 0 || mmrc > 4) return epocValid(r, 'Selecciona mMRC de 0 a 4.');
+            if (ex === null || !Number.isInteger(ex) || ex < 0 || ex > 30) return epocValid(r, 'Ingresa un número válido de exacerbaciones (0–30).');
+            let spirometry = ratio === 'yes';
+            let grade = '';
+            if (spirometry) grade = fev >= 80 ? 'GOLD 1 — leve' : fev >= 50 ? 'GOLD 2 — moderada' : fev >= 30 ? 'GOLD 3 — grave' : 'GOLD 4 — muy grave';
+            const symptomatic = cat >= 10 || mmrc >= 2;
+            const group = ex >= 1 ? 'E' : (symptomatic ? 'B' : 'A');
+            const explanation = ex >= 1 ? '≥1 exacerbación moderada o grave en los últimos 12 meses' : (symptomatic ? 'Síntomas elevados (CAT/CAAT ≥10 o mMRC ≥2), sin exacerbaciones moderadas/graves' : 'CAT/CAAT <10 y mMRC 0–1, sin exacerbaciones moderadas/graves');
+            r.innerHTML = (spirometry
+                ? `<div><strong class="text-teal-600">Grupo GOLD ${group}</strong> — ${explanation}</div><div class="mt-1"><strong>Grado espirométrico: ${grade}</strong> (FEV₁ ${fev.toFixed(1)}% del predicho).</div><div class="mt-2 font-normal text-[11px]">Grupo ABE y grado espirométrico son dimensiones diferentes. Integra comorbilidades, exacerbaciones y contexto clínico.</div>`
+                : `<div class="text-rose-600 font-semibold">FEV₁/CVF ≥0,70: no se demuestra obstrucción persistente según el criterio espirométrico GOLD.</div><div class="mt-1 font-normal text-[11px]">No se asigna grupo ABE ni grado GOLD. Revisa calidad de la espirometría, diagnóstico diferencial y contexto clínico.</div>`);
+            r.classList.remove('hidden');
+        }
+        function calcEpocBODE() {
+            const kg = epocNum('epoc-bode-weight'), cm = epocNum('epoc-bode-height');
+            const fev = epocNum('epoc-bode-fev'), mmrc = epocNum('epoc-bode-mmrc'), walk = epocNum('epoc-bode-walk');
+            const r = document.getElementById('epoc-bode-res'); if (!r) return;
+            if (kg === null || kg <= 0 || cm === null || cm < 50 || cm > 250) return epocValid(r, 'Ingresa peso y talla válidos.');
+            if (fev === null || fev <= 0 || fev > 150) return epocValid(r, 'Ingresa FEV₁ (% predicho) válido.');
+            if (mmrc === null || !Number.isInteger(mmrc) || mmrc < 0 || mmrc > 4) return epocValid(r, 'Selecciona mMRC de 0 a 4.');
+            if (walk === null || walk < 0 || walk > 1200) return epocValid(r, 'Ingresa una distancia válida de 0 a 1200 m.');
+            const bmi = kg / Math.pow(cm / 100, 2);
+            const pBmi = bmi > 21 ? 0 : 1;
+            const pFev = fev >= 65 ? 0 : fev >= 50 ? 1 : fev >= 36 ? 2 : 3;
+            const pMmrc = mmrc <= 1 ? 0 : mmrc === 2 ? 1 : mmrc === 3 ? 2 : 3;
+            const pWalk = walk >= 350 ? 0 : walk >= 250 ? 1 : walk >= 150 ? 2 : 3;
+            const total = pBmi + pFev + pMmrc + pWalk;
+            r.innerHTML = `<div class="text-base"><strong class="text-teal-600">BODE: ${total}/10 puntos</strong></div><div>IMC ${bmi.toFixed(1)} (${pBmi} pt) · FEV₁ ${pFev} pt · mMRC ${pMmrc} pt · caminata 6 min ${pWalk} pt.</div><div class="mt-1 font-normal">${total <= 2 ? 'Cuartil BODE 1 (0–2).' : total <= 4 ? 'Cuartil BODE 2 (3–4).' : total <= 6 ? 'Cuartil BODE 3 (5–6).' : 'Cuartil BODE 4 (7–10).'}</div><div class="mt-1 text-[11px] font-normal text-slate-500">Mayor puntaje se asocia con peor pronóstico. Los cuartiles no equivalen a una predicción individual exacta de supervivencia.</div>`;
+            r.classList.remove('hidden');
+        }
+        function calcEpocDOSE() {
+            const mmrc = epocNum('epoc-dose-mmrc'), fev = epocNum('epoc-dose-fev');
+            const smoke = epocNum('epoc-dose-smoke'), ex = epocNum('epoc-dose-exac');
+            const r = document.getElementById('epoc-dose-res'); if (!r) return;
+            if (mmrc === null || !Number.isInteger(mmrc) || mmrc < 0 || mmrc > 4) return epocValid(r, 'Selecciona mMRC de 0 a 4.');
+            if (fev === null || fev <= 0 || fev > 150) return epocValid(r, 'Ingresa FEV₁ (% predicho) válido.');
+            if (ex === null || !Number.isInteger(ex) || ex < 0 || ex > 30) return epocValid(r, 'Ingresa exacerbaciones válidas (0–30).');
+            const pD = mmrc <= 1 ? 0 : mmrc === 2 ? 1 : mmrc === 3 ? 2 : 3;
+            const pO = fev >= 50 ? 0 : fev >= 30 ? 1 : 2;
+            const pS = smoke === 1 ? 1 : 0;
+            const pE = ex <= 1 ? 0 : ex <= 3 ? 1 : 2;
+            const total = pD + pO + pS + pE;
+            r.innerHTML = `<div class="text-base"><strong class="text-teal-600">DOSE: ${total}/8 puntos</strong></div><div>Disnea ${pD} pt · obstrucción ${pO} pt · tabaquismo ${pS} pt · exacerbaciones ${pE} pt.</div><div class="mt-1">${total <= 1 ? 'Puntaje 0–1.' : total <= 3 ? 'Puntaje 2–3.' : 'Puntaje ≥4: se asocia con mayor riesgo de ingreso hospitalario y falla respiratoria.'}</div><div class="mt-1 text-[11px] font-normal text-slate-500">No es una escala para decidir por sí sola tratamiento agudo ni reemplaza GOLD ABE.</div>`;
+            r.classList.remove('hidden');
+        }
+        function calcEpocAnthonisen() {
+            const d = !!document.getElementById('epoc-anth-dysp')?.checked;
+            const v = !!document.getElementById('epoc-anth-vol')?.checked;
+            const p = !!document.getElementById('epoc-anth-pur')?.checked;
+            const vent = !!document.getElementById('epoc-anth-vent')?.checked;
+            const n = [d, v, p].filter(Boolean).length;
+            const r = document.getElementById('epoc-anth-res'); if (!r) return;
+            const type = n === 3 ? 'Tipo I (tres síntomas cardinales)' : n === 2 ? 'Tipo II (dos síntomas cardinales)' : n === 1 ? 'Un síntoma cardinal (tipo III solo si hay síntomas/signos de apoyo)' : 'Sin síntomas cardinales seleccionados';
+            const antibiotic = vent || n === 3 || (n === 2 && p);
+            r.innerHTML = `<strong class="text-teal-600">${type}</strong><div>${n}/3 síntomas cardinales presentes.</div><div class="mt-1">${antibiotic ? 'Cumple características en las que suele considerarse antibiótico, tras valoración clínica y según protocolo local.' : 'Los criterios cardinales seleccionados no establecen por sí solos indicación de antibiótico.'}</div><div class="mt-1 text-[11px] font-normal text-slate-500">Valora gravedad, gases, necesidad de soporte ventilatorio y diagnósticos diferenciales (neumonía, TEP, insuficiencia cardiaca, neumotórax).</div>`;
+            r.classList.remove('hidden');
         }
 
         // VADEMECUM & VADEMECUM RENDER
