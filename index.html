@@ -1393,10 +1393,29 @@
                     id="abg_mic_${d.id}"
                     placeholder="Ej. 1"
                     class="w-full p-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
-            </div>
+                                </div>
 
-        </div>
-    `).join('');
+                    <!-- CMI opcional -->
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                        <select id="abg_mic_op_${d.id}"
+                            class="w-full p-2 text-sm rounded-lg border dark:bg-slate-800 dark:border-slate-700">
+                            <option value="">Operador</option>
+                            <option value="&lt;">&lt;</option>
+                            <option value="&lt;=">≤</option>
+                            <option value=">">&gt;</option>
+                            <option value=">=">≥</option>
+                        </select>
+
+                        <input
+                            id="abg_mic_${d.id}"
+                            type="number"
+                            step="any"
+                            min="0"
+                            placeholder="CMI mg/L"
+                            class="w-full p-2 text-sm rounded-lg border dark:bg-slate-800 dark:border-slate-700">
+                    </div>
+                </div>
+            `).join('');
 
     const resultBox = document.getElementById('abg-result-box');
 
@@ -1460,8 +1479,11 @@
 
     const rows = registrados.map(d => {
         const value = getAbgVal(d.id);
-        const mic = document.getElementById(`abg_mic_${d.id}`)?.value || '';
-
+const mic = document.getElementById(`abg_mic_${d.id}`)?.value;
+const micOp = document.getElementById(`abg_mic_op_${d.id}`)?.value || '=';
+const micText = mic !== '' && mic != null
+    ? ` · CMI: ${micOp} ${mic} mg/L`
+    : '';
         return `
             <div class="flex flex-wrap justify-between gap-2 py-2 border-b border-slate-700/40">
                 <span class="text-slate-200">${d.name}</span>
