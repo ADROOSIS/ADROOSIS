@@ -2079,6 +2079,75 @@ function analyzeGases() {
                         </div>
                     `
                 },
+                
+                {
+        id: 'mmrc-epoc',
+        titulo: 'Escala mMRC (Modified Medical Research Council)',
+        especialidad: 'Neumología',
+        icono: 'fa-lungs',
+        color: 'blue',
+        descripcion: 'Evalúa la gravedad de la disnea en pacientes con EPOC en las actividades cotidianas.',
+        rango: '0 - 4',
+        niveles: [
+            { valor: 0, descripcion: 'Ausencia de disnea salvo al realizar ejercicio intenso.' },
+            { valor: 1, descripcion: 'Disnea al caminar de prisa en plano o al subir una pendiente ligera.' },
+            { valor: 2, descripcion: 'Incapacidad para mantener el paso de otras personas de la misma edad en plano, o tener que detenerse al caminar en plano al propio paso.' },
+            { valor: 3, descripcion: 'Detenerse por disnea al caminar unos 100 metros o a los pocos minutos de caminar en plano.' },
+            { valor: 4, descripcion: 'Disnea al realizar pequeños esfuerzos (vestirse, desvestirse) o incapacidad para salir de casa.' }
+        ],
+        usoClinico: 'Clasificación inicial GOLD (Grupos A, B y E) junto con el cuestionario CAT o mMRC.'
+    },
+    {
+        id: 'cat-epoc',
+        titulo: 'Cuestionario CAT (COPD Assessment Test)',
+        especialidad: 'Neumología',
+        icono: 'fa-clipboard-question',
+        color: 'blue',
+        descripcion: 'Cuestionario de 8 ítems que cuantifica el impacto global de la EPOC en la calidad de vida y síntomas.',
+        rango: '0 - 40',
+        interpretacion: [
+            { rango: '0 - 9', impacto: 'Impacto Bajo' },
+            { rango: '10 - 20', impacto: 'Impacto Moderado' },
+            { rango: '21 - 30', impacto: 'Impacto Alto' },
+            { rango: '>= 31', impacto: 'Impacto Muy Alto' }
+        ],
+        usoClinico: 'Puntaje mayor o igual a 10 define síntomas significativos y guía el tratamiento broncodilatador dual.'
+    },
+    {
+        id: 'bode-index',
+        titulo: 'Índice BODE (Pronóstico Multidimensional en EPOC)',
+        especialidad: 'Neumología / Cuidado Crítico',
+        icono: 'fa-chart-line',
+        color: 'rose',
+        descripcion: 'Sistema pronóstico multidimensional que evalúa el riesgo de mortalidad y supervivencia en EPOC.',
+        rango: '0 - 10 puntos',
+        componentes: [
+            { letra: 'B', variable: 'Índice de Masa Corporal (IMC)', corte: '> 21.9 (0 pts) | <= 21.9 (1 pt)' },
+            { letra: 'O', variable: 'Obstrucción (FEV1 % predicho)', corte: '>= 65% (0) | 50-64% (1) | 36-49% (2) | <= 35% (3)' },
+            { letra: 'D', variable: 'Disnea (Escala mMRC)', corte: 'Grado 0-1 (0) | Grado 2 (1) | Grado 3 (2) | Grado 4 (3)' },
+            { letra: 'E', variable: 'Capacidad de ejercicio (Caminata 6 min)', corte: '>= 350m (0) | 250-349m (1) | 150-249m (2) | < 150m (3)' }
+        ],
+        usoClinico: 'Muy superior al FEV1 aislado para predecir mortalidad a 4 años y necesidad de valoración por trasplante pulmonar.'
+    },
+    {
+        id: 'anthonisen-exacerbacion',
+        titulo: 'Criterios de Anthonisen para Exacerbación de EPOC',
+        especialidad: 'Urgencias / Neumología',
+        icono: 'fa-triangle-exclamation',
+        color: 'amber',
+        descripcion: 'Define la gravedad de la exacerbación aguda basada en la presencia de tres síntomas cardinales.',
+        sintomasCardinales: [
+            'Aumento de la disnea',
+            'Aumento del volumen del esputo',
+            'Aumento de la purulencia del esputo (esputo purulento)'
+        ],
+        tipos: [
+            { tipo: 'Tipo I (Grave)', condicion: 'Presenta los 3 síntomas cardinales', manejo: 'Indicación absoluta de antibioticoterapia empírica.' },
+            { tipo: 'Tipo II (Moderada)', condicion: 'Presenta 2 de los 3 síntomas cardinales', manejo: 'Indicación de antibióticos según gravedad o comorbilidades.' },
+            { tipo: 'Tipo III (Leve)', condicion: 'Presenta 1 síntoma cardinal + infección respiratoria alta, fiebre o sibilancias', manejo: 'No requiere antibióticos de rutina.' }
+        ],
+        usoClinico: 'Guía rápida en urgencias para iniciar antibióticos de forma oportuna y evitar resistencia antimicrobiana innecesaria.'
+    }
                 {
                     id: 'framingham',
                     cat: 'cardio',
