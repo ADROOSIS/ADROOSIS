@@ -1632,36 +1632,6 @@ function runAntibiogramAnalysis() {
 
     // Los datos de CMI se muestran como fueron introducidos.
     // No se recalcula S/I/R porque requiere puntos de corte validados.
-    const micRows = results
-        .filter(item => item.mic !== null)
-        .map(item => `
-            <li class="flex justify-between gap-3">
-                <span>${item.name}</span>
-                <strong>${item.mic.comparator} ${item.mic.value}</strong>
-            </li>
-        `).join('');
-
-    const resultRows = results
-        .filter(item => item.category !== 'NR')
-        .map(item => {
-            const color = item.category === 'S'
-                ? 'text-emerald-300'
-                : item.category === 'I'
-                    ? 'text-amber-300'
-                    : 'text-rose-300';
-
-            const micText = item.mic
-                ? ` · CMI ${item.mic.comparator} ${item.mic.value}`
-                : '';
-
-            return `
-                <li class="flex justify-between gap-3 border-b border-slate-700 py-1.5">
-                    <span>${item.name}${micText}</span>
-                    <strong class="${color}">${item.category}</strong>
-                </li>
-            `;
-        }).join('');
-
     const specimenName = document.getElementById('abg-specimen')
         ?.selectedOptions[0]?.textContent || 'No especificada';
 
@@ -1673,66 +1643,56 @@ function runAntibiogramAnalysis() {
         : '<li>No se identificaron alertas adicionales con los datos registrados.</li>';
 
     resultBox.innerHTML = `
-        <div class="space-y-4">
+    <div class="space-y-4">
 
-            <div class="border-b border-slate-700 pb-3">
-                <h4 class="font-bold text-sm text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-microscope"></i>
-                    Interpretación del Fenotipo
-                </h4>
-                <p class="text-slate-300 mt-2">
-                    ${getAbgGermName(germ)}
-                </p>
-                <p class="text-slate-400 mt-1">
-                    Muestra: ${specimenName} · Foco: ${focusName}
-                </p>
-            </div>
-
-            <div>
-                <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">
-                    Fenotipo probable
-                </strong>
-                <p class="font-bold text-white mt-1">${phenotype}</p>
-            </div>
-
-            <div>
-                <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">
-                    Resultados reportados
-                </strong>
-                <ul class="mt-2 space-y-1">${resultRows}</ul>
-            </div>
-
-            ${micRows ? `
-                <div>
-                    <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">
-                        CMI / MIC registradas
-                    </strong>
-                    <ul class="mt-2 space-y-1">${micRows}</ul>
-                </div>
-            ` : ''}
-
-            <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-                <strong class="text-amber-400 block mb-2">
-                    Alertas clínicas
-                </strong>
-                <ul class="list-disc pl-4 space-y-1 text-slate-300">
-                    ${alertsHtml}
-                </ul>
-            </div>
-
-            <p class="text-[10px] text-slate-500 border-t border-slate-700 pt-3">
-                Estándar: ${standard || 'No especificado'}
-                ${version ? ` · Versión: ${version}` : ''}
-                <br>
-                La CMI se muestra como fue ingresada. Esta herramienta no modifica
-                la categoría S/I/R ni genera dosis o tratamientos automáticos.
+        <div class="border-b border-slate-700 pb-3">
+            <h4 class="font-bold text-sm text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-microscope"></i>
+                Interpretación del fenotipo
+            </h4>
+            <p class="text-slate-300 mt-2">
+                ${getAbgGermName(germ)}
+            </p>
+            <p class="text-slate-400 mt-1">
+                Muestra: ${specimenName} · Foco: ${focusName}
             </p>
         </div>
-    `;
 
+        <div>
+            <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">
+                Fenotipo probable
+            </strong>
+            <p class="font-bold text-white mt-1">${phenotype}</p>
+        </div>
+
+        <div>
+            <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">
+                Posibles tratamientos
+            </strong>
+            <p class="text-slate-300 mt-1">
+                No hay todavía una regla terapéutica validada para esta combinación
+                de microorganismo, foco y resultados. No se recomienda seleccionar
+                un antibiótico únicamente por su categoría S.
+            </p>
+        </div>
+
+        <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
+            <strong class="text-amber-400 block mb-2">
+                Alertas clínicas
+            </strong>
+            <ul class="list-disc pl-4 space-y-1 text-slate-300">
+                ${alertsHtml}
+            </ul>
+        </div>
+
+        <p class="text-[10px] text-slate-500 border-t border-slate-700 pt-3">
+            Estándar: ${standard || 'No especificado'}
+            ${version ? ` · Versión: ${version}` : ''}
+        </p>
+    </div>
+`;
     resultBox.classList.remove('hidden');
 }
-
 
 // Restablece el formulario y conserva el microorganismo seleccionado.
 function resetAntibiogramForm() {
