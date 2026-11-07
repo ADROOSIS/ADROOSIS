@@ -1487,6 +1487,109 @@ function getAbgGermName(germ) {
 }
 
 
+// ======================================================
+// MOTOR TERAPÉUTICO ADROOSIS
+// Reglas conservadoras y respaldadas por guías.
+// ======================================================
+
+function abgGetTreatmentRecommendations({ germ, focus, specimen, has }) {
+    const recommendations = [];
+    const alerts = [];
+
+    const focusText = String(focus || '').toLowerCase();
+    const specimenText = String(specimen || '').toLowerCase();
+
+    const isUrine =
+        specimenText.includes('orina') ||
+        specimenText.includes('urin');
+
+    const isLowerUTI =
+        focusText.includes('cistitis') ||
+        focusText.includes('itu baja') ||
+        focusText.includes('urinaria baja');
+
+    // Regla inicial: E. coli + urocultivo + cistitis baja.
+    if (germ === 'ecoli' && isUrine && isLowerUTI) {
+
+        if (has('nit') === 'S') {
+            recommendations.push({
+                priority: 1,
+                name: 'Nitrofurantoína',
+                dose: '100 mg por vía oral cada 12 horas durante 5 días',
+                note: 'Usar la formulación de liberación prolongada adecuada. Verificar función renal, embarazo, contraindicaciones y presentación disponible.'
+            });
+        }
+
+        if (has('fos') === 'S') {
+            recommendations.push({
+                priority: 2,
+                name: 'Fosfomicina trometamol',
+                dose: '3 g por vía oral en dosis única',
+                note: 'Alternativa para cistitis baja no complicada.'
+            });
+        }
+
+        if (has('sxt') === 'S') {
+            recommendations.push({
+                priority: 3,
+                name: 'Trimetoprim / sulfametoxazol',
+                dose: '160/800 mg por vía oral cada 12 horas durante 3 días',
+                note: 'Considerar solo tras verificar contraindicaciones, interacciones y pertinencia clínica.'
+            });
+        }
+
+        if (recommendations.length === 0) {
+            alerts.push(
+                'No se encontró una opción de las contempladas con sensibilidad reportada. No seleccionar un antibiótico sin revisar el cultivo completo y las alternativas con el laboratorio.'
+            );
+        }
+
+        if (has('nit') === 'S') {
+            alerts.push(
+                'Nitrofurantoína no es adecuada para pielonefritis, prostatitis, bacteriemia ni infección urinaria con compromiso sistémico.'
+            );
+        }
+
+        if (has('fos') === 'S') {
+            alerts.push(
+                'La fosfomicina oral no debe extrapolarse al tratamiento de pielonefritis o bacteriemia.'
+            );
+        }
+
+        return { recommendations, alerts };
+    }
+
+    return {
+        recommendations: [],
+        alerts: [
+            'No hay una combinación terapéutica automatizada y validada para este microorganismo, muestra y foco. Revisar el antibiograma con guías específicas y criterio clínico.'
+        ]
+    };
+}
+
+
+// Construye el HTML de las recomendaciones.
+function abgRenderTreatments(recommendations) {
+    if (!recommendations.length) {
+        return `
+            <p class="text-amber-300 font-semibold">
+                No hay una opción terapéutica automatizada validada con estos datos.
+            </p>`;
+    }
+
+    return recommendations
+        .sort((a, b) => a.priority - b.priority)
+        .map((item, index) => `
+            <div class="rounded-xl border border-slate-700 bg-slate-800 p-3 space-y-1">
+                <p class="font-bold text-emerald-300">
+                    ${index === 0 ? 'Primera opción' : 'Alternativa'}: ${item.name}
+                </p>
+                <p class="text-white">${item.dose}</p>
+                <p class="text-slate-300">${item.note}</p>
+            </div>
+        `).join('');
+}
+
 // Analiza los datos sin inferir mecanismos no confirmados.
 function runAntibiogramAnalysis() {
     const germ = document.getElementById('abg-germ-select')?.value;
@@ -1646,6 +1749,24 @@ function runAntibiogramAnalysis() {
         ? alerts.map(alert => `<li>${alert}</li>`).join('')
         : '<li>No se identificaron alertas adicionales con los datos registrados.</li>';
 
+        // MOTOR DE RECOMENDACIONES TERAPÉUTICAS
+const treatment = abgGetTreatmentRecommendations({
+    germ,
+    focus,
+    specimen,
+    has
+});
+
+// Incorporar alertas generadas por el motor terapéutico
+treatment.alerts.forEach(alert => {
+    if (!alerts.includes(alert)) alerts.push(alert);
+});
+
+// Actualizar las alertas después de integrar el motor
+const finalAlertsHtml = alerts.length
+    ? alerts.map(alert => `<li>${alert}</li>`).join('')
+    : '<li>No se identificaron alertas adicionales con los datos registrados.</li>';
+
     resultBox.innerHTML = `
     <div class="space-y-4">
 
@@ -1670,22 +1791,21 @@ function runAntibiogramAnalysis() {
         </div>
 
         <div>
-            <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">
-                Posibles tratamientos
-            </strong>
-            <p class="text-slate-300 mt-1">
-                No hay todavía una regla terapéutica validada para esta combinación
-                de microorganismo, foco y resultados. No se recomienda seleccionar
-                un antibiótico únicamente por su categoría S.
-            </p>
-        </div>
+    <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">
+        Posibles tratamientos
+    </strong>
+
+    <div class="mt-2 space-y-2">
+        ${abgRenderTreatments(treatment.recommendations)}
+    </div>
+</div>
 
         <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
             <strong class="text-amber-400 block mb-2">
                 Alertas clínicas
             </strong>
             <ul class="list-disc pl-4 space-y-1 text-slate-300">
-                ${alertsHtml}
+                ${finalAlertsHtml}
             </ul>
         </div>
 
