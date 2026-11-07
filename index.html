@@ -832,6 +832,10 @@
     <div id="vad-stats" class="space-y-1.5"></div>
     <label class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer">
         <input type="checkbox" id="vad-only-verified" onchange="renderVademecum()"> Mostrar solo fármacos verificados con fuente
+        <details class="text-[11px] text-slate-500 dark:text-slate-400">
+    <summary class="cursor-pointer font-bold">Ver qué falta por verificar</summary>
+    <div id="vad-pend" class="mt-2 leading-snug"></div>
+</details>
     </label>
     <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">Herramienta de apoyo: no sustituye la ficha técnica, la guía de tu institución ni el juicio clínico. Las fichas con ✔ muestran su fuente y el alcance de lo verificado; las demás siguen pendientes. Las presentaciones comerciales de Colombia (INVIMA / PBS) aún no se han verificado: contrástalas con tu listado local.</p>
 </div>
@@ -4294,6 +4298,70 @@ vademecumData.forEach(v => {
     Object.assign(v, o);
     v.verificado = true;
     v.revisado = '1 nov 2026';
+
+    /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 4 · 1 nov 2026) ===== */
+const VAD_VERIF4 = {
+    'Oxitocina': {
+        fuente: { t: 'Recomendaciones OMS sobre uterotónicos, ficha OMS (WHOPAR) y protocolo CMT de hemorragia posparto', url: 'https://app.magicapp.org/summary/guideline_10007.html' },
+        alcance: 'Dosis de prevención y tratamiento de la hemorragia posparto (bolo e infusión).',
+        nota: '',
+        adult: 'Prevención del alumbramiento: 10 UI IM (o IV lenta). Hemorragia posparto: 10 UI IM o IV lenta; infusión de 20 - 40 UI en 1 L de cristaloide (máx 40 UI por litro), pasando el primer litro rápido y luego a ritmo de mantenimiento. No pases de 3 L de líquido con oxitocina'
+    },
+    'Misoprostol': {
+        fuente: { t: 'Protocolo CMT de hemorragia posparto y resumen perinatal (fuentes secundarias)', url: 'https://glowm.cms.ama.uk.com/pdf/CMT-Post-Partum-Haemorrhage-V2.pdf' },
+        alcance: 'Dosis en hemorragia posparto cuando no hay oxitocina o no responde. Fuentes secundarias.',
+        nota: '',
+        adult: 'Hemorragia posparto cuando no hay oxitocina o no responde: 800 mcg sublinguales, dosis única (también existe la vía rectal)'
+    },
+    'Hidrocortisona': {
+        fuente: { t: 'Guía de la Endocrine Society (insuficiencia suprarrenal) y monografía de dosificación (Drugs.com)', url: 'https://eguideline.guidelinecentral.com/i/1140169/9' },
+        alcance: 'Crisis suprarrenal (adulto y pediátrica) y choque séptico del adulto. La dosis de anafilaxia y el choque séptico pediátrico no están verificados.',
+        adult: 'Crisis suprarrenal: 1 L de solución salina en la primera hora, hidrocortisona 100 mg IV en bolo y luego 200 mg en infusión continua en 24 h (o 50 mg IV c/6h); al día siguiente 100 mg. Choque séptico que requiere vasopresor: 200 mg/día (infusión continua o 50 mg c/6h). Anafilaxia (adyuvante): 200 mg IV (no verificado)',
+        ped: 'Crisis suprarrenal: 50 - 100 mg/m² IV en bolo (alternativa: 2 - 3 mg/kg, máx 100 mg), luego 50 - 100 mg/m²/día dividido c/6h; bolo de solución salina 20 mL/kg y glucosa si hay hipoglucemia. Choque séptico pediátrico: no verificado',
+        warning: 'En insuficiencia suprarrenal no retrases la dosis por pruebas diagnósticas. Hiperglucemia y retención de sodio. En anafilaxia nunca reemplaza a la adrenalina.'
+    },
+    'Salbutamol (Albuterol)': {
+        fuente: { t: 'AFP 2024 · asma aguda, TREKK y guías MSF', url: 'https://www.aafp.org/afp/2024/0100/acute-asthma-exacerbations' },
+        alcance: 'Dosis en crisis asmática (adulto y pediátrica). El uso en hiperpotasemia no está verificado.',
+        adult: 'Crisis asmática: 4 - 10 inhalaciones (100 mcg) con espaciador c/20 min durante la primera hora, o 5 mg nebulizado c/20 min x 3 dosis; luego según la respuesta. Rescate: 1 - 2 inhalaciones PRN',
+        ped: 'Crisis: < 20 kg: 5 inhalaciones con espaciador o 2.5 mg nebulizado; ≥ 20 kg: 10 inhalaciones o 5 mg nebulizado; cada 20 min x 3 dosis, luego c/1-4h según la respuesta'
+    },
+    'Bromuro de ipratropio': {
+        fuente: { t: 'AFP 2024 · asma aguda, TREKK y guías MSF', url: 'https://www.aafp.org/afp/2024/0100/acute-asthma-exacerbations' },
+        alcance: 'Dosis en crisis asmática moderada a grave. En niños las guías difieren.',
+        adult: 'Crisis moderada a grave: 0.5 mg nebulizado c/20 min x 3 dosis (o 8 inhalaciones de 20 mcg), junto con salbutamol; luego según la respuesta',
+        ped: '250 mcg nebulizado (o 4 inhalaciones de 20 mcg) c/20 min x 3 dosis, junto con salbutamol (TREKK). Otras guías usan 500 mcg desde los 5 años'
+    },
+    'Prednisolona / Prednisona': {
+        fuente: { t: 'AFP 2024 · asma aguda, TREKK y guías MSF', url: 'https://www.aafp.org/afp/2024/0100/acute-asthma-exacerbations' },
+        alcance: 'Dosis en exacerbación asmática. Las dosis de EPOC y de otras enfermedades inflamatorias no están verificadas.',
+        adult: 'Exacerbación de asma: 40 - 50 mg VO c/24h x 5 días (sin descenso gradual). Prednisona y prednisolona son equivalentes en mg. Otras indicaciones: no verificadas en este lote',
+        ped: 'Asma: 1 mg/kg VO c/24h (máx 60 mg) x 3 - 5 días; alternativa: dexametasona 0.6 mg/kg (máx 12 mg)'
+    },
+    'Sales de rehidratación oral (SRO)': {
+        fuente: { t: 'Planes de rehidratación de la OMS (guías MSF e IAP)', url: 'https://medicalguidelines.msf.org/en/viewport/mme/english/appendix-14-plan-rehydration-who-32408338.html' },
+        alcance: 'Planes A y B pediátricos. La dosis del adulto no está verificada.',
+        ped: 'Plan A (sin deshidratación): menor de 2 años 50 - 100 mL; 2 - 10 años 100 - 200 mL tras cada deposición líquida; mayores: a voluntad. Plan B (algún grado de deshidratación): 75 mL/kg en 4 horas y luego reevaluar. Si vomita: espera 5-10 minutos y reinicia más despacio'
+    },
+    'Zinc (suplemento en diarrea)': {
+        fuente: { t: 'Recomendación de la OMS sobre zinc en la diarrea aguda (guías MSF e IAP)', url: 'https://medicalguidelines.msf.org/en/viewport/mme/english/appendix-14-plan-rehydration-who-32408338.html' },
+        alcance: 'Dosis pediátrica en diarrea aguda. El uso en adultos no está verificado.',
+        ped: 'Diarrea aguda: < 6 meses 10 mg/día; ≥ 6 meses 20 mg/día VO x 10 - 14 días (OMS)'
+    },
+    'Ácido acetilsalicílico (ASA)': {
+        fuente: { t: 'Tarjetas ALS 2025 (Cruz Roja Americana) y guías ACC/AHA de SCA', url: 'https://guidelines.redcross.org/wp-content/uploads/2025/12/ALS-Code-Cards-ADULT-ACUTE-CORONARY-SYNDROMES-FINAL-PRINT.pdf' },
+        alcance: 'Dosis de carga en síndrome coronario agudo. El ACV isquémico y la prevención secundaria no están verificados.',
+        adult: 'SCA / IAMCEST: 162 - 325 mg VO masticada (carga) y luego 75 - 100 mg c/24h. ACV isquémico agudo y prevención secundaria: 160 - 325 mg y 75 - 100 mg/día (no verificado en este lote)'
+    }
+};
+Object.assign(VAD_VERIF, VAD_VERIF4);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF4[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = true;
+    v.revisado = '1 nov 2026';
+});
 });
 });
 });
@@ -4333,6 +4401,7 @@ function vadStats() {
         </div>
         <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden"><div class="h-full bg-gradient-to-r from-emerald-500 to-teal-500" style="width:${pct}%"></div></div>
         <div class="text-[10px] text-slate-400">Vademécum ${VAD_VERSION}</div>`;
+        vadPendientes();
 }
 
 function renderVademecum() {
@@ -6376,7 +6445,7 @@ ALG_DATA.push(
     id: 'sepsis', titulo: 'Sepsis y choque séptico (adulto)', area: 'Infectología', pob: ['adulto'], peso: true,
     fuente: { t: 'Surviving Sepsis Campaign 2026 (adultos)', url: 'https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026' },
     revisado: '1 nov 2026',
-    alcance: 'Tiempos del antibiótico, volumen inicial de cristaloide, noradrenalina como primera línea y vasopresina fija. Los rangos de noradrenalina vienen de protocolos hospitalarios. La dosis de hidrocortisona y la sepsis pediátrica no están verificadas en este lote.',
+    alcance: 'Tiempos del antibiótico, volumen inicial de cristaloide, noradrenalina como primera línea y vasopresina fija. Los rangos de noradrenalina vienen de protocolos hospitalarios. La sepsis pediátrica no está cubierta',
     kw: 'sepsis choque septico shock infeccion hipotension lactato noradrenalina vasopresor antibiotico cristaloide qsofa bacteriemia',
     nodos: {
         inicio: { tipo: 'q', corto: 'Sospecha de sepsis',
@@ -6431,10 +6500,9 @@ ALG_DATA.push(
         refract: { tipo: 'fin', tono: 'crit', corto: 'Choque refractario',
             t: 'Choque séptico refractario: UCI',
             det: ['Remite a UCI lo antes posible; mantén noradrenalina y vasopresina fija (0.03 U/min)',
-                  'Hidrocortisona IV 50 mg c/6 h (200 mg/día) si persiste la necesidad de vasopresor (dosis no verificada en este lote)',
-                  'Adrenalina en infusión (0.01-0.5 mcg/kg/min) como tercer agente',
-                  'Reconsidera el foco: ¿se controló? ¿hay absceso, obstrucción o necrosis? ¿el antibiótico cubre?',
-                  'Descarta otras causas de choque (cardiogénico, hipovolémico, obstructivo)'],
+                    'Hidrocortisona IV 200 mg/día (50 mg c/6 h o infusión continua) si persiste la necesidad de vasopresor',                  'Adrenalina en infusión (0.01-0.5 mcg/kg/min) como tercer agente',
+                    'Reconsidera el foco: ¿se controló? ¿hay absceso, obstrucción o necrosis? ¿el antibiótico cubre?',
+                    'Descarta otras causas de choque (cardiogénico, hipovolémico, obstructivo)'],
             links: [{ l: 'Ver Hidrocortisona', drug: 'Hidrocortisona' }] },
         estable: { tipo: 'fin', tono: 'ok', corto: 'Estable',
             t: 'Estabilizado: reevaluación continua',
@@ -6665,7 +6733,7 @@ ALG_DATA.push(
     id: 'hpp', titulo: 'Hemorragia posparto (Código Rojo)', area: 'Obstetricia', pob: ['gestante'], peso: false,
     fuente: { t: 'OMS 2017 · recomendación sobre ácido tranexámico en hemorragia posparto', url: 'https://www.rhsupplies.org/activities-resources/publications/updated-who-recommendation-on-tranexamic-acid-for-the-treatment-of-postpartum-haemorrhage-highlights-and-key-messages-from-the-world-health-organizations-2017-global-recommendation-8842/' },
     revisado: '1 nov 2026',
-    alcance: 'Ácido tranexámico (dosis y tiempo) verificado con OMS 2017. Las dosis de oxitocina y misoprostol y las medidas mecánicas siguen el consenso OMS/FIGO, pero no se contrastaron con el texto completo en este lote: confírmalas con el protocolo de tu institución.',
+    alcance: 'Ácido tranexámico (OMS 2017), oxitocina (bolo e infusión) y misoprostol (800 mcg) verificados. Las medidas mecánicas siguen el consenso OMS/FIGO y no se contrastaron con el texto completo.',
     kw: 'hemorragia posparto HPP codigo rojo atonia uterina oxitocina misoprostol acido tranexamico sangrado parto puerperio',
     nodos: {
         inicio: { tipo: 'q', corto: 'Reconocer HPP',
@@ -6685,7 +6753,7 @@ ALG_DATA.push(
                   'Uterotónico de primera línea: oxitocina IM o IV lenta',
                   'Ácido tranexámico IV en cuanto empiece el sangrado, dentro de las primeras 3 horas del parto',
                   'Busca la causa con las 4 T: tono, tejido, trauma y trombina'],
-            dosis: [fx('Oxitocina', '10 UI IM o IV lenta', 'Mantenimiento en infusión: según protocolo local (pendiente de verificar).'),
+            dosis: [fx('Oxitocina', '10 UI IM o IV lenta', 'Infusión: 20-40 UI en 1 L de cristaloide (máx 40 UI por litro); pasa el primer litro rápido y luego a ritmo de mantenimiento. No pases de 3 L de líquido con oxitocina.'),
                     fx('Ácido tranexámico', '1 g IV en 10 min, dentro de las primeras 3 h tras el parto', 'Segunda dosis de 1 g si el sangrado continúa tras 30 min o reinicia en las siguientes 24 h.')],
             links: [{ l: 'Ver Oxitocina', drug: 'Oxitocina' }, { l: 'Ver Ácido tranexámico', drug: 'Ácido tranexámico' }],
             sig: 'causa' },
@@ -6700,7 +6768,7 @@ ALG_DATA.push(
                   'Metilergonovina / ergometrina: contraindicada en hipertensión o preeclampsia',
                   'Si no responde en pocos minutos: taponamiento con balón uterino (o equivalente), compresión bimanual o aórtica durante el traslado',
                   'Si persiste: cirugía (suturas compresivas, ligaduras o histerectomía) en un centro con capacidad'],
-            dosis: [fx('Misoprostol', '800 mcg sublingual, dosis única', 'Si no hay oxitocina o no responde (pendiente de contraste con texto completo).')],
+            dosis: [fx('Misoprostol', '800 mcg sublingual (o rectal), dosis única', 'Si no hay oxitocina o no responde (fuentes secundarias: protocolo CMT y resumen perinatal).')],
             links: [{ l: 'Ver Misoprostol', drug: 'Misoprostol' }],
             opts: [{ t: 'Sangrado controlado', to: 'ctrl' }, { t: 'Persiste el sangrado', to: 'refr' }] },
         tejido: { tipo: 'act', corto: 'Tejido retenido',
@@ -7274,6 +7342,12 @@ function algToHC() {
     el.value = (el.value ? el.value + '\n\n' : '') + txt;
     hcUpdate();
     document.getElementById('hc-sec-dx')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function vadPendientes() {
+    const el = document.getElementById('vad-pend'); if (!el) return;
+    const g = {};
+    vademecumData.filter(v => !v.verificado).forEach(v => (g[v.group] = g[v.group] || []).push(v.name));
+    el.innerHTML = Object.entries(g).map(([k, a]) => `<div class="mb-1"><b class="text-slate-700 dark:text-slate-200">${k} (${a.length}):</b> ${a.join(', ')}</div>`).join('') || '<div>Todo verificado.</div>';
 }
 
         // INITIALIZATION
