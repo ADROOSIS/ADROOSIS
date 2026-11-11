@@ -2035,14 +2035,43 @@ function analyzeGases() {
                     title: 'Criterios qSOFA (Quick SOFA - Sepsis)',
                     desc: 'Tamizaje rápido de riesgo en sospecha de infección fuera de UCI.',
                     body: `
-                        <div class="space-y-1.5 text-xs">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="qs-m" class="qs-chk"> <span>Estado mental alterado (Glasgow < 15) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="qs-r" class="qs-chk"> <span>Taquipnea (FR ≥ 22 rpm) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="qs-p" class="qs-chk"> <span>Hipotensión (PAS ≤ 100 mmHg) (+1)</span></label>
-                            <button onclick="calcQSOFA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar qSOFA</button>
-                            <div id="qsofa-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <p class="text-slate-500">
+            Evaluación de riesgo en adultos con sospecha de infección.
+        </p>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="qs-m" class="qs-chk">
+            <span>Alteración aguda del estado mental (Glasgow < 15) (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="qs-r" class="qs-chk">
+            <span>Frecuencia respiratoria ≥ 22 rpm (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="qs-p" class="qs-chk">
+            <span>Presión arterial sistólica ≤ 100 mmHg (+1)</span>
+        </label>
+
+        <button onclick="calcQSOFA()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">
+            Evaluar qSOFA
+        </button>
+
+        <div id="qsofa-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden">
+        </div>
+
+        <p class="text-[10px] text-slate-500 leading-relaxed">
+            qSOFA es una herramienta de estratificación de riesgo,
+            no diagnostica ni descarta sepsis. No debe utilizarse
+            como única herramienta de cribado.
+        </p>
+    </div>
+`
                 },
                 // 8. CHILD-PUGH
                 {
@@ -2649,13 +2678,65 @@ function analyzeGases() {
 }
 
         function calcQSOFA() {
-            const pts = document.querySelectorAll('.qs-chk:checked').length;
-            const resEl = document.getElementById('qsofa-res'); if (!resEl) return;
-            const rec = pts >= 2 ? '🚨 qSOFA Positivo (riesgo alto de sepsis, evaluar SOFA / UCI)' : 'qSOFA Negativo (monitoreo continuo)';
-            resEl.innerHTML = `Puntaje: <span class="text-rose-600">${pts} pts</span> — ${rec}
-            <div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">Las guías Surviving Sepsis recomiendan no usar qSOFA como única herramienta de tamizaje: combínalo con NEWS, MEWS o SIRS y la clínica. Un qSOFA negativo no descarta sepsis.</div>`;
-            resEl.classList.remove('hidden');
-        }
+    const pts = document.querySelectorAll('.qs-chk:checked').length;
+    const resEl = document.getElementById('qsofa-res');
+
+    if (!resEl) return;
+
+    let interpretacion = '';
+
+    if (pts >= 2) {
+        interpretacion = `
+            <strong class="text-red-600">
+                qSOFA positivo: ≥ 2 puntos.
+            </strong>
+
+            <p>
+                Mayor riesgo de desenlaces adversos en pacientes
+                con sospecha de infección. Requiere evaluación
+                clínica inmediata, búsqueda de disfunción orgánica
+                y valoración de necesidad de escalar la atención.
+            </p>
+        `;
+    } else {
+        interpretacion = `
+            <strong class="text-amber-600">
+                qSOFA menor de 2 puntos.
+            </strong>
+
+            <p>
+                No alcanza el umbral de qSOFA positivo, pero
+                esto NO descarta sepsis ni disfunción orgánica.
+                Continuar la evaluación clínica y utilizar
+                herramientas de cribado apropiadas.
+            </p>
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="space-y-2">
+            <div class="text-base font-bold">
+                Puntaje qSOFA:
+                <span class="text-teal-600">${pts} / 3</span>
+            </div>
+
+            ${interpretacion}
+
+            <div class="border-t border-slate-300 dark:border-slate-700 pt-2 text-[11px] font-normal">
+                <strong>Importante:</strong>
+                La guía Surviving Sepsis Campaign 2026 recomienda
+                NEWS, NEWS2, MEWS o SIRS por encima de qSOFA
+                como herramienta única de cribado hospitalario.
+                La sospecha clínica de sepsis exige evaluación
+                y actuación oportunas, independientemente del puntaje.
+                Un qSOFA positivo tampoco equivale automáticamente
+                a diagnóstico de sepsis ni a ingreso a UCI.
+            </div>
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcChildPugh() {
             const b = parseInt(document.getElementById('cp-bili')?.value || 1);
