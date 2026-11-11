@@ -1982,18 +1982,51 @@ function analyzeGases() {
                     id: 'curb65',
                     cat: 'urgencias',
                     title: 'Escala CURB-65 (Mortalidad por NAC)',
-                    desc: 'Decisión de manejo ambulatorio vs. hospitalización vs. UCI en Neumonía.',
+                    desc: 'Estimación del riesgo de mortalidad a 30 días y orientación del lugar de atención en adultos con NAC.',
                     body: `
-                        <div class="space-y-1.5 text-xs">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cb-c" class="cb-chk"> <span>C - Confusión mental de novo (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cb-u" class="cb-chk"> <span>U - Uremia (BUN > 19 mg/dL) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cb-r" class="cb-chk"> <span>R - Respiración (FR ≥ 30 rpm) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cb-b" class="cb-chk"> <span>B - Blood Pressure (PAS < 90 o PAD ≤ 60) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cb-65" class="cb-chk"> <span>65 - Edad ≥ 65 años (+1)</span></label>
-                            <button onclick="calcCURB65()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular CURB-65</button>
-                            <div id="curb65-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cb-c" class="cb-chk">
+            <span>C - Confusión mental de novo (desorientación o alteración aguda del estado mental) (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cb-u" class="cb-chk">
+            <span>U - Urea > 7 mmol/L o BUN > 19 mg/dL (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cb-r" class="cb-chk">
+            <span>R - Frecuencia respiratoria ≥ 30 rpm (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cb-b" class="cb-chk">
+            <span>B - Presión arterial: PAS < 90 mmHg o PAD ≤ 60 mmHg (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cb-65" class="cb-chk">
+            <span>65 - Edad ≥ 65 años (+1)</span>
+        </label>
+
+        <button onclick="calcCURB65()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">
+            Calcular CURB-65
+        </button>
+
+        <div id="curb65-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden">
+        </div>
+
+        <p class="text-[10px] text-slate-500 leading-relaxed">
+            Escala para adultos con neumonía adquirida en la comunidad.
+            Estima riesgo de mortalidad; no determina por sí sola el
+            ingreso a UCI ni garantiza que el manejo ambulatorio sea seguro.
+        </p>
+    </div>
+`
                 },
                 // 7. qSOFA
                 {
@@ -2562,14 +2595,58 @@ function analyzeGases() {
 }
 
         function calcCURB65() {
-            let pts = 0;
-            document.querySelectorAll('.cb-chk:checked').forEach(() => pts += 1);
-            const resEl = document.getElementById('curb65-res');
-            if (!resEl) return;
-            let rec = pts >= 3 ? "Manejo en UCI / Alto riesgo" : (pts === 2 ? "Manejo Hospitalario" : "Manejo Ambulatorio (Bajo riesgo)");
-            resEl.innerHTML = `Puntaje: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
-            resEl.classList.remove('hidden');
-        }
+    const resEl = document.getElementById('curb65-res');
+    if (!resEl) return;
+
+    const pts = document.querySelectorAll('.cb-chk:checked').length;
+
+    let interpretacion = '';
+
+    if (pts <= 1) {
+        interpretacion = `
+            <strong class="text-green-600">Riesgo bajo.</strong>
+            Mortalidad estimada menor del 3%.
+            Puede considerarse manejo ambulatorio si la valoración
+            clínica, la oxigenación y las condiciones del paciente lo permiten.
+        `;
+    } else if (pts === 2) {
+        interpretacion = `
+            <strong class="text-amber-600">Riesgo intermedio.</strong>
+            Mortalidad estimada del 3 al 15%.
+            Considerar manejo hospitalario o una alternativa de atención
+            supervisada según la condición clínica y los recursos disponibles.
+        `;
+    } else {
+        interpretacion = `
+            <strong class="text-red-600">Riesgo alto.</strong>
+            Mortalidad estimada mayor del 15%.
+            Se recomienda hospitalización y valoración urgente de gravedad.
+            Considerar evaluación por cuidados críticos según el estado clínico.
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="space-y-2">
+            <div class="text-base font-bold">
+                Puntaje CURB-65:
+                <span class="text-teal-600">${pts} / 5</span>
+            </div>
+
+            <div>${interpretacion}</div>
+
+            <div class="border-t border-slate-300 dark:border-slate-700 pt-2 text-[11px] font-normal">
+                <strong>Importante:</strong>
+                valorar también saturación de oxígeno, trabajo respiratorio,
+                comorbilidades, estabilidad hemodinámica, tolerancia oral,
+                fragilidad y condiciones del entorno. Un puntaje bajo
+                no excluye complicaciones ni necesidad de hospitalización.
+                CURB-65 no es un criterio aislado para ingreso a UCI.
+            </div>
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcQSOFA() {
             const pts = document.querySelectorAll('.qs-chk:checked').length;
