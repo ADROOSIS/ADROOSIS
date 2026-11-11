@@ -1912,19 +1912,70 @@ function analyzeGases() {
                     title: 'Riesgo de Sangrado HAS-BLED',
                     desc: 'Evaluación del riesgo de sangrado mayor bajo anticoagulación.',
                     body: `
-                        <div class="space-y-1.5 text-xs">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-h" class="hb-chk"> <span>H - HTA no controlada (PAS > 160) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-s" class="hb-chk"> <span>S - ACV previo (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-b" class="hb-chk"> <span>B - Antecedente de Sangrado (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-l" class="hb-chk"> <span>L - INR Lábil (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-e" class="hb-chk"> <span>E - Edad > 65 años (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-a1" class="hb-chk"> <span>A - Función renal alterada (diálisis, trasplante, Cr &gt; 2.26 mg/dL) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-a2" class="hb-chk"> <span>A - Función hepática alterada (cirrosis, bilirrubina &gt; 2x o transaminasas &gt; 3x) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-d1" class="hb-chk"> <span>D - Antiagregantes o AINE (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hb-d2" class="hb-chk"> <span>D - Alcohol (≥ 8 tragos por semana) (+1)</span></label>                            <button onclick="calcHASBLED()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular HAS-BLED</button>
-                            <div id="hasbled-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-h" class="hb-chk">
+            <span>H - Hipertensión no controlada: PAS > 160 mmHg (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-s" class="hb-chk">
+            <span>S - ACV previo, isquémico o hemorrágico (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-b" class="hb-chk">
+            <span>B - Antecedente de sangrado mayor o predisposición al sangrado (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-l" class="hb-chk">
+            <span>L - INR lábil: TTR < 60% en tratamiento con warfarina u otro AVK (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-e" class="hb-chk">
+            <span>E - Edad ≥ 65 años (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-a1" class="hb-chk">
+            <span>A - Función renal alterada: diálisis, trasplante renal o creatinina > 2.26 mg/dL (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-a2" class="hb-chk">
+            <span>A - Función hepática alterada: cirrosis o bilirrubina > 2 veces el límite normal junto con AST, ALT o FA > 3 veces el límite normal (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-d1" class="hb-chk">
+            <span>D - Uso concomitante de antiagregantes o AINE (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="hb-d2" class="hb-chk">
+            <span>D - Consumo excesivo de alcohol (≥ 8 unidades por semana) (+1)</span>
+        </label>
+
+        <button onclick="calcHASBLED()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">
+            Calcular HAS-BLED
+        </button>
+
+        <div id="hasbled-res"
+            class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden">
+        </div>
+
+        <p class="text-[10px] text-slate-500 leading-relaxed">
+            HAS-BLED estima el riesgo de sangrado en pacientes con fibrilación
+            auricular. Un puntaje elevado indica la necesidad de revisar y
+            corregir factores modificables; no constituye por sí solo una
+            contraindicación para anticoagular.
+        </p>
+    </div>
+`
                 },
                 // 6. CURB-65
                 {
