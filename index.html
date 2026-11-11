@@ -1760,21 +1760,55 @@ function analyzeGases() {
                     title: 'Criterios de Centor Modificados (Faringoamigdalitis Estreptocócica)',
                     desc: 'Probabilidad clínica de faringitis por S. pyogenes y guía de antibiótico.',
                     body: `
-                        <div class="space-y-1.5 text-xs">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-f" class="cn-chk"> <span>Temperatura &gt; 38°C (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-t" class="cn-chk"> <span>Ausencia de tos (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-a" class="cn-chk"> <span>Adenopatías cervicales anteriores dolorosas (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cn-e" class="cn-chk"> <span>Exudado o hipertrofia amigdalina (+1)</span></label>
-<div><label class="block font-medium text-slate-500 mb-0.5">Edad:</label>
-<select id="cn-ed" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-    <option value="0">15 - 44 años (0)</option>
-    <option value="1">3 - 14 años (+1)</option>
-    <option value="-1">≥ 45 años (−1)</option>
-</select></div>                            
-                            <button onclick="calcCentor()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Centor</button>
-                            <div id="centor-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cn-f" class="cn-chk">
+            <span>Temperatura ≥ 38 °C (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cn-t" class="cn-chk">
+            <span>Ausencia de tos (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cn-a" class="cn-chk">
+            <span>Adenopatías cervicales anteriores dolorosas (+1)</span>
+        </label>
+
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="cn-e" class="cn-chk">
+            <span>Exudado o hipertrofia amigdalina (+1)</span>
+        </label>
+
+        <div>
+            <label class="block font-medium text-slate-500 mb-1">
+                Edad:
+            </label>
+            <select id="cn-ed"
+                class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                <option value="" selected disabled>Seleccionar edad</option>
+                <option value="1">3 - 14 años (+1)</option>
+                <option value="0">15 - 44 años (0)</option>
+                <option value="-1">45 años o más (−1)</option>
+            </select>
+        </div>
+
+        <button onclick="calcCentor()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">
+            Calcular Centor
+        </button>
+
+        <div id="centor-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden">
+        </div>
+
+        <p class="text-[10px] text-slate-500 leading-relaxed">
+            La escala orienta la necesidad de pruebas diagnósticas.
+            No confirma por sí sola una infección estreptocócica.
+        </p>
+    </div>
+`
                 },
                 // 2. MINI-MENTAL (MMSE)
                 {
@@ -2403,12 +2437,67 @@ function analyzeGases() {
         }
 
         function calcCentor() {
-    const pts = document.querySelectorAll('.cn-chk:checked').length + parseInt(document.getElementById('cn-ed')?.value || 0);
-    const resEl = document.getElementById('centor-res'); if (!resEl) return;
-    const rec = pts >= 4 ? 'Riesgo alto (≈ 51-53%): prueba rápida o cultivo; si no hay prueba disponible, considera tratamiento empírico'
-        : pts >= 2 ? 'Riesgo intermedio (≈ 11-35%): prueba rápida o cultivo; trata solo si es positiva'
-        : 'Riesgo bajo (< 10%): sin prueba ni antibiótico';
-    resEl.innerHTML = `Puntaje Centor modificado: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
+    const resEl = document.getElementById('centor-res');
+    const edadEl = document.getElementById('cn-ed');
+
+    if (!resEl || !edadEl) return;
+
+    const edad = edadEl.value;
+
+    if (edad === '') {
+        resEl.innerHTML = `
+            <p class="text-amber-600 font-bold">
+                Selecciona el grupo de edad para calcular la escala.
+            </p>
+        `;
+        resEl.classList.remove('hidden');
+        return;
+    }
+
+    const criterios = document.querySelectorAll('.cn-chk:checked').length;
+    const puntaje = criterios + Number(edad);
+
+    let interpretacion = '';
+
+    if (puntaje <= 1) {
+        interpretacion = `
+            <strong class="text-green-600">Probabilidad clínica baja.</strong>
+            Generalmente no requiere prueba diagnóstica ni antibiótico,
+            si no existen factores de alto riesgo.
+        `;
+    } else if (puntaje <= 3) {
+        interpretacion = `
+            <strong class="text-amber-600">Probabilidad clínica intermedia.</strong>
+            Considerar prueba rápida de antígeno, prueba molecular
+            o cultivo faríngeo. Tratar si se confirma infección.
+        `;
+    } else {
+        interpretacion = `
+            <strong class="text-red-600">Probabilidad clínica alta.</strong>
+            Realizar prueba diagnóstica para confirmar infección.
+            No iniciar antibiótico únicamente por el puntaje.
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="space-y-2">
+            <div class="text-base font-bold">
+                Puntaje McIsaac:
+                <span class="text-teal-600">${puntaje} / 5</span>
+            </div>
+
+            <div>${interpretacion}</div>
+
+            <div class="border-t border-slate-300 dark:border-slate-700 pt-2 text-[11px] font-normal">
+                <strong>Importante:</strong>
+                Ante contacto domiciliario con infección estreptocócica,
+                antecedente de fiebre reumática o sospecha de complicaciones,
+                considerar pruebas incluso con puntajes bajos.
+                La decisión clínica debe considerar el contexto del paciente.
+            </div>
+        </div>
+    `;
+
     resEl.classList.remove('hidden');
 }
 
