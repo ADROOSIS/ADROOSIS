@@ -2277,13 +2277,36 @@ function analyzeGases() {
                     title: 'Osmolaridad Efectiva & Sodio Corregido',
                     desc: 'Cálculo para EHH (≥ 320 mOsm/kg) y Cetoacidosis Diabética.',
                     body: `
-                        <div class="space-y-2 text-xs">
-                            <input type="number" id="osm-na" placeholder="Na+ (mEq/L)" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <input type="number" id="osm-glu" placeholder="Glucosa (mg/dL)" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <button onclick="calcOsmolaridad()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular Osmolaridad</button>
-                            <div id="osm-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+        <label class="block font-medium">Sodio medido (mEq/L)</label>
+        <input type="number" id="osm-na" min="80" max="200" step="0.1"
+            placeholder="Ej. 140"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+        <label class="block font-medium">Glucosa (mg/dL)</label>
+        <input type="number" id="osm-glu" min="1" max="2000" step="1"
+            placeholder="Ej. 600"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+        <label class="block font-medium">BUN (mg/dL) — opcional</label>
+        <input type="number" id="osm-bun" min="0" max="300" step="0.1"
+            placeholder="Ej. 30 (opcional)"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+        <p class="text-slate-500">
+            El BUN permite calcular la osmolalidad total. Si no lo tienes, se calcula únicamente la efectiva.
+        </p>
+
+        <button onclick="calcOsmolaridad()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">
+            Calcular
+        </button>
+
+        <div id="osm-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
+        </div>
+    </div>
+`
                 },
                 // 13. PAM
                 {
@@ -2793,23 +2816,107 @@ function analyzeGases() {
         }
 
         function calcOsmolaridad() {
-            const na = parseFloat(document.getElementById('osm-na')?.value || 0);
-            const glu = parseFloat(document.getElementById('osm-glu')?.value || 0);
-            const resEl = document.getElementById('osm-res');
-            if (!resEl || !na || !glu) return;
+    const na = parseFloat(document.getElementById('osm-na')?.value);
+    const glu = parseFloat(document.getElementById('osm-glu')?.value);
+    const bunInput = document.getElementById('osm-bun')?.value;
+    const bun = bunInput === '' ? null : parseFloat(bunInput);
+    const resEl = document.getElementById('osm-res');
 
-            const osmEfectiva = (2 * na) + (glu / 18);
-            const naCorregido = na + 0.016 * (glu - 100);
+    if (!resEl) return;
 
-            let alert = osmEfectiva >= 320 ? "🚨 Criterio de Estado Hiperglucémico Hiperosmolar (≥ 320 mOsm/kg)" : "Osmolaridad efectiva normal";
+    if (
+        !Number.isFinite(na) || na < 80 || na > 200 ||
+        !Number.isFinite(glu) || glu <= 0 || glu > 2000
+    ) {
+        alert('Ingresa un sodio válido (80–200 mEq/L) y una glucosa válida (1–2000 mg/dL).');
+        return;
+    }
 
-            resEl.innerHTML = `
-                <div>Osmolaridad Efectiva: <strong class="text-teal-600">${osmEfectiva.toFixed(1)} mOsm/kg</strong></div>
-                <div>Sodio Corregido por Glucosa: <strong class="text-indigo-600">${naCorregido.toFixed(1)} mEq/L</strong></div>
-                <div class="text-[11px] text-amber-600 mt-1">${alert}</div>
-            `;
-            resEl.classList.remove('hidden');
-        }
+    if (bunInput !== '' && (!Number.isFinite(bun) || bun < 0 || bun > 300)) {
+        alert('El BUN debe estar entre 0 y 300 mg/dL.');
+        return;
+    }
+
+    // Osmolalidad efectiva calculada (mOsm/kg)
+    const osmEfectiva = (2 * na) + (glu / 18);
+
+    // Osmolalidad total calculada, si se dispone de BUN
+    const osmTotal = bun !== null
+        ? osmEfectiva + (bun / 2.8)
+        : null;
+
+    // Sodio corregido: fórmulas de Katz y Hillier
+    const naKatz = na + (1.6 * (glu - 100) / 100);
+    const naHillier = na + (2.4 * (glu - 100) / 100);
+
+    let interpretacion = '';
+
+    if (glu >= 600 && (osmEfectiva > 300 || (osmTotal !== null && osmTotal > 320))) {
+        interpretacion = `
+            <div class="text-red-600 font-bold">
+                ⚠️ Cumple umbral de hiperglucemia e hiperosmolalidad para sospechar EHH.
+            </div>
+            <div class="text-amber-700 dark:text-amber-400">
+                No confirma EHH: verificar cetonemia/cetonuria, pH y bicarbonato.
+            </div>
+        `;
+    } else if (osmEfectiva > 300 || (osmTotal !== null && osmTotal > 320)) {
+        interpretacion = `
+            <div class="text-amber-700 dark:text-amber-400 font-bold">
+                ⚠️ Hiperosmolalidad calculada.
+            </div>
+            <div>Interpretar junto con glucosa, estado clínico, cetonas y equilibrio ácido-base.</div>
+        `;
+    } else {
+        interpretacion = `
+            <div class="text-teal-700 dark:text-teal-400 font-bold">
+                No alcanza los umbrales de hiperosmolalidad del EHH.
+            </div>
+            <div>Este resultado no descarta una crisis hiperglucémica.</div>
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">Resultados</div>
+
+        <div>
+            Osmolalidad efectiva:
+            <strong class="text-teal-600">${osmEfectiva.toFixed(1)} mOsm/kg</strong>
+            <div class="text-[10px] text-slate-500">Umbral de hiperosmolalidad: >300 mOsm/kg</div>
+        </div>
+
+        ${osmTotal !== null ? `
+            <div>
+                Osmolalidad total:
+                <strong class="text-teal-600">${osmTotal.toFixed(1)} mOsm/kg</strong>
+                <div class="text-[10px] text-slate-500">Umbral de hiperosmolalidad: >320 mOsm/kg</div>
+            </div>
+        ` : `
+            <div class="text-slate-500">
+                Osmolalidad total: no calculada (falta BUN).
+            </div>
+        `}
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2">
+            <div>Sodio corregido — Katz (1,6):
+                <strong class="text-indigo-600">${naKatz.toFixed(1)} mEq/L</strong>
+            </div>
+            <div>Sodio corregido — Hillier (2,4):
+                <strong class="text-indigo-600">${naHillier.toFixed(1)} mEq/L</strong>
+            </div>
+        </div>
+
+        <div class="text-[11px] mt-2">${interpretacion}</div>
+
+        <div class="text-[10px] text-slate-500 mt-2">
+            Fórmulas estimativas. El diagnóstico de EHH requiere valorar también cetonas,
+            pH, bicarbonato y contexto clínico. No utilizar este cálculo de forma aislada
+            para decidir el tratamiento.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         // ADDITIONAL CALCULATORS: FRAMINGHAM, MMSE, PFEFFER, PAM, TFG, TABAQUISMO
         function calcMMSE() {
