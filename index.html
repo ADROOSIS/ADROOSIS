@@ -1631,112 +1631,145 @@ function analyzeGases() {
                     title: 'Test de APGAR (Recién Nacido)',
                     desc: 'Apariencia, Pulso, Gesticulación/reflejos, Actividad, Respiración',
                     body: `
-                        <div class="space-y-2 text-xs">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Frecuencia Cardíaca:</label>
-                                    <select id="ap-fc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="2">&gt; 100 lpm (2 pts)</option>
-                                        <option value="1">&lt; 100 lpm (1 pt)</option>
-                                        <option value="0">Ausente (0 pts)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Esfuerzo Respiratorio:</label>
-                                    <select id="ap-resp" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="2">Llanto vigoroso / Bueno (2 pts)</option>
-                                        <option value="1">Débil / Irregular (1 pt)</option>
-                                        <option value="0">Ausente (0 pts)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Tono Muscular:</label>
-                                    <select id="ap-tono" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="2">Movimiento activo (2 pts)</option>
-                                        <option value="1">Cierta flexión (1 pt)</option>
-                                        <option value="0">Flácido (0 pts)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Irritabilidad Refleja:</label>
-                                    <select id="ap-ref" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="2">Llanto / Estornudo (2 pts)</option>
-                                        <option value="1">Mueca (1 pt)</option>
-                                        <option value="0">Sin respuesta (0 pts)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Coloración:</label>
-                                    <select id="ap-col" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="2">Completamente rosado (2 pts)</option>
-                                        <option value="1">Cuerpo rosado, extremidades cianóticas (1 pt)</option>
-                                        <option value="0">Cianosis central / Palidez (0 pts)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button onclick="calcApgar()" class="w-full py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow transition-all">Calcular APGAR</button>
-                            <div id="ap-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <label class="block font-medium">Momento de evaluación</label>
+        <select id="ap-min" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar minuto</option>
+            <option value="1">1 minuto</option>
+            <option value="5">5 minutos</option>
+            <option value="10">10 minutos</option>
+            <option value="15">15 minutos</option>
+            <option value="20">20 minutos</option>
+        </select>
+
+        <div class="grid grid-cols-2 gap-2">
+            <div>
+                <label class="block font-medium text-slate-500 mb-0.5">Frecuencia cardíaca</label>
+                <select id="ap-fc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="2">≥100 lpm (2)</option>
+                    <option value="1"><escape><</escape>100 lpm (1)</option>
+                    <option value="0">Ausente (0)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-medium text-slate-500 mb-0.5">Esfuerzo respiratorio</label>
+                <select id="ap-resp" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="2">Llanto vigoroso (2)</option>
+                    <option value="1">Débil o irregular (1)</option>
+                    <option value="0">Ausente (0)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-medium text-slate-500 mb-0.5">Tono muscular</label>
+                <select id="ap-tono" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="2">Movimiento activo (2)</option>
+                    <option value="1">Cierta flexión (1)</option>
+                    <option value="0">Flácido (0)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-medium text-slate-500 mb-0.5">Irritabilidad refleja</label>
+                <select id="ap-ref" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="2">Tos, estornudo o llanto (2)</option>
+                    <option value="1">Mueca (1)</option>
+                    <option value="0">Sin respuesta (0)</option>
+                </select>
+            </div>
+
+            <div class="col-span-2">
+                <label class="block font-medium text-slate-500 mb-0.5">Coloración</label>
+                <select id="ap-col" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="" selected disabled>Seleccionar</option>
+                    <option value="2">Completamente rosado (2)</option>
+                    <option value="1">Cuerpo rosado, extremidades cianóticas (1)</option>
+                    <option value="0">Palidez o cianosis generalizada (0)</option>
+                </select>
+            </div>
+        </div>
+
+        <button onclick="calcApgar()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">
+            Calcular APGAR
+        </button>
+
+        <div id="ap-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
+
+        <p class="text-[10px] text-slate-500">
+            Registrar a 1 y 5 minutos en todos los recién nacidos.
+            Si el puntaje a los 5 minutos es menor de 7, repetir cada
+            5 minutos hasta los 20 minutos.
+        </p>
+    </div>
+`
                 },
                 // 3. SILVERMAN ANDERSEN
                 {
                     id: 'silverman',
                     cat: 'urgencias',
                     title: 'Test de Silverman-Andersen (Dificultad Respiratoria Neonatal)',
-                    desc: 'Evaluación clínica del grado de dificultad respiratoria en recién nacidos y lactantes.',
+                    desc: 'Evaluación clínica de la dificultad respiratoria en recién nacidos mediante cinco signos observables.',
                     body: `
-                        <div class="space-y-2 text-xs">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Movimiento Toracoabdominal:</label>
-                                    <select id="sa-mta" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="0">Sincrónico (0)</option>
-                                        <option value="1">Retirada / Retraso inspiratorio (1)</option>
-                                        <option value="2">Discordancia / Respiración paradójica (2)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Tiraje Intercostal:</label>
-                                    <select id="sa-tir" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="0">No visible (0)</option>
-                                        <option value="1">Leve / Espacios intercostales (1)</option>
-                                        <option value="2">Intenso / Intercostal y subcostal (2)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Retracción Xifoidea:</label>
-                                    <select id="sa-xif" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="0">Ausente (0)</option>
-                                        <option value="1">Leve (1)</option>
-                                        <option value="2">Intensa (2)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Aleteo Nasal:</label>
-                                    <select id="sa-ale" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="0">Ausente (0)</option>
-                                        <option value="1">Leve (1)</option>
-                                        <option value="2">Intenso (2)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Quejido Respiratorio:</label>
-                                    <select id="sa-que" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                        <option value="0">Ausente (0)</option>
-                                        <option value="1">Audible con estetoscopio (1)</option>
-                                        <option value="2">Audible a distancia (2)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button onclick="calcSilverman()" class="w-full py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow transition-all">Calcular Silverman</button>
-                            <div id="sa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <p class="text-slate-500">
+            Evalúa los cinco signos de dificultad respiratoria neonatal.
+            Cada componente puntúa de 0 a 2.
+        </p>
+
+        <label class="block font-medium">Movimiento del tórax superior</label>
+        <select id="sa-mta" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="0">Sincrónico con abdomen (0)</option>
+            <option value="1">Retraso inspiratorio (1)</option>
+            <option value="2">Movimiento paradójico / en balancín (2)</option>
+        </select>
+
+        <label class="block font-medium">Retracción torácica inferior</label>
+        <select id="sa-tir" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="0">Ausente (0)</option>
+            <option value="1">Apenas visible (1)</option>
+            <option value="2">Marcada (2)</option>
+        </select>
+
+        <label class="block font-medium">Retracción xifoidea</label>
+        <select id="sa-xif" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="0">Ausente (0)</option>
+            <option value="1">Apenas visible (1)</option>
+            <option value="2">Marcada (2)</option>
+        </select>
+
+        <label class="block font-medium">Aleteo nasal</label>
+        <select id="sa-ale" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="0">Ausente (0)</option>
+            <option value="1">Leve (1)</option>
+            <option value="2">Intenso (2)</option>
+        </select>
+
+        <label class="block font-medium">Quejido respiratorio</label>
+        <select id="sa-que" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="0">Ausente (0)</option>
+            <option value="1">Audible con estetoscopio (1)</option>
+            <option value="2">Audible sin estetoscopio (2)</option>
+        </select>
+
+        <button onclick="calcSilverman()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">
+            Calcular Silverman-Andersen
+        </button>
+
+        <div id="sa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
+    </div>
+`
                 },
                 // 4. IMC & SUP. CORPORAL (Res. 2465)
                 {
@@ -2715,34 +2748,129 @@ function analyzeGases() {
 }
 
         function calcApgar() {
-            const fc = parseInt(document.getElementById('ap-fc')?.value || 2);
-            const resp = parseInt(document.getElementById('ap-resp')?.value || 2);
-            const tono = parseInt(document.getElementById('ap-tono')?.value || 2);
-            const ref = parseInt(document.getElementById('ap-ref')?.value || 2);
-            const col = parseInt(document.getElementById('ap-col')?.value || 2);
-            const total = fc + resp + tono + ref + col;
-            const resEl = document.getElementById('ap-res');
-            if (!resEl) return;
+    const ids = ['ap-fc', 'ap-resp', 'ap-tono', 'ap-ref', 'ap-col'];
+    const minuto = document.getElementById('ap-min')?.value;
+    const resEl = document.getElementById('ap-res');
 
-            let interp = total >= 7 ? "Normal / Sin depresión neonatal" : (total >= 4 ? "Depresión moderada" : "🚨 Depresión severa / Reanimación avanzada");
-            resEl.innerHTML = `APGAR: <span class="text-teal-600">${total} / 10 pts</span> — ${interp}`;
-            resEl.classList.remove('hidden');
-        }
+    if (!resEl) return;
+
+    if (!['1', '5', '10', '15', '20'].includes(minuto)) {
+        alert('Selecciona el minuto de evaluación.');
+        return;
+    }
+
+    const valores = ids.map(id =>
+        document.getElementById(id)?.value
+    );
+
+    if (valores.some(v => !['0', '1', '2'].includes(v))) {
+        alert('Debes evaluar los cinco componentes del APGAR.');
+        return;
+    }
+
+    const total = valores.reduce((suma, v) => suma + Number(v), 0);
+
+    let interpretacion = '';
+
+    if (minuto === '1') {
+        interpretacion = `
+            Evaluación inicial de la transición neonatal.
+            Registrar también el APGAR a los 5 minutos.
+        `;
+    } else if (total >= 7) {
+        interpretacion = 'Puntaje tranquilizador (7–10).';
+    } else if (total >= 4) {
+        interpretacion = 'Puntaje moderadamente anormal (4–6).';
+    } else {
+        interpretacion = 'Puntaje bajo (0–3). Requiere evaluación clínica inmediata.';
+    }
+
+    let seguimiento = '';
+
+    if (Number(minuto) >= 5 && total < 7 && Number(minuto) < 20) {
+        seguimiento = `
+            Repetir APGAR cada 5 minutos hasta los 20 minutos,
+            documentando simultáneamente las intervenciones de reanimación.
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">
+            APGAR al minuto ${minuto}:
+            <span class="text-teal-600">${total}/10 puntos</span>
+        </div>
+
+        <div class="font-normal">${interpretacion}</div>
+
+        ${seguimiento ? `
+            <div class="text-amber-700 dark:text-amber-400 text-xs font-medium">
+                ${seguimiento}
+            </div>
+        ` : ''}
+
+        <div class="text-[11px] text-slate-500 font-normal">
+            APGAR describe el estado del recién nacido en un momento
+            determinado y su respuesta a las intervenciones. No determina
+            el inicio de la reanimación, no diagnostica asfixia y no predice
+            por sí solo el pronóstico neurológico individual.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcSilverman() {
-            const mta = parseInt(document.getElementById('sa-mta')?.value || 0);
-            const tir = parseInt(document.getElementById('sa-tir')?.value || 0);
-            const xif = parseInt(document.getElementById('sa-xif')?.value || 0);
-            const ale = parseInt(document.getElementById('sa-ale')?.value || 0);
-            const que = parseInt(document.getElementById('sa-que')?.value || 0);
-            const total = mta + tir + xif + ale + que;
-            const resEl = document.getElementById('sa-res');
-            if (!resEl) return;
+    const ids = ['sa-mta', 'sa-tir', 'sa-xif', 'sa-ale', 'sa-que'];
+    const resEl = document.getElementById('sa-res');
 
-            let interp = total === 0 ? "Sin dificultad respiratoria" : (total <= 3 ? "Dificultad respiratoria leve" : (total <= 6 ? "Dificultad respiratoria moderada" : "🚨 Dificultad respiratoria severa"));
-            resEl.innerHTML = `Silverman-Andersen: <span class="text-rose-600">${total} / 10 pts</span> — ${interp}`;
-            resEl.classList.remove('hidden');
-        }
+    if (!resEl) return;
+
+    const valores = ids.map(id =>
+        document.getElementById(id)?.value
+    );
+
+    if (valores.some(v => !['0', '1', '2'].includes(v))) {
+        alert('Debes evaluar los cinco componentes de Silverman-Andersen.');
+        return;
+    }
+
+    const total = valores.reduce((suma, v) => suma + Number(v), 0);
+
+    let interpretacion = '';
+
+    if (total === 0) {
+        interpretacion = 'Sin signos puntuables de dificultad respiratoria.';
+    } else if (total <= 3) {
+        interpretacion = 'Dificultad respiratoria leve.';
+    } else if (total <= 6) {
+        interpretacion = 'Dificultad respiratoria moderada.';
+    } else {
+        interpretacion = 'Dificultad respiratoria severa; posible falla respiratoria inminente.';
+    }
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">
+            Silverman-Andersen:
+            <span class="text-rose-600">${total}/10 puntos</span>
+        </div>
+
+        <div class="font-bold">${interpretacion}</div>
+
+        <div class="text-[11px] font-normal text-slate-500">
+            La puntuación debe interpretarse junto con frecuencia respiratoria,
+            saturación de oxígeno, requerimiento de oxígeno, edad gestacional
+            y evolución clínica. Repetir la evaluación para vigilar cambios.
+        </div>
+
+        <div class="text-[11px] font-normal text-amber-700 dark:text-amber-400">
+            No utilizar el puntaje como único criterio para iniciar CPAP,
+            intubación o ventilación mecánica. La dificultad respiratoria
+            neonatal requiere valoración clínica inmediata.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcIMC() {
             const peso = parseFloat(document.getElementById('imc-peso')?.value || 0);
