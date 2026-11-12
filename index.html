@@ -1777,21 +1777,54 @@ function analyzeGases() {
                     cat: 'metabolico',
                     title: 'Índice de Masa Corporal (IMC) & Superficie Corporal',
                     desc: 'Clasificación nutricional para adultos según Res. 2465 de MinSalud Colombia.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Peso (kg):</label>
-                                    <input type="number" id="imc-peso" value="70" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Talla (cm):</label>
-                                    <input type="number" id="imc-talla" value="170" step="1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                            </div>
-                            <button onclick="calcIMC()" class="w-full py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow transition-all">Calcular IMC & Sup. Corporal</button>
-                            <div id="imc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
-                        </div>
+                    body: `   
+<div class="space-y-3 text-xs">
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <label class="block font-medium mb-1">Edad (años)</label>
+            <input type="number" id="imc-edad" min="18" max="120" placeholder="Ej. 35" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Peso (kg)</label>
+            <input type="number" id="imc-peso" min="20" max="300" step="0.1" placeholder="Ej. 70" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Talla (cm)</label>
+            <input type="number" id="imc-talla" min="100" max="250" step="0.1" placeholder="Ej. 170" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Cintura (cm) — opcional</label>
+            <input type="number" id="imc-cintura" min="40" max="200" step="0.1" placeholder="Opcional" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+    </div>
+
+    <div>
+        <label class="block font-medium mb-1">Sexo biológico</label>
+        <select id="imc-sexo" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccionar</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+        </select>
+    </div>
+
+    <div>
+        <label class="block font-medium mb-1">¿Embarazo?</label>
+        <select id="imc-gestante" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccionar</option>
+            <option value="no">No</option>
+            <option value="si">Sí</option>
+        </select>
+    </div>
+
+    <button onclick="calcIMC()" class="w-full py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl">
+        Calcular
+    </button>
+
+    <div id="imc-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+
+</div>
+
                     `
                 },
                 // 5. CENTOR MODIFICADO
@@ -2942,24 +2975,138 @@ function analyzeGases() {
     resEl.classList.remove('hidden');
 }
 
-        function calcIMC() {
-            const peso = parseFloat(document.getElementById('imc-peso')?.value || 0);
-            const tallaCm = parseFloat(document.getElementById('imc-talla')?.value || 0);
-            const resEl = document.getElementById('imc-res');
-            if (!resEl || !peso || !tallaCm) return;
+        
+function calcIMC() {
+    const edad = Number(document.getElementById('imc-edad').value);
+    const peso = Number(document.getElementById('imc-peso').value);
+    const tallaCm = Number(document.getElementById('imc-talla').value);
+    const cinturaValor = document.getElementById('imc-cintura').value.trim();
+    const sexo = document.getElementById('imc-sexo').value;
+    const gestante = document.getElementById('imc-gestante').value;
+    const res = document.getElementById('imc-res');
 
-            const tallaM = tallaCm / 100;
-            const imc = peso / (tallaM * tallaM);
-            const sc = Math.sqrt((peso * tallaCm) / 3600); // Du Bois / Mosteller formula aprox
+    if (!Number.isInteger(edad) || edad < 18 || edad > 120) {
+        alert('Ingrese una edad válida entre 18 y 120 años.');
+        return;
+    }
 
-            let cat = imc < 18.5 ? "Bajo peso (< 18.5)" : (imc < 25 ? "Peso normal / Adecuado (18.5 - 24.9)" : (imc < 30 ? "Sobrepeso (25.0 - 29.9)" : (imc < 35 ? "Obesidad Grado I (30.0 - 34.9)" : (imc < 40 ? "Obesidad Grado II (35.0 - 39.9)" : "Obesidad Grado III / Mórbida (≥ 40)"))));
+    if (!Number.isFinite(peso) || peso < 20 || peso > 300) {
+        alert('Ingrese un peso válido entre 20 y 300 kg.');
+        return;
+    }
 
-            resEl.innerHTML = `
-                <div>IMC: <strong class="text-teal-600">${imc.toFixed(1)} kg/m²</strong> — ${cat}</div>
-                <div>Superficie Corporal (Mosteller): <strong class="text-indigo-600">${sc.toFixed(2)} m²</strong></div>
-            `;
-            resEl.classList.remove('hidden');
+    if (!Number.isFinite(tallaCm) || tallaCm < 100 || tallaCm > 250) {
+        alert('Ingrese una talla válida entre 100 y 250 cm.');
+        return;
+    }
+
+    if (!gestante) {
+        alert('Seleccione si existe embarazo.');
+        return;
+    }
+
+    let cintura = null;
+
+    if (cinturaValor !== '') {
+        cintura = Number(cinturaValor);
+
+        if (!Number.isFinite(cintura) || cintura < 40 || cintura > 200) {
+            alert('Ingrese una circunferencia de cintura válida.');
+            return;
         }
+
+        if (!sexo) {
+            alert('Seleccione el sexo biológico para interpretar la cintura.');
+            return;
+        }
+    }
+
+    const tallaM = tallaCm / 100;
+    const imc = peso / (tallaM * tallaM);
+    const sc = Math.sqrt((peso * tallaCm) / 3600);
+
+    let html = `
+        <div class="text-lg font-bold text-teal-600">
+            IMC: ${imc.toFixed(1)} kg/m²
+        </div>
+        <div>
+            Superficie corporal: <strong>${sc.toFixed(2)} m²</strong>
+        </div>
+        <div class="text-[10px] text-slate-500">
+            Superficie corporal calculada mediante fórmula de Mosteller.
+        </div>
+    `;
+
+    if (gestante === 'si') {
+        html += `
+            <div class="border-t pt-2 mt-2 text-amber-600">
+                <strong>Embarazo:</strong>
+                No utilizar la clasificación habitual del IMC adulto durante la gestación.
+                <p class="text-[11px] font-normal mt-1">
+                    Valorar el IMC pregestacional y la evolución del peso según edad gestacional, utilizando la curva de Atalah.
+                </p>
+            </div>
+        `;
+    } else if (edad <= 64) {
+        let categoria;
+
+        if (imc < 18.5) categoria = 'Delgadez';
+        else if (imc < 25) categoria = 'Normal';
+        else if (imc < 30) categoria = 'Sobrepeso';
+        else if (imc < 35) categoria = 'Obesidad grado I';
+        else if (imc < 40) categoria = 'Obesidad grado II';
+        else categoria = 'Obesidad grado III';
+
+        html += `
+            <div class="border-t pt-2 mt-2">
+                <div>Clasificación nutricional:</div>
+                <strong class="text-teal-600 text-base">${categoria}</strong>
+                <p class="text-[10px] text-slate-500 mt-1">
+                    Puntos de corte para adultos de 18 a 64 años.
+                </p>
+            </div>
+        `;
+    } else {
+        html += `
+            <div class="border-t pt-2 mt-2 text-amber-600">
+                <strong>Adulto de 65 años o más:</strong>
+                No aplicar automáticamente los puntos de corte de adultos de 18 a 64 años.
+                <p class="text-[11px] font-normal mt-1">
+                    Complementar con valoración nutricional geriátrica, pérdida de peso, masa muscular y funcionalidad.
+                </p>
+            </div>
+        `;
+    }
+
+    if (cintura !== null) {
+        const limite = sexo === 'M' ? 90 : 80;
+        const riesgo = cintura >= limite;
+
+        html += `
+            <div class="border-t pt-2 mt-2">
+                <strong>Circunferencia de cintura:</strong> ${cintura.toFixed(1)} cm
+                <div class="${riesgo ? 'text-amber-600' : 'text-teal-600'} font-bold mt-1">
+                    ${riesgo
+                        ? `Por encima o igual al punto de corte (${limite} cm).`
+                        : `Por debajo del punto de corte (${limite} cm).`}
+                </div>
+                <p class="text-[10px] text-slate-500">
+                    Punto de corte de referencia para adultos colombianos: hombres ≥90 cm y mujeres ≥80 cm.
+                </p>
+            </div>
+        `;
+    }
+
+    html += `
+        <div class="border-t pt-2 mt-2 text-[10px] text-slate-500">
+            El IMC es una herramienta de tamizaje. No diferencia masa grasa de masa muscular. Interpretar con el contexto clínico, especialmente ante edema, ascitis o alteraciones de la composición corporal.
+        </div>
+    `;
+
+    res.innerHTML = html;
+    res.classList.remove('hidden');
+}
+
 
         function calcCentor() {
     const resEl = document.getElementById('centor-res');
