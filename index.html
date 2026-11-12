@@ -1858,51 +1858,90 @@ function analyzeGases() {
                     title: 'Mini-Mental State Examination (MMSE - Folstein)',
                     desc: 'Cribado neuropsicológico estándar de 30 puntos para deterioro cognitivo y demencia.',
                     body: `
-                        <div class="space-y-2 text-xs">
-                            <p class="text-[11px] text-slate-500">Suma los puntos obtenidos en cada dominio clínico (Máx. 30 pts):</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Orientación Temporal (0-5):</label>
-                                    <input type="number" id="mmse-ot" min="0" max="5" value="5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Orientación Espacial (0-5):</label>
-                                    <input type="number" id="mmse-oe" min="0" max="5" value="5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Fijación / Memoria (0-3):</label>
-                                    <input type="number" id="mmse-fij" min="0" max="3" value="3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Atención / Cálculo (0-5):</label>
-                                    <input type="number" id="mmse-at" min="0" max="5" value="5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Memoria Diferida (0-3):</label>
-                                    <input type="number" id="mmse-mem" min="0" max="3" value="3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Lenguaje / Dibujo (0-9):</label>
-                                    <input type="number" id="mmse-leng" min="0" max="9" value="9" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                                </div>
-                            </div>
-                            <div>
-    <label class="block font-medium text-slate-500 mb-0.5">Escolaridad (define el punto de corte):</label>
-    <select id="mmse-esc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-        <option value="18">Analfabeta (sospecha si ≤ 18)</option>
-        <option value="21">1 - 3 años (sospecha si ≤ 21)</option>
-        <option value="23">4 - 7 años (sospecha si ≤ 23)</option>
-        <option value="23" selected>≥ 8 años (sospecha si ≤ 23)</option>
-    </select>
-</div>
-                            <button onclick="calcMMSE()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow transition-all">Evaluar MMSE</button>
-                            <div id="mmse-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <p class="text-[11px] text-slate-500">
+            Registra los puntos obtenidos en cada dominio después de aplicar
+            la versión validada del instrumento.
+        </p>
+
+        <div class="grid grid-cols-2 gap-2">
+            <div>
+                <label class="block font-medium">Orientación temporal (0–5)</label>
+                <input type="number" id="mmse-ot" min="0" max="5" step="1"
+                    placeholder="0–5"
+                    class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+            <div>
+                <label class="block font-medium">Orientación espacial (0–5)</label>
+                <input type="number" id="mmse-oe" min="0" max="5" step="1"
+                    placeholder="0–5"
+                    class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+            <div>
+                <label class="block font-medium">Fijación / registro (0–3)</label>
+                <input type="number" id="mmse-fij" min="0" max="3" step="1"
+                    placeholder="0–3"
+                    class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+            <div>
+                <label class="block font-medium">Atención / cálculo (0–5)</label>
+                <input type="number" id="mmse-at" min="0" max="5" step="1"
+                    placeholder="0–5"
+                    class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+            <div>
+                <label class="block font-medium">Memoria diferida (0–3)</label>
+                <input type="number" id="mmse-mem" min="0" max="3" step="1"
+                    placeholder="0–3"
+                    class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+            <div>
+                <label class="block font-medium">Lenguaje / dibujo (0–9)</label>
+                <input type="number" id="mmse-leng" min="0" max="9" step="1"
+                    placeholder="0–9"
+                    class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+        </div>
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2 space-y-2">
+
+            <label class="block font-medium">Edad (años)</label>
+            <input type="number" id="mmse-edad" min="18" max="120"
+                placeholder="Ej. 72"
+                class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+            <label class="block font-medium">Escolaridad completada</label>
+            <select id="mmse-esc"
+                class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                <option value="" selected disabled>Seleccionar</option>
+                <option value="21">0–5 años</option>
+                <option value="24">6–12 años</option>
+                <option value="26">Más de 12 años</option>
+            </select>
+
+            <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" id="mmse-visual" class="mt-0.5">
+                <span>Alteración visual evidente (ajuste de +2 puntos según documento de referencia colombiano).</span>
+            </label>
+        </div>
+
+        <button onclick="calcMMSE()"
+            class="w-full py-2 bg-indigo-600 text-white font-bold rounded-xl">
+            Calcular MMSE
+        </button>
+
+        <div id="mmse-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
+        </div>
+
+        <p class="text-[10px] text-slate-500">
+            Herramienta de puntuación. No sustituye la aplicación estandarizada
+            del instrumento ni la evaluación clínica. Los ajustes y puntos de
+            corte deben interpretarse según la versión utilizada y el contexto.
+        </p>
+    </div>
+`
                 },
                 // 3. PFEFFER (FAQ)
                 {
@@ -1911,19 +1950,50 @@ function analyzeGases() {
     title: 'Cuestionario de Actividades Funcionales de Pfeffer (FAQ)',
     desc: 'Evaluación funcional del adulto mayor a través del cuidador (punto de corte ≥ 6 sugiere deterioro funcional; algunos autores usan ≥ 9).',
     body: `
-        <div class="space-y-2 text-xs">
-            <p class="text-[11px] text-slate-500">0 = normal (o nunca lo hizo y podría), 1 = con dificultad pero lo hace solo, 2 = necesita ayuda, 3 = dependiente.</p>
-            ${PFEFFER_ITEMS.map((t, i) => `
-            <div class="flex items-center justify-between gap-2">
-                <span class="flex-1">${i + 1}. ${t}</span>
-                <select id="pf-${i + 1}" class="pf-sel w-24 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
-                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+    <div class="space-y-2 text-xs">
+
+        <p class="text-[11px] text-slate-500">
+            Debe responder un familiar o cuidador que conozca las actividades
+            habituales del paciente. Valora su desempeño actual comparado
+            con su funcionamiento previo.
+        </p>
+
+        ${PFEFFER_ITEMS.map((t, i) => `
+            <div class="space-y-1 border-b border-slate-200 dark:border-slate-700 pb-2">
+                <label class="block font-medium">
+                    ${i + 1}. ${t}
+                </label>
+
+                <select id="pf-${i + 1}"
+                    class="pf-sel w-full p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="" selected disabled>Seleccionar respuesta</option>
+                    <option value="0">0 - Realiza la actividad normalmente</option>
+                    <option value="1">1 - Tiene dificultad, pero la realiza solo</option>
+                    <option value="2">2 - Necesita ayuda</option>
+                    <option value="3">3 - Es dependiente</option>
+                    <option value="0">0 - Nunca la realizó, pero podría hacerla</option>
+                    <option value="1">1 - Nunca la realizó y tendría dificultad</option>
                 </select>
-            </div>`).join('')}
-            <button onclick="calcPfeffer()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow transition-all">Evaluar Pfeffer</button>
-            <div id="pfeffer-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
+            </div>
+        `).join('')}
+
+        <button onclick="calcPfeffer()"
+            class="w-full py-2 bg-indigo-600 text-white font-bold rounded-xl">
+            Calcular Pfeffer
+        </button>
+
+        <div id="pfeffer-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
         </div>
-    `
+
+        <p class="text-[10px] text-slate-500">
+            Un puntaje elevado indica mayor dificultad en actividades
+            instrumentales. Interpretar considerando escolaridad, cultura,
+            oportunidades previas para realizar cada actividad y limitaciones
+            físicas o sensoriales.
+        </p>
+    </div>
+`
 },
                 // 4. CHA2DS2-VASc
                 {
@@ -3361,18 +3431,105 @@ function analyzeGases() {
 
         // ADDITIONAL CALCULATORS: FRAMINGHAM, MMSE, PFEFFER, PAM, TFG, TABAQUISMO
         function calcMMSE() {
-    const g = id => parseInt(document.getElementById(id)?.value || 0);
-    const total = g('mmse-ot') + g('mmse-oe') + g('mmse-fij') + g('mmse-at') + g('mmse-mem') + g('mmse-leng');
-    const corte = g('mmse-esc') || 23;
-    const resEl = document.getElementById('mmse-res'); if (!resEl) return;
-    let interp;
-    if (total > corte) interp = `Sin sospecha de deterioro para su escolaridad (corte ≤ ${corte})`;
-    else {
-        const sev = total >= 19 ? 'leve' : total >= 14 ? 'moderado' : 'grave';
-        interp = `Sospecha de deterioro cognitivo ${sev} (puntaje ≤ ${corte})`;
+    const ids = [
+        'mmse-ot', 'mmse-oe', 'mmse-fij',
+        'mmse-at', 'mmse-mem', 'mmse-leng'
+    ];
+
+    const maximos = [5, 5, 3, 5, 3, 9];
+
+    const valores = ids.map(id => {
+        const raw = document.getElementById(id)?.value;
+        return raw === '' || raw == null ? NaN : Number(raw);
+    });
+
+    const edadRaw = document.getElementById('mmse-edad')?.value;
+    const edad = edadRaw === '' ? NaN : Number(edadRaw);
+    const corteRaw = document.getElementById('mmse-esc')?.value;
+    const corte = corteRaw === '' ? NaN : Number(corteRaw);
+    const visual = document.getElementById('mmse-visual')?.checked || false;
+    const resEl = document.getElementById('mmse-res');
+
+    if (!resEl) return;
+
+    if (valores.some((v, i) =>
+        !Number.isInteger(v) || v < 0 || v > maximos[i]
+    )) {
+        alert('Completa todos los dominios con valores enteros dentro de sus rangos.');
+        return;
     }
-    resEl.innerHTML = `Puntaje MMSE: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}
-        <div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">Los cortes por escolaridad son orientativos: en Colombia no hay un único consenso (algunas propuestas suben el corte en alta escolaridad, con más sensibilidad y menos especificidad). Es una prueba de tamizaje: confirma con valoración funcional (Pfeffer, Lawton-Brody) y clínica.</div>`;
+
+    if (!Number.isInteger(edad) || edad < 18 || edad > 120) {
+        alert('Ingresa una edad válida entre 18 y 120 años.');
+        return;
+    }
+
+    if (![21, 24, 26].includes(corte)) {
+        alert('Selecciona el nivel de escolaridad.');
+        return;
+    }
+
+    const bruto = valores.reduce((s, v) => s + v, 0);
+
+    // Ajustes descritos en el documento de referencia colombiano.
+    const ajusteEdad = edad > 75 ? 2 : (edad > 65 ? 1 : 0);
+    const ajusteVisual = visual ? 2 : 0;
+
+    const ajustado = Math.min(30, bruto + ajusteEdad + ajusteVisual);
+
+    const sospecha = ajustado <= corte;
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">Resultado MMSE</div>
+
+        <div>
+            Puntaje obtenido:
+            <strong class="text-indigo-600">${bruto}/30</strong>
+        </div>
+
+        <div>
+            Ajuste por edad:
+            <strong>${ajusteEdad} puntos</strong>
+        </div>
+
+        <div>
+            Ajuste visual:
+            <strong>${ajusteVisual} puntos</strong>
+        </div>
+
+        <div>
+            Puntaje ajustado:
+            <strong class="text-teal-600">${ajustado}/30</strong>
+        </div>
+
+        <div>
+            Punto de corte seleccionado:
+            <strong>≤${corte}</strong>
+        </div>
+
+        <div class="font-bold">
+            ${sospecha
+                ? 'Tamizaje positivo: sospecha de alteración cognitiva.'
+                : 'Tamizaje no positivo según el punto de corte seleccionado.'}
+        </div>
+
+        <div class="text-[11px] font-normal text-slate-500">
+            Un resultado positivo requiere evaluación clínica integral,
+            evolución temporal, repercusión funcional y búsqueda de causas
+            potencialmente reversibles. Un resultado no positivo no excluye
+            deterioro cognitivo.
+        </div>
+
+        <div class="text-[11px] font-normal text-amber-700 dark:text-amber-400">
+            El puntaje no establece por sí solo diagnóstico ni gravedad de
+            demencia. Considerar escolaridad, idioma, audición, visión,
+            delirium, depresión y condiciones socioculturales. Los ajustes
+            por edad y visión corresponden al documento de referencia
+            colombiano y no deben extrapolarse automáticamente a otras
+            versiones del MMSE.
+        </div>
+    `;
+
     resEl.classList.remove('hidden');
 }
 
@@ -7288,10 +7445,50 @@ const PFEFFER_ITEMS = [
 ];
 
 function calcPfeffer() {
-    const total = [...document.querySelectorAll('.pf-sel')].reduce((s, el) => s + parseInt(el.value || 0), 0);
-    const resEl = document.getElementById('pfeffer-res'); if (!resEl) return;
-    const interp = total >= 6 ? 'Puntaje ≥ 6: sospecha de deterioro funcional / demencia' : 'Puntaje < 6: desempeño funcional autónomo';
-    resEl.innerHTML = `Puntaje Pfeffer: <span class="text-indigo-600">${total} / 30 pts</span> — ${interp}`;
+    const selects = [...document.querySelectorAll('.pf-sel')];
+    const resEl = document.getElementById('pfeffer-res');
+
+    if (!resEl) return;
+
+    if (selects.length !== 10 || selects.some(el =>
+        !['0', '1', '2', '3'].includes(el.value)
+    )) {
+        alert('Debes responder las 10 actividades del cuestionario.');
+        return;
+    }
+
+    const total = selects.reduce((s, el) =>
+        s + Number(el.value), 0
+    );
+
+    const alteracion = total >= 6;
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">
+            Pfeffer (FAQ):
+            <strong class="text-indigo-600">${total}/30 puntos</strong>
+        </div>
+
+        <div class="font-bold">
+            ${alteracion
+                ? 'Tamizaje positivo: posible alteración funcional significativa.'
+                : 'Por debajo del umbral de tamizaje de alteración funcional.'}
+        </div>
+
+        <div class="text-[11px] font-normal text-slate-500">
+            Umbral utilizado: ≥6 puntos. Un resultado positivo requiere
+            valoración cognitiva y funcional integral. No establece por sí
+            solo diagnóstico de deterioro cognitivo leve ni demencia.
+        </div>
+
+        <div class="text-[11px] font-normal text-amber-700 dark:text-amber-400">
+            Antes de atribuir la dificultad a deterioro cognitivo, considerar
+            limitaciones motoras, visuales, auditivas, enfermedades agudas,
+            factores sociales y si el paciente realizaba previamente
+            esas actividades.
+        </div>
+    `;
+
     resEl.classList.remove('hidden');
 }
 
