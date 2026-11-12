@@ -2208,21 +2208,73 @@ function analyzeGases() {
                     title: 'Escala de Wells para TVP',
                     desc: 'Probabilidad pre-test de Trombosis Venosa Profunda.',
                     body: `
-                        <div class="space-y-1.5 text-xs">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-c" class="wt-chk"> <span>Cáncer activo (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-p" class="wt-chk"> <span>Parálisis / Inmovilización de MII (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-r" class="wt-chk"> <span>Reposo en cama > 3 días / Cirugía reciente (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-t" class="wt-chk"> <span>Dolor en trayecto venoso profundo (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-s" class="wt-chk"> <span>Edema de toda la extremidad (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-d" class="wt-chk"> <span>Asimetría de pantorrilla > 3 cm (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-e" class="wt-chk"> <span>Edema con fovea unilateral (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-v" class="wt-chk"> <span>Venas colaterales superficiales (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-a" class="wt-chk"> <span>TVP previa documentada (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wt-alt" class="wt-chk"> <span>Diagnóstico alternativo más probable (-2)</span></label>
-                            <button onclick="calcWellsTVP()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Wells TVP</button>
-                            <div id="wellstvp-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <p class="font-medium text-slate-500">
+            Marca los criterios presentes en el paciente.
+            Cada criterio suma 1 punto, excepto el diagnóstico alternativo (-2).
+        </p>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-c" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Cáncer activo: tratamiento en curso, tratamiento en los últimos 6 meses o manejo paliativo.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-p" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Parálisis, paresia o inmovilización reciente con yeso de una extremidad inferior.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-r" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Encamamiento durante 3 días o más, o cirugía mayor en las últimas 12 semanas con anestesia general o regional.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-t" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Dolor a la palpación localizado en el trayecto del sistema venoso profundo.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-s" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Edema de toda la extremidad inferior.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-d" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Pantorrilla al menos 3 cm mayor que la contralateral, medida 10 cm por debajo de la tuberosidad tibial.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-e" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Edema con fóvea, limitado a la extremidad sintomática.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-v" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Venas colaterales superficiales no varicosas.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-a" class="wt-chk mt-0.5">
+            <span><strong>+1:</strong> Antecedente de TVP documentada.</span>
+        </label>
+
+        <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="wt-alt" class="wt-chk mt-0.5">
+            <span><strong>-2:</strong> Diagnóstico alternativo al menos tan probable como TVP.</span>
+        </label>
+
+        <button onclick="calcWellsTVP()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">
+            Calcular Wells TVP
+        </button>
+
+        <div id="wellstvp-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
+        </div>
+    </div>
+`
                 },
                 // 11. FINDRISC
                 {
@@ -2382,14 +2434,41 @@ function analyzeGases() {
                     title: 'Tasa de Filtración Glomerular (eTFG CKD-EPI 2021)',
                     desc: 'Estimación de función renal según creatinina plasmática sin raza.',
                     body: `
-                        <div class="space-y-2 text-xs">
-                            <input type="number" id="tfg-cr" step="0.1" placeholder="Creatinina (mg/dL)" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <input type="number" id="tfg-edad" placeholder="Edad (Años)" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <select id="tfg-sexo" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="F">Mujer</option><option value="M">Hombre</option></select>
-                            <button onclick="calcTFG()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular TFG</button>
-                            <div id="tfg-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <label class="block font-medium">Creatinina sérica (mg/dL)</label>
+        <input type="number" id="tfg-cr" min="0.1" max="20" step="0.01"
+            placeholder="Ej. 1.0"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+        <label class="block font-medium">Edad (años)</label>
+        <input type="number" id="tfg-edad" min="18" max="120" step="1"
+            placeholder="Ej. 65"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+        <label class="block font-medium">Sexo utilizado por la ecuación CKD-EPI 2021</label>
+        <select id="tfg-sexo"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="F">Femenino</option>
+            <option value="M">Masculino</option>
+        </select>
+
+        <p class="text-slate-500">
+            Utiliza creatinina sérica estandarizada. Esta ecuación está destinada
+            a adultos y no debe utilizarse en menores de 18 años.
+        </p>
+
+        <button onclick="calcTFG()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">
+            Calcular TFG
+        </button>
+
+        <div id="tfg-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
+        </div>
+    </div>
+`
                 },
                 // 15. TABAQUISMO
                 {
@@ -2998,17 +3077,56 @@ function analyzeGases() {
 }
 
         function calcWellsTVP() {
-            let pts = 0;
-            document.querySelectorAll('.wt-chk:checked').forEach(el => {
-                if (el.id === 'wt-alt') pts -= 2;
-                else pts += 1;
-            });
-            const resEl = document.getElementById('wellstvp-res');
-            if (!resEl) return;
-            let rec = pts >= 2 ? "TVP Probable (Realizar Ecografía Doppler)" : "TVP Poco Probable (Considerar Dímero-D)";
-            resEl.innerHTML = `Puntaje: <span class="text-teal-600">${pts} pts</span> — ${rec}`;
-            resEl.classList.remove('hidden');
-        }
+    const resEl = document.getElementById('wellstvp-res');
+    if (!resEl) return;
+
+    const ids = [
+        'wt-c', 'wt-p', 'wt-r', 'wt-t', 'wt-s',
+        'wt-d', 'wt-e', 'wt-v', 'wt-a', 'wt-alt'
+    ];
+
+    const seleccionados = ids.filter(id =>
+        document.getElementById(id)?.checked
+    );
+
+    const pts = seleccionados.reduce((total, id) =>
+        total + (id === 'wt-alt' ? -2 : 1), 0
+    );
+
+    const probable = pts >= 2;
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">
+            Wells TVP:
+            <span class="text-teal-600">${pts} puntos</span>
+        </div>
+
+        <div class="font-bold">
+            ${probable ? 'TVP probable (≥2 puntos)' : 'TVP improbable (≤1 punto)'}
+        </div>
+
+        <div class="font-normal text-xs">
+            ${
+                probable
+                ? `Realizar ecografía venosa proximal con prioridad. Si no está disponible oportunamente, seguir el protocolo diagnóstico para TVP probable, incluyendo dímero D, anticoagulación provisional cuando esté indicada y ecografía dentro del plazo recomendado.`
+                : `Solicitar dímero D de alta sensibilidad según el protocolo diagnóstico. Si es negativo, generalmente permite excluir TVP en este contexto; si es positivo, realizar ecografía venosa.`
+            }
+        </div>
+
+        <div class="text-[11px] font-normal text-slate-500 mt-2">
+            Wells estima probabilidad clínica, no confirma ni descarta por sí solo
+            una TVP. La interpretación del dímero D depende del contexto clínico,
+            edad, ensayo utilizado y protocolo local.
+        </div>
+
+        <div class="text-[11px] font-normal text-amber-700 dark:text-amber-400">
+            Si hay disnea súbita, dolor torácico, síncope o hemoptisis,
+            evaluar urgentemente posible tromboembolismo pulmonar.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcOsmolaridad() {
     const na = parseFloat(document.getElementById('osm-na')?.value);
@@ -3233,21 +3351,121 @@ function analyzeGases() {
         }
 
         function calcTFG() {
-            const cr = parseFloat(document.getElementById('tfg-cr')?.value || 0);
-            const edad = parseFloat(document.getElementById('tfg-edad')?.value || 0);
-            const resEl = document.getElementById('tfg-res');
-            if (!resEl || !cr || !edad) return;
+    const cr = Number(document.getElementById('tfg-cr')?.value);
+    const edad = Number(document.getElementById('tfg-edad')?.value);
+    const sexo = document.getElementById('tfg-sexo')?.value;
+    const resEl = document.getElementById('tfg-res');
 
-            // CKD-EPI 2021 simplified estimation
-            const f = document.getElementById('tfg-sexo')?.value === 'F';
-            const k = f ? 0.7 : 0.9;
-            const a = f ? -0.241 : -0.302;
-            let tfg = 142 * Math.pow(Math.min(cr / k, 1), a) * Math.pow(Math.max(cr / k, 1), -1.200) * Math.pow(0.9938, edad) * (f ? 1.012 : 1);
-            let estadio = tfg >= 90 ? "G1 (Normal ≥ 90)" : (tfg >= 60 ? "G2 (Ligeramente disminuida 60-89)" : (tfg >= 45 ? "G3a (Moderada 45-59)" : (tfg >= 30 ? "G3b (Moderada-Severa 30-44)" : (tfg >= 15 ? "G4 (Severa 15-29)" : "G5 (Falla Renal < 15)"))));
+    if (!resEl) return;
 
-            resEl.innerHTML = `eTFG: <strong class="text-teal-600">${tfg.toFixed(1)} mL/min/1.73m²</strong> — ${estadio}`;
-            resEl.classList.remove('hidden');
-        }
+    if (!Number.isFinite(cr) || cr < 0.1 || cr > 20) {
+        alert('Ingresa una creatinina válida entre 0.1 y 20 mg/dL.');
+        return;
+    }
+
+    if (!Number.isInteger(edad) || edad < 18 || edad > 120) {
+        alert('Ingresa una edad válida entre 18 y 120 años.');
+        return;
+    }
+
+    if (!['F', 'M'].includes(sexo)) {
+        alert('Selecciona el sexo utilizado por la ecuación.');
+        return;
+    }
+
+    // CKD-EPI 2021 basada en creatinina, sin variable de raza
+    const mujer = sexo === 'F';
+    const k = mujer ? 0.7 : 0.9;
+    const alpha = mujer ? -0.241 : -0.302;
+
+    const relacion = cr / k;
+
+    const tfg =
+        142 *
+        Math.pow(Math.min(relacion, 1), alpha) *
+        Math.pow(Math.max(relacion, 1), -1.2) *
+        Math.pow(0.9938, edad) *
+        (mujer ? 1.012 : 1);
+
+    let categoria = '';
+    let descripcion = '';
+
+    if (tfg >= 90) {
+        categoria = 'G1';
+        descripcion = 'Normal o alta (≥90 mL/min/1.73 m²).';
+    } else if (tfg >= 60) {
+        categoria = 'G2';
+        descripcion = 'Levemente disminuida (60–89 mL/min/1.73 m²).';
+    } else if (tfg >= 45) {
+        categoria = 'G3a';
+        descripcion = 'Disminución leve-moderada (45–59 mL/min/1.73 m²).';
+    } else if (tfg >= 30) {
+        categoria = 'G3b';
+        descripcion = 'Disminución moderada-severa (30–44 mL/min/1.73 m²).';
+    } else if (tfg >= 15) {
+        categoria = 'G4';
+        descripcion = 'Disminución severa (15–29 mL/min/1.73 m²).';
+    } else {
+        categoria = 'G5';
+        descripcion = 'Falla renal (<15 mL/min/1.73 m²).';
+    }
+
+    let advertencia = '';
+
+    if (tfg >= 60) {
+        advertencia = `
+            Una TFG G1 o G2 aislada no establece enfermedad renal crónica.
+            Se requieren marcadores de daño renal, como albuminuria,
+            u otras alteraciones renales persistentes durante al menos
+            3 meses.
+        `;
+    } else {
+        advertencia = `
+            Una TFG reducida aislada no confirma enfermedad renal crónica.
+            Se debe demostrar persistencia durante al menos 3 meses
+            o contar con otros datos clínicos que establezcan cronicidad.
+            Considerar lesión renal aguda si la creatinina está cambiando.
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">Resultado CKD-EPI 2021</div>
+
+        <div>
+            TFG estimada:
+            <strong class="text-teal-600">
+                ${tfg.toFixed(1)} mL/min/1.73 m²
+            </strong>
+        </div>
+
+        <div>
+            Categoría de TFG:
+            <strong class="text-indigo-600">${categoria}</strong>
+        </div>
+
+        <div class="font-normal">${descripcion}</div>
+
+        <div class="text-[11px] font-normal text-slate-500 mt-2">
+            ${advertencia}
+        </div>
+
+        <div class="text-[11px] font-normal text-slate-500">
+            Para clasificar la enfermedad renal crónica se requiere integrar
+            la categoría G con la albuminuria (A1, A2 o A3), la causa y la
+            duración. La TFG estimada está normalizada a una superficie
+            corporal de 1.73 m².
+        </div>
+
+        <div class="text-[11px] font-normal text-amber-700 dark:text-amber-400">
+            La estimación puede ser poco fiable en lesión renal aguda,
+            embarazo, extremos de masa muscular o situaciones de producción
+            atípica de creatinina. Considerar cistatina C o medición de TFG
+            cuando la precisión sea importante para una decisión clínica.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcTabaquismo() {
             const cigs = parseFloat(document.getElementById('tab-cigs')?.value || 0);
