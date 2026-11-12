@@ -1584,13 +1584,21 @@ function analyzeGases() {
                                     <label class="block font-medium text-slate-500 mb-0.5">Ocular (1-4):</label>
                                     <select id="gcs-o" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
                                         <option value="4">4 - Espontánea</option>
-                                        <option value="3">3 - A la orden / voz</option>
+                                        <option value="3">3 - Al sonido</option>
                                         <option value="2">2 - Al dolor</option>
                                         <option value="1">1 - Ausente</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block font-medium text-slate-500 mb-0.5">Verbal (1-5):</label>
+                                    <label class="block font-medium text-slate-500 mb-0.5">Verbal (1-5 o NT):</label>
+<select id="gcs-v" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+    <option value="5">5 - Orientado</option>
+    <option value="4">4 - Confuso</option>
+    <option value="3">3 - Palabras inapropiadas</option>
+    <option value="2">2 - Sonidos incomprensibles</option>
+    <option value="1">1 - Sin respuesta</option>
+    <option value="NT">NT - No evaluable</option>
+</select>
                                     <select id="gcs-v" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
                                         <option value="5">5 - Orientado</option>
                                         <option value="4">4 - Confundido</option>
@@ -1891,19 +1899,61 @@ function analyzeGases() {
                     title: 'Riesgo Embolígeno CHA₂DS₂-VASc (Fibrilación Auricular)',
                     desc: 'Decisión de anticoagulación oral en FA no valvular.',
                     body: `
-                        <div class="space-y-1.5 text-xs">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-c" class="ch-chk"> <span>C - Insuficiencia Cardíaca / Disfunción VI (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-h" class="ch-chk"> <span>H - Hipertensión arterial (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-a2" class="ch-chk"> <span>A₂ - Edad ≥ 75 años (+2)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-d" class="ch-chk"> <span>D - Diabetes Mellitus (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-s2" class="ch-chk"> <span>S₂ - ACV / AIT / Tromboembolismo previo (+2)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-v" class="ch-chk"> <span>V - Enfermedad Vascular (IAM, EAP, Placa) (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-a" class="ch-chk"> <span>A - Edad 65 - 74 años (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ch-sc" class="ch-chk"> <span>Sc - Sexo Femenino (+1)</span></label>
-                            <button onclick="calcCHA2DS2VASc()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular CHA₂DS₂-VASc</button>
-                            <div id="chads-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+    <div class="space-y-2 text-xs">
+
+        <label class="block font-medium">Edad (años)</label>
+        <input type="number" id="ch-edad" min="18" max="120"
+            placeholder="Ej. 68"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+        <label class="block font-medium">Categoría de sexo para CHA₂DS₂-VASc</label>
+        <select id="ch-sexo"
+            class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="" selected disabled>Seleccionar</option>
+            <option value="m">Masculino</option>
+            <option value="f">Femenino</option>
+        </select>
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2 space-y-2">
+
+            <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" id="ch-c" class="ch-chk mt-0.5">
+                <span><strong>C (+1):</strong> Insuficiencia cardíaca clínica, independientemente de la FEVI, o FEVI ≤40%.</span>
+            </label>
+
+            <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" id="ch-h" class="ch-chk mt-0.5">
+                <span><strong>H (+1):</strong> Hipertensión diagnosticada o tratamiento antihipertensivo actual.</span>
+            </label>
+
+            <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" id="ch-d" class="ch-chk mt-0.5">
+                <span><strong>D (+1):</strong> Diabetes mellitus tipo 1 o 2.</span>
+            </label>
+
+            <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" id="ch-s2" class="ch-chk mt-0.5">
+                <span><strong>S₂ (+2):</strong> ACV, AIT o tromboembolismo arterial previo.</span>
+            </label>
+
+            <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" id="ch-v" class="ch-chk mt-0.5">
+                <span><strong>V (+1):</strong> Enfermedad vascular: infarto de miocardio, enfermedad arterial periférica o placa aórtica significativa.</span>
+            </label>
+
+        </div>
+
+        <button onclick="calcCHA2DS2VASc()"
+            class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">
+            Calcular riesgo tromboembólico
+        </button>
+
+        <div id="chads-res"
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
+        </div>
+
+    </div>
+`
                 },
                 // 5. HAS-BLED
                 {
@@ -2078,7 +2128,7 @@ function analyzeGases() {
                     id: 'childpugh',
                     cat: 'gastro',
                     title: 'Escala de Child-Pugh (Cirrosis Hepática)',
-                    desc: 'Estratificación de severidad y sobrevida en hepatopatía crónica.',
+                    desc: 'Clasificación de gravedad de la enfermedad hepática crónica mediante cinco parámetros clínicos y de laboratorio.',
                     body: `
                         <div class="space-y-2 text-xs">
                             <div class="grid grid-cols-2 gap-2">
@@ -2112,8 +2162,8 @@ function analyzeGases() {
                                     <label class="block font-medium text-slate-500 mb-0.5">Ascitis:</label>
                                     <select id="cp-asc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
                                         <option value="1">Ausente (1 pt)</option>
-                                        <option value="2">Leve / Moderada (2 pts)</option>
-                                        <option value="3">Tensión / Severa (3 pts)</option>
+                                        <option value="2">Leve o controlada con diuréticos (2 pts)</option>
+                                        <option value="3">Moderada-severa o refractaria (3 pts)</option>
                                     </select>
                                 </div>
                             </div>
@@ -2121,8 +2171,8 @@ function analyzeGases() {
                                 <label class="block font-medium text-slate-500 mb-0.5">Encefalopatía Hepática:</label>
                                 <select id="cp-enc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
                                     <option value="1">Ausente (1 pt)</option>
-                                    <option value="2">Grado 1 - 2 (2 pts)</option>
-                                    <option value="3">Grado 3 - 4 (3 pts)</option>
+                                    <option value="2">Grado I - II (2 pts)</option>
+                                    <option value="3">Grado III - IV (3 pts)</option>
                                 </select>
                             </div>
                             <button onclick="calcChildPugh()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Child-Pugh</button>
@@ -2135,7 +2185,7 @@ function analyzeGases() {
                     id: 'alvarado',
                     cat: 'gastro',
                     title: 'Escala de Alvarado (Apendicitis Aguda)',
-                    desc: 'Puntaje de sospecha de apendicitis aguda.',
+                    desc: 'Estratificación clínica de probabilidad de apendicitis aguda mediante criterios clínicos y de laboratorio.',
                     body: `
                         <div class="space-y-1.5 text-xs">
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-m" class="al-chk"> <span>Migración del dolor a FID (+1)</span></label>
@@ -2143,7 +2193,7 @@ function analyzeGases() {
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-n" class="al-chk"> <span>Náuseas / Vómito (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-t" class="al-chk"> <span>Sensibilidad en FID (+2)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-r" class="al-chk"> <span>Rebote / Blumberg positivo (+1)</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-e" class="al-chk"> <span>Elevación de temperatura ≥ 37.3°C (+1)</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-e" class="al-chk"> <span>Temperatura > 37.3 °C (+1)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-l" class="al-chk"> <span>Leucocitosis > 10.000 /mm³ (+2)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-s" class="al-chk"> <span>Desviación a la izquierda (Neutrófilos > 75%) (+1)</span></label>
                             <button onclick="calcAlvarado()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Alvarado</button>
@@ -2525,17 +2575,65 @@ function analyzeGases() {
 
         // ADDITIONAL CALCULATOR LOGIC HELPERS
         function calcGlasgow() {
-            const o = parseInt(document.getElementById('gcs-o')?.value || 4);
-            const v = parseInt(document.getElementById('gcs-v')?.value || 5);
-            const m = parseInt(document.getElementById('gcs-m')?.value || 6);
-            const total = o + v + m;
-            const resEl = document.getElementById('gcs-res');
-            if (!resEl) return;
+    const o = parseInt(document.getElementById('gcs-o')?.value);
+    const vRaw = document.getElementById('gcs-v')?.value;
+    const m = parseInt(document.getElementById('gcs-m')?.value);
+    const resEl = document.getElementById('gcs-res');
 
-            let sev = total <= 8 ? "🚨 Coma / Daño neurológico severo (Considerar IOT)" : (total <= 12 ? "Compromiso moderado" : "Compromiso leve / Normal");
-            resEl.innerHTML = `Glasgow Total: <span class="text-indigo-600">${total} / 15 pts</span> (O:${o} V:${v} M:${m}) — ${sev}`;
-            resEl.classList.remove('hidden');
+    if (!resEl || !Number.isInteger(o) || !Number.isInteger(m) ||
+        !['1', '2', '3', '4', '5', 'NT'].includes(vRaw)) {
+        alert('Verifica los componentes de Glasgow.');
+        return;
+    }
+
+    const v = vRaw === 'NT' ? null : parseInt(vRaw);
+    const componentes = `O:${o} V:${v === null ? 'NT' : v} M:${m}`;
+
+    if (v === null) {
+        const parcial = o + m;
+
+        resEl.innerHTML = `
+            <div class="text-indigo-600 font-bold">
+                Glasgow: componente verbal no evaluable
+            </div>
+            <div>Componentes registrados: ${componentes}</div>
+            <div>Suma de componentes evaluables (O + M): ${parcial} / 10</div>
+            <div class="text-amber-700 dark:text-amber-400 font-normal text-[11px] mt-2">
+                No se calcula un total sobre 15 porque el componente verbal es NT.
+                Registra y comunica cada componente por separado. Documenta la causa
+                (por ejemplo, intubación, sedación o barrera de comunicación).
+            </div>
+        `;
+    } else {
+        const total = o + v + m;
+
+        let interp = '';
+        if (total >= 13) {
+            interp = 'Alteración leve del nivel de conciencia (13–15).';
+        } else if (total >= 9) {
+            interp = 'Alteración moderada del nivel de conciencia (9–12).';
+        } else {
+            interp = 'Alteración grave del nivel de conciencia (3–8). Requiere valoración urgente.';
         }
+
+        resEl.innerHTML = `
+            <div class="font-bold">
+                Glasgow total:
+                <span class="text-indigo-600">${total} / 15</span>
+            </div>
+            <div>Componentes: ${componentes}</div>
+            <div>${interp}</div>
+            <div class="text-amber-700 dark:text-amber-400 font-normal text-[11px] mt-2">
+                Un puntaje de 8 o menos exige evaluación urgente de la vía aérea
+                y protección de reflejos, pero no indica intubación automática.
+                Considerar contexto, evolución, ventilación, oxigenación y causas
+                reversibles. Registrar siempre E, V y M por separado.
+            </div>
+        `;
+    }
+
+    resEl.classList.remove('hidden');
+}
 
         function calcApgar() {
             const fc = parseInt(document.getElementById('ap-fc')?.value || 2);
@@ -2776,31 +2874,128 @@ function analyzeGases() {
 }
 
         function calcChildPugh() {
-            const b = parseInt(document.getElementById('cp-bili')?.value || 1);
-            const a = parseInt(document.getElementById('cp-alb')?.value || 1);
-            const i = parseInt(document.getElementById('cp-inr')?.value || 1);
-            const asc = parseInt(document.getElementById('cp-asc')?.value || 1);
-            const enc = parseInt(document.getElementById('cp-enc')?.value || 1);
-            const total = b + a + i + asc + enc;
-            const resEl = document.getElementById('cp-res');
-            if (!resEl) return;
-            let cls = total <= 6 ? "Clase A (Cirrosis Compensada, Sobrevida 100% 1 año)" : (total <= 9 ? "Clase B (Compromiso Funcional Moderado)" : "Clase C (Cirrosis Descompensada Severa)");
-            resEl.innerHTML = `Child-Pugh: <span class="text-teal-600">${total} pts</span> — ${cls}`;
-            resEl.classList.remove('hidden');
-        }
+    const ids = ['cp-bili', 'cp-alb', 'cp-inr', 'cp-asc', 'cp-enc'];
+    const valores = ids.map(id =>
+        parseInt(document.getElementById(id)?.value)
+    );
+
+    const resEl = document.getElementById('cp-res');
+    if (!resEl) return;
+
+    if (valores.some(v => !Number.isInteger(v) || v < 1 || v > 3)) {
+        alert('Verifica los cinco parámetros de Child-Pugh.');
+        return;
+    }
+
+    const [b, a, i, asc, enc] = valores;
+    const total = b + a + i + asc + enc;
+
+    let clase = '';
+    let interpretacion = '';
+
+    if (total <= 6) {
+        clase = 'A';
+        interpretacion = 'Menor grado de alteración según Child-Pugh.';
+    } else if (total <= 9) {
+        clase = 'B';
+        interpretacion = 'Grado intermedio de alteración según Child-Pugh.';
+    } else {
+        clase = 'C';
+        interpretacion = 'Mayor grado de alteración según Child-Pugh.';
+    }
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">
+            Child-Pugh:
+            <span class="text-teal-600">${total} / 15 puntos</span>
+        </div>
+        <div class="text-base font-bold">
+            Clase ${clase}
+        </div>
+        <div class="font-normal">${interpretacion}</div>
+        <div class="text-[11px] font-normal text-slate-500 mt-2">
+            Clasificación basada en bilirrubina, albúmina, INR, ascitis y
+            encefalopatía. No equivale por sí sola a determinar compensación,
+            pronóstico individual ni indicación de trasplante.
+            En colangitis biliar primaria pueden utilizarse puntos de corte
+            diferentes para bilirrubina.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcAlvarado() {
-            let pts = 0;
-            document.querySelectorAll('.al-chk:checked').forEach(el => {
-                if (el.id === 'al-t' || el.id === 'al-l') pts += 2;
-                else pts += 1;
-            });
-            const resEl = document.getElementById('alvarado-res');
-            if (!resEl) return;
-            let rec = pts >= 7 ? "Alta probabilidad de apendicitis (Valoración Quirúrgica)" : (pts >= 5 ? "Probabilidad intermedia (Observación / TC / Ecografía)" : "Baja probabilidad");
-            resEl.innerHTML = `Puntaje: <span class="text-amber-600">${pts} pts</span> — ${rec}`;
-            resEl.classList.remove('hidden');
-        }
+    const resEl = document.getElementById('alvarado-res');
+    if (!resEl) return;
+
+    const ids = [
+        'al-m', 'al-a', 'al-n', 'al-t',
+        'al-r', 'al-e', 'al-l', 'al-s'
+    ];
+
+    const pts = ids.reduce((total, id) => {
+        const checked = document.getElementById(id)?.checked;
+        if (!checked) return total;
+
+        return total + (
+            id === 'al-t' || id === 'al-l' ? 2 : 1
+        );
+    }, 0);
+
+    let nivel = '';
+    let conducta = '';
+
+    if (pts < 5) {
+        nivel = 'Baja probabilidad';
+        conducta = `
+            Puntaje con alta sensibilidad para ayudar a excluir apendicitis.
+            Si persiste la sospecha clínica o los síntomas progresan, requiere
+            reevaluación y no debe descartarse únicamente por este resultado.
+        `;
+    } else if (pts <= 6) {
+        nivel = 'Probabilidad intermedia';
+        conducta = `
+            Requiere valoración clínica, observación y reevaluación.
+            Considerar imágenes diagnósticas según disponibilidad y contexto.
+        `;
+    } else if (pts <= 8) {
+        nivel = 'Probabilidad elevada';
+        conducta = `
+            Requiere valoración médica y quirúrgica oportuna.
+            Considerar imágenes diagnósticas según edad, presentación y contexto.
+        `;
+    } else {
+        nivel = 'Probabilidad muy elevada';
+        conducta = `
+            Requiere valoración quirúrgica urgente. La decisión diagnóstica
+            y terapéutica debe integrar la evaluación clínica y las imágenes
+            cuando estén indicadas.
+        `;
+    }
+
+    resEl.innerHTML = `
+        <div class="font-bold text-sm">
+            Alvarado:
+            <span class="text-amber-600">${pts} / 10 puntos</span>
+        </div>
+
+        <div class="font-bold">${nivel}</div>
+
+        <div class="font-normal text-xs">${conducta}</div>
+
+        <div class="text-[11px] font-normal text-slate-500 mt-2">
+            El puntaje no confirma por sí solo apendicitis ni diferencia
+            enfermedad complicada de no complicada. En adultos, Alvarado
+            es más útil para identificar bajo riesgo que para confirmar
+            el diagnóstico. La escala requiere interpretación individual,
+            especialmente en embarazadas, adultos mayores y pacientes
+            con presentaciones atípicas.
+        </div>
+    `;
+
+    resEl.classList.remove('hidden');
+}
 
         function calcWellsTVP() {
             let pts = 0;
@@ -5767,20 +5962,93 @@ function novAplicar(tipo, id) {
    CALCULADORA CHA2DS2-VA / CHA2DS2-VASc (reemplaza a la función vieja)
    ===================================================================== */
 function calcCHA2DS2VASc() {
-    const g = id => (document.getElementById(id)?.checked ? 1 : 0);
-    const vasc = g('ch-c') + g('ch-h') + 2 * g('ch-a2') + g('ch-d') + 2 * g('ch-s2') + g('ch-v') + g('ch-a') + g('ch-sc');
-    const va = vasc - g('ch-sc');
-
+    const edad = Number(document.getElementById('ch-edad')?.value);
+    const sexo = document.getElementById('ch-sexo')?.value;
     const resEl = document.getElementById('chads-res');
+
     if (!resEl) return;
 
-    const rec = va >= 2
-        ? 'Anticoagulación oral recomendada (ESC 2024)'
-        : (va === 1 ? 'Considerar anticoagulación de forma individualizada' : 'Sin indicación de anticoagulación por puntaje');
+    if (!Number.isInteger(edad) || edad < 18 || edad > 120) {
+        alert('Ingresa una edad válida entre 18 y 120 años.');
+        return;
+    }
+
+    if (!['m', 'f'].includes(sexo)) {
+        alert('Selecciona la categoría de sexo para calcular CHA₂DS₂-VASc.');
+        return;
+    }
+
+    const checked = id => document.getElementById(id)?.checked ? 1 : 0;
+
+    const c = checked('ch-c');
+    const h = checked('ch-h');
+    const d = checked('ch-d');
+    const s2 = checked('ch-s2') * 2;
+    const v = checked('ch-v');
+
+    const puntosEdad = edad >= 75 ? 2 : (edad >= 65 ? 1 : 0);
+    const sexoFemenino = sexo === 'f' ? 1 : 0;
+
+    const va = c + h + d + s2 + v + puntosEdad;
+    const vasc = va + sexoFemenino;
+
+    let recVA = '';
+    if (va >= 2) {
+        recVA = 'Anticoagulación oral recomendada según ESC 2024.';
+    } else if (va === 1) {
+        recVA = 'Considerar anticoagulación mediante decisión individualizada.';
+    } else {
+        recVA = 'Riesgo bajo según CHA₂DS₂-VA; generalmente no se indica anticoagulación por este puntaje aislado.';
+    }
+
+    let recVASC = '';
+    if (sexo === 'm') {
+        if (vasc >= 2) {
+            recVASC = 'Anticoagulación recomendada según ACC/AHA 2023.';
+        } else if (vasc === 1) {
+            recVASC = 'Anticoagulación razonable de considerar según el contexto clínico.';
+        } else {
+            recVASC = 'Riesgo bajo según CHA₂DS₂-VASc.';
+        }
+    } else {
+        if (vasc >= 3) {
+            recVASC = 'Anticoagulación recomendada según ACC/AHA 2023.';
+        } else if (vasc === 2) {
+            recVASC = 'Anticoagulación razonable de considerar según el contexto clínico.';
+        } else {
+            recVASC = 'Riesgo bajo según CHA₂DS₂-VASc.';
+        }
+    }
 
     resEl.innerHTML = `
-        CHA₂DS₂-VA: <span class="text-teal-600">${va} pts</span> — ${rec}
-        <div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">CHA₂DS₂-VASc (con sexo): ${vasc} pts. Valora siempre el riesgo de sangrado.</div>`;
+        <div class="font-bold text-sm">Resultados</div>
+
+        <div>
+            CHA₂DS₂-VA:
+            <strong class="text-teal-600">${va} puntos</strong>
+        </div>
+        <div class="font-normal">${recVA}</div>
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2">
+            CHA₂DS₂-VASc:
+            <strong class="text-indigo-600">${vasc} puntos</strong>
+        </div>
+        <div class="font-normal">${recVASC}</div>
+
+        <div class="text-[11px] font-normal text-slate-500 mt-2">
+            La categoría de sexo femenino es un modificador del riesgo y no un
+            factor independiente en CHA₂DS₂-VA. Revalorar periódicamente el riesgo
+            tromboembólico y considerar otros factores clínicos.
+        </div>
+
+        <div class="text-[11px] font-normal text-amber-700 dark:text-amber-400">
+            No utilizar estos puntajes como única decisión terapéutica.
+            En fibrilación auricular con válvula mecánica o estenosis mitral
+            reumática moderada-severa, la anticoagulación se determina por
+            la condición valvular, no por estos puntajes.
+        </div>
+    `;
+
     resEl.classList.remove('hidden');
 }
 
