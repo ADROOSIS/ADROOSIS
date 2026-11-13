@@ -2624,23 +2624,103 @@ function analyzeGases() {
                 {
                     id: 'framingham',
                     cat: 'cardio',
-                    title: 'Riesgo Cardiovascular a 10 años (Framingham 2008)',
-                    desc: 'Riesgo global de evento cardiovascular a 10 años en prevención primaria (30-74 años). Incluye colesterol, HDL, PAS, tabaquismo y diabetes.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <div class="grid grid-cols-2 gap-2">
-                            <input type="number" id="fr-edad" placeholder="Edad (30-74)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <select id="fr-sexo" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="F">Mujer</option><option value="M">Hombre</option></select>
-                            <input type="number" id="fr-ct" placeholder="Colesterol total (mg/dL)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <input type="number" id="fr-hdl" placeholder="HDL (mg/dL)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <input type="number" id="fr-pas" placeholder="PAS (mmHg)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <select id="fr-trat" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"><option value="0">PA sin tratamiento</option><option value="1">En tratamiento antihipertensivo</option></select>
-                        </div>
-                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="fr-fuma"> <span>Fumador actual</span></label>
-                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="fr-dm"> <span>Diabetes mellitus</span></label>
-                        <button onclick="calcFramingham()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular riesgo a 10 años</button>
-                        <div id="fr-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
+                    title: 'Framingham 2008 — Riesgo cardiovascular global',
+                    desc: 'Estimación de riesgo cardiovascular global a 10 años. Modelo original, no recalibrado para Colombia. Uso de referencia, no primera línea.',
+                    body: `      
+<div class="space-y-3 text-xs">
+
+    <div class="p-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300">
+        <strong>Modelo de referencia:</strong> Framingham 2008 original. No está recalibrado para Colombia y no es la herramienta de primera línea recomendada actualmente en Colombia.
+    </div>
+
+    <div class="font-bold text-sm">1. Datos del paciente</div>
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <label class="block mb-1 font-medium">Edad (años)</label>
+            <input type="number" id="fr-edad" min="30" max="74" step="1" placeholder="30–74" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">Sexo</label>
+            <select id="fr-sexo" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                <option value="">Seleccionar</option>
+                <option value="F">Mujer</option>
+                <option value="M">Hombre</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="font-bold text-sm pt-1">2. Perfil lipídico</div>
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <label class="block mb-1 font-medium">Colesterol total (mg/dL)</label>
+            <input type="number" id="fr-ct" min="80" max="400" step="1" placeholder="Ej. 200" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">HDL (mg/dL)</label>
+            <input type="number" id="fr-hdl" min="10" max="120" step="1" placeholder="Ej. 50" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+    </div>
+
+    <div class="font-bold text-sm pt-1">3. Presión arterial</div>
+
+    <div>
+        <label class="block mb-1 font-medium">Presión arterial sistólica (mmHg)</label>
+        <input type="number" id="fr-pas" min="70" max="250" step="1" placeholder="Ej. 120" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+    </div>
+
+    <div>
+        <label class="block mb-1 font-medium">¿Recibe tratamiento antihipertensivo?</label>
+        <select id="fr-trat" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccionar</option>
+            <option value="0">No</option>
+            <option value="1">Sí</option>
+        </select>
+    </div>
+
+    <div class="font-bold text-sm pt-1">4. Factores de riesgo</div>
+
+    <div>
+        <label class="block mb-1 font-medium">¿Es fumador actualmente?</label>
+        <select id="fr-fuma" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccionar</option>
+            <option value="0">No</option>
+            <option value="1">Sí</option>
+        </select>
+    </div>
+
+    <div>
+        <label class="block mb-1 font-medium">¿Tiene diabetes mellitus?</label>
+        <select id="fr-dm" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccionar</option>
+            <option value="0">No</option>
+            <option value="1">Sí</option>
+        </select>
+    </div>
+
+    <div class="border-t border-slate-200 dark:border-slate-700 pt-3">
+        <label class="block mb-1 font-medium">¿Tiene enfermedad cardiovascular establecida?</label>
+        <select id="fr-ecv" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccionar</option>
+            <option value="0">No</option>
+            <option value="1">Sí</option>
+        </select>
+        <p class="text-[10px] text-slate-500 mt-1">
+            Ejemplos: infarto, angina, ACV isquémico, enfermedad arterial periférica o insuficiencia cardiaca de origen cardiovascular.
+        </p>
+    </div>
+
+    <button type="button" onclick="calcFramingham()" class="w-full py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl">
+        Calcular riesgo cardiovascular
+    </button>
+
+    <div id="fr-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+
+</div>
+
                     `
                 },
                 {
@@ -7546,27 +7626,193 @@ function renderFavoritos() {
         : '<p class="text-xs text-slate-400 col-span-full">Aún no has guardado ninguna herramienta en tus favoritos. Haz clic en la estrella ★ de cualquier escala o fármaco para anclarla aquí.</p>';
 }
 
+
 function calcFramingham() {
-    const v = id => parseFloat(document.getElementById(id)?.value);
-    const age = v('fr-edad'), tc = v('fr-ct'), hdl = v('fr-hdl'), sbp = v('fr-pas');
-    const fem = document.getElementById('fr-sexo')?.value === 'F';
-    const trat = document.getElementById('fr-trat')?.value === '1';
-    const smoke = document.getElementById('fr-fuma')?.checked ? 1 : 0;
-    const dm = document.getElementById('fr-dm')?.checked ? 1 : 0;
-    const resEl = document.getElementById('fr-res'); if (!resEl) return;
-    if ([age, tc, hdl, sbp].some(x => isNaN(x) || x <= 0)) {
-        resEl.textContent = 'Completa edad, colesterol total, HDL y PAS.'; resEl.classList.remove('hidden'); return;
+    const getValue = id => document.getElementById(id)?.value;
+
+    const age = Number(getValue('fr-edad'));
+    const tc = Number(getValue('fr-ct'));
+    const hdl = Number(getValue('fr-hdl'));
+    const sbp = Number(getValue('fr-pas'));
+
+    const sex = getValue('fr-sexo');
+    const trat = getValue('fr-trat');
+    const smokeValue = getValue('fr-fuma');
+    const dmValue = getValue('fr-dm');
+    const ecv = getValue('fr-ecv');
+
+    const resEl = document.getElementById('fr-res');
+    if (!resEl) return;
+
+    resEl.classList.add('hidden');
+    resEl.innerHTML = '';
+
+    // Validación de edad
+    if (!Number.isInteger(age) || age < 30 || age > 74) {
+        alert('Framingham 2008 solo está validado para edades de 30 a 74 años.');
+        return;
     }
-    // Coeficientes: D'Agostino et al., Circulation 2008 (Framingham Heart Study)
+
+    // Validación de sexo
+    if (!['F', 'M'].includes(sex)) {
+        alert('Seleccione el sexo del paciente.');
+        return;
+    }
+
+    // Validación del perfil lipídico
+    if (!Number.isFinite(tc) || tc < 80 || tc > 400) {
+        alert('Ingrese un colesterol total válido entre 80 y 400 mg/dL.');
+        return;
+    }
+
+    if (!Number.isFinite(hdl) || hdl < 10 || hdl > 120) {
+        alert('Ingrese un HDL válido entre 10 y 120 mg/dL.');
+        return;
+    }
+
+    if (hdl >= tc) {
+        alert('El HDL no puede ser igual o superior al colesterol total. Verifique el perfil lipídico.');
+        return;
+    }
+
+    // Validación de presión arterial
+    if (!Number.isFinite(sbp) || sbp < 70 || sbp > 250) {
+        alert('Ingrese una presión arterial sistólica válida entre 70 y 250 mmHg.');
+        return;
+    }
+
+    // Validación de variables categóricas
+    if (!['0', '1'].includes(trat)) {
+        alert('Indique si recibe tratamiento antihipertensivo.');
+        return;
+    }
+
+    if (!['0', '1'].includes(smokeValue)) {
+        alert('Indique si el paciente fuma actualmente.');
+        return;
+    }
+
+    if (!['0', '1'].includes(dmValue)) {
+        alert('Indique si tiene diabetes mellitus.');
+        return;
+    }
+
+    if (!['0', '1'].includes(ecv)) {
+        alert('Indique si existe enfermedad cardiovascular establecida.');
+        return;
+    }
+
+    // Framingham estima riesgo de primer evento cardiovascular.
+    // No corresponde aplicarlo como prevención primaria si ya existe ECV.
+    if (ecv === '1') {
+        resEl.innerHTML = `
+            <div class="font-bold text-amber-600">
+                No calcular mediante Framingham.
+            </div>
+            <p class="text-xs font-normal mt-1">
+                El paciente presenta enfermedad cardiovascular establecida.
+                Esta calculadora estima riesgo de primer evento en prevención primaria.
+                Requiere evaluación y manejo de prevención secundaria.
+            </p>
+        `;
+        resEl.classList.remove('hidden');
+        return;
+    }
+
+    const fem = sex === 'F';
+    const treated = trat === '1';
+    const smoke = Number(smokeValue);
+    const dm = Number(dmValue);
+
+    // D'Agostino et al. Circulation 2008.
+    // Ecuación original de riesgo cardiovascular global.
     const k = fem
-        ? { age: 2.32888, tc: 1.20904, hdl: -0.70833, sbp: trat ? 2.82263 : 2.76157, sm: 0.52873, dm: 0.69154, mean: 26.1931, s0: 0.95012 }
-        : { age: 3.06117, tc: 1.12370, hdl: -0.93263, sbp: trat ? 1.99881 : 1.93303, sm: 0.65451, dm: 0.57367, mean: 23.9802, s0: 0.88936 };
-    const sum = k.age * Math.log(age) + k.tc * Math.log(tc) + k.hdl * Math.log(hdl) + k.sbp * Math.log(sbp) + k.sm * smoke + k.dm * dm;
+        ? {
+            age: 2.32888,
+            tc: 1.20904,
+            hdl: -0.70833,
+            sbp: treated ? 2.82263 : 2.76157,
+            sm: 0.52873,
+            dm: 0.69154,
+            mean: 26.1931,
+            s0: 0.95012
+        }
+        : {
+            age: 3.06117,
+            tc: 1.12370,
+            hdl: -0.93263,
+            sbp: treated ? 1.99881 : 1.93303,
+            sm: 0.65451,
+            dm: 0.57367,
+            mean: 23.9802,
+            s0: 0.88936
+        };
+
+    const sum =
+        k.age * Math.log(age) +
+        k.tc * Math.log(tc) +
+        k.hdl * Math.log(hdl) +
+        k.sbp * Math.log(sbp) +
+        k.sm * smoke +
+        k.dm * dm;
+
     const risk = (1 - Math.pow(k.s0, Math.exp(sum - k.mean))) * 100;
-    const cat = risk < 10 ? ['Bajo (< 10%)', 'text-emerald-600'] : risk < 20 ? ['Intermedio (10-19%)', 'text-amber-600'] : ['Alto (≥ 20%)', 'text-rose-600'];
-    resEl.innerHTML = `Riesgo CV a 10 años: <strong class="${cat[1]}">${risk.toFixed(1)}%</strong> — ${cat[0]}`
-        + (age < 30 || age > 74 ? '<div class="text-[11px] text-amber-600 mt-1">Edad fuera del rango de validación (30-74 años).</div>' : '')
-        + `<div class="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-1">Framingham 2008: estima eventos CV globales (coronarios, cerebrovasculares, arteriopatía periférica e IC). No está recalibrado para población colombiana y no aplica si ya hay enfermedad CV establecida. Interprétalo con el criterio clínico.</div>`;
+
+    if (!Number.isFinite(risk) || risk < 0 || risk > 100) {
+        alert('No fue posible calcular el riesgo. Verifique los datos ingresados.');
+        return;
+    }
+
+    let category;
+    let color;
+    let interpretation;
+
+    if (risk < 10) {
+        category = 'Bajo (<10%)';
+        color = 'text-emerald-600';
+        interpretation = 'Riesgo estimado bajo según las categorías descriptivas utilizadas en esta calculadora.';
+    } else if (risk < 20) {
+        category = 'Intermedio (10 a <20%)';
+        color = 'text-amber-600';
+        interpretation = 'Riesgo estimado intermedio. Requiere valoración integral de los factores de riesgo.';
+    } else {
+        category = 'Alto (≥20%)';
+        color = 'text-rose-600';
+        interpretation = 'Riesgo estimado alto. Requiere valoración clínica integral y manejo de factores de riesgo.';
+    }
+
+    resEl.innerHTML = `
+        <div class="text-[11px] text-slate-500 font-semibold">
+            FRAMINGHAM 2008 · PREVENCIÓN PRIMARIA
+        </div>
+
+        <div class="text-lg font-bold ${color}">
+            Riesgo cardiovascular a 10 años: ${risk.toFixed(1)}%
+        </div>
+
+        <div class="font-bold ${color}">
+            ${category}
+        </div>
+
+        <p class="text-xs font-normal mt-1">
+            ${interpretation}
+        </p>
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2 mt-2 text-[11px] font-normal">
+            <strong>Variables evaluadas:</strong>
+            edad, sexo, colesterol total, HDL, presión sistólica,
+            tratamiento antihipertensivo, tabaquismo y diabetes.
+        </div>
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2 mt-2 text-[11px] text-amber-600 font-normal">
+            <strong>Limitaciones:</strong>
+            modelo original de Framingham 2008, no recalibrado para Colombia.
+            La guía colombiana actual recomienda SCORE2-PURE como herramienta principal
+            y no recomienda Framingham como primera línea.
+            No utilizar este porcentaje de forma aislada para decidir tratamientos.
+        </div>
+    `;
+
     resEl.classList.remove('hidden');
 }
 
