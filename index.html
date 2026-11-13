@@ -5775,6 +5775,61 @@ vademecumData.forEach(v => {
     Object.assign(v, o);
     v.verificado = true;
     v.revisado = '1 nov 2026';
+
+    /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 5 · 1 nov 2026) ===== */
+const VAD_VERIF5 = {
+    'Naloxona': {
+        fuente: { t: 'MSD Manual, Epocrates y guías pediátricas (AAP/AHA) de naloxona', url: 'https://www.msdmanuals.com/professional/special-subjects/illicit-drugs-and-intoxicants/opioid-toxicity-and-withdrawal' },
+        alcance: 'Dosis en sobredosis y depresión respiratoria por opioides (adulto y pediátrica) e infusión de mantenimiento.',
+        adult: 'Sobredosis de opioides: 0.4 - 2 mg IV/IM/SC, repetible c/2-3 min según la respuesta; si no hay respuesta tras 10 mg, reconsidera el diagnóstico. En pacientes dependientes de opioides, titula desde 0.04 - 0.1 mg para evitar la abstinencia aguda. Si recurre la depresión respiratoria: infusión a 2/3 de la dosis efectiva por hora',
+        ped: '< 5 años o < 20 kg: 0.1 mg/kg IV/IM/SC/IO; ≥ 5 años o ≥ 20 kg: 2 mg. Repetible c/2-3 min según la respuesta'
+    },
+    'Morfina': {
+        fuente: { t: 'Ficha técnica de morfina inyectable (Pfizer / Hospira, FDA)', url: 'https://www.pfizermedical.com/morphine/dosage-admin' },
+        alcance: 'Dosis IV del adulto y pediátrica y advertencias de la ficha. Las vías oral, IM y SC y el uso en cuidados paliativos no están verificados.',
+        adult: 'IV: la ficha indica 0.1 - 0.2 mg/kg c/4h según necesidad, inyectado lentamente (la inyección rápida puede causar rigidez de la pared torácica). En urgencias se suele iniciar con 0.05 - 0.1 mg/kg (2 - 5 mg; máx 10 mg por dosis), titulando c/5-15 min según el dolor y la respiración. Dolor del infarto (solo si la nitroglicerina no lo alivia): 2 - 15 mg IV y luego 1 - 4 mg c/5 min según necesidad',
+        ped: 'IV: 0.05 - 0.1 mg/kg muy lento (máx 10 mg por dosis). La ficha FDA no establece seguridad en menores de 18 años: uso por especialista y con monitoreo continuo',
+        renal: 'Inicia con dosis menores y titula con cuidado (la ficha lo indica en falla renal y hepática). El metabolito activo se acumula: considera fentanilo si hay falla renal grave',
+        warning: 'ALTO RIESGO: depresión respiratoria, hipotensión y náuseas. Contraindicada en depresión respiratoria significativa, obstrucción gastrointestinal / íleo paralítico e hipersensibilidad. Evita errores entre mg y mL cuando hay concentraciones distintas. Ten naloxona disponible y monitoreo continuo (SatO₂, FR, sedación). Riesgo aditivo con benzodiacepinas y otros depresores del SNC.'
+    },
+    'Ketamina': {
+        fuente: { t: 'WikEM · ketamina (basado en guías de ACEP). Fuente secundaria', url: 'https://www.wikem.org/wiki/Ketamine' },
+        alcance: 'Dosis de analgesia, sedación procedimental (IV e IM) e inducción del adulto, y dosis pediátrica de sedación. Fuente secundaria.',
+        adult: 'Analgesia (dosis subdisociativa): 0.1 - 0.3 mg/kg IV, idealmente diluida en 100 mL de SSN en 15 min. Sedación-analgesia para procedimientos: 1 - 2 mg/kg IV lento (en 1 min), con dosis adicionales de 0.5 - 1 mg/kg si hace falta; o 4 - 5 mg/kg IM (repetible 2 - 4 mg/kg a los 10 min). Inducción de secuencia rápida: 1 - 2 mg/kg IV',
+        ped: 'Sedación para procedimientos: 1.5 - 2 mg/kg IV lento, o 4 - 5 mg/kg IM; intranasal 3 - 6 mg/kg'
+    },
+    'Fenitoína': {
+        fuente: { t: 'Ficha técnica de fenitoína inyectable (FDA · DailyMed y Pfizer)', url: 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a52cf1bd-dc1f-47be-aba8-29066d9a50fb' },
+        alcance: 'Carga en estado epiléptico, velocidad de infusión, mantenimiento y contraindicaciones. Hay una discrepancia documentada entre la ficha FDA y otras guías en la carga del adulto.',
+        nota: 'Discrepancia documentada: la ficha FDA indica una carga de 10 - 15 mg/kg en adultos, mientras que otras guías y protocolos de estado epiléptico usan 15 - 20 mg/kg. Sigue el protocolo de tu servicio y no superes 50 mg/min.',
+        adult: 'Carga IV (estado epiléptico): 15 - 20 mg/kg según guías de estado epiléptico (la ficha FDA indica 10 - 15 mg/kg), a un máximo de 50 mg/min; más lento (≤ 25 mg/min) en ancianos, cardiópatas o inestables. Mantenimiento: 100 mg IV/VO c/6-8h (5 - 7 mg/kg/día). Diluir solo en SSN 0.9% (concentración final ≥ 5 mg/mL)',
+        ped: 'Carga IV 15 - 20 mg/kg a 1 - 3 mg/kg/min (o 50 mg/min, lo que sea más lento). Mantenimiento: 4 - 8 mg/kg/día dividido c/12h',
+        warning: 'ALTO RIESGO: hipotensión y arritmias con la infusión rápida (monitoreo continuo de ECG y PA); extravasación (síndrome del guante púrpura). Contraindicada en bradicardia sinusal, bloqueo sinoauricular, bloqueo AV de 2º-3er grado y síndrome de Adams-Stokes. No dar IM en estado epiléptico. Diluir solo en SSN 0.9% (precipita con dextrosa). Margen terapéutico estrecho.'
+    },
+    'Haloperidol': {
+        fuente: { t: 'Ficha de producto del haloperidol inyectable (EMC · Reino Unido)', url: 'https://www.medicines.org.uk/emc/product/101458/smpc' },
+        alcance: 'Dosis de agitación y delirium, máximos diarios, precauciones cardíacas y contraindicaciones. La vía IV y la dosis pediátrica no están respaldadas por la ficha.',
+        adult: 'Agitación psicomotriz: 5 mg IM; ajusta en incrementos a intervalos de 2 - 4 h (algunas fichas permiten repetir cada hora) hasta un máximo de 10 mg/día con la inyección. Ancianos: la mitad de la dosis mínima del adulto, máx 5 mg/día. Delirium: 1 - 10 mg IM según la gravedad',
+        ped: 'La seguridad de la inyección en niños no está establecida: uso solo por especialista',
+        warning: 'Prolonga el QT: obtén un ECG basal, corrige K⁺ y Mg²⁺ y suspende si el QTc supera 500 ms. Contraindicado en coma, depresión del SNC, Parkinson, demencia con cuerpos de Lewy, QTc prolongado conocido, IAM reciente, falla cardíaca descompensada y antecedente de arritmia ventricular o torsades. La vía IV no está aprobada: si se usa, con monitoreo continuo del ECG. No está indicado para los trastornos de conducta de la demencia. Riesgo de distonía aguda y síndrome neuroléptico maligno.'
+    },
+    'Amiodarona': {
+        fuente: { t: 'Ficha de Nexterone (FDA), Epocrates y StatPearls', url: 'https://www.epocrates.com/online/drugs/6076/Nexterone' },
+        alcance: 'Dosis de paro (ACLS/PALS), taquiarritmias del adulto y pediátricas con pulso, y dosis máxima diaria.',
+        nota: '',
+        adult: 'Paro (FV / TV sin pulso): 300 mg IV/IO en bolo rápido y, si persiste, 150 mg. Taquiarritmias con pulso: 150 mg IV en 10 min (diluida; no en bolo directo), luego 1 mg/min x 6 h y 0.5 mg/min; puede repetirse 150 mg en 10 min si hay recurrencia. Máximo 2.2 g/24 h',
+        ped: 'Paro: 5 mg/kg IV/IO en bolo (máx 300 mg/dosis), repetible hasta 15 mg/kg. Con pulso: 5 mg/kg en 20 - 60 min con monitoreo y luego infusión de 5 mcg/kg/min hasta 15 mcg/kg/min (máx 20 mg/kg/día)',
+        renal: 'Sin ajuste de dosis'
+    }
+};
+Object.assign(VAD_VERIF, VAD_VERIF5);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF5[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = true;
+    v.revisado = '1 nov 2026';
+});
 });
 });
 });
@@ -5852,7 +5907,7 @@ function renderVademecum() {
         const fuente = v.verificado && v.fuente
             ? `<div class="text-[10px] text-slate-500 dark:text-slate-400 leading-snug">Fuente: <a href="${v.fuente.url}" target="_blank" rel="noopener" class="underline hover:text-teal-600">${v.fuente.t}</a> · revisado ${v.revisado}<br><span class="italic">Alcance: ${v.alcance || ''}</span></div>`
             : '';
-        const nota = v.nota ? `<div class="p-2 rounded-xl bg-rose-500/10 border-l-4 border-rose-500 text-[11px] text-rose-800 dark:text-rose-300"><strong>Pendiente:</strong> ${v.nota}</div>` : '';
+        const nota = v.nota ? `<div class="p-2 rounded-xl ${v.verificado ? 'bg-amber-500/10 border-l-4 border-amber-500 text-amber-900 dark:text-amber-200' : 'bg-rose-500/10 border-l-4 border-rose-500 text-rose-800 dark:text-rose-300'} text-[11px]"><strong>${v.verificado ? 'Nota' : 'Pendiente'}:</strong> ${v.nota}</div>` : '';
 
         return `
         <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2.5 text-xs flex flex-col justify-between">
@@ -7983,7 +8038,7 @@ const ALG_DATA = [
     id: 'estatus', titulo: 'Estado epiléptico (convulsión activa)', area: 'Neurología', pob: ['adulto', 'pediatrico'], peso: true,
     fuente: { t: 'Guía AES 2016 · estado epiléptico convulsivo', url: 'https://renaissance.stonybrookmedicine.edu/sites/default/files/CSE%20Treatment%20chart-final_rerelease.pdf' },
     revisado: '1 nov 2026',
-    alcance: 'Benzodiacepinas de primera línea, segunda línea y tiempos según AES 2016, y glucemia según guía pediátrica canadiense. La dosis de midazolam en < 13 kg no es de AES y la fenitoína queda pendiente de verificar.',
+    alcance: 'Benzodiacepinas de primera línea, segunda línea y tiempos según AES 2016, y glucemia según guía pediátrica canadiense. La dosis de midazolam en < 13 kg no es de AES y la fenitoína tiene una discrepancia documentada entre la ficha y las guías.',
     kw: 'estado epileptico convulsion crisis status epilepticus midazolam diazepam lorazepam levetiracetam valproato fosfenitoina fenitoina convulsionando',
     nodos: {
         inicio: { tipo: 'q', corto: 'Convulsión activa',
@@ -8039,7 +8094,7 @@ const ALG_DATA = [
             det: ['Levetiracetam 60 mg/kg IV (máx 4500 mg)',
                   'Fosfenitoína 20 mg PE/kg IV (máx 1500 mg PE)',
                   'Valproato 40 mg/kg IV (máx 3000 mg); evítalo en embarazo y en mujeres en edad fértil si hay alternativa',
-                  'Fenitoína IV es la alternativa si no hay fosfenitoína: consulta la ficha del vademécum (verificación pendiente)',
+                  'Fenitoína IV es la alternativa si no hay fosfenitoína: consulta la ficha del vademécum (hay discrepancia entre la ficha FDA y las guías en la dosis de carga)',
                   'Las tres primeras tuvieron eficacia similar (≈ 45-47% de cese) en el estudio ESETT'],
             dosis: [dMgKg('Levetiracetam IV', 60, 4500, 'Infusión en 5-10 minutos.'),
                     dMgKg('Fosfenitoína IV (mg de equivalentes de fenitoína, PE)', 20, 1500, 'Velocidad hasta 150 mg PE/min.'),
