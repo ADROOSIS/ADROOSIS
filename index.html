@@ -2936,49 +2936,110 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
         </div>
     `
 },
-                {
-                    id: 'epoc-mmrc', cat: 'urgencias',
-                    title: 'mMRC — Escala de disnea',
-                    desc: 'Gradúa la limitación por disnea de 0 a 4; útil para evaluación de síntomas y BODE/DOSE.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <label class="block font-semibold">Selecciona el grado que describe al paciente</label>
-                            <select id="epoc-mmrc-grade" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                                <option value="0">0 — Disnea solo con ejercicio intenso</option>
-                                <option value="1">1 — Disnea al apresurarse o subir una pendiente leve</option>
-                                <option value="2">2 — Camina más lento que personas de su edad o debe parar a respirar</option>
-                                <option value="3">3 — Se detiene por disnea tras unos 100 m o pocos minutos</option>
-                                <option value="4">4 — No puede salir de casa o presenta disnea al vestirse</option>
-                            </select>
-                            <button type="button" onclick="calcEpocMMRC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Interpretar mMRC</button>
-                            <div id="epoc-mmrc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
-                        </div>`
-                },
-                {
-                    id: 'epoc-gold', cat: 'urgencias',
-                    title: 'Clasificación GOLD — Espirometría y grupos ABE',
-                    desc: 'Clasifica el grado de obstrucción (GOLD 1–4) y el grupo clínico A, B o E según síntomas y exacerbaciones.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <label class="block font-semibold">Relación FEV₁/CVF posbroncodilatador</label>
-                            <select id="epoc-gold-ratio" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                                <option value="yes">Menor de 0,70</option><option value="no">0,70 o mayor</option>
-                            </select>
-                            <label class="block font-semibold">FEV₁ posbroncodilatador (% del predicho)</label>
-                            <input type="number" id="epoc-gold-fev" min="1" max="150" step="0.1" placeholder="Ej.: 58" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <label class="block font-semibold">Puntaje CAT/CAAT total (0–40)</label>
-                            <input type="number" id="epoc-gold-cat" min="0" max="40" step="1" placeholder="Ej.: 14" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <label class="block font-semibold">Grado mMRC (0–4)</label>
-                            <select id="epoc-gold-mmrc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                                <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-                            </select>
-                            <label class="block font-semibold">Exacerbaciones moderadas o graves en los últimos 12 meses</label>
-                            <input type="number" id="epoc-gold-exac" min="0" max="30" step="1" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <button type="button" onclick="calcEpocGOLD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Clasificar EPOC</button>
-                            <div id="epoc-gold-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
-                            <p class="text-[10px] text-slate-500">El diagnóstico requiere FEV₁/CVF posbroncodilatador &lt;0,70 en el contexto clínico apropiado. El grupo E corresponde a ≥1 exacerbación moderada o grave en el último año.</p>
-                        </div>`
-                },
+                
+{
+    id: 'epoc-mmrc',
+    cat: 'urgencias',
+    title: 'mMRC — Escala de disnea',
+    desc: 'Evalúa la limitación de las actividades cotidianas por disnea, de 0 a 4.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <label class="block font-semibold">
+                Selecciona el grado que describe mejor al paciente
+            </label>
+
+            <select id="epoc-mmrc-grade" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                <option value="">Seleccionar grado...</option>
+                <option value="0">0 — Disnea solo con ejercicio intenso</option>
+                <option value="1">1 — Disnea al caminar rápido en terreno plano o subir una pendiente leve</option>
+                <option value="2">2 — Camina más lento que personas de su edad en terreno plano o debe detenerse para respirar</option>
+                <option value="3">3 — Se detiene por disnea después de unos 100 metros o pocos minutos caminando</option>
+                <option value="4">4 — Disnea que impide salir de casa o aparece al vestirse</option>
+            </select>
+
+            <button type="button" onclick="calcEpocMMRC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">
+                Interpretar mMRC
+            </button>
+
+            <div id="epoc-mmrc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+
+            <p class="text-[10px] text-slate-500">
+                mMRC 0–1: menor carga de disnea. mMRC ≥2: mayor carga de síntomas para la clasificación GOLD ABE. No mide la obstrucción espirométrica.
+            </p>
+        </div>`
+},                  
+{
+    id: 'epoc-gold',
+    cat: 'urgencias',
+    title: 'Clasificación GOLD 2026 — Espirometría y grupos ABE',
+    desc: 'Clasifica la obstrucción espirométrica y el grupo clínico A, B o E en pacientes con EPOC confirmada.',
+    body: `
+        <div class="space-y-2 text-xs">
+
+            <label class="block font-semibold">
+                Relación FEV₁/CVF posbroncodilatador
+            </label>
+
+            <select id="epoc-gold-ratio" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                <option value="">Seleccionar resultado...</option>
+                <option value="yes">Menor de 0,70</option>
+                <option value="no">0,70 o mayor</option>
+            </select>
+
+            <label class="block font-semibold">
+                FEV₁ posbroncodilatador (% del predicho)
+            </label>
+
+            <input type="number" id="epoc-gold-fev" min="1" max="150" step="0.1" placeholder="Ej.: 58" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+            <div class="border-t border-slate-200 dark:border-slate-700 pt-2">
+                <p class="font-bold">Evaluación de síntomas</p>
+
+                <label class="block font-semibold mt-2">
+                    Puntaje CAAT / CAT (opcional, 0–40)
+                </label>
+
+                <input type="number" id="epoc-gold-cat" min="0" max="40" step="1" placeholder="Ej.: 14" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+                <label class="block font-semibold mt-2">
+                    Grado mMRC (opcional, 0–4)
+                </label>
+
+                <select id="epoc-gold-mmrc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">No evaluado</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+
+                <p class="text-[10px] text-slate-500 mt-1">
+                    Introduce al menos una de las dos escalas. Si ambas están disponibles, se considera mayor carga sintomática cuando cualquiera alcanza su umbral.
+                </p>
+            </div>
+
+            <label class="block font-semibold">
+                Número de exacerbaciones moderadas o graves en los últimos 12 meses
+            </label>
+
+            <input type="number" id="epoc-gold-exac" min="0" max="30" step="1" placeholder="Ej.: 0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+
+            <button type="button" onclick="calcEpocGOLD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">
+                Clasificar EPOC
+            </button>
+
+            <div id="epoc-gold-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+
+            <p class="text-[10px] text-slate-500">
+                Requiere diagnóstico clínico y obstrucción persistente confirmada por espirometría posbroncodilatador FEV₁/CVF <0,70. El grupo E corresponde a una o más exacerbaciones moderadas o graves en el último año, independientemente de los síntomas.
+            </p>
+
+            <p class="text-[10px] text-slate-500">
+                Clasificación ABE para evaluación inicial. No sustituye la valoración clínica ni constituye una prescripción.
+            </p>
+        </div>`
+},
                 {
                     id: 'epoc-bode', cat: 'urgencias',
                     title: 'Índice BODE — Pronóstico multidimensional',
@@ -4456,33 +4517,175 @@ function calcEpocCAT() {
 
     r.classList.remove('hidden');
 }
-        function calcEpocMMRC() {
-            const v = epocNum('epoc-mmrc-grade'), r = document.getElementById('epoc-mmrc-res');
-            if (!r) return;
-            if (v === null || !Number.isInteger(v) || v < 0 || v > 4) return epocValid(r, 'Selecciona un grado mMRC de 0 a 4.');
-            r.innerHTML = `<strong class="text-teal-600">mMRC ${v}/4</strong><div>${v >= 2 ? 'Disnea clínicamente más sintomática (mMRC ≥ 2).' : 'Menor grado de disnea (mMRC 0–1).'}</div><div class="mt-1 font-normal text-[11px]">La escala mide limitación por disnea; no mide por sí sola la obstrucción espirométrica.</div>`;
-            r.classList.remove('hidden');
-        }
-        function calcEpocGOLD() {
-            const ratio = document.getElementById('epoc-gold-ratio')?.value;
-            const fev = epocNum('epoc-gold-fev'), cat = epocNum('epoc-gold-cat');
-            const mmrc = epocNum('epoc-gold-mmrc'), ex = epocNum('epoc-gold-exac');
-            const r = document.getElementById('epoc-gold-res'); if (!r) return;
-            if (fev === null || fev <= 0 || fev > 150) return epocValid(r, 'Ingresa FEV₁ (% predicho) válido.');
-            if (cat === null || !Number.isInteger(cat) || cat < 0 || cat > 40) return epocValid(r, 'Ingresa CAT/CAAT entero entre 0 y 40.');
-            if (mmrc === null || !Number.isInteger(mmrc) || mmrc < 0 || mmrc > 4) return epocValid(r, 'Selecciona mMRC de 0 a 4.');
-            if (ex === null || !Number.isInteger(ex) || ex < 0 || ex > 30) return epocValid(r, 'Ingresa un número válido de exacerbaciones (0–30).');
-            let spirometry = ratio === 'yes';
-            let grade = '';
-            if (spirometry) grade = fev >= 80 ? 'GOLD 1 — leve' : fev >= 50 ? 'GOLD 2 — moderada' : fev >= 30 ? 'GOLD 3 — grave' : 'GOLD 4 — muy grave';
-            const symptomatic = cat >= 10 || mmrc >= 2;
-            const group = ex >= 1 ? 'E' : (symptomatic ? 'B' : 'A');
-            const explanation = ex >= 1 ? '≥1 exacerbación moderada o grave en los últimos 12 meses' : (symptomatic ? 'Síntomas elevados (CAT/CAAT ≥10 o mMRC ≥2), sin exacerbaciones moderadas/graves' : 'CAT/CAAT <10 y mMRC 0–1, sin exacerbaciones moderadas/graves');
-            r.innerHTML = (spirometry
-                ? `<div><strong class="text-teal-600">Grupo GOLD ${group}</strong> — ${explanation}</div><div class="mt-1"><strong>Grado espirométrico: ${grade}</strong> (FEV₁ ${fev.toFixed(1)}% del predicho).</div><div class="mt-2 font-normal text-[11px]">Grupo ABE y grado espirométrico son dimensiones diferentes. Integra comorbilidades, exacerbaciones y contexto clínico.</div>`
-                : `<div class="text-rose-600 font-semibold">FEV₁/CVF ≥0,70: no se demuestra obstrucción persistente según el criterio espirométrico GOLD.</div><div class="mt-1 font-normal text-[11px]">No se asigna grupo ABE ni grado GOLD. Revisa calidad de la espirometría, diagnóstico diferencial y contexto clínico.</div>`);
-            r.classList.remove('hidden');
-        }
+        
+function calcEpocMMRC() {
+    const v = epocNum('epoc-mmrc-grade');
+    const r = document.getElementById('epoc-mmrc-res');
+
+    if (!r) return;
+
+    if (v === null || !Number.isInteger(v) || v < 0 || v > 4) {
+        return epocValid(r, 'Selecciona un grado mMRC válido entre 0 y 4.');
+    }
+
+    const mayorDisnea = v >= 2;
+
+    r.innerHTML = `
+        <strong class="text-teal-600">mMRC: ${v}/4</strong>
+
+        <div class="mt-1 font-semibold">
+            ${mayorDisnea
+                ? 'Mayor carga de disnea (mMRC ≥ 2)'
+                : 'Menor carga de disnea (mMRC 0–1)'}
+        </div>
+
+        <div class="mt-1 font-normal text-[11px]">
+            ${mayorDisnea
+                ? 'Cumple el umbral de síntomas elevados utilizado en GOLD ABE.'
+                : 'No alcanza por sí solo el umbral de síntomas elevados utilizado en GOLD ABE.'}
+        </div>
+
+        <div class="mt-1 font-normal text-[11px] text-slate-500">
+            La mMRC mide limitación funcional por disnea. No determina por sí sola la gravedad espirométrica ni diagnostica EPOC.
+        </div>
+    `;
+
+    r.classList.remove('hidden');
+}
+        
+function calcEpocGOLD() {
+    const ratio = document.getElementById('epoc-gold-ratio')?.value;
+    const fev = epocNum('epoc-gold-fev');
+    const cat = epocNum('epoc-gold-cat');
+    const mmrc = epocNum('epoc-gold-mmrc');
+    const ex = epocNum('epoc-gold-exac');
+
+    const r = document.getElementById('epoc-gold-res');
+    if (!r) return;
+
+    if (ratio !== 'yes' && ratio !== 'no') {
+        return epocValid(r, 'Selecciona la relación FEV₁/CVF posbroncodilatador.');
+    }
+
+    if (ratio === 'no') {
+        r.innerHTML = `
+            <div class="font-semibold text-rose-600">
+                No se demuestra obstrucción persistente según el criterio espirométrico GOLD.
+            </div>
+            <div class="mt-1 text-[11px] font-normal">
+                FEV₁/CVF ≥0,70. No se asigna grado espirométrico GOLD ni grupo ABE. Revisa el contexto clínico y la calidad de la espirometría.
+            </div>
+        `;
+        r.classList.remove('hidden');
+        return;
+    }
+
+    if (fev === null || fev <= 0 || fev > 150) {
+        return epocValid(r, 'Ingresa un FEV₁ (% predicho) válido.');
+    }
+
+    if (cat !== null && (!Number.isInteger(cat) || cat < 0 || cat > 40)) {
+        return epocValid(r, 'El CAAT/CAT debe ser un número entero entre 0 y 40.');
+    }
+
+    if (mmrc !== null && (!Number.isInteger(mmrc) || mmrc < 0 || mmrc > 4)) {
+        return epocValid(r, 'El grado mMRC debe estar entre 0 y 4.');
+    }
+
+    if (cat === null && mmrc === null) {
+        return epocValid(r, 'Introduce al menos una escala de síntomas: CAAT/CAT o mMRC.');
+    }
+
+    if (ex === null || !Number.isInteger(ex) || ex < 0 || ex > 30) {
+        return epocValid(r, 'Ingresa el número de exacerbaciones moderadas o graves (0–30).');
+    }
+
+    let grade = '';
+
+    if (fev >= 80) {
+        grade = 'GOLD 1 — obstrucción leve';
+    } else if (fev >= 50) {
+        grade = 'GOLD 2 — obstrucción moderada';
+    } else if (fev >= 30) {
+        grade = 'GOLD 3 — obstrucción grave';
+    } else {
+        grade = 'GOLD 4 — obstrucción muy grave';
+    }
+
+    const caatElevado = cat !== null && cat >= 10;
+    const mmrcElevado = mmrc !== null && mmrc >= 2;
+
+    const symptomatic = caatElevado || mmrcElevado;
+
+    let group = '';
+
+    if (ex >= 1) {
+        group = 'E';
+    } else if (symptomatic) {
+        group = 'B';
+    } else {
+        group = 'A';
+    }
+
+    let symptomExplanation = '';
+
+    if (cat !== null && mmrc !== null) {
+        symptomExplanation = symptomatic
+            ? 'Mayor carga sintomática: CAAT ≥10 o mMRC ≥2.'
+            : 'Menor carga sintomática: CAAT <10 y mMRC 0–1.';
+    } else if (cat !== null) {
+        symptomExplanation = caatElevado
+            ? 'Mayor carga sintomática según CAAT ≥10.'
+            : 'Menor carga sintomática según CAAT <10.';
+    } else {
+        symptomExplanation = mmrcElevado
+            ? 'Mayor carga sintomática según mMRC ≥2.'
+            : 'Menor carga sintomática según mMRC 0–1.';
+    }
+
+    const groupExplanation = group === 'E'
+        ? 'Una o más exacerbaciones moderadas o graves en los últimos 12 meses. El grupo E se asigna independientemente de los síntomas.'
+        : group === 'B'
+            ? 'Sin exacerbaciones moderadas o graves en el último año y con mayor carga de síntomas.'
+            : 'Sin exacerbaciones moderadas o graves en el último año y con menor carga de síntomas.';
+
+    const discordance = cat !== null && mmrc !== null &&
+        caatElevado !== mmrcElevado;
+
+    r.innerHTML = `
+        <div class="text-base">
+            <strong class="text-teal-600">
+                Grupo GOLD ${group}
+            </strong>
+        </div>
+
+        <div class="mt-1 font-semibold">
+            ${grade}
+        </div>
+
+        <div class="mt-2">
+            <strong>Clasificación clínica:</strong>
+            ${groupExplanation}
+        </div>
+
+        <div class="mt-2">
+            <strong>Síntomas:</strong>
+            ${symptomExplanation}
+        </div>
+
+        ${discordance ? `
+            <div class="mt-2 text-amber-600 text-[11px] font-normal">
+                CAAT y mMRC no coinciden en la clasificación sintomática. Revisa ambos resultados y el contexto clínico.
+            </div>
+        ` : ''}
+
+        <div class="mt-2 text-[11px] font-normal text-slate-500 dark:text-slate-400">
+            FEV₁/CVF posbroncodilatador <0,70. El grado espirométrico y el grupo ABE representan dimensiones diferentes. Integra comorbilidades, eosinófilos, tratamiento previo y evolución clínica.
+        </div>
+    `;
+
+    r.classList.remove('hidden');
+}
         function calcEpocBODE() {
             const kg = epocNum('epoc-bode-weight'), cm = epocNum('epoc-bode-height');
             const fev = epocNum('epoc-bode-fev'), mmrc = epocNum('epoc-bode-mmrc'), walk = epocNum('epoc-bode-walk');
