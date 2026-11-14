@@ -2788,36 +2788,154 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
 </div>
 
                     `
-                },
-                {
-                    id: 'lawton',
-                    cat: 'neuro',
-                    title: 'Escala de Lawton-Brody (Actividades Instrumentales)',
-                    desc: 'Dependencia en actividades instrumentales de la vida diaria del adulto mayor. Marca lo que la persona hace SIN ayuda (0-8).',
-                    body: `
-                        <div class="space-y-1.5 text-xs">
-                        ${['Usa el teléfono por sí mismo', 'Hace sus compras solo', 'Prepara su comida', 'Cuida la casa', 'Lava su ropa', 'Usa medios de transporte', 'Maneja sus medicamentos (dosis y horario)', 'Maneja su dinero'].map((t, i) =>
-                            `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="lw-${i + 1}" class="lw-chk"> <span>${t} (+1)</span></label>`).join('')}
-                        <button onclick="calcLawton()" class="w-full py-2 bg-indigo-600 text-white font-bold rounded-xl mt-2">Evaluar Lawton-Brody</button>
-                        <div id="lawton-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
-                    `
+                },  
+{
+    id: 'lawton',
+    cat: 'neuro',
+    title: 'Escala de Lawton-Brody (Actividades Instrumentales)',
+    desc: 'Evalúa ocho dominios de funcionamiento instrumental. Registra el nivel funcional habitual de la persona.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-slate-500 dark:text-slate-400">
+                Selecciona una opción por actividad. Valora lo que la persona realmente puede hacer, no solamente lo que acostumbra hacer.
+            </p>
+
+            <div class="space-y-1">
+                <label class="font-semibold">1. Uso del teléfono</label>
+                <select id="lw-1" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Usa el teléfono, marca números conocidos o contesta</option>
+                    <option value="0">0 puntos — No utiliza el teléfono</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">2. Compras</label>
+                <select id="lw-2" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Realiza sus compras habituales sin ayuda</option>
+                    <option value="0">0 puntos — Solo compra artículos pequeños, necesita acompañamiento o no puede comprar</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">3. Preparación de alimentos</label>
+                <select id="lw-3" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Planifica, prepara y sirve comidas adecuadas de forma independiente</option>
+                    <option value="0">0 puntos — Requiere ingredientes preparados, solo recalienta o necesita que otra persona prepare la comida</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">4. Tareas del hogar</label>
+                <select id="lw-4" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Realiza tareas domésticas, incluso tareas ligeras</option>
+                    <option value="0">0 puntos — No participa en las tareas del hogar</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">5. Lavado de ropa</label>
+                <select id="lw-5" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Lava toda su ropa o prendas pequeñas</option>
+                    <option value="0">0 puntos — Otra persona realiza todo el lavado</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">6. Transporte</label>
+                <select id="lw-6" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Usa transporte público, gestiona su taxi o conduce</option>
+                    <option value="0">0 puntos — Solo se desplaza en vehículo con ayuda de otra persona o no viaja</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">7. Manejo de medicamentos</label>
+                <select id="lw-7" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Administra correctamente sus dosis y horarios sin ayuda</option>
+                    <option value="0">0 puntos — Necesita que otra persona prepare o administre sus medicamentos</option>
+                    <option value="na">No evaluable / no tiene medicamentos prescritos</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="font-semibold">8. Manejo del dinero</label>
+                <select id="lw-8" class="lw-sel w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 punto — Maneja sus finanzas o compras cotidianas, aunque requiera ayuda en asuntos mayores</option>
+                    <option value="0">0 puntos — No puede manejar dinero</option>
+                    <option value="na">No evaluable / nunca lo ha realizado</option>
+                </select>
+            </div>
+
+            <button type="button" onclick="calcLawton()" class="w-full py-2 bg-indigo-600 text-white font-bold rounded-xl mt-2">
+                Evaluar Lawton-Brody
+            </button>
+
+            <div id="lawton-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+
+            <p class="text-[10px] text-slate-500">
+                Se registran los ocho dominios en todos los pacientes. Las actividades no evaluables se excluyen del denominador y deben interpretarse con cautela. No se asignan grados de dependencia mediante puntos de corte no validados.
+            </p>
+        </div>
+    `
                 },
 
                 // EPOC: evaluación de síntomas, obstrucción, pronóstico y exacerbación
-                {
-                    id: 'epoc-cat', cat: 'urgencias',
-                    title: 'CAT / CAAT — Impacto de la EPOC',
-                    desc: 'Registra el puntaje total de la versión validada (0–40). No reproduce el cuestionario protegido.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <label class="block font-semibold">Puntaje total CAT/CAAT (0–40)</label>
-                            <input type="number" id="epoc-cat-score" min="0" max="40" step="1" placeholder="Ej.: 12" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <button type="button" onclick="calcEpocCAT()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Interpretar CAT/CAAT</button>
-                            <div id="epoc-cat-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
-                            <p class="text-[10px] text-slate-500">CAT/CAAT: 8 ítems, 0–5 cada uno. Introduce el total obtenido al aplicar el instrumento oficial; ≥10 indica mayor carga de síntomas para la evaluación GOLD.</p>
-                        </div>`
-                },
+                
+{
+    id: 'epoc-cat',
+    cat: 'urgencias',
+    title: 'CAAT (antes CAT) — Impacto de la EPOC',
+    desc: 'Cuantifica el impacto de la enfermedad respiratoria en el estado de salud. Puntaje total de 0 a 40.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <label class="block font-semibold">
+                Puntaje total CAAT / CAT (0–40)
+            </label>
+
+            <input
+                type="number"
+                id="epoc-cat-score"
+                min="0"
+                max="40"
+                step="1"
+                placeholder="Ej.: 12"
+                class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"
+            >
+
+            <button
+                type="button"
+                onclick="calcEpocCAT()"
+                class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl"
+            >
+                Interpretar CAAT / CAT
+            </button>
+
+            <div id="epoc-cat-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+
+            <p class="text-[10px] text-slate-500">
+                El cuestionario oficial contiene ocho ítems, cada uno puntuado de 0 a 5. Introduce el resultado total después de aplicar el instrumento validado. No se reproducen sus preguntas aquí.
+            </p>
+
+            <p class="text-[10px] text-slate-500">
+                CAAT es el nombre actual del CAT. Ambos instrumentos son equivalentes y sus puntuaciones son intercambiables. Un resultado ≥10 indica mayor carga de síntomas según GOLD 2026.
+            </p>
+        </div>
+    `
+},
                 {
                     id: 'epoc-mmrc', cat: 'urgencias',
                     title: 'mMRC — Escala de disnea',
@@ -4293,14 +4411,51 @@ function calcTabaquismo() {
             if (res) { res.innerHTML = `<span class="text-rose-600">${message}</span>`; res.classList.remove('hidden'); }
             return false;
         }
-        function calcEpocCAT() {
-            const v = epocNum('epoc-cat-score'), r = document.getElementById('epoc-cat-res');
-            if (!r) return;
-            if (v === null || !Number.isInteger(v) || v < 0 || v > 40) return epocValid(r, 'Ingresa un puntaje entero entre 0 y 40.');
-            const level = v < 10 ? 'Menor carga de síntomas (CAT/CAAT < 10)' : 'Mayor carga de síntomas (CAT/CAAT ≥ 10)';
-            r.innerHTML = `<strong class="text-teal-600">CAT/CAAT: ${v}/40</strong><div>${level}</div><div class="mt-1 font-normal text-[11px]">Interpreta junto con mMRC, exacerbaciones, espirometría y contexto clínico.</div>`;
-            r.classList.remove('hidden');
-        }
+        
+function calcEpocCAT() {
+    const v = epocNum('epoc-cat-score');
+    const r = document.getElementById('epoc-cat-res');
+
+    if (!r) return;
+
+    if (v === null || !Number.isInteger(v) || v < 0 || v > 40) {
+        return epocValid(r, 'Ingresa un puntaje entero entre 0 y 40.');
+    }
+
+    const mayorCarga = v >= 10;
+
+    const nivel = mayorCarga
+        ? 'Mayor carga de síntomas (CAAT ≥ 10)'
+        : 'Menor carga de síntomas (CAAT < 10)';
+
+    const interpretacion = mayorCarga
+        ? 'Este resultado corresponde al umbral de mayor carga sintomática utilizado en GOLD 2026.'
+        : 'Este resultado corresponde al rango de menor carga sintomática utilizado en GOLD 2026.';
+
+    r.innerHTML = `
+        <strong class="text-teal-600">
+            CAAT / CAT: ${v}/40 puntos
+        </strong>
+
+        <div class="mt-1 font-semibold">
+            ${nivel}
+        </div>
+
+        <div class="mt-1 font-normal">
+            ${interpretacion}
+        </div>
+
+        <div class="mt-2 text-[11px] font-normal text-slate-500 dark:text-slate-400">
+            Para clasificar GOLD ABE, integra este resultado con los antecedentes de exacerbaciones moderadas o graves del último año. Una o más exacerbaciones moderadas o graves sitúan al paciente en el grupo E, independientemente de los síntomas.
+        </div>
+
+        <div class="mt-1 text-[11px] font-normal text-slate-500 dark:text-slate-400">
+            No diagnostica EPOC ni sustituye la espirometría.
+        </div>
+    `;
+
+    r.classList.remove('hidden');
+}
         function calcEpocMMRC() {
             const v = epocNum('epoc-mmrc-grade'), r = document.getElementById('epoc-mmrc-res');
             if (!r) return;
@@ -8160,11 +8315,69 @@ function calcFramingham() {
     resEl.classList.remove('hidden');
 }
 
+
 function calcLawton() {
-    const pts = document.querySelectorAll('.lw-chk:checked').length;
-    const resEl = document.getElementById('lawton-res'); if (!resEl) return;
-    const cat = pts === 8 ? 'Independiente' : pts >= 6 ? 'Dependencia ligera' : pts >= 4 ? 'Dependencia moderada' : pts >= 2 ? 'Dependencia severa' : 'Dependencia total';
-    resEl.innerHTML = `Lawton-Brody: <span class="text-indigo-600">${pts} / 8</span> — ${cat}`;
+    const campos = [...document.querySelectorAll('.lw-sel')];
+    const resEl = document.getElementById('lawton-res');
+
+    if (!resEl) return;
+
+    if (campos.length !== 8) {
+        resEl.innerHTML = '<span class="text-rose-600">Error: no se encontraron los ocho dominios de Lawton-Brody.</span>';
+        resEl.classList.remove('hidden');
+        return;
+    }
+
+    if (campos.some(el => el.value === '')) {
+        resEl.innerHTML = '<span class="text-rose-600">Completa las ocho actividades antes de calcular. Puedes seleccionar «No evaluable» cuando corresponda.</span>';
+        resEl.classList.remove('hidden');
+        return;
+    }
+
+    const evaluables = campos.filter(el => el.value !== 'na');
+    const noEvaluables = campos.length - evaluables.length;
+
+    if (evaluables.length === 0) {
+        resEl.innerHTML = '<span class="text-amber-600">No hay actividades evaluables. No es posible obtener un puntaje.</span>';
+        resEl.classList.remove('hidden');
+        return;
+    }
+
+    const puntos = evaluables.filter(el => el.value === '1').length;
+    const total = evaluables.length;
+
+    let interpretacion = '';
+
+    if (noEvaluables > 0) {
+        interpretacion = `
+            <div class="mt-1 text-amber-600 font-normal">
+                Hay ${noEvaluables} actividad(es) no evaluable(s). El resultado no equivale al puntaje estándar completo de 8 dominios.
+            </div>
+        `;
+    } else if (puntos === 8) {
+        interpretacion = `
+            <div class="mt-1 font-normal">
+                Cumple los criterios de puntuación en los ocho dominios evaluados.
+            </div>
+        `;
+    } else {
+        interpretacion = `
+            <div class="mt-1 font-normal">
+                Se identifican una o más actividades con limitación funcional. Revisa cada dominio individualmente.
+            </div>
+        `;
+    }
+
+    resEl.innerHTML = `
+        <strong class="text-indigo-600">
+            Lawton-Brody: ${puntos} / ${total} puntos
+        </strong>
+        ${interpretacion}
+        <div class="mt-1 text-[11px] font-normal text-slate-500 dark:text-slate-400">
+            Evalúa actividades instrumentales; no diagnostica demencia ni determina por sí sola la causa de la dependencia.
+        </div>
+    `;
+
     resEl.classList.remove('hidden');
 }
 
