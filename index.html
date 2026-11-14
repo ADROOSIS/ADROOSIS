@@ -2551,16 +2551,46 @@ function analyzeGases() {
                     id: 'pam',
                     cat: 'cardio',
                     title: 'Presión Arterial Media (PAM)',
-                    desc: 'Fórmula: PAM = (PAS + 2*PAD) / 3. Meta en shock ≥ 65 mmHg.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <div class="grid grid-cols-2 gap-2">
-                                <input type="number" id="pam-pas" placeholder="PAS (mmHg)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                                <input type="number" id="pam-pad" placeholder="PAD (mmHg)" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            </div>
-                            <button onclick="calcPAM()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular PAM</button>
-                            <div id="pam-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
+desc: 'Cálculo de presión arterial media y orientación de metas iniciales en shock séptico según Surviving Sepsis Campaign 2026.',
+                    body: `   
+<div class="space-y-3 text-xs">
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <label class="block font-medium mb-1">Presión sistólica (PAS), mmHg</label>
+            <input type="number" id="pam-pas" min="40" max="300" step="1" placeholder="Ej. 120" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Presión diastólica (PAD), mmHg</label>
+            <input type="number" id="pam-pad" min="20" max="200" step="1" placeholder="Ej. 80" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+    </div>
+
+    <div>
+        <label class="block font-medium mb-1">Contexto clínico</label>
+        <select id="pam-contexto" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccione el contexto</option>
+            <option value="shock">Shock séptico en tratamiento con vasopresores</option>
+            <option value="otro">Otro contexto clínico</option>
+        </select>
+    </div>
+
+    <div id="pam-edad-contenedor">
+        <label class="block font-medium mb-1">Edad (años)</label>
+        <input type="number" id="pam-edad" min="18" max="120" step="1" placeholder="Ej. 65" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+    </div>
+
+    <div class="text-[10px] text-slate-500">
+        Fórmula: PAM = (PAS + 2 × PAD) / 3. Es una estimación; la interpretación depende del contexto clínico.
+    </div>
+
+    <button onclick="calcPAM()" class="w-full py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl">
+        Calcular PAM
+    </button>
+
+    <div id="pam-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+
+</div>
                     `
                 },
                 // 14. eTFG CKD-EPI
@@ -2610,15 +2640,51 @@ function analyzeGases() {
                 {
                     id: 'tabaquismo',
                     cat: 'urgencias',
-                    title: 'Índice de Tabaquismo (Paquetes/Año)',
-                    desc: 'Fórmula: (Cigarrillos al día * Años fuma) / 20.',
-                    body: `
-                        <div class="space-y-2 text-xs">
-                            <input type="number" id="tab-cigs" placeholder="Cigarrillos / día" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <input type="number" id="tab-anos" placeholder="Años fumando" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <button onclick="calcTabaquismo()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular Paquetes/Año</button>
-                            <div id="tab-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
-                        </div>
+                    title: 'Índice tabáquico (Paquetes/año)',
+                    desc: 'Cuantifica la exposición acumulada al cigarrillo en fumadores actuales y exfumadores.',
+                    body: `     
+<div class="space-y-3 text-xs">
+    <div>
+        <label class="block font-medium mb-1">Antecedente de tabaquismo</label>
+        <select id="tab-estado" onchange="toggleTabInputs()" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            <option value="">Seleccione</option>
+            <option value="nunca">Nunca ha fumado</option>
+            <option value="actual">Fumador actual</option>
+            <option value="ex">Exfumador</option>
+        </select>
+    </div>
+
+    <div id="tab-datos" class="hidden space-y-2">
+
+        <div>
+            <label class="block font-medium mb-1">Promedio de cigarrillos al día</label>
+            <input type="number" id="tab-cigs" min="0.1" max="100" step="0.1" placeholder="Ej. 20" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+
+        <div>
+            <label class="block font-medium mb-1">Años de consumo</label>
+            <input type="number" id="tab-anos" min="0.1" max="80" step="0.1" placeholder="Ej. 15" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+
+        <div id="tab-abandono" class="hidden">
+            <label class="block font-medium mb-1">Años desde que dejó de fumar (opcional)</label>
+            <input type="number" id="tab-anos-abandono" min="0" max="100" step="0.1" placeholder="Ej. 5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+
+    </div>
+
+    <div class="text-[10px] text-slate-500">
+        Un paquete estándar equivale a 20 cigarrillos.
+        Si el consumo cambió con el tiempo, estime el promedio de exposición por periodos.
+    </div>
+
+    <button onclick="calcTabaquismo()" class="w-full py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl">
+        Calcular paquetes/año
+    </button>
+
+    <div id="tab-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+
+</div>
                     `
                 },
                 {
@@ -3850,17 +3916,128 @@ function calcIMC() {
 }
 
         function calcPAM() {
-            const pas = parseFloat(document.getElementById('pam-pas')?.value || 0);
-            const pad = parseFloat(document.getElementById('pam-pad')?.value || 0);
-            const resEl = document.getElementById('pam-res');
-            if (!resEl || !pas || !pad) return;
+    const pasValor = document.getElementById('pam-pas')?.value;
+    const padValor = document.getElementById('pam-pad')?.value;
+    const contexto = document.getElementById('pam-contexto')?.value;
+    const edadValor = document.getElementById('pam-edad')?.value;
+    const res = document.getElementById('pam-res');
 
-            const pam = (pas + 2 * pad) / 3;
-            let status = pam >= 65 ? "Perfusión tisular adecuada (PAM ≥ 65 mmHg)" : "Hipotensión / Hipoperfusión (PAM < 65 mmHg)";
+    if (!res) return;
 
-            resEl.innerHTML = `PAM: <strong class="text-teal-600">${pam.toFixed(1)} mmHg</strong> — ${status}`;
-            resEl.classList.remove('hidden');
+    res.classList.add('hidden');
+    res.innerHTML = '';
+
+    if (pasValor === '' || !Number.isFinite(Number(pasValor)) ||
+        Number(pasValor) < 40 || Number(pasValor) > 300) {
+        alert('Ingrese una PAS válida entre 40 y 300 mmHg.');
+        return;
+    }
+
+    if (padValor === '' || !Number.isFinite(Number(padValor)) ||
+        Number(padValor) < 20 || Number(padValor) > 200) {
+        alert('Ingrese una PAD válida entre 20 y 200 mmHg.');
+        return;
+    }
+
+    const pas = Number(pasValor);
+    const pad = Number(padValor);
+
+    if (pas <= pad) {
+        alert('La PAS debe ser mayor que la PAD.');
+        return;
+    }
+
+    if (!contexto) {
+        alert('Seleccione el contexto clínico.');
+        return;
+    }
+
+    const pam = (pas + (2 * pad)) / 3;
+
+    let interpretacion = '';
+
+    if (contexto === 'shock') {
+        if (edadValor === '' ||
+            !Number.isInteger(Number(edadValor)) ||
+            Number(edadValor) < 18 ||
+            Number(edadValor) > 120) {
+            alert('Ingrese una edad válida entre 18 y 120 años.');
+            return;
         }
+
+        const edad = Number(edadValor);
+        const minimo = edad >= 65 ? 60 : 60;
+        const maximo = edad >= 65 ? 65 : 70;
+        const objetivo = edad >= 65 ? '60–65' : '65 mmHg (aproximadamente ±5 mmHg)';
+
+        if (pam < minimo) {
+            interpretacion = `
+                <div class="font-bold text-rose-600">
+                    PAM inferior al rango objetivo inicial.
+                </div>
+                <p class="text-[11px] font-normal">
+                    Revisar inmediatamente la situación hemodinámica,
+                    perfusión y respuesta al tratamiento.
+                </p>
+            `;
+        } else if (pam > maximo) {
+            interpretacion = `
+                <div class="font-bold text-amber-600">
+                    PAM superior al rango objetivo inicial orientativo.
+                </div>
+                <p class="text-[11px] font-normal">
+                    Individualizar la meta y valorar el contexto clínico.
+                    No reducir vasopresores automáticamente por este resultado.
+                </p>
+            `;
+        } else {
+            interpretacion = `
+                <div class="font-bold text-teal-600">
+                    PAM dentro del rango objetivo inicial orientativo.
+                </div>
+                <p class="text-[11px] font-normal">
+                    Esto no confirma perfusión tisular adecuada.
+                    Evaluar estado mental, diuresis, lactato, llenado capilar
+                    y evolución clínica.
+                </p>
+            `;
+        }
+
+        interpretacion += `
+            <div class="text-[10px] text-slate-500 mt-2">
+                Meta inicial de referencia SSC 2026: ${objetivo}.
+                En adultos de 65 años o más se sugiere un rango de 60–65 mmHg.
+                La meta debe individualizarse.
+            </div>
+        `;
+    } else {
+        interpretacion = `
+            <div class="font-semibold">
+                No se asigna una meta universal de PAM.
+            </div>
+            <p class="text-[11px] font-normal">
+                Interpretar según diagnóstico, presión arterial basal,
+                perfusión de órganos y contexto clínico.
+                Una PAM aislada no confirma ni descarta hipoperfusión.
+            </p>
+        `;
+    }
+
+    res.innerHTML = `
+        <div class="text-xl font-bold text-teal-600">
+            PAM: ${pam.toFixed(1)} mmHg
+        </div>
+        <div class="text-[11px] text-slate-500">
+            PAS: ${pas} mmHg · PAD: ${pad} mmHg
+        </div>
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2 mt-2">
+            ${interpretacion}
+        </div>
+    `;
+
+    res.classList.remove('hidden');
+}
+
 
         function calcTFG() {
     const cr = Number(document.getElementById('tfg-cr')?.value);
@@ -3979,18 +4156,130 @@ function calcIMC() {
     resEl.classList.remove('hidden');
 }
 
-        function calcTabaquismo() {
-            const cigs = parseFloat(document.getElementById('tab-cigs')?.value || 0);
-            const anos = parseFloat(document.getElementById('tab-anos')?.value || 0);
-            const resEl = document.getElementById('tab-res');
-            if (!resEl || !cigs || !anos) return;
+        
+function toggleTabInputs() {
+    const estado = document.getElementById('tab-estado')?.value;
+    const datos = document.getElementById('tab-datos');
+    const abandono = document.getElementById('tab-abandono');
+    const res = document.getElementById('tab-res');
 
-            const paq = (cigs * anos) / 20;
-            let riesgo = paq >= 20 ? "Alto riesgo de EPOC y Cáncer de Pulmón (≥ 20 Paq/Año)" : (paq >= 10 ? "Riesgo Moderado (10-19 Paq/Año)" : "Riesgo Leve (< 10 Paq/Año)");
+    if (datos) {
+        datos.classList.toggle('hidden', estado === '' || estado === 'nunca');
+    }
 
-            resEl.innerHTML = `Índice de Tabaquismo: <strong class="text-teal-600">${paq.toFixed(1)} Paquetes/Año</strong> — ${riesgo}`;
-            resEl.classList.remove('hidden');
+    if (abandono) {
+        abandono.classList.toggle('hidden', estado !== 'ex');
+    }
+
+    if (res) {
+        res.classList.add('hidden');
+        res.innerHTML = '';
+    }
+}
+
+function calcTabaquismo() {
+    const estado = document.getElementById('tab-estado')?.value;
+    const cigsValor = document.getElementById('tab-cigs')?.value;
+    const anosValor = document.getElementById('tab-anos')?.value;
+    const abandonoValor = document.getElementById('tab-anos-abandono')?.value;
+    const res = document.getElementById('tab-res');
+
+    if (!res) return;
+
+    res.classList.add('hidden');
+    res.innerHTML = '';
+
+    if (!estado) {
+        alert('Seleccione el antecedente de tabaquismo.');
+        return;
+    }
+
+    if (estado === 'nunca') {
+        res.innerHTML = `
+            <div class="text-xl font-bold text-teal-600">
+                0 paquetes/año
+            </div>
+            <p class="text-[11px] font-normal">
+                El paciente refiere que nunca ha fumado cigarrillos.
+                Investigar otras exposiciones al tabaco si corresponde.
+            </p>
+        `;
+
+        res.classList.remove('hidden');
+        return;
+    }
+
+    if (cigsValor === '' || !Number.isFinite(Number(cigsValor)) ||
+        Number(cigsValor) <= 0 || Number(cigsValor) > 100) {
+        alert('Ingrese un promedio válido de cigarrillos al día, mayor de 0 y hasta 100.');
+        return;
+    }
+
+    if (anosValor === '' || !Number.isFinite(Number(anosValor)) ||
+        Number(anosValor) <= 0 || Number(anosValor) > 80) {
+        alert('Ingrese un tiempo válido de consumo, mayor de 0 y hasta 80 años.');
+        return;
+    }
+
+    const cigs = Number(cigsValor);
+    const anos = Number(anosValor);
+
+    let tiempoAbandono = null;
+
+    if (estado === 'ex' && abandonoValor.trim() !== '') {
+        tiempoAbandono = Number(abandonoValor);
+
+        if (!Number.isFinite(tiempoAbandono) ||
+            tiempoAbandono < 0 || tiempoAbandono > 100) {
+            alert('Ingrese un tiempo válido desde el abandono del cigarrillo.');
+            return;
         }
+    }
+
+    const paquetesAno = (cigs * anos) / 20;
+    const estadoTexto = estado === 'actual' ? 'Fumador actual' : 'Exfumador';
+
+    res.innerHTML = `
+        <div class="text-[11px] text-slate-500 font-semibold">
+            EXPOSICIÓN ACUMULADA AL CIGARRILLO
+        </div>
+
+        <div class="text-xl font-bold text-teal-600">
+            ${paquetesAno.toFixed(2)} paquetes/año
+        </div>
+
+        <div class="text-[11px]">
+            <strong>Antecedente:</strong> ${estadoTexto}
+        </div>
+
+        <div class="text-[11px]">
+            <strong>Consumo promedio:</strong> ${cigs} cigarrillos/día
+        </div>
+
+        <div class="text-[11px]">
+            <strong>Tiempo de consumo:</strong> ${anos} años
+        </div>
+
+        ${tiempoAbandono !== null ? `
+            <div class="text-[11px]">
+                <strong>Tiempo desde el abandono:</strong> ${tiempoAbandono} años
+            </div>
+        ` : ''}
+
+        <div class="border-t border-slate-300 dark:border-slate-700 pt-2 mt-2 text-[11px] font-normal">
+            <strong>Interpretación:</strong>
+            El resultado cuantifica la exposición acumulada al cigarrillo.
+            No diagnostica EPOC ni cáncer de pulmón y no determina por sí solo el riesgo individual.
+        </div>
+
+        <div class="text-[10px] text-slate-500 font-normal">
+            Fórmula: (cigarrillos al día × años de consumo) / 20.
+            Un paquete estándar equivale a 20 cigarrillos.
+        </div>
+    `;
+
+    res.classList.remove('hidden');
+}
         /* ================================================================
            CALCULADORAS EPOC — GOLD 2026 / BODE / DOSE / ANTHONISEN
            ================================================================ */
