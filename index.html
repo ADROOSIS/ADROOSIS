@@ -6585,6 +6585,29 @@ function renderVademecum() {
     }).join('');
 }
 
+                // Reportar errores del vademécum
+        async function vadReport(nombre) {
+            const detalle = prompt(
+                `¿Qué error encontraste en la información de ${nombre}?`
+            );
+
+            if (!detalle || !detalle.trim()) return;
+
+            const reporte = [
+                'REPORTE DE ERROR - ADROOSIS',
+                `Medicamento: ${nombre}`,
+                `Descripción: ${detalle.trim()}`,
+                `Fecha: ${new Date().toLocaleString('es-CO')}`
+            ].join('\n');
+
+            try {
+                await navigator.clipboard.writeText(reporte);
+                alert('Reporte copiado. Ya puedes compartirlo con el equipo de ADROOSIS.');
+            } catch (error) {
+                prompt('Copia este reporte para compartirlo:', reporte);
+            }
+        }
+
         let currentVadGroup = 'all';
 
         function filterVademecumGroup(grp) {
