@@ -9816,5 +9816,31 @@ function vadPendientes() {
             switchTab('inicio');
         };
     </script>
+
+<script>
+    // Registro de la PWA ADROOSIS
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register(
+                "./service-worker.js",
+                { scope: "./" }
+            )
+            .then(registration => {
+                console.log(
+                    "ADROOSIS: Service Worker registrado correctamente",
+                    registration.scope
+                );
+            })
+            .catch(error => {
+                console.error(
+                    "Error registrando ADROOSIS:",
+                    error
+                );
+            });
+        });
+    }
+</script>
+</body>
+</html>
 </body>
 </html>
