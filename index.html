@@ -1026,16 +1026,24 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap gap-2 pt-1">
-                <button type="button" onclick="neuroGenerate()"
-                    class="px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold shadow-lg transition-all">
-                    <i class="fa-solid fa-file-medical mr-2"></i>Generar examen
-                </button>
-                <button type="button" onclick="neuroReset()"
-                    class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all">
-                    <i class="fa-solid fa-rotate-left mr-2"></i>Reiniciar
-                </button>
-            </div>
+<div class="flex flex-wrap gap-2 pt-1">
+
+    <button type="button" onclick="neuroQuickOpen()"
+        class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-extrabold shadow-lg transition-all">
+        <i class="fa-solid fa-bolt mr-2"></i>Examen rápido · 5 min
+    </button>
+
+    <button type="button" onclick="neuroGenerate()"
+        class="px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold shadow-lg transition-all">
+        <i class="fa-solid fa-file-medical mr-2"></i>Generar examen
+    </button>
+
+    <button type="button" onclick="neuroReset()"
+        class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all">
+        <i class="fa-solid fa-rotate-left mr-2"></i>Reiniciar
+    </button>
+</div>
+
         </div>
     </div>
 
@@ -1048,6 +1056,88 @@
             junto con la historia clínica y el contexto del paciente.
         </div>
     </div>
+
+
+<!-- =====================================================
+     EXAMEN NEUROLÓGICO RÁPIDO - ADROOSIS
+===================================================== -->
+<div id="neuro-quick-panel" class="hidden space-y-5">
+
+    <div class="rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/20 p-4 sm:p-5">
+
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 shrink-0 rounded-xl bg-amber-400/20 flex items-center justify-center">
+                <i class="fa-solid fa-bolt text-amber-600 dark:text-amber-400 text-lg"></i>
+            </div>
+
+            <div>
+                <h3 class="font-black text-base text-amber-950 dark:text-amber-200">
+                    Examen neurológico rápido
+                </h3>
+
+                <p class="text-xs text-amber-900 dark:text-amber-300 mt-1 leading-relaxed">
+                    Tamizaje neurológico inicial orientativo para realizar en aproximadamente
+                    5 minutos. Registra únicamente lo que hayas explorado.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-bold">
+            <span class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                1. Estado mental
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                2. Pares craneales clave
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                3. Fuerza
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                4. Reflejos
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                5. Marcha
+            </span>
+        </div>
+    </div>
+
+    <!-- AQUÍ SE GENERARÁN LAS PRUEBAS RÁPIDAS -->
+    <div id="neuro-quick-fields" class="space-y-4">
+        <div class="p-6 text-center rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <i class="fa-solid fa-spinner fa-spin text-teal-600 text-xl"></i>
+            <p class="text-xs text-slate-500 mt-2">
+                Preparando examen rápido...
+            </p>
+        </div>
+    </div>
+
+    <!-- RESUMEN DE HALLAZGOS -->
+    <div id="neuro-quick-summary"
+        class="hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 space-y-3">
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-2">
+
+        <button type="button" onclick="neuroQuickClose()"
+            class="flex-1 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-arrow-left mr-2"></i>Volver al examen completo
+        </button>
+
+        <button type="button" onclick="neuroQuickGenerate()"
+            class="flex-1 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-extrabold">
+            <i class="fa-solid fa-file-lines mr-2"></i>Generar resultado rápido
+        </button>
+
+    </div>
+
+    <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
+        Este tamizaje no sustituye el examen neurológico completo. Un resultado sin
+        alteraciones evidentes no descarta una enfermedad neurológica. Si hay un hallazgo
+        anormal o sospecha clínica, realiza una evaluación dirigida y completa.
+    </p>
+
+</div>
+<!-- FIN EXAMEN NEUROLÓGICO RÁPIDO -->
 
     <!-- PROGRESO -->
     <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm space-y-3">
@@ -10702,11 +10792,719 @@ function neuroReset() {
 
     neuroState = { status: {}, detail: {}, side: {}, metric: {} };
     try { localStorage.removeItem(NEURO_KEY); } catch(e) {}
+    // También reiniciar los datos del examen rápido
+try {
+    localStorage.removeItem(NEURO_QUICK_KEY);
+} catch(e) {}
+
+neuroQuickState = {
+    status: {},
+    detail: {}
+};
     neuroActiveSection = 'mental';
     neuroRender();
     document.getElementById('neuro-output-card')?.classList.add('hidden');
     alert('Examen neurológico reiniciado.');
 }
+
+
+// ============================================================
+// ADROOSIS | EXAMEN NEUROLÓGICO RÁPIDO (5 MINUTOS)
+// ============================================================
+
+// Se almacena por separado para no confundir el tamizaje
+// con las maniobras del examen neurológico completo.
+
+const NEURO_QUICK_KEY = 'adroosis_neuro_quick_v1';
+
+let neuroQuickState = {
+    status: {},
+    detail: {}
+};
+
+// Cinco estaciones de exploración.
+// Los estados posibles son: normal, abnormal y pending.
+
+const NEURO_QUICK_STATIONS = [
+    {
+        id: 'mental',
+        title: '1. Estado mental',
+        time: 'Aproximadamente 1 minuto',
+        icon: 'fa-brain',
+        description: 'Valora nivel de conciencia, orientación y comunicación.',
+        items: [
+            {
+                id: 'q_alert',
+                label: 'Nivel de conciencia',
+                how: 'Observa si está alerta, mantiene contacto y responde adecuadamente.',
+                section: 'mental',
+                targets: ['conciencia']
+            },
+            {
+                id: 'q_orientation',
+                label: 'Orientación',
+                how: 'Pregunta quién es, dónde está, fecha aproximada y qué está ocurriendo.',
+                section: 'mental',
+                targets: ['orientacion']
+            },
+            {
+                id: 'q_language',
+                label: 'Lenguaje y comprensión',
+                how: 'Escucha el lenguaje espontáneo y solicita ejecutar una orden sencilla.',
+                section: 'mental',
+                targets: ['lenguaje_espontaneo', 'comprension']
+            }
+        ]
+    },
+    {
+        id: 'cranial',
+        title: '2. Pares craneales clave',
+        time: 'Aproximadamente 1 minuto',
+        icon: 'fa-eye',
+        description: 'Tamizaje de pupilas, campos visuales, movimientos oculares y simetría facial.',
+        items: [
+            {
+                id: 'q_pupils',
+                label: 'Pupilas',
+                how: 'Compara tamaño y simetría; explora respuesta a la luz directa y consensual.',
+                section: 'cranial',
+                targets: ['pc_ii_pupilas']
+            },
+            {
+                id: 'q_visual',
+                label: 'Campos visuales por confrontación',
+                how: 'Explora cada ojo por separado y compara la detección de estímulos en los campos visuales.',
+                section: 'cranial',
+                targets: ['pc_ii_campos']
+            },
+            {
+                id: 'q_ocular',
+                label: 'Movimientos oculares',
+                how: 'Solicita seguir un objetivo en las distintas direcciones de la mirada; observa limitaciones o diplopía.',
+                section: 'cranial',
+                targets: ['pc_iii', 'pc_iv', 'pc_vi']
+            },
+            {
+                id: 'q_face',
+                label: 'Simetría facial',
+                how: 'Solicita elevar las cejas, cerrar los ojos con fuerza y mostrar los dientes.',
+                section: 'cranial',
+                targets: ['pc_vii']
+            },
+            {
+                id: 'q_speech',
+                label: 'Voz y articulación',
+                how: 'Escucha la articulación y calidad de la voz. Si está indicado, explora deglución de forma segura.',
+                section: 'cranial',
+                targets: ['pc_ix_x', 'pc_xii']
+            }
+        ]
+    },
+    {
+        id: 'motor',
+        title: '3. Fuerza y función motora',
+        time: 'Aproximadamente 1 minuto',
+        icon: 'fa-hand-fist',
+        description: 'Busca asimetrías, pérdida de fuerza y deriva pronadora.',
+        items: [
+            {
+                id: 'q_drift',
+                label: 'Deriva pronadora',
+                how: 'Con los brazos extendidos al frente, palmas hacia arriba y ojos cerrados, observa pronación o descenso de un brazo.',
+                section: 'motor',
+                targets: ['deriva']
+            },
+            {
+                id: 'q_arms',
+                label: 'Fuerza de miembros superiores',
+                how: 'Compara ambos lados con maniobras breves de empuje, tracción y prensión.',
+                section: 'motor',
+                targets: ['marcha_motora']
+            },
+            {
+                id: 'q_legs',
+                label: 'Fuerza de miembros inferiores',
+                how: 'Compara ambos lados mediante flexión de cadera, extensión de rodilla y dorsiflexión del pie.',
+                section: 'motor',
+                targets: ['marcha_motora']
+            }
+        ]
+    },
+    {
+        id: 'reflexes',
+        title: '4. Reflejos osteotendinosos',
+        time: 'Aproximadamente 1 minuto',
+        icon: 'fa-bolt',
+        description: 'Compara respuestas reflejas de ambos lados cuando la situación clínica lo requiere.',
+        items: [
+            {
+                id: 'q_reflexes',
+                label: 'Reflejos osteotendinosos',
+                how: 'Explora y compara, según el contexto, reflejos bicipital, tricipital, rotuliano y aquíleo.',
+                section: 'motor',
+                targets: []
+            }
+        ]
+    },
+    {
+        id: 'gait',
+        title: '5. Coordinación, marcha y equilibrio',
+        time: 'Aproximadamente 1 minuto',
+        icon: 'fa-person-walking',
+        description: 'Realiza estas pruebas únicamente si el paciente puede hacerlas de forma segura.',
+        items: [
+            {
+                id: 'q_coordination',
+                label: 'Coordinación dedo-nariz',
+                how: 'Solicita tocar alternativamente la nariz y el dedo del examinador.',
+                section: 'coord',
+                targets: ['dedo_nariz']
+            },
+            {
+                id: 'q_gait',
+                label: 'Marcha habitual',
+                how: 'Observa inicio, base de sustentación, simetría, estabilidad y giro, con asistencia si es necesaria.',
+                section: 'gait',
+                targets: ['marcha_habitual']
+            },
+            {
+                id: 'q_tandem',
+                label: 'Marcha en tándem',
+                how: 'Si es seguro, solicita caminar colocando un pie delante del otro.',
+                section: 'gait',
+                targets: ['tandem']
+            },
+            {
+                id: 'q_romberg',
+                label: 'Romberg',
+                how: 'Solo si puede mantenerse de pie con seguridad y supervisión. Compara estabilidad con ojos abiertos y cerrados.',
+                section: 'gait',
+                targets: ['romberg']
+            }
+        ]
+    }
+];
+
+// ------------------------------------------------------------
+// CARGA Y GUARDADO DEL TAMIZAJE
+// ------------------------------------------------------------
+
+function neuroQuickLoad() {
+    try {
+        const saved = localStorage.getItem(NEURO_QUICK_KEY);
+
+        if (saved) {
+            const parsed = JSON.parse(saved);
+
+            neuroQuickState = {
+                status: parsed.status || {},
+                detail: parsed.detail || {}
+            };
+        }
+    } catch (error) {
+        console.warn('No se pudo recuperar el examen rápido.', error);
+    }
+}
+
+function neuroQuickSave() {
+    try {
+        localStorage.setItem(
+            NEURO_QUICK_KEY,
+            JSON.stringify(neuroQuickState)
+        );
+    } catch (error) {
+        console.warn('No se pudo guardar el examen rápido.', error);
+    }
+}
+
+function neuroQuickGetStatus(id) {
+    return neuroQuickState.status[id] || 'pending';
+}
+
+function neuroQuickStatusLabel(status) {
+    if (status === 'normal') return 'Normal';
+    if (status === 'abnormal') return 'Alterado';
+    return 'No evaluado';
+}
+
+function neuroQuickEsc(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[character]);
+}
+
+// ------------------------------------------------------------
+// ABRIR Y CERRAR EL EXAMEN RÁPIDO
+// ------------------------------------------------------------
+
+function neuroQuickOpen() {
+    neuroQuickLoad();
+    neuroQuickRender();
+
+    const quickPanel = document.getElementById('neuro-quick-panel');
+    const nav = document.getElementById('neuro-section-nav');
+    const content = document.getElementById('neuro-section-content');
+    const output = document.getElementById('neuro-output-card');
+
+    if (quickPanel) quickPanel.classList.remove('hidden');
+    if (nav) nav.classList.add('hidden');
+    if (content) content.classList.add('hidden');
+    if (output) output.classList.add('hidden');
+
+    const progressNumber = document.getElementById('neuro-progress-number');
+    const progressCard = progressNumber?.closest('.bg-white');
+
+    if (progressCard) progressCard.classList.add('hidden');
+
+    quickPanel?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+function neuroQuickClose() {
+    const quickPanel = document.getElementById('neuro-quick-panel');
+    const nav = document.getElementById('neuro-section-nav');
+    const content = document.getElementById('neuro-section-content');
+
+    if (quickPanel) quickPanel.classList.add('hidden');
+    if (nav) nav.classList.remove('hidden');
+    if (content) content.classList.remove('hidden');
+
+    const progressNumber = document.getElementById('neuro-progress-number');
+    const progressCard = progressNumber?.closest('.bg-white');
+
+    if (progressCard) progressCard.classList.remove('hidden');
+
+    neuroRender();
+}
+
+// ------------------------------------------------------------
+// CAMBIAR RESPUESTA DE UNA MANIOBRA
+// ------------------------------------------------------------
+
+function neuroQuickSet(id, status) {
+    neuroQuickState.status[id] = status;
+    neuroQuickSave();
+
+    const summary = document.getElementById('neuro-quick-summary');
+    if (summary) summary.classList.add('hidden');
+
+    neuroQuickRender();
+}
+
+function neuroQuickSetDetail(id, value) {
+    neuroQuickState.detail[id] = value;
+    neuroQuickSave();
+}
+
+// ------------------------------------------------------------
+// RENDERIZAR LAS CINCO ESTACIONES
+// ------------------------------------------------------------
+
+function neuroQuickRender() {
+    const container = document.getElementById('neuro-quick-fields');
+    if (!container) return;
+
+    let html = '';
+
+    NEURO_QUICK_STATIONS.forEach(station => {
+        html += `
+        <section class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm overflow-hidden">
+
+            <div class="p-4 border-b border-slate-100 dark:border-slate-700">
+                <div class="flex items-start gap-3">
+
+                    <div class="w-10 h-10 shrink-0 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 flex items-center justify-center">
+                        <i class="fa-solid ${station.icon} text-lg"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h3 class="text-sm font-black">${station.title}</h3>
+                            <span class="text-[9px] font-bold px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300">
+                                ${station.time}
+                            </span>
+                        </div>
+
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+                            ${station.description}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="p-3 sm:p-4 space-y-4">
+        `;
+
+        station.items.forEach(item => {
+            const status = neuroQuickGetStatus(item.id);
+            const detail = neuroQuickState.detail[item.id] || '';
+
+            const statusClass = status === 'normal'
+                ? 'border-emerald-300 dark:border-emerald-800'
+                : status === 'abnormal'
+                    ? 'border-rose-300 dark:border-rose-800'
+                    : 'border-slate-200 dark:border-slate-700';
+
+            html += `
+            <article class="rounded-xl border ${statusClass} p-3 space-y-3">
+
+                <div>
+                    <div class="text-xs font-extrabold text-slate-800 dark:text-slate-100">
+                        ${item.label}
+                    </div>
+
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                        ${item.how}
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-1.5">
+
+                    <button type="button"
+                        onclick="neuroQuickSet('${item.id}','normal')"
+                        class="py-2 px-1 rounded-lg text-[10px] font-bold ${
+                            status === 'normal'
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300'
+                        }">
+                        <i class="fa-solid fa-check mr-1"></i>Normal
+                    </button>
+
+                    <button type="button"
+                        onclick="neuroQuickSet('${item.id}','abnormal')"
+                        class="py-2 px-1 rounded-lg text-[10px] font-bold ${
+                            status === 'abnormal'
+                                ? 'bg-rose-600 text-white'
+                                : 'bg-rose-50 text-rose-800 dark:bg-rose-950/30 dark:text-rose-300'
+                        }">
+                        <i class="fa-solid fa-exclamation mr-1"></i>Alterado
+                    </button>
+
+                    <button type="button"
+                        onclick="neuroQuickSet('${item.id}','pending')"
+                        class="py-2 px-1 rounded-lg text-[10px] font-bold ${
+                            status === 'pending'
+                                ? 'bg-slate-600 text-white'
+                                : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                        }">
+                        No evaluado
+                    </button>
+
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1">
+                        Observaciones / lateralidad
+                    </label>
+
+                    <input
+                        type="text"
+                        value="${neuroQuickEsc(detail)}"
+                        oninput="neuroQuickSetDetail('${item.id}',this.value)"
+                        placeholder="Ej. debilidad derecha, pupila izquierda dilatada..."
+                        class="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-[11px]">
+                </div>
+
+                ${
+                    status === 'abnormal'
+                    ? `
+                    <div class="rounded-lg bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 p-3 space-y-2">
+
+                        <p class="text-[10px] text-rose-800 dark:text-rose-300 font-bold">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                            Hallazgo alterado: requiere evaluación dirigida.
+                        </p>
+
+                        <button type="button"
+                            onclick="neuroQuickDeepen('${item.id}')"
+                            class="w-full py-2.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-extrabold">
+                            <i class="fa-solid fa-magnifying-glass-plus mr-2"></i>
+                            Profundizar en el examen completo
+                        </button>
+
+                    </div>
+                    `
+                    : ''
+                }
+
+            </article>
+            `;
+        });
+
+        html += `
+            </div>
+        </section>
+        `;
+    });
+
+    container.innerHTML = html;
+
+    neuroQuickUpdateSummary();
+}
+
+// ------------------------------------------------------------
+// CONTADOR DE REGISTROS Y HALLAZGOS
+// ------------------------------------------------------------
+
+function neuroQuickUpdateSummary() {
+    let normal = 0;
+    let abnormal = 0;
+    let pending = 0;
+
+    NEURO_QUICK_STATIONS.forEach(station => {
+        station.items.forEach(item => {
+            const status = neuroQuickGetStatus(item.id);
+
+            if (status === 'normal') normal++;
+            else if (status === 'abnormal') abnormal++;
+            else pending++;
+        });
+    });
+
+    const summary = document.getElementById('neuro-quick-summary');
+
+    if (!summary) return;
+
+    summary.classList.remove('hidden');
+
+    summary.innerHTML = `
+        <h3 class="text-sm font-black">Estado del examen rápido</h3>
+
+        <div class="grid grid-cols-3 gap-2">
+
+            <div class="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 p-3 text-center">
+                <div class="text-xl font-black text-emerald-700 dark:text-emerald-300">${normal}</div>
+                <div class="text-[10px] font-bold text-emerald-700 dark:text-emerald-300">Normales</div>
+            </div>
+
+            <div class="rounded-xl bg-rose-50 dark:bg-rose-950/30 p-3 text-center">
+                <div class="text-xl font-black text-rose-700 dark:text-rose-300">${abnormal}</div>
+                <div class="text-[10px] font-bold text-rose-700 dark:text-rose-300">Alteradas</div>
+            </div>
+
+            <div class="rounded-xl bg-slate-100 dark:bg-slate-700 p-3 text-center">
+                <div class="text-xl font-black text-slate-700 dark:text-slate-200">${pending}</div>
+                <div class="text-[10px] font-bold text-slate-600 dark:text-slate-300">No evaluadas</div>
+            </div>
+
+        </div>
+
+        ${
+            abnormal > 0
+            ? `<p class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">
+                Se registraron ${abnormal} hallazgo(s) alterado(s). Revisa cada uno y realiza la evaluación dirigida correspondiente.
+               </p>`
+            : `<p class="text-[11px] text-slate-500 dark:text-slate-400">
+                Recuerda que las pruebas no realizadas permanecen como no evaluadas.
+               </p>`
+        }
+    `;
+}
+
+// ------------------------------------------------------------
+// PROFUNDIZAR: CONECTAR EL TAMIZAJE CON EL EXAMEN COMPLETO
+// ------------------------------------------------------------
+
+function neuroQuickFindItem(id) {
+    for (const station of NEURO_QUICK_STATIONS) {
+        const item = station.items.find(x => x.id === id);
+        if (item) return item;
+    }
+
+    return null;
+}
+
+function neuroQuickDeepen(id) {
+    const item = neuroQuickFindItem(id);
+
+    if (!item) {
+        alert('No se encontró la maniobra seleccionada.');
+        return;
+    }
+
+    if (neuroQuickGetStatus(id) !== 'abnormal') {
+        alert('La opción Profundizar está disponible para hallazgos alterados.');
+        return;
+    }
+
+    // Se conserva el resultado rápido y se abre la sección detallada.
+    const quickPanel = document.getElementById('neuro-quick-panel');
+    const nav = document.getElementById('neuro-section-nav');
+    const content = document.getElementById('neuro-section-content');
+
+    if (quickPanel) quickPanel.classList.add('hidden');
+    if (nav) nav.classList.remove('hidden');
+    if (content) content.classList.remove('hidden');
+
+    const progressNumber = document.getElementById('neuro-progress-number');
+    const progressCard = progressNumber?.closest('.bg-white');
+
+    if (progressCard) progressCard.classList.remove('hidden');
+
+    // Renderiza la sección del examen completo.
+    neuroRenderSection(item.section);
+
+    const observation = neuroQuickState.detail[id] || 'No se agregó una observación adicional.';
+
+    const targetLabels = item.targets.length
+        ? item.targets.map(target => {
+            for (const section of NEURO_SECTIONS) {
+                const found = section.items.find(x => x[0] === target);
+                if (found) return found[1];
+            }
+            return target;
+        }).join(', ')
+        : 'Exploración detallada de los reflejos osteotendinosos y comparación bilateral';
+
+    const contextHTML = `
+        <div class="mb-4 rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/20 p-4">
+
+            <div class="flex items-center gap-2 text-rose-800 dark:text-rose-300">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h4 class="text-xs font-extrabold">Hallazgo del examen rápido</h4>
+            </div>
+
+            <p class="text-xs text-rose-900 dark:text-rose-200 mt-2">
+                <strong>${neuroQuickEsc(item.label)}:</strong>
+                ${neuroQuickEsc(observation)}
+            </p>
+
+            <p class="text-[10px] text-rose-800 dark:text-rose-300 mt-2">
+                Profundiza en: ${neuroQuickEsc(targetLabels)}.
+                El resultado del tamizaje no sustituye la exploración detallada.
+            </p>
+
+            <button type="button"
+                onclick="neuroQuickOpen()"
+                class="mt-3 text-[10px] font-extrabold text-rose-700 dark:text-rose-300 underline">
+                Volver al examen rápido
+            </button>
+
+        </div>
+    `;
+
+    content.insertAdjacentHTML('afterbegin', contextHTML);
+
+    content.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+// ------------------------------------------------------------
+// GENERAR INFORME DEL EXAMEN RÁPIDO
+// ------------------------------------------------------------
+
+function neuroQuickGenerate() {
+    const lines = [];
+
+    let normal = 0;
+    let abnormal = 0;
+    let pending = 0;
+
+    lines.push('TAMIZAJE NEUROLÓGICO RÁPIDO');
+    lines.push('ADROOSIS');
+    lines.push('');
+
+    NEURO_QUICK_STATIONS.forEach(station => {
+        lines.push(station.title.toUpperCase());
+
+        station.items.forEach(item => {
+            const status = neuroQuickGetStatus(item.id);
+            const detail = (neuroQuickState.detail[item.id] || '').trim();
+
+            if (status === 'normal') normal++;
+            else if (status === 'abnormal') abnormal++;
+            else pending++;
+
+            let line = '- ' + item.label + ': ' + neuroQuickStatusLabel(status);
+
+            if (detail) {
+                line += '. Observación: ' + detail;
+            }
+
+            lines.push(line);
+        });
+
+        lines.push('');
+    });
+
+    lines.push('RESUMEN');
+    lines.push('Maniobras registradas como normales: ' + normal);
+    lines.push('Maniobras registradas como alteradas: ' + abnormal);
+    lines.push('Maniobras no evaluadas: ' + pending);
+    lines.push('');
+
+    lines.push(
+        'Este resultado corresponde a un tamizaje neurológico inicial. ' +
+        'No sustituye el examen neurológico completo ni descarta por sí solo ' +
+        'patología neurológica. Los hallazgos anormales requieren evaluación ' +
+        'dirigida según el contexto clínico.'
+    );
+
+    const report = lines.join('\n');
+    const summary = document.getElementById('neuro-quick-summary');
+
+    if (!summary) return;
+
+    summary.classList.remove('hidden');
+
+    summary.innerHTML = `
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-file-lines text-teal-600 dark:text-teal-400"></i>
+            <h3 class="text-sm font-black">Informe del examen rápido</h3>
+        </div>
+
+        <textarea id="neuro-quick-report"
+            rows="15"
+            class="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs leading-relaxed text-slate-800 dark:text-slate-200"
+        >${neuroQuickEsc(report)}</textarea>
+
+        <button type="button"
+            onclick="neuroQuickCopy()"
+            class="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-extrabold">
+            <i class="fa-solid fa-copy mr-2"></i>Copiar informe rápido
+        </button>
+    `;
+
+    summary.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+// ------------------------------------------------------------
+// COPIAR INFORME
+// ------------------------------------------------------------
+
+async function neuroQuickCopy() {
+    const report = document.getElementById('neuro-quick-report');
+
+    if (!report || !report.value.trim()) {
+        alert('Primero genera el informe del examen rápido.');
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(report.value);
+        alert('Informe del examen rápido copiado.');
+    } catch (error) {
+        report.select();
+        document.execCommand('copy');
+        alert('Informe del examen rápido copiado.');
+    }
+}
+
+// ------------------------------------------------------------
+// FIN EXAMEN NEUROLÓGICO RÁPIDO
+// ============================================================
 
 // Inicialización diferida del módulo
 document.addEventListener('DOMContentLoaded', () => {
