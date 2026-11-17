@@ -6470,6 +6470,89 @@ vademecumData.forEach(v => {
     Object.assign(v, o);
     v.verificado = true;
     v.revisado = '1 nov 2026';
+
+    /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 6 · 1 nov 2026) ===== */
+const FU_GAS = { t: 'IDSA 2012 · faringitis estreptocócica; AAP (otitis media) y revisión PEM Pearls', url: 'https://academic.oup.com/cid/article/55/10/e86/321183' };
+const FU_ITS = { t: 'Guías CDC 2021 de tratamiento de ITS', url: 'https://www.CDC.gov/std/treatment-guidelines/wall-chart.pdf' };
+const FU_ITU = { t: 'IDSA 2010 y EAU 2023 · infección urinaria no complicada', url: 'https://academic.oup.com/cid/article/52/5/e103/388285' };
+
+const VAD_VERIF6 = {
+    'Penicilina G benzatínica': {
+        verificado: true, fuente: { t: 'Guías CDC 2021 de ITS e IDSA 2012 (faringitis)', url: 'https://www.CDC.gov/std/treatment-guidelines/wall-chart.pdf' },
+        alcance: 'Dosis en sífilis y faringitis estreptocócica (adulto y pediátrica). La profilaxis de fiebre reumática no está verificada.',
+        adult: 'Sífilis temprana (primaria, secundaria y latente temprana): 2.4 millones UI IM, dosis única. Sífilis latente tardía o de duración desconocida: 2.4 millones UI IM semanal x 3 (7.2 millones UI en total). Faringitis estreptocócica: 1.2 millones UI IM, dosis única',
+        ped: 'Faringitis: 600.000 UI IM si pesa < 27 kg; 1.2 millones UI si pesa ≥ 27 kg (dosis única). Sífilis adquirida: 50.000 UI/kg (máx 2.4 millones UI) IM; en la latente tardía, una dosis semanal x 3'
+    },
+    'Ceftriaxona': {
+        verificado: true, fuente: { t: 'Guía de dosificación antimicrobiana (Wake Forest), guías NHS y CDC 2021 de ITS', url: 'https://www.CDC.gov/std/treatment-guidelines/wall-chart.pdf' },
+        alcance: 'Dosis del adulto, ajuste renal y gonorrea no complicada. La dosis pediátrica y la neonatal no están verificadas.',
+        adult: '1 - 2 g IV/IM c/24h. Gonorrea no complicada: 500 mg IM en dosis única (1 g si pesa ≥ 150 kg). Infección del SNC (meningitis) y endocarditis enterocócica: 2 g c/12h. Dosis alta (S. aureus y otras infecciones graves): 2 g c/12h o 4 g c/24h'
+    },
+    'Amoxicilina': {
+        parcial: true, fuente: FU_GAS,
+        alcance: 'Faringitis estreptocócica (adulto y niño), otitis media aguda y neumonía pediátrica de dosis alta.',
+        nota: 'Faltan las dosis del adulto en sinusitis, neumonía comunitaria y otras indicaciones.',
+        adult: 'Faringitis estreptocócica: 1000 mg VO c/24h o 500 mg c/12h x 10 días (verificado). Otras indicaciones: 500 mg c/8h u 875 - 1000 mg c/12h; neumonía leve 1 g c/8h (no verificado en este lote)',
+        ped: 'Faringitis estreptocócica: 50 mg/kg VO c/24h (máx 1000 mg) o 25 mg/kg c/12h (máx 500 mg/dosis) x 10 días. Otitis media aguda y neumonía comunitaria: dosis alta 80 - 90 mg/kg/día VO dividido c/12h (otitis: 10 días si < 2 años; 5 - 7 días si ≥ 2 años)'
+    },
+    'Amoxicilina / Ácido clavulánico': {
+        parcial: true, fuente: FU_GAS,
+        alcance: 'Dosis pediátrica de otitis media con falla terapéutica o conjuntivitis, absceso periamigdalino y alternativa en cistitis.',
+        nota: 'Faltan las dosis del adulto en sinusitis, piel, mordeduras y neumonía, y el ajuste renal.',
+        adult: 'Cistitis (alternativa, no primera línea): 500/125 mg VO c/12h x 5 días (verificado). Otras indicaciones: 875/125 mg c/12h o 500/125 mg c/8h; IV 1.2 g c/8h (no verificado en este lote)',
+        ped: 'Otitis media con falla terapéutica o conjuntivitis: 80 - 90 mg/kg/día (componente amoxicilina) VO dividido c/12h, presentación 14:1. Absceso periamigdalino: 22.5 mg/kg/dosis c/12h (máx 875 mg). Dosis estándar 25 - 45 mg/kg/día c/12h, presentación 7:1 (no verificada)'
+    },
+    'Azitromicina': {
+        parcial: true, fuente: { t: 'Guías CDC 2021 de ITS, IDSA 2012 (faringitis) y PEM Pearls', url: 'https://www.CDC.gov/std/treatment-guidelines/wall-chart.pdf' },
+        alcance: 'Clamidia y M. genitalium (adulto) y dosis pediátrica (neumonía y faringitis).',
+        nota: 'Faltan los esquemas del adulto en neumonía comunitaria y diarrea, y la vía IV.',
+        adult: 'Clamidia (alternativa a la doxiciclina; preferida en el embarazo): 1 g VO, dosis única. M. genitalium: 1 g el día 1 y luego 500 mg c/24h x 3 días. Otros esquemas (500 mg c/24h x 3 días; 500 mg el día 1 y 250 mg x 4 días; neumonía; vía IV): no verificados en este lote',
+        ped: 'Neumonía y otras indicaciones: 10 mg/kg el día 1 (máx 500 mg) y 5 mg/kg los días 2 - 5 (máx 250 mg). Faringitis estreptocócica con alergia a penicilina: 12 mg/kg c/24h x 5 días (máx 500 mg)'
+    },
+    'Cefalexina': {
+        parcial: true, fuente: { t: 'IDSA 2012 (faringitis) e IDSA 2010 (infección urinaria en el embarazo)', url: 'https://academic.oup.com/cid/article/55/10/e86/321183' },
+        alcance: 'Faringitis estreptocócica pediátrica con alergia no grave a penicilina y cistitis en el embarazo.',
+        nota: 'Faltan las dosis en celulitis, impétigo y otras indicaciones.',
+        adult: 'Cistitis en el embarazo: 500 mg VO c/6h (verificado). Otras indicaciones: 500 mg c/6h (o 1 g c/12h); celulitis no purulenta 500 mg c/6h x 5 días (no verificado en este lote)',
+        ped: 'Faringitis (alergia no grave a penicilina): 20 mg/kg/dosis VO c/12h (máx 500 mg/dosis) x 10 días. Otras indicaciones: 25 - 50 mg/kg/día c/6-8h (no verificado)'
+    },
+    'Metronidazol': {
+        parcial: true, fuente: FU_ITS,
+        alcance: 'Vaginosis bacteriana, tricomoniasis y enfermedad inflamatoria pélvica.',
+        nota: 'Faltan las dosis en infecciones por anaerobios IV, amebiasis, giardiasis, colitis por C. difficile y la dosis pediátrica.',
+        adult: 'Vaginosis bacteriana: 500 mg VO c/12h x 7 días. Tricomoniasis: mujeres 500 mg VO c/12h x 7 días; hombres 2 g en dosis única. Enfermedad inflamatoria pélvica (con ceftriaxona y doxiciclina): 500 mg c/12h x 14 días. Infecciones por anaerobios: 500 mg VO/IV c/8h; amebiasis y giardiasis: 250 - 750 mg c/8h x 5 - 10 días (no verificado en este lote)'
+    },
+    'Nitrofurantoína': {
+        parcial: true, fuente: FU_ITU,
+        alcance: 'Cistitis no complicada del adulto y consideraciones de embarazo y función renal.',
+        nota: 'Falta la dosis pediátrica. Hay discrepancia en el umbral renal: algunas fuentes evitan el fármaco con ClCr < 30 y un protocolo institucional lo evita con ClCr < 60.',
+        adult: 'Cistitis no complicada: nitrofurantoína monohidrato/macrocristales 100 mg VO c/12h x 5 días, con las comidas (primera línea IDSA). No sirve para pielonefritis ni prostatitis',
+        ped: 'No verificada: 5 - 7 mg/kg/día VO dividido c/6h en > 1 mes (uso por especialista)',
+        renal: 'Evitar si ClCr < 30 mL/min (algunos protocolos lo evitan con ClCr < 60): sigue el de tu servicio'
+    },
+    'Trimetoprim / Sulfametoxazol (TMP/SMX)': {
+        parcial: true, fuente: FU_ITU,
+        alcance: 'Cistitis, pielonefritis, varones y dosis pediátrica de TMP (6 - 12 mg/kg/día).',
+        nota: 'Faltan las dosis en infección de piel por SARM y neumonía por P. jirovecii.',
+        adult: 'Cistitis no complicada: 160/800 mg VO c/12h x 3 días (si la resistencia local es < 20%). Pielonefritis con germen sensible: 160/800 mg c/12h x 14 días. Varones: 7 días. Piel / SARM comunitario y neumonía por P. jirovecii (15 - 20 mg/kg/día de TMP): no verificados en este lote',
+        ped: '6 - 12 mg/kg/día (componente TMP) VO dividido c/12h. Contraindicado en < 2 meses'
+    },
+    'Ciprofloxacino': {
+        parcial: true, fuente: FU_ITU,
+        alcance: 'Cistitis no complicada (segunda línea) y pielonefritis ambulatoria del adulto.',
+        nota: 'Faltan las dosis IV, de Pseudomonas, diarrea y pediátricas.',
+        adult: 'Cistitis no complicada (segunda línea; las quinolonas se reservan para otros usos): 250 mg VO c/12h x 3 días. Pielonefritis ambulatoria: 500 mg VO c/12h x 7 días, con una dosis inicial opcional de 400 mg IV. IV 400 mg c/8-12h y Pseudomonas: no verificados en este lote'
+    }
+};
+Object.assign(VAD_VERIF, VAD_VERIF6);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF6[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = o.verificado === true;
+    v.parcial = !!o.parcial;
+    v.revisado = '1 nov 2026';
+});
 });
 });
 });
