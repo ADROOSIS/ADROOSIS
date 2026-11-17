@@ -1077,7 +1077,7 @@
 
                 <p class="text-xs text-amber-900 dark:text-amber-300 mt-1 leading-relaxed">
                     Tamizaje neurológico inicial orientativo para realizar en aproximadamente
-                    5 minutos. Registra únicamente lo que hayas explorado.
+                    6 minutos. Registra únicamente lo que hayas explorado.
                 </p>
             </div>
         </div>
@@ -10930,9 +10930,28 @@ const NEURO_QUICK_STATIONS = [
             }
         ]
     },
+
+
+    {
+        id: 'sensory',
+        title: '4. Sensibilidad superficial',
+        time: 'Aproximadamente 1 minuto',
+        icon: 'fa-hand',
+        description: 'Compara la percepción del tacto ligero entre ambos lados de la cara y las extremidades.',
+        items: [
+            {
+                id: 'q_sensory',
+                label: 'Tacto superficial comparativo',
+                how: 'Con los ojos cerrados, compara el tacto ligero en regiones equivalentes de ambos lados de la cara, los brazos y las piernas.',
+                section: 'sensory',
+                targets: ['tacto']
+            }
+        ]
+    },
+
     {
         id: 'reflexes',
-        title: '4. Reflejos osteotendinosos',
+        title: '5. Reflejos osteotendinosos',
         time: 'Aproximadamente 1 minuto',
         icon: 'fa-bolt',
         description: 'Compara respuestas reflejas de ambos lados cuando la situación clínica lo requiere.',
@@ -10948,7 +10967,7 @@ const NEURO_QUICK_STATIONS = [
     },
     {
         id: 'gait',
-        title: '5. Coordinación, marcha y equilibrio',
+        title: '6. Coordinación, marcha y equilibrio',
         time: 'Aproximadamente 1 minuto',
         icon: 'fa-person-walking',
         description: 'Realiza estas pruebas únicamente si el paciente puede hacerlas de forma segura.',
@@ -11046,6 +11065,13 @@ const NEURO_QUICK_GUIDES = {
         do: 'Compara ambos miembros inferiores. Explora flexión de cadera, extensión de rodilla y dorsiflexión del tobillo, aplicando resistencia cuando sea posible.',
         look: 'Busca diferencias entre lados, dificultad para mantener la extremidad elevada o para vencer la resistencia. Cuantifica con escala MRC si encuentras alteraciones.',
         caution: 'Adapta la exploración a la movilidad, el dolor y la condición física del paciente.'
+    },
+
+    q_sensory: {
+        say: '«Voy a tocar suavemente diferentes partes de su cuerpo. Cierre los ojos y dígame si siente el contacto y si lo percibe igual en ambos lados».',
+        do: 'Con los ojos cerrados, aplica un estímulo táctil ligero —por ejemplo, con algodón o la yema del dedo— en regiones equivalentes de ambos lados de la cara, los brazos y las piernas. Alterna los lados y pregunta si la sensación es igual o diferente. Compara siempre regiones anatómicas equivalentes.',
+        look: 'Busca disminución, ausencia o asimetría de la percepción táctil. Si encuentras una diferencia, identifica exactamente la región y el lado afectados y amplía la exploración en el examen completo.',
+        caution: 'Esta maniobra es un tamizaje de tacto superficial: no evalúa por sí sola dolor, temperatura, vibración ni propiocepción. No utilices objetos punzantes ni concluyas una localización neurológica únicamente con este resultado.'
     },
 
     q_reflexes: {
@@ -11344,7 +11370,7 @@ function neuroQuickRender() {
                     <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                         ${item.how}
                     </p>
-                    
+
                     ${neuroQuickGuideHtml(item.id)}
                 </div>
 
