@@ -1116,6 +1116,92 @@
         class="hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 space-y-3">
     </div>
 
+
+    <!-- RAZONAMIENTO DE LOCALIZACIÓN NEUROLÓGICA -->
+    <div id="neuro-localization-panel"
+        class="bg-white dark:bg-slate-800 rounded-2xl border border-indigo-200 dark:border-indigo-900/50 p-4 sm:p-5 space-y-4">
+
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 shrink-0 rounded-xl bg-indigo-100 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center">
+                <i class="fa-solid fa-brain text-lg"></i>
+            </div>
+            <div>
+                <h3 class="font-black text-sm">Razonamiento de localización neurológica</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Relaciona la distribución de los hallazgos con una posible estructura anatómica.
+                    Completa los datos que hayas explorado.
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <label for="neuro-loc-pattern" class="block text-xs font-bold mb-2">
+                1. ¿Cuál es el patrón predominante?
+            </label>
+            <select id="neuro-loc-pattern"
+                class="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+                <option value="">Selecciona un patrón...</option>
+                <option value="hemibody">Déficit de cara, brazo y pierna de un mismo lado</option>
+                <option value="brainstem">Déficit de pares craneales junto con alteraciones en extremidades</option>
+                <option value="spinal">Alteraciones bilaterales por debajo de un nivel sensitivo en el tronco</option>
+                <option value="root">Dolor o déficit con distribución dermatomérica</option>
+                <option value="nerve">Déficit limitado al territorio de un nervio periférico</option>
+                <option value="polyneuropathy">Alteración distal y simétrica, predominante en pies o manos</option>
+                <option value="muscle">Debilidad simétrica predominantemente proximal</option>
+                <option value="junction">Debilidad fluctuante o fatigable</option>
+                <option value="unclear">Patrón mixto, inespecífico o no definido</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="neuro-loc-associated" class="block text-xs font-bold mb-2">
+                2. ¿Qué hallazgo concomitante identificas?
+            </label>
+            <select id="neuro-loc-associated"
+                class="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+                <option value="">Selecciona si corresponde...</option>
+                <option value="cortical">Afasia, negligencia o alteración de campos visuales</option>
+                <option value="crossed">Alteración de pares craneales y déficit corporal contralateral</option>
+                <option value="sphincter">Alteración esfinteriana o anestesia en silla de montar</option>
+                <option value="sensory">Pérdida sensitiva objetiva</option>
+                <option value="none">No identifico otro hallazgo relevante</option>
+                <option value="unknown">No evaluado</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="neuro-loc-reflexes" class="block text-xs font-bold mb-2">
+                3. ¿Cómo están los reflejos osteotendinosos?
+            </label>
+            <select id="neuro-loc-reflexes"
+                class="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+                <option value="">No especificado...</option>
+                <option value="increased">Aumentados o con signos piramidales</option>
+                <option value="decreased">Disminuidos o abolidos</option>
+                <option value="preserved">Conservados</option>
+                <option value="unknown">No evaluados</option>
+            </select>
+        </div>
+
+        <button type="button" onclick="neuroLocalize()"
+            class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold">
+            <i class="fa-solid fa-diagram-project mr-2"></i>
+            Orientar localización
+        </button>
+
+        <div id="neuro-localization-result"
+            class="hidden rounded-xl border border-indigo-200 dark:border-indigo-900/50 bg-indigo-50 dark:bg-indigo-950/20 p-4 space-y-2"
+            aria-live="polite">
+        </div>
+
+        <p class="text-[10px] text-slate-500 leading-relaxed">
+            Orientación anatómica, no diagnóstico. La localización requiere integrar
+            anamnesis, distribución completa de los déficits y exploración neurológica.
+            Los datos no evaluados no deben interpretarse como normales.
+        </p>
+    </div>
+    <!-- FIN RAZONAMIENTO DE LOCALIZACIÓN -->
+
     <div class="flex flex-col sm:flex-row gap-2">
 
         <button type="button" onclick="neuroQuickClose()"
@@ -11247,6 +11333,148 @@ function neuroQuickEsc(value) {
 // ------------------------------------------------------------
 // ABRIR Y CERRAR EL EXAMEN RÁPIDO
 // ------------------------------------------------------------
+
+
+function neuroLocalize() {
+    const pattern = document.getElementById('neuro-loc-pattern')?.value;
+    const associated = document.getElementById('neuro-loc-associated')?.value;
+    const reflexes = document.getElementById('neuro-loc-reflexes')?.value;
+    const result = document.getElementById('neuro-localization-result');
+
+    if (!result) return;
+
+    if (!pattern) {
+        alert('Selecciona primero el patrón neurológico predominante.');
+        return;
+    }
+
+    let title = 'Localización no definida';
+    let explanation = '';
+    let clues = [];
+    let caution = '';
+
+    switch (pattern) {
+        case 'hemibody':
+            title = 'Sistema nervioso central: posible localización supratentorial';
+            explanation = 'La afectación de cara, brazo y pierna del mismo lado orienta hacia una lesión central, frecuentemente en el hemisferio cerebral contralateral o sus vías motoras y sensitivas.';
+            clues.push('Busca signos corticales como afasia, negligencia, alteración de campos visuales o crisis epilépticas.');
+            clues.push('Si no hay signos corticales, considera también estructuras subcorticales y otras localizaciones centrales.');
+            break;
+
+        case 'brainstem':
+            title = 'Posible localización en tronco encefálico';
+            explanation = 'La combinación de alteraciones de pares craneales y déficits corporales puede orientar hacia el tronco encefálico.';
+            clues.push('Busca signos cruzados: compromiso de un par craneal ipsilateral y alteración motora o sensitiva contralateral.');
+            clues.push('Valora movimientos oculares, sensibilidad facial, deglución, habla, fuerza y sensibilidad corporal.');
+            break;
+
+        case 'spinal':
+            title = 'Posible localización medular';
+            explanation = 'La presencia de alteraciones bilaterales por debajo de un nivel sensitivo en el tronco orienta hacia compromiso de la médula espinal.';
+            clues.push('Define con precisión el nivel sensitivo y busca signos de neurona motora superior por debajo de ese nivel.');
+            clues.push('Investiga dolor vertebral, debilidad, alteraciones esfinterianas y evolución temporal.');
+            break;
+
+        case 'root':
+            title = 'Posible compromiso de raíz nerviosa';
+            explanation = 'Un patrón dermatomérico, especialmente con dolor irradiado, puede orientar hacia una radiculopatía.';
+            clues.push('Correlaciona el dermatoma con la fuerza de músculos relacionados y los reflejos correspondientes.');
+            clues.push('Busca signos de irritación radicular y compara ambos lados.');
+            break;
+
+        case 'nerve':
+            title = 'Posible compromiso de nervio periférico';
+            explanation = 'Un déficit limitado al territorio de un nervio puede orientar hacia una mononeuropatía.';
+            clues.push('Comprueba si la alteración sensitiva y motora coincide con el territorio anatómico de ese nervio.');
+            clues.push('Considera también lesiones proximales o patrones que puedan imitar una neuropatía focal.');
+            break;
+
+        case 'polyneuropathy':
+            title = 'Posible compromiso de nervios periféricos múltiples';
+            explanation = 'Una alteración distal y simétrica, especialmente con predominio en pies, puede orientar hacia una polineuropatía.';
+            clues.push('Explora sensibilidad distal, vibración, propiocepción, fuerza distal y reflejos aquíleos.');
+            clues.push('Investiga evolución, distribución y posibles causas sistémicas o metabólicas.');
+            break;
+
+        case 'muscle':
+            title = 'Posible localización muscular';
+            explanation = 'La debilidad simétrica predominantemente proximal puede orientar hacia una miopatía.';
+            clues.push('Busca dificultad para levantarse de una silla, subir escaleras o elevar los brazos.');
+            clues.push('Correlaciona con sensibilidad, reflejos, dolor muscular y evolución.');
+            break;
+
+        case 'junction':
+            title = 'Posible compromiso de la unión neuromuscular';
+            explanation = 'La debilidad fluctuante o fatigable puede orientar hacia un trastorno de la transmisión neuromuscular.';
+            clues.push('Investiga fatigabilidad, ptosis, diplopía, disartria, disfagia y variación de los síntomas durante el día.');
+            clues.push('La sensibilidad suele estar conservada; los reflejos pueden variar según la enfermedad.');
+            break;
+
+        case 'unclear':
+            title = 'Patrón insuficiente para localizar';
+            explanation = 'Los hallazgos descritos no permiten proponer una localización anatómica predominante con suficiente confianza.';
+            clues.push('Repite y completa la exploración motora, sensitiva, de pares craneales, reflejos y coordinación.');
+            clues.push('Define inicio, evolución, simetría y distribución anatómica.');
+            break;
+    }
+
+    if (associated === 'cortical') {
+        clues.push('El hallazgo cortical aumenta la sospecha de compromiso hemisférico cerebral.');
+    }
+
+    if (associated === 'crossed') {
+        clues.push('Los signos cruzados refuerzan la posibilidad de una localización en tronco encefálico.');
+    }
+
+    if (associated === 'sphincter') {
+        clues.push('La alteración esfinteriana o anestesia en silla de montar exige descartar compromiso medular o de cola de caballo según el contexto.');
+    }
+
+    if (associated === 'sensory') {
+        clues.push('Caracteriza la modalidad sensitiva afectada y su distribución antes de concluir la localización.');
+    }
+
+    if (reflexes === 'increased') {
+        clues.push('La hiperreflexia o los signos piramidales apoyan compromiso de vías motoras centrales, si son concordantes con el resto del examen.');
+    }
+
+    if (reflexes === 'decreased') {
+        clues.push('La hiporreflexia puede orientar hacia arco reflejo, raíz, nervio periférico o músculo, según el patrón clínico.');
+    }
+
+    if (reflexes === 'preserved') {
+        clues.push('Los reflejos conservados no excluyen una lesión neurológica; interpreta este dato junto con el resto de la exploración.');
+    }
+
+    if (pattern === 'spinal' && associated === 'sphincter') {
+        caution = 'ALERTA: si hay déficit progresivo, retención urinaria, anestesia en silla de montar o debilidad aguda, requiere valoración urgente.';
+    } else if (pattern === 'hemibody' || pattern === 'brainstem') {
+        caution = 'ALERTA: si el déficit es de inicio súbito, activa la ruta institucional de sospecha de ictus. No retrases la atención para completar esta herramienta.';
+    } else {
+        caution = 'Correlaciona con la historia clínica y la exploración completa. Si hay progresión rápida, compromiso respiratorio o deglutorio, o deterioro del estado de conciencia, prioriza valoración urgente.';
+    }
+
+    result.innerHTML = `
+        <h4 class="font-black text-sm text-indigo-900 dark:text-indigo-200">
+            ${title}
+        </h4>
+        <p class="text-xs text-indigo-950 dark:text-indigo-100 leading-relaxed">
+            ${explanation}
+        </p>
+        <div class="pt-2">
+            <p class="text-xs font-extrabold mb-2">Claves para correlacionar:</p>
+            <ul class="list-disc pl-5 space-y-1 text-xs leading-relaxed">
+                ${clues.map(clue => `<li>${clue}</li>`).join('')}
+            </ul>
+        </div>
+        <div class="mt-3 p-3 rounded-lg bg-amber-100 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 text-xs leading-relaxed">
+            <strong>Precaución clínica:</strong> ${caution}
+        </div>
+    `;
+
+    result.classList.remove('hidden');
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
 function neuroQuickOpen() {
     neuroQuickLoad();
