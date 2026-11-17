@@ -10985,6 +10985,187 @@ const NEURO_QUICK_STATIONS = [
     }
 ];
 
+// ============================================================
+// GUÍAS PRÁCTICAS DE EXPLORACIÓN
+// Solo se muestran en maniobras que necesitan explicación extra.
+// ============================================================
+
+const NEURO_QUICK_GUIDES = {
+
+    q_pupils: {
+        say: '«Voy a revisar sus pupilas. Mire hacia el frente y trate de no mover los ojos».',
+        do: 'Con iluminación adecuada, observa el tamaño y la simetría pupilar. Ilumina cada ojo desde un lado y observa la respuesta de esa pupila y de la contralateral. Compara ambos lados.',
+        look: 'Tamaño, simetría y respuesta fotomotora directa y consensual. Registra anisocoria o respuesta disminuida/ausente.',
+        caution: 'Una anisocoria de aparición aguda, especialmente con cefalea intensa, alteración de conciencia o déficit neurológico, requiere valoración urgente.'
+    },
+
+    q_visual: {
+        say: '«Tape un ojo y mire directamente a mis ojos. Dígame cuándo vea mis dedos».',
+        do: 'Colócate frente al paciente a una distancia aproximada de un brazo. Explora un ojo a la vez, comparando cada campo visual. Introduce los dedos desde la periferia hacia el centro en distintos cuadrantes, mientras el paciente mantiene la mirada fija.',
+        look: 'Compara la detección de estímulos entre ambos ojos y entre los distintos cuadrantes. Identifica posibles defectos del campo visual.',
+        caution: 'Es una prueba de confrontación y no sustituye la campimetría formal.'
+    },
+
+    q_ocular: {
+        say: '«Sin mover la cabeza, siga mi dedo solamente con los ojos».',
+        do: 'Sostén un objetivo frente al paciente y desplázalo lentamente describiendo una H. Explora las posiciones extremas de la mirada sin forzarla. Pregunta si ve doble.',
+        look: 'Observa limitaciones de movimiento, diplopía y movimientos involuntarios como nistagmo. Compara ambos ojos.',
+        caution: 'No confundas la limitación por dolor o falta de cooperación con una paresia oculomotora.'
+    },
+
+    q_face: {
+        say: '«Levante las cejas, cierre los ojos fuerte y ahora muéstreme los dientes o sonría».',
+        do: 'Observa primero la cara en reposo. Después solicita cada movimiento y compara la contracción de ambos lados. Si es necesario, intenta abrir suavemente los párpados mientras los mantiene cerrados.',
+        look: 'Simetría facial en reposo y movimiento, cierre palpebral y fuerza de la musculatura facial.',
+        caution: 'Ante asimetría facial de inicio súbito, especialmente con alteración del habla o debilidad de una extremidad, activa la evaluación urgente correspondiente.'
+    },
+
+    q_speech: {
+        say: '«Dígame su nombre, cuénteme qué le ocurre y repita esta frase».',
+        do: 'Escucha el lenguaje espontáneo. Solicita nombrar un objeto, repetir una frase y ejecutar una orden sencilla. Observa la claridad de la articulación y la calidad de la voz.',
+        look: 'Distingue dificultad para articular palabras (disartria) de dificultad para encontrar, comprender o producir lenguaje (posible afasia). Observa voz nasal o ronca.',
+        caution: 'Si hay sospecha de disfagia, alteración de conciencia o riesgo de aspiración, no realices pruebas de deglución con agua como parte de este tamizaje.'
+    },
+
+    q_drift: {
+        say: '«Extienda ambos brazos al frente, con las palmas hacia arriba. Cierre los ojos y mantenga esa posición».',
+        do: 'Con el paciente sentado o acostado, coloca ambos brazos extendidos y las palmas hacia arriba. Solicita mantener la posición durante aproximadamente 10 segundos mientras observas.',
+        look: 'Busca descenso progresivo de un brazo, pronación de la mano o asimetría entre ambos lados.',
+        caution: 'Dolor, limitaciones articulares, alteración de comprensión o problemas de equilibrio pueden dificultar la interpretación.'
+    },
+
+    q_arms: {
+        say: '«Voy a comparar la fuerza de sus brazos. Empuje contra mi mano, ahora tire hacia usted y apriete mis dedos».',
+        do: 'Compara ambos lados con resistencia manual: abducción de hombros, flexión y extensión de codos, extensión de muñecas y prensión. Mantén una posición similar en ambos lados.',
+        look: 'Identifica debilidad, asimetría o incapacidad para vencer la gravedad o la resistencia. Si hay alteración, cuantifica cada grupo muscular con escala MRC de 0 a 5 en el examen completo.',
+        caution: 'Considera dolor, lesiones osteoarticulares y esfuerzo insuficiente antes de interpretar una disminución de fuerza.'
+    },
+
+    q_legs: {
+        say: '«Levante una pierna, manténgala arriba. Ahora estire la rodilla y lleve la punta del pie hacia usted».',
+        do: 'Compara ambos miembros inferiores. Explora flexión de cadera, extensión de rodilla y dorsiflexión del tobillo, aplicando resistencia cuando sea posible.',
+        look: 'Busca diferencias entre lados, dificultad para mantener la extremidad elevada o para vencer la resistencia. Cuantifica con escala MRC si encuentras alteraciones.',
+        caution: 'Adapta la exploración a la movilidad, el dolor y la condición física del paciente.'
+    },
+
+    q_reflexes: {
+        say: '«Relaje el brazo y deje caer el peso de la pierna; no haga fuerza».',
+        do: 'Coloca la extremidad en una posición relajada. Percute suavemente el tendón con el martillo de reflejos y compara ambos lados. Explora, según el contexto, bicipital, tricipital, rotuliano y aquíleo. Si cuesta obtener la respuesta, utiliza una maniobra de refuerzo cuando corresponda.',
+        look: 'Registra presencia, intensidad y simetría. Escala habitual: 0 ausente, 1+ disminuido, 2+ esperado, 3+ aumentado y 4+ muy aumentado o con clonus, según la convención utilizada.',
+        caution: 'La interpretación depende del contexto y de la comparación entre lados. Un reflejo aislado no permite establecer por sí solo una localización neurológica.'
+    },
+
+    q_coordination: {
+        say: '«Con su dedo índice, toque la punta de su nariz y después mi dedo. Repita varias veces».',
+        do: 'Coloca tu dedo frente al paciente y cambia ligeramente su posición. Solicita alternar entre tu dedo y su nariz, primero con una mano y luego con la otra.',
+        look: 'Observa precisión, trayectoria, temblor de intención, descomposición del movimiento y diferencias entre ambos lados.',
+        caution: 'Ten en cuenta alteraciones visuales, debilidad o limitaciones articulares que puedan afectar la prueba.'
+    },
+
+    q_gait: {
+        say: '«Si se siente seguro, póngase de pie y camine unos pasos como lo hace habitualmente. Después gire y regrese».',
+        do: 'Observa al paciente levantarse, iniciar la marcha, caminar, girar y detenerse. Mantente cerca y ofrece apoyo si lo necesita.',
+        look: 'Evalúa base de sustentación, longitud y simetría del paso, balanceo de brazos, estabilidad y giros.',
+        caution: 'No fuerces la marcha si hay riesgo de caída, debilidad importante, mareo intenso o incapacidad para mantenerse de pie.'
+    },
+
+    q_tandem: {
+        say: '«Si puede hacerlo con seguridad, camine colocando un pie justo delante del otro, como si caminara sobre una línea».',
+        do: 'Permanece al lado del paciente, preparado para sostenerlo. Solicita unos pasos colocando el talón de un pie delante de la punta del otro.',
+        look: 'Observa pérdida de equilibrio, desviaciones, separación de los pies o incapacidad para mantener la secuencia.',
+        caution: 'Omite esta prueba si el paciente presenta inestabilidad o riesgo de caída. No es obligatorio realizarla para completar el tamizaje.'
+    },
+
+    q_romberg: {
+        say: '«Junte los pies, manténgase quieto y mire al frente. Si se siente seguro, después cierre los ojos».',
+        do: 'Colócate muy cerca del paciente y listo para sujetarlo. Primero observa la estabilidad con ojos abiertos y después solicita cerrarlos brevemente, solo si puede mantenerse seguro.',
+        look: 'Compara la estabilidad con ojos abiertos y cerrados. Un aumento marcado de la inestabilidad al cerrar los ojos puede sugerir alteración de la propiocepción o de la integración sensorial.',
+        caution: 'No realices la prueba si no puede mantenerse de pie con seguridad. No dejes nunca al paciente sin supervisión.'
+    }
+
+};
+
+// Mostrar u ocultar una guía individual.
+function neuroQuickToggleGuide(id) {
+    const panel = document.getElementById('neuro-guide-' + id);
+    const button = document.getElementById('neuro-guide-button-' + id);
+
+    if (!panel || !button) return;
+
+    const willOpen = panel.classList.contains('hidden');
+
+    panel.classList.toggle('hidden', !willOpen);
+
+    button.innerHTML = willOpen
+        ? '<i class="fa-solid fa-chevron-up mr-1"></i> Ocultar guía'
+        : '<i class="fa-solid fa-circle-question mr-1"></i> ¿Cómo explorar?';
+}
+
+// Construir la ayuda visual de cada maniobra.
+function neuroQuickGuideHtml(id) {
+    const guide = NEURO_QUICK_GUIDES[id];
+
+    if (!guide) return '';
+
+    return `
+        <div class="pt-1">
+
+            <button
+                id="neuro-guide-button-${id}"
+                type="button"
+                onclick="neuroQuickToggleGuide('${id}')"
+                class="text-[10px] font-extrabold text-teal-700 dark:text-teal-300 hover:underline">
+
+                <i class="fa-solid fa-circle-question mr-1"></i>
+                ¿Cómo explorar?
+
+            </button>
+
+            <div
+                id="neuro-guide-${id}"
+                class="hidden mt-3 rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50 dark:bg-teal-950/20 p-3 space-y-3">
+
+                <div>
+                    <div class="text-[10px] font-black text-teal-800 dark:text-teal-300 mb-1">
+                        <i class="fa-solid fa-comments mr-1"></i> Qué decir
+                    </div>
+                    <p class="text-[11px] text-slate-700 dark:text-slate-200 leading-relaxed">
+                        ${neuroQuickEsc(guide.say)}
+                    </p>
+                </div>
+
+                <div>
+                    <div class="text-[10px] font-black text-teal-800 dark:text-teal-300 mb-1">
+                        <i class="fa-solid fa-hand-holding-medical mr-1"></i> Cómo hacerlo
+                    </div>
+                    <p class="text-[11px] text-slate-700 dark:text-slate-200 leading-relaxed">
+                        ${neuroQuickEsc(guide.do)}
+                    </p>
+                </div>
+
+                <div>
+                    <div class="text-[10px] font-black text-teal-800 dark:text-teal-300 mb-1">
+                        <i class="fa-solid fa-eye mr-1"></i> Qué buscar
+                    </div>
+                    <p class="text-[11px] text-slate-700 dark:text-slate-200 leading-relaxed">
+                        ${neuroQuickEsc(guide.look)}
+                    </p>
+                </div>
+
+                <div class="rounded-lg bg-amber-100 dark:bg-amber-950/40 p-2">
+                    <div class="text-[10px] font-black text-amber-800 dark:text-amber-300 mb-1">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Precaución
+                    </div>
+                    <p class="text-[10px] text-amber-900 dark:text-amber-200 leading-relaxed">
+                        ${neuroQuickEsc(guide.caution)}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    `;
+}
+
 // ------------------------------------------------------------
 // CARGA Y GUARDADO DEL TAMIZAJE
 // ------------------------------------------------------------
@@ -11163,6 +11344,8 @@ function neuroQuickRender() {
                     <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                         ${item.how}
                     </p>
+                    
+                    ${neuroQuickGuideHtml(item.id)}
                 </div>
 
                 <div class="grid grid-cols-3 gap-1.5">
