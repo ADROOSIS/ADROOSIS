@@ -994,6 +994,137 @@
                     </div>
                 </section>
 
+                <!-- =========================================================
+     ADROOSIS | MÓDULO DE EXAMEN NEUROLÓGICO
+========================================================= -->
+<section id="tab-neurologico" class="tab-content hidden space-y-6">
+
+    <!-- ENCABEZADO -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-teal-950 to-slate-900 p-6 sm:p-8 text-white shadow-xl">
+        <div class="absolute -right-8 -top-8 opacity-10">
+            <i class="fa-solid fa-brain text-[170px]"></i>
+        </div>
+
+        <div class="relative z-10 space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="px-3 py-1 rounded-full bg-teal-400/20 text-teal-200 text-[10px] font-extrabold uppercase tracking-widest">
+                    ADROOSIS CLÍNICO
+                </span>
+                <span class="px-3 py-1 rounded-full bg-white/10 text-white/80 text-[10px] font-bold">
+                    Exploración sistemática
+                </span>
+            </div>
+
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
+                    Examen neurológico
+                </h2>
+                <p class="mt-2 max-w-2xl text-sm text-slate-300 leading-relaxed">
+                    Guía interactiva para evaluar el estado mental, los pares craneales,
+                    el sistema motor, la sensibilidad, la coordinación, la marcha
+                    y los signos meníngeos.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-1">
+                <button type="button" onclick="neuroGenerate()"
+                    class="px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold shadow-lg transition-all">
+                    <i class="fa-solid fa-file-medical mr-2"></i>Generar examen
+                </button>
+                <button type="button" onclick="neuroReset()"
+                    class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all">
+                    <i class="fa-solid fa-rotate-left mr-2"></i>Reiniciar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AVISO -->
+    <div class="rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/20 p-4 flex gap-3">
+        <i class="fa-solid fa-circle-info text-amber-600 dark:text-amber-400 mt-0.5"></i>
+        <div class="text-xs text-amber-900 dark:text-amber-200 leading-relaxed">
+            <strong>Importante:</strong> registra únicamente las maniobras que hayas realizado.
+            Una prueba no evaluada no se considera normal. Los hallazgos deben interpretarse
+            junto con la historia clínica y el contexto del paciente.
+        </div>
+    </div>
+
+    <!-- PROGRESO -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm space-y-3">
+        <div class="flex justify-between items-center gap-3">
+            <div>
+                <h3 class="font-extrabold text-sm">Progreso de la exploración</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                    Secciones con al menos una maniobra registrada
+                </p>
+            </div>
+            <div class="text-right">
+                <span id="neuro-progress-number" class="text-2xl font-black text-teal-600">0%</span>
+                <p id="neuro-progress-count" class="text-[10px] text-slate-500">0 de 7 secciones</p>
+            </div>
+        </div>
+        <div class="h-2.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+            <div id="neuro-progress-bar"
+                class="h-full w-0 rounded-full bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300">
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-3 text-[10px] text-slate-500">
+            <span><i class="fa-solid fa-circle text-emerald-500 mr-1"></i>Normal</span>
+            <span><i class="fa-solid fa-circle text-rose-500 mr-1"></i>Alterado</span>
+            <span><i class="fa-solid fa-circle text-slate-400 mr-1"></i>No evaluado</span>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN DE SECCIONES -->
+    <div id="neuro-section-nav" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2"></div>
+
+    <!-- CONTENIDO DINÁMICO -->
+    <div id="neuro-section-content" class="space-y-4">
+        <div class="p-8 text-center text-slate-400">
+            <i class="fa-solid fa-spinner fa-spin text-2xl mb-3"></i>
+            <p class="text-sm">Cargando exploración neurológica...</p>
+        </div>
+    </div>
+
+    <!-- RESULTADO DEL EXAMEN -->
+    <div id="neuro-output-card"
+        class="hidden bg-white dark:bg-slate-800 rounded-2xl border border-teal-200 dark:border-teal-900/50 shadow-sm overflow-hidden">
+
+        <div class="p-4 sm:p-5 bg-teal-50 dark:bg-teal-950/30 border-b border-teal-100 dark:border-teal-900/50">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-file-lines text-teal-600 dark:text-teal-400"></i>
+                <h3 class="font-extrabold text-sm">Examen neurológico generado</h3>
+            </div>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                Revisa el texto y corrige cualquier dato antes de incorporarlo a la historia clínica.
+            </p>
+        </div>
+
+        <div class="p-4 space-y-3">
+            <textarea id="neuro-generated-text" rows="12"
+                class="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs leading-relaxed text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none"
+                placeholder="El examen generado aparecerá aquí..."></textarea>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button type="button" onclick="neuroCopy()"
+                    class="py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-extrabold">
+                    <i class="fa-solid fa-copy mr-2"></i>Copiar examen completo
+                </button>
+                <button type="button" onclick="neuroCopyAbnormal()"
+                    class="py-3 rounded-xl bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 text-rose-800 dark:text-rose-300 text-xs font-extrabold">
+                    <i class="fa-solid fa-triangle-exclamation mr-2"></i>Copiar solo hallazgos alterados
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center text-[10px] text-slate-400 pb-4">
+        ADROOSIS · Herramienta de apoyo para la exploración clínica.
+        No sustituye la valoración neurológica ni la formación clínica.
+    </div>
+</section>
+<!-- FIN MÓDULO EXAMEN NEUROLÓGICO -->
+
             </main>
         </div>
     </div>
@@ -1024,6 +1155,7 @@
             { id: 'infectologia', label: 'Infectología', icon: 'fa-bugs' },
             { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
             { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
+            { id: 'neurologico', label: 'Examen neurológico', icon: 'fa-brain', kw: 'neurología examen neurológico pares craneales fuerza sensibilidad reflejos coordinación marcha meninges estado mental' },
             { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
             { id: 'plantillas', label: 'Plantillas inteligentes', icon: 'fa-file-pen' },
             { id: 'farmaco', label: 'Vademécum', icon: 'fa-pills' },
@@ -7115,6 +7247,7 @@ function renderVademecum() {
             if (tabId === 'hc') hcOpen();
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
             if (tabId === 'triadas') renderTriads();
+            if (tabId === 'neurologico') neuroRender();
             if (tabId === 'calculadoras') {
                 if (!window._keepCalcSearch) { const s = document.getElementById('calc-search-input'); if (s) s.value = ''; }
                 window._keepCalcSearch = false;
@@ -9902,6 +10035,687 @@ function vadPendientes() {
     vademecumData.filter(v => !v.verificado).forEach(v => (g[v.group] = g[v.group] || []).push(v.name));
     el.innerHTML = Object.entries(g).map(([k, a]) => `<div class="mb-1"><b class="text-slate-700 dark:text-slate-200">${k} (${a.length}):</b> ${a.join(', ')}</div>`).join('') || '<div>Todo verificado.</div>';
 }
+
+// ============================================================
+// ADROOSIS | EXAMEN NEUROLÓGICO INTERACTIVO
+// ============================================================
+
+const NEURO_KEY = 'adroosis_neuro_exam_v1';
+
+const NEURO_SECTIONS = [
+{
+    id: 'mental',
+    title: 'Estado mental y funciones corticales',
+    short: 'Estado mental',
+    icon: 'fa-brain',
+    color: 'violet',
+    intro: 'Evalúa conciencia, orientación, atención, memoria, lenguaje y funciones corticales superiores.',
+    items: [
+        ['conciencia','Nivel de conciencia','Valora apertura ocular, respuesta verbal y respuesta motora.','Alerta, vigil y responde espontáneamente.'],
+        ['orientacion','Orientación','Pregunta por persona, lugar, tiempo y situación.','Orientado en persona, tiempo, espacio y situación.'],
+        ['atencion','Atención y concentración','Dígitos, meses del año en orden inverso o tarea equivalente.','Mantiene la atención y realiza adecuadamente la tarea.'],
+        ['memoria_inmediata','Memoria inmediata','Repite tres palabras inmediatamente después de escucharlas.','Registro inmediato conservado.'],
+        ['memoria_reciente','Memoria reciente','Solicita recordar las palabras después de unos minutos.','Recuerdo diferido conservado.'],
+        ['memoria_remota','Memoria remota','Pregunta por acontecimientos biográficos o históricos verificables.','Evocación de información remota conservada.'],
+        ['lenguaje_espontaneo','Lenguaje espontáneo','Valora fluidez, articulación, contenido y coherencia.','Lenguaje fluido, coherente y comprensible.'],
+        ['comprension','Comprensión','Da órdenes de uno o varios pasos.','Comprende y ejecuta órdenes adecuadamente.'],
+        ['nominacion','Nominación','Solicita nombrar objetos comunes.','Nominación conservada.'],
+        ['repeticion','Repetición','Solicita repetir palabras y frases.','Repetición conservada.'],
+        ['lectura','Lectura','Solicita leer una frase y explicar su contenido.','Lectura y comprensión conservadas.'],
+        ['escritura','Escritura','Solicita escribir una frase espontánea.','Escritura comprensible y coherente.'],
+        ['calculo','Cálculo','Realiza operaciones sencillas adecuadas al contexto educativo.','Cálculo conservado para el nivel educativo.'],
+        ['praxis','Praxias','Solicita gestos aprendidos, imitación y uso simulado de objetos.','Realiza adecuadamente las praxias exploradas.'],
+        ['gnosias','Gnosias','Reconocimiento de objetos, formas o estímulos con modalidades sensoriales conservadas.','Reconocimiento de estímulos conservado.'],
+        ['funciones_ejecutivas','Funciones ejecutivas','Valora planificación, secuenciación, abstracción y flexibilidad mental.','Funciones ejecutivas conservadas en las tareas exploradas.']
+    ]
+},
+{
+    id: 'cranial',
+    title: 'Pares craneales I–XII',
+    short: 'Pares craneales',
+    icon: 'fa-eye',
+    color: 'sky',
+    intro: 'Explora cada nervio craneal de manera individual. Registra lateralidad cuando corresponda.',
+    items: [
+        ['pc_i','I · Olfatorio','Con ojos cerrados, explora identificación de olores familiares por cada fosa nasal, si está indicado.','Identificación olfatoria conservada bilateralmente.'],
+        ['pc_ii_agudeza','II · Óptico: agudeza visual','Evalúa cada ojo por separado con cartilla apropiada y corrección habitual.','Agudeza visual conservada según evaluación realizada.'],
+        ['pc_ii_campos','II · Óptico: campos visuales','Explora campos por confrontación en los cuatro cuadrantes.','Campos visuales por confrontación conservados.'],
+        ['pc_ii_pupilas','II · Vía aferente pupilar','Valora respuesta fotomotora directa y consensual; compara pupilas.','Respuesta fotomotora conservada, sin defecto aferente evidente.'],
+        ['pc_iii','III · Oculomotor','Evalúa movimientos oculares, elevación palpebral y respuesta pupilar.','Movimientos y funciones exploradas conservados.'],
+        ['pc_iv','IV · Troclear','Evalúa movimiento ocular hacia abajo y adentro.','Movimiento conservado, sin diplopía en la maniobra.'],
+        ['pc_v1','V · Trigémino: V1','Explora sensibilidad en región frontal y reflejo corneal si está indicado.','Sensibilidad V1 conservada.'],
+        ['pc_v2','V · Trigémino: V2','Explora sensibilidad en región maxilar.','Sensibilidad V2 conservada.'],
+        ['pc_v3','V · Trigémino: V3','Explora sensibilidad mandibular y contracción de maseteros y temporales.','Sensibilidad y función motora V3 conservadas.'],
+        ['pc_vi','VI · Abducens','Evalúa abducción ocular bilateral.','Abducción ocular conservada bilateralmente.'],
+        ['pc_vii','VII · Facial','Evalúa simetría facial: elevar cejas, cerrar ojos, sonreír e inflar mejillas.','Mímica facial simétrica y conservada.'],
+        ['pc_viii','VIII · Vestibulococlear','Explora audición mediante voz o susurro; Weber y Rinne si se requiere.','Audición conservada en las pruebas realizadas.'],
+        ['pc_ix_x','IX–X · Glosofaríngeo y vago','Valora voz, elevación del paladar y deglución; reflejo nauseoso solo si está indicado.','Voz y elevación palatina simétricas.'],
+        ['pc_xi','XI · Accesorio','Evalúa elevación de hombros y rotación de cabeza contra resistencia.','Fuerza de trapecios y esternocleidomastoideos conservada.'],
+        ['pc_xii','XII · Hipogloso','Inspecciona lengua en reposo y protrusión; valora movimientos.','Lengua centrada, sin atrofia ni fasciculaciones evidentes.']
+    ]
+},
+{
+    id: 'motor',
+    title: 'Sistema motor y reflejos',
+    short: 'Sistema motor',
+    icon: 'fa-person-walking',
+    color: 'blue',
+    intro: 'Evalúa trofismo, tono, fuerza, movimientos involuntarios y reflejos osteotendinosos.',
+    items: [
+        ['trofismo','Trofismo muscular','Inspecciona volumen, simetría, atrofias e hipertrofias.','Trofismo conservado y simétrico.'],
+        ['tono','Tono muscular','Moviliza pasivamente las articulaciones y valora resistencia.','Tono muscular conservado.'],
+        ['movimientos','Movimientos involuntarios','Observa temblor, fasciculaciones, corea, distonía, tics o mioclonías.','Sin movimientos involuntarios observados.'],
+        ['deriva','Prueba de deriva pronadora','Extiende brazos, palmas hacia arriba y ojos cerrados durante 20–30 segundos.','Sin deriva pronadora.'],
+        ['marcha_motora','Movimientos voluntarios','Valora velocidad, amplitud, simetría y ejecución de movimientos.','Movimientos voluntarios conservados.']
+    ],
+    extra: 'motor'
+},
+{
+    id: 'sensory',
+    title: 'Sensibilidad',
+    short: 'Sensibilidad',
+    icon: 'fa-hand',
+    color: 'amber',
+    intro: 'Compara ambos lados y explora territorios anatómicos. El paciente debe mantener los ojos cerrados durante las pruebas.',
+    items: [
+        ['tacto','Sensibilidad táctil superficial','Explora tacto ligero con algodón o estímulo suave.','Tacto superficial conservado en las regiones exploradas.'],
+        ['dolor','Sensibilidad dolorosa','Explora discriminación entre estímulo punzante y romo, sin lesionar.','Sensibilidad dolorosa conservada.'],
+        ['temperatura','Sensibilidad térmica','Explora frío y calor con estímulos seguros, cuando esté indicado.','Sensibilidad térmica conservada.'],
+        ['vibracion','Sensibilidad vibratoria','Utiliza diapasón de 128 Hz sobre prominencias óseas.','Sensibilidad vibratoria conservada.'],
+        ['propiocepcion','Propiocepción','Mueve falanges distales hacia arriba o abajo sujetándolas por los lados.','Propiocepción conservada.'],
+        ['estereognosia','Estereognosia','Identificación de objetos conocidos mediante palpación con ojos cerrados.','Estereognosia conservada.'],
+        ['grafestesia','Grafestesia','Reconocimiento de números o figuras trazadas en la palma.','Grafestesia conservada.'],
+        ['discriminacion','Discriminación sensitiva cortical','Explora discriminación de dos puntos y localización táctil cuando esté indicado.','Discriminación sensitiva conservada en las pruebas realizadas.']
+    ]
+},
+{
+    id: 'coord',
+    title: 'Coordinación',
+    short: 'Coordinación',
+    icon: 'fa-bullseye',
+    color: 'emerald',
+    intro: 'Evalúa precisión, velocidad, alternancia y coordinación de movimientos.',
+    items: [
+        ['dedo_nariz','Dedo-nariz','El paciente alterna tocar su nariz y el dedo del examinador.','Prueba dedo-nariz sin dismetría.'],
+        ['talon_rodilla','Talón-rodilla','En decúbito, coloca talón sobre rodilla contralateral y desliza por la tibia.','Prueba talón-rodilla conservada.'],
+        ['alternantes','Movimientos alternantes rápidos','Solicita pronación y supinación rápida de las manos.','Movimientos alternantes rápidos conservados.'],
+        ['rebote','Fenómeno de rebote','Evalúa control del movimiento al retirar una resistencia de forma segura.','Control del movimiento conservado.'],
+        ['temblor_intencion','Temblor de intención','Observa la trayectoria durante movimientos dirigidos.','Sin temblor de intención evidente.']
+    ]
+},
+{
+    id: 'gait',
+    title: 'Marcha y equilibrio',
+    short: 'Marcha y equilibrio',
+    icon: 'fa-shoe-prints',
+    color: 'cyan',
+    intro: 'Explora marcha espontánea y pruebas específicas. Asegura condiciones para evitar caídas.',
+    items: [
+        ['marcha_habitual','Marcha habitual','Observa inicio, base, longitud del paso, braceo, simetría y giro.','Marcha independiente y estable, de características habituales.'],
+        ['talones','Marcha sobre talones','Solicita caminar unos pasos apoyando talones.','Marcha sobre talones conservada.'],
+        ['puntas','Marcha en puntas','Solicita caminar unos pasos sobre antepié.','Marcha en puntas conservada.'],
+        ['tandem','Marcha en tándem','Solicita caminar colocando un pie delante del otro.','Marcha en tándem conservada.'],
+        ['romberg','Romberg','Pies juntos, primero ojos abiertos y luego cerrados, con protección del examinador.','Romberg negativo: estabilidad conservada al cerrar los ojos.'],
+        ['equilibrio','Equilibrio estático y dinámico','Valora estabilidad al permanecer de pie, girar y cambiar de posición.','Equilibrio estático y dinámico conservado.']
+    ]
+},
+{
+    id: 'meningeal',
+    title: 'Signos meníngeos',
+    short: 'Signos meníngeos',
+    icon: 'fa-shield-halved',
+    color: 'rose',
+    intro: 'Explora signos de irritación meníngea cuando el contexto clínico lo justifique. La ausencia de estos signos no excluye meningitis.',
+    items: [
+        ['rigidez','Rigidez nucal','Valora flexión pasiva del cuello, sin forzar si existe sospecha de lesión cervical.','Sin rigidez nucal.'],
+        ['kernig','Signo de Kernig','Con cadera y rodilla flexionadas, intenta extender la rodilla y observa dolor o resistencia.','Kernig negativo.'],
+        ['brudzinski','Signo de Brudzinski','Flexiona pasivamente el cuello y observa flexión involuntaria de caderas y rodillas.','Brudzinski negativo.']
+    ]
+}
+];
+
+let neuroState = {
+    status: {},
+    detail: {},
+    side: {},
+    metric: {}
+};
+
+let neuroActiveSection = 'mental';
+
+function neuroEsc(value) {
+    return String(value ?? '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    })[c]);
+}
+
+function neuroLoad() {
+    try {
+        const saved = localStorage.getItem(NEURO_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            neuroState = {
+                status: parsed.status || {},
+                detail: parsed.detail || {},
+                side: parsed.side || {},
+                metric: parsed.metric || {}
+            };
+        }
+    } catch (e) {
+        console.warn('No fue posible recuperar el examen neurológico.', e);
+    }
+}
+
+function neuroSave() {
+    try {
+        localStorage.setItem(NEURO_KEY, JSON.stringify(neuroState));
+    } catch (e) {
+        console.warn('No fue posible guardar el examen neurológico.', e);
+    }
+}
+
+function neuroSet(type, id, value) {
+    if (!neuroState[type]) neuroState[type] = {};
+    neuroState[type][id] = value;
+    neuroSave();
+    neuroUpdateProgress();
+    neuroUpdateSectionNav();
+}
+
+function neuroSetMetric(id, side, value) {
+    if (!neuroState.metric[id]) neuroState.metric[id] = {};
+    neuroState.metric[id][side] = value;
+    neuroSave();
+    neuroUpdateProgress();
+}
+
+function neuroGetStatus(id) {
+    return neuroState.status[id] || 'pending';
+}
+
+function neuroStatusLabel(status) {
+    return {
+        normal: 'Normal',
+        abnormal: 'Alterado',
+        pending: 'No evaluado',
+        na: 'No aplica'
+    }[status] || 'No evaluado';
+}
+
+function neuroRender() {
+    neuroLoad();
+    neuroRenderNav();
+    neuroRenderSection(neuroActiveSection);
+    neuroUpdateProgress();
+}
+
+function neuroRenderNav() {
+    const nav = document.getElementById('neuro-section-nav');
+    if (!nav) return;
+
+    nav.innerHTML = NEURO_SECTIONS.map(s => {
+        const total = s.items.length;
+        const done = s.items.filter(i => neuroGetStatus(i[0]) !== 'pending').length;
+        const altered = s.items.filter(i => neuroGetStatus(i[0]) === 'abnormal').length;
+        const active = neuroActiveSection === s.id;
+
+        return `
+        <button type="button" onclick="neuroRenderSection('${s.id}')"
+            class="text-left rounded-xl border p-3 transition-all
+            ${active
+                ? 'border-teal-500 bg-teal-50 dark:bg-teal-950/40 shadow-sm'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-teal-300'}">
+            <div class="flex items-center justify-between gap-2">
+                <i class="fa-solid ${s.icon} text-${s.color}-600 dark:text-${s.color}-400"></i>
+                <span class="text-[10px] font-bold ${altered ? 'text-rose-600' : 'text-slate-400'}">
+                    ${altered ? altered + ' alterado(s)' : done + '/' + total}
+                </span>
+            </div>
+            <div class="mt-2 text-xs font-extrabold text-slate-800 dark:text-slate-100">${s.short}</div>
+            <div class="mt-1 text-[10px] text-slate-500">${done} de ${total} registradas</div>
+        </button>`;
+    }).join('');
+}
+
+function neuroUpdateSectionNav() {
+    neuroRenderNav();
+}
+
+function neuroRenderSection(sectionId) {
+    const section = NEURO_SECTIONS.find(s => s.id === sectionId);
+    const container = document.getElementById('neuro-section-content');
+    if (!section || !container) return;
+
+    neuroActiveSection = sectionId;
+    neuroRenderNav();
+
+    let html = `
+    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 dark:border-slate-700">
+            <div class="flex items-start gap-3">
+                <div class="w-11 h-11 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 flex items-center justify-center shrink-0">
+                    <i class="fa-solid ${section.icon} text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-black text-base">${section.title}</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">${section.intro}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 space-y-3">
+    `;
+
+    if (section.id === 'motor') {
+        html += neuroMotorTables();
+    }
+
+    section.items.forEach((item, index) => {
+        const [id, label, how, normal] = item;
+        const status = neuroGetStatus(id);
+        const detail = neuroState.detail[id] || '';
+        const side = neuroState.side[id] || 'No especificado';
+
+        const border = status === 'normal'
+            ? 'border-emerald-200 dark:border-emerald-900/60'
+            : status === 'abnormal'
+                ? 'border-rose-300 dark:border-rose-900/60'
+                : 'border-slate-200 dark:border-slate-700';
+
+        html += `
+        <article class="rounded-xl border ${border} p-3 space-y-3">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+                <div class="flex-1 min-w-[180px]">
+                    <div class="text-xs font-extrabold text-slate-800 dark:text-slate-100">
+                        <span class="text-slate-400 mr-1">${String(index + 1).padStart(2,'0')}.</span>${label}
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">${how}</p>
+                </div>
+                <span class="text-[9px] font-bold px-2 py-1 rounded-full
+                    ${status === 'normal' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' :
+                    status === 'abnormal' ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300' :
+                    'bg-slate-100 text-slate-500 dark:bg-slate-700'}">
+                    ${neuroStatusLabel(status)}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                <button type="button" onclick="neuroSet('status','${id}','normal'); neuroRenderSection('${section.id}')"
+                    class="py-2 px-2 rounded-lg text-[10px] font-bold ${status === 'normal' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300'}">
+                    <i class="fa-solid fa-check mr-1"></i>Normal
+                </button>
+                <button type="button" onclick="neuroSet('status','${id}','abnormal'); neuroRenderSection('${section.id}')"
+                    class="py-2 px-2 rounded-lg text-[10px] font-bold ${status === 'abnormal' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-800 dark:bg-rose-950/30 dark:text-rose-300'}">
+                    <i class="fa-solid fa-exclamation mr-1"></i>Alterado
+                </button>
+                <button type="button" onclick="neuroSet('status','${id}','pending'); neuroRenderSection('${section.id}')"
+                    class="py-2 px-2 rounded-lg text-[10px] font-bold ${status === 'pending' ? 'bg-slate-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'}">
+                    No evaluado
+                </button>
+                <button type="button" onclick="neuroSet('status','${id}','na'); neuroRenderSection('${section.id}')"
+                    class="py-2 px-2 rounded-lg text-[10px] font-bold ${status === 'na' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/30 dark:text-indigo-300'}">
+                    No aplica
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div class="sm:col-span-1">
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1">Lateralidad</label>
+                    <select onchange="neuroSet('side','${id}',this.value)"
+                        class="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-[11px]">
+                        ${['No especificado','Derecha','Izquierda','Bilateral','Axial / línea media'].map(v =>
+                            `<option ${side === v ? 'selected' : ''}>${v}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1">
+                        Hallazgo / observación
+                    </label>
+                    <input type="text" value="${neuroEsc(detail)}"
+                        onchange="neuroSet('detail','${id}',this.value)"
+                        oninput="neuroSet('detail','${id}',this.value)"
+                        placeholder="${status === 'abnormal' ? 'Describe el hallazgo, intensidad y distribución...' : 'Opcional: agrega observaciones...'}"
+                        class="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-[11px]">
+                </div>
+            </div>
+
+            ${status === 'normal' ? `<div class="text-[10px] text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/20 p-2 rounded-lg"><i class="fa-solid fa-check-circle mr-1"></i>Referencia: ${normal}</div>` : ''}
+        </article>`;
+    });
+
+    if (section.id === 'motor') {
+        html += `
+        <div class="rounded-xl bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 p-3">
+            <p class="text-[10px] text-blue-800 dark:text-blue-300 leading-relaxed">
+                <strong>Escala MRC:</strong> 0 = ausencia de contracción; 1 = contracción visible o palpable sin movimiento;
+                2 = movimiento con gravedad eliminada; 3 = movimiento contra gravedad;
+                4 = movimiento contra resistencia; 5 = fuerza normal.
+                El grado 4 puede subdividirse clínicamente, pero se registra aquí como 4.
+            </p>
+        </div>`;
+    }
+
+    html += `
+        </div>
+        <div class="p-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap justify-between gap-2">
+            <button type="button" onclick="neuroPrevious()"
+                class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left mr-1"></i>Anterior
+            </button>
+            <button type="button" onclick="neuroNext()"
+                class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold">
+                Siguiente sección<i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>`;
+
+    container.innerHTML = html;
+    neuroUpdateProgress();
+}
+
+function neuroMotorTables() {
+    const muscles = [
+        ['deltoides','Deltoides','Abducción del hombro'],
+        ['biceps','Bíceps','Flexión del codo'],
+        ['triceps','Tríceps','Extensión del codo'],
+        ['muneca','Extensores de muñeca','Extensión de muñeca'],
+        ['dedos','Interóseos','Abducción de dedos'],
+        ['iliopsoas','Iliopsoas','Flexión de cadera'],
+        ['cuadriceps','Cuádriceps','Extensión de rodilla'],
+        ['tibial','Tibial anterior','Dorsiflexión del pie'],
+        ['gastrocnemio','Gastrocnemio','Flexión plantar']
+    ];
+
+    const reflexes = [
+        ['bicipital','Bicipital (C5–C6)'],
+        ['estiloradial','Estilorradial (C5–C6)'],
+        ['tricipital','Tricipital (C7–C8)'],
+        ['rotuliano','Rotuliano (L3–L4)'],
+        ['aquileo','Aquíleo (S1–S2)']
+    ];
+
+    const strengthOptions = `
+        <option value="">—</option>
+        ${[0,1,2,3,4,5].map(n => `<option value="${n}">${n}/5</option>`).join('')}
+    `;
+
+    const reflexOptions = `
+        <option value="">—</option>
+        ${['0','1+','2+','3+','4+'].map(n => `<option value="${n}">${n}</option>`).join('')}
+    `;
+
+    return `
+    <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-3 space-y-3">
+        <div>
+            <h4 class="text-xs font-extrabold">Fuerza muscular · Escala MRC</h4>
+            <p class="text-[10px] text-slate-500 mt-1">Registra cada grupo muscular por separado.</p>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-[10px] min-w-[300px]">
+                <thead>
+                    <tr class="text-slate-500 border-b border-slate-200 dark:border-slate-700">
+                        <th class="text-left py-2">Grupo muscular</th>
+                        <th class="text-center py-2">Derecha</th>
+                        <th class="text-center py-2">Izquierda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${muscles.map(m => `
+                    <tr class="border-b border-slate-100 dark:border-slate-700/60">
+                        <td class="py-2 pr-2">
+                            <div class="font-bold">${m[1]}</div>
+                            <div class="text-slate-400">${m[2]}</div>
+                        </td>
+                        <td class="p-1">
+                            <select onchange="neuroSetMetric('mrc-${m[0]}','right',this.value)"
+                                class="w-full p-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                ${strengthOptions.replace(`value="${neuroState.metric['mrc-'+m[0]]?.right || ''}"`, `value="${neuroState.metric['mrc-'+m[0]]?.right || ''}" selected`)}
+                            </select>
+                        </td>
+                        <td class="p-1">
+                            <select onchange="neuroSetMetric('mrc-${m[0]}','left',this.value)"
+                                class="w-full p-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                ${strengthOptions.replace(`value="${neuroState.metric['mrc-'+m[0]]?.left || ''}"`, `value="${neuroState.metric['mrc-'+m[0]]?.left || ''}" selected`)}
+                            </select>
+                        </td>
+                    </tr>`).join('')}
+                </tbody>
+            </table>
+        </div>
+        <p class="text-[10px] text-slate-500">0–5 por lado. Deja en blanco los grupos que no hayas explorado.</p>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-3 space-y-3">
+        <div>
+            <h4 class="text-xs font-extrabold">Reflejos osteotendinosos</h4>
+            <p class="text-[10px] text-slate-500 mt-1">Graduación: 0 ausente · 1+ disminuido · 2+ normal · 3+ aumentado · 4+ clonus.</p>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-[10px] min-w-[300px]">
+                <thead>
+                    <tr class="text-slate-500 border-b border-slate-200 dark:border-slate-700">
+                        <th class="text-left py-2">Reflejo</th>
+                        <th class="text-center py-2">Derecha</th>
+                        <th class="text-center py-2">Izquierda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${reflexes.map(r => `
+                    <tr class="border-b border-slate-100 dark:border-slate-700/60">
+                        <td class="py-2 font-bold">${r[1]}</td>
+                        <td class="p-1">
+                            <select onchange="neuroSetMetric('ref-${r[0]}','right',this.value)"
+                                class="w-full p-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                ${reflexOptions.replace(`value="${neuroState.metric['ref-'+r[0]]?.right || ''}"`, `value="${neuroState.metric['ref-'+r[0]]?.right || ''}" selected`)}
+                            </select>
+                        </td>
+                        <td class="p-1">
+                            <select onchange="neuroSetMetric('ref-${r[0]}','left',this.value)"
+                                class="w-full p-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                                ${reflexOptions.replace(`value="${neuroState.metric['ref-'+r[0]]?.left || ''}"`, `value="${neuroState.metric['ref-'+r[0]]?.left || ''}" selected`)}
+                            </select>
+                        </td>
+                    </tr>`).join('')}
+                </tbody>
+            </table>
+        </div>
+        <p class="text-[10px] text-slate-500">La interpretación debe considerar simetría, contexto y respuesta de cada paciente.</p>
+    </div>`;
+}
+
+function neuroUpdateProgress() {
+    const total = NEURO_SECTIONS.length;
+    let completed = 0;
+    let registered = 0;
+    let altered = 0;
+    let all = 0;
+
+    NEURO_SECTIONS.forEach(s => {
+        const states = s.items.map(i => neuroGetStatus(i[0]));
+        const done = states.filter(v => v !== 'pending').length;
+        if (done > 0) completed++;
+        registered += done;
+        altered += states.filter(v => v === 'abnormal').length;
+        all += states.length;
+    });
+
+    const percent = Math.round((completed / total) * 100);
+    const number = document.getElementById('neuro-progress-number');
+    const count = document.getElementById('neuro-progress-count');
+    const bar = document.getElementById('neuro-progress-bar');
+
+    if (number) number.textContent = percent + '%';
+    if (count) count.textContent = completed + ' de ' + total + ' secciones';
+    if (bar) bar.style.width = percent + '%';
+
+    const output = document.getElementById('neuro-output-card');
+    if (output && registered === 0) output.classList.add('hidden');
+}
+
+function neuroPrevious() {
+    const index = NEURO_SECTIONS.findIndex(s => s.id === neuroActiveSection);
+    if (index > 0) neuroRenderSection(NEURO_SECTIONS[index - 1].id);
+}
+
+function neuroNext() {
+    const index = NEURO_SECTIONS.findIndex(s => s.id === neuroActiveSection);
+    if (index < NEURO_SECTIONS.length - 1) neuroRenderSection(NEURO_SECTIONS[index + 1].id);
+    else neuroGenerate();
+}
+
+function neuroGenerate() {
+    const lines = [];
+    const abnormalLines = [];
+    let totalEvaluated = 0;
+    let totalAbnormal = 0;
+
+    lines.push('EXAMEN NEUROLÓGICO');
+    lines.push('');
+
+    NEURO_SECTIONS.forEach(section => {
+        const normal = [];
+        const abnormal = [];
+        const notEvaluated = [];
+
+        section.items.forEach(item => {
+            const id = item[0];
+            const label = item[1];
+            const normalText = item[3];
+            const status = neuroGetStatus(id);
+            const detail = (neuroState.detail[id] || '').trim();
+            const side = neuroState.side[id] || '';
+
+            if (status === 'normal') {
+                totalEvaluated++;
+                normal.push(label + ': ' + (detail || normalText));
+            } else if (status === 'abnormal') {
+                totalEvaluated++;
+                totalAbnormal++;
+                const description = detail || 'Hallazgo alterado; descripción pendiente.';
+                const line = label + (side && side !== 'No especificado' ? ' (' + side + ')' : '') + ': ' + description;
+                abnormal.push(line);
+                abnormalLines.push(section.title + ' — ' + line);
+            } else if (status === 'pending') {
+                notEvaluated.push(label);
+            }
+        });
+
+        lines.push(section.title.toUpperCase());
+
+        if (normal.length) lines.push('Hallazgos conservados: ' + normal.join('; ') + '.');
+        if (abnormal.length) {
+            lines.push('Hallazgos alterados:');
+            abnormal.forEach(x => lines.push('- ' + x));
+        }
+        if (notEvaluated.length) lines.push('No evaluado: ' + notEvaluated.join(', ') + '.');
+
+        const notApplicable = section.items
+            .filter(i => neuroGetStatus(i[0]) === 'na')
+            .map(i => i[1]);
+        if (notApplicable.length) lines.push('No aplica: ' + notApplicable.join(', ') + '.');
+
+        lines.push('');
+    });
+
+    // Fuerza MRC
+    const muscleNames = {
+        deltoides:'Deltoides', biceps:'Bíceps', triceps:'Tríceps',
+        muneca:'Extensores de muñeca', dedos:'Interóseos',
+        iliopsoas:'Iliopsoas', cuadriceps:'Cuádriceps',
+        tibial:'Tibial anterior', gastrocnemio:'Gastrocnemio'
+    };
+
+    const mrcLines = [];
+    Object.keys(muscleNames).forEach(k => {
+        const v = neuroState.metric['mrc-' + k] || {};
+        if (v.right !== undefined && v.right !== '' || v.left !== undefined && v.left !== '') {
+            mrcLines.push(`${muscleNames[k]}: derecha ${v.right !== undefined && v.right !== '' ? v.right + '/5' : 'no evaluada'}; izquierda ${v.left !== undefined && v.left !== '' ? v.left + '/5' : 'no evaluada'}`);
+        }
+    });
+    if (mrcLines.length) {
+        lines.push('FUERZA MUSCULAR — ESCALA MRC');
+        mrcLines.forEach(x => lines.push('- ' + x));
+        lines.push('');
+    }
+
+    const reflexNames = {
+        bicipital:'Bicipital', estiloradial:'Estilorradial',
+        tricipital:'Tricipital', rotuliano:'Rotuliano', aquileo:'Aquíleo'
+    };
+
+    const reflexLines = [];
+    Object.keys(reflexNames).forEach(k => {
+        const v = neuroState.metric['ref-' + k] || {};
+        if (v.right !== undefined && v.right !== '' || v.left !== undefined && v.left !== '') {
+            reflexLines.push(`${reflexNames[k]}: derecha ${v.right || 'no evaluado'}; izquierda ${v.left || 'no evaluado'}`);
+        }
+    });
+    if (reflexLines.length) {
+        lines.push('REFLEJOS OSTEOTENDINOSOS');
+        reflexLines.forEach(x => lines.push('- ' + x));
+        lines.push('');
+    }
+
+    lines.push(`Resumen: ${totalEvaluated} maniobras registradas como normales o alteradas; ${totalAbnormal} con hallazgos alterados.`);
+    lines.push('Las maniobras no registradas no deben interpretarse como normales.');
+
+    const output = document.getElementById('neuro-output-card');
+    const textarea = document.getElementById('neuro-generated-text');
+
+    if (output) output.classList.remove('hidden');
+    if (textarea) textarea.value = lines.join('\n');
+
+    window.neuroAbnormalText = abnormalLines.length
+        ? 'HALLAZGOS NEUROLÓGICOS ALTERADOS\n\n' + abnormalLines.map(x => '- ' + x).join('\n')
+        : 'No se registraron maniobras como alteradas.';
+
+    output?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function neuroCopy() {
+    const text = document.getElementById('neuro-generated-text')?.value || '';
+    if (!text.trim()) return alert('Primero genera el examen neurológico.');
+    try {
+        await navigator.clipboard.writeText(text);
+        alert('Examen neurológico copiado.');
+    } catch (e) {
+        const el = document.getElementById('neuro-generated-text');
+        el.select();
+        document.execCommand('copy');
+        alert('Examen neurológico copiado.');
+    }
+}
+
+async function neuroCopyAbnormal() {
+    if (!window.neuroAbnormalText) neuroGenerate();
+    const text = window.neuroAbnormalText || '';
+    try {
+        await navigator.clipboard.writeText(text);
+        alert('Hallazgos alterados copiados.');
+    } catch (e) {
+        prompt('Copia los hallazgos alterados:', text);
+    }
+}
+
+function neuroReset() {
+    if (!confirm('¿Deseas borrar todos los datos del examen neurológico guardados en este dispositivo?')) return;
+
+    neuroState = { status: {}, detail: {}, side: {}, metric: {} };
+    try { localStorage.removeItem(NEURO_KEY); } catch(e) {}
+    neuroActiveSection = 'mental';
+    neuroRender();
+    document.getElementById('neuro-output-card')?.classList.add('hidden');
+    alert('Examen neurológico reiniciado.');
+}
+
+// Inicialización diferida del módulo
+document.addEventListener('DOMContentLoaded', () => {
+    neuroRender();
+});
+
+// ============================================================
+// FIN DEL MÓDULO EXAMEN NEUROLÓGICO
+// ============================================================
 
         // INITIALIZATION
         window.onload = function() {
