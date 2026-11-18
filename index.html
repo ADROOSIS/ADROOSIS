@@ -1202,6 +1202,138 @@
     </div>
     <!-- FIN RAZONAMIENTO DE LOCALIZACIÓN -->
 
+
+<!-- SIGNOS DE ALARMA NEUROLÓGICA -->
+<div id="neuro-red-flags"
+    class="bg-white dark:bg-slate-800 rounded-2xl border border-red-200 dark:border-red-900/50 p-4 sm:p-5 space-y-4">
+
+    <div class="flex items-start gap-3">
+        <div class="w-10 h-10 shrink-0 rounded-xl bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-300 flex items-center justify-center">
+            <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+        </div>
+        <div>
+            <h3 class="font-black text-sm text-red-800 dark:text-red-300">
+                Signos de alarma neurológica
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                Identifica situaciones que requieren valoración urgente.
+                Marca únicamente los hallazgos presentes.
+            </p>
+        </div>
+    </div>
+
+    <div class="space-y-3">
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Déficit neurológico focal de inicio súbito"
+                data-label="Déficit neurológico focal de inicio súbito"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Déficit neurológico focal de inicio súbito.</strong>
+                Debilidad de un lado, asimetría facial, alteración súbita del habla o pérdida visual.
+            </span>
+        </label>
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Alteración aguda del estado de conciencia"
+                data-label="Alteración aguda del estado de conciencia"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Alteración aguda del estado de conciencia.</strong>
+                Disminución nueva de la respuesta, confusión marcada o deterioro progresivo.
+            </span>
+        </label>
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Cefalea en trueno"
+                data-label="Cefalea en trueno"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Cefalea en trueno.</strong>
+                Dolor de cabeza súbito, de intensidad máxima desde el inicio.
+            </span>
+        </label>
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Fiebre con rigidez de nuca o alteración de conciencia"
+                data-label="Fiebre con rigidez de nuca o alteración de conciencia"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Fiebre con rigidez de nuca o alteración de conciencia.</strong>
+                Considerar infección del sistema nervioso central.
+            </span>
+        </label>
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Primera convulsión, convulsión prolongada o recurrente sin recuperación"
+                data-label="Primera convulsión, convulsión prolongada o recurrente sin recuperación"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Convulsiones de riesgo.</strong>
+                Primera crisis, duración superior a 5 minutos o crisis repetidas sin recuperación de conciencia.
+            </span>
+        </label>
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Debilidad progresiva con compromiso respiratorio o bulbar"
+                data-label="Debilidad progresiva con compromiso respiratorio o bulbar"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Debilidad progresiva con compromiso respiratorio o bulbar.</strong>
+                Disnea, dificultad para tragar, alteración de la voz o incapacidad para manejar secreciones.
+            </span>
+        </label>
+
+        <label class="flex items-start gap-3 text-xs cursor-pointer">
+            <input type="checkbox" value="Dolor lumbar con anestesia en silla de montar, retención urinaria o debilidad progresiva"
+                data-label="Dolor lumbar con anestesia en silla de montar, retención urinaria o debilidad progresiva"
+                onchange="neuroRedFlagsUpdate()"
+                class="mt-0.5 accent-red-600">
+            <span>
+                <strong>Dolor lumbar con signos de compromiso de cola de caballo.</strong>
+                Anestesia en silla de montar, retención urinaria o debilidad progresiva de miembros inferiores.
+            </span>
+        </label>
+
+    </div>
+
+    <div id="neuro-red-flags-alert"
+        class="hidden rounded-xl border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/30 p-4 space-y-2"
+        aria-live="assertive">
+        <div class="flex items-center gap-2 text-red-800 dark:text-red-300">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <strong class="text-sm">SIGNO(S) DE ALARMA PRESENTE(S)</strong>
+        </div>
+        <p id="neuro-red-flags-list"
+            class="text-xs text-red-900 dark:text-red-200 leading-relaxed"></p>
+        <p class="text-xs text-red-900 dark:text-red-200 leading-relaxed">
+            <strong>Conducta:</strong> prioriza valoración médica inmediata y activa la ruta
+            institucional de urgencias correspondiente. No retrases la atención para terminar
+            el examen neurológico ni esta herramienta.
+        </p>
+    </div>
+
+    <div class="flex justify-end">
+        <button type="button" onclick="neuroRedFlagsClear()"
+            class="text-xs font-bold text-slate-500 hover:text-red-600 dark:hover:text-red-400">
+            <i class="fa-solid fa-eraser mr-1"></i>
+            Limpiar selección
+        </button>
+    </div>
+
+    <p class="text-[10px] text-slate-500 leading-relaxed">
+        Esta lista no es exhaustiva. La ausencia de estos hallazgos no descarta
+        una urgencia neurológica.
+    </p>
+</div>
+<!-- FIN SIGNOS DE ALARMA NEUROLÓGICA -->
+
     <div class="flex flex-col sm:flex-row gap-2">
 
         <button type="button" onclick="neuroQuickClose()"
@@ -11474,6 +11606,47 @@ function neuroLocalize() {
 
     result.classList.remove('hidden');
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+
+function neuroRedFlagsUpdate() {
+    const container = document.getElementById('neuro-red-flags');
+    const alertBox = document.getElementById('neuro-red-flags-alert');
+    const list = document.getElementById('neuro-red-flags-list');
+
+    if (!container || !alertBox || !list) return;
+
+    const selected = Array.from(
+        container.querySelectorAll('input[type="checkbox"]:checked')
+    );
+
+    if (selected.length === 0) {
+        alertBox.classList.add('hidden');
+        list.textContent = '';
+        return;
+    }
+
+    const labels = selected.map(input => input.dataset.label);
+
+    list.textContent = labels.map(label => '• ' + label).join('\n');
+
+    alertBox.classList.remove('hidden');
+}
+
+function neuroRedFlagsClear() {
+    const container = document.getElementById('neuro-red-flags');
+    const alertBox = document.getElementById('neuro-red-flags-alert');
+    const list = document.getElementById('neuro-red-flags-list');
+
+    if (!container) return;
+
+    container.querySelectorAll('input[type="checkbox"]').forEach(input => {
+        input.checked = false;
+    });
+
+    alertBox?.classList.add('hidden');
+
+    if (list) list.textContent = '';
 }
 
 function neuroQuickOpen() {
