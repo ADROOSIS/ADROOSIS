@@ -1028,9 +1028,14 @@
 
 <div class="flex flex-wrap gap-2 pt-1">
 
+    <button type="button" onclick="neuroNihssOpen()"
+        class="px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-extrabold shadow-lg transition-all">
+        <i class="fa-solid fa-clipboard-check mr-2"></i>NIHSS
+    </button>
+
     <button type="button" onclick="neuroQuickOpen()"
         class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-extrabold shadow-lg transition-all">
-        <i class="fa-solid fa-bolt mr-2"></i>Examen rápido · 5 min
+        <i class="fa-solid fa-bolt mr-2"></i>Examen rápido · 6 min
     </button>
 
     <button type="button" onclick="neuroGenerate()"
@@ -1042,8 +1047,8 @@
         class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all">
         <i class="fa-solid fa-rotate-left mr-2"></i>Reiniciar
     </button>
-</div>
 
+</div>
         </div>
     </div>
 
@@ -1061,6 +1066,63 @@
 <!-- =====================================================
      EXAMEN NEUROLÓGICO RÁPIDO - ADROOSIS
 ===================================================== -->
+
+<!-- =====================================================
+     NIHSS - ESCALA DE ICTUS
+===================================================== -->
+<div id="neuro-nihss-panel" class="hidden space-y-5">
+
+    <div class="rounded-2xl border border-indigo-200 dark:border-indigo-900/50 bg-indigo-50 dark:bg-indigo-950/20 p-4 sm:p-5">
+
+        <div class="flex flex-wrap items-start justify-between gap-3">
+
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 shrink-0 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center">
+                    <i class="fa-solid fa-clipboard-check text-lg"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-black text-base text-indigo-950 dark:text-indigo-200">
+                        NIHSS
+                    </h3>
+
+                    <p class="text-xs text-indigo-900 dark:text-indigo-300 mt-1">
+                        National Institutes of Health Stroke Scale
+                    </p>
+                </div>
+            </div>
+
+            <button type="button" onclick="neuroNihssClose()"
+                class="px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left mr-1"></i>
+                Volver
+            </button>
+
+        </div>
+
+        <div class="mt-4 p-3 rounded-xl bg-white/80 dark:bg-slate-900/60">
+            <p class="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                Escala estandarizada para cuantificar la gravedad del déficit neurológico
+                en pacientes con sospecha de ictus. Contiene 11 ítems, con subapartados
+                específicos y puntuación total de 0 a 42.
+            </p>
+        </div>
+
+    </div>
+
+    <div id="neuro-nihss-form" class="space-y-4">
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+            <p class="text-sm font-bold">Formulario NIHSS</p>
+            <p class="text-xs text-slate-500 mt-1">
+                En el siguiente paso incorporaremos los apartados de evaluación,
+                sus criterios de puntuación y el cálculo automático.
+            </p>
+        </div>
+    </div>
+
+</div>
+<!-- FIN NIHSS -->
+
 <div id="neuro-quick-panel" class="hidden space-y-5">
 
     <div class="rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/20 p-4 sm:p-5">
@@ -11647,6 +11709,49 @@ function neuroRedFlagsClear() {
     alertBox?.classList.add('hidden');
 
     if (list) list.textContent = '';
+}
+
+
+function neuroNihssOpen() {
+    const nihssPanel = document.getElementById('neuro-nihss-panel');
+    const quickPanel = document.getElementById('neuro-quick-panel');
+    const nav = document.getElementById('neuro-section-nav');
+    const content = document.getElementById('neuro-section-content');
+    const output = document.getElementById('neuro-output-card');
+
+    if (quickPanel) quickPanel.classList.add('hidden');
+    if (nav) nav.classList.add('hidden');
+    if (content) content.classList.add('hidden');
+    if (output) output.classList.add('hidden');
+
+    const progressNumber = document.getElementById('neuro-progress-number');
+    const progressCard = progressNumber?.closest('.bg-white');
+
+    if (progressCard) progressCard.classList.add('hidden');
+
+    if (nihssPanel) nihssPanel.classList.remove('hidden');
+
+    nihssPanel?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+function neuroNihssClose() {
+    const nihssPanel = document.getElementById('neuro-nihss-panel');
+    const nav = document.getElementById('neuro-section-nav');
+    const content = document.getElementById('neuro-section-content');
+
+    if (nihssPanel) nihssPanel.classList.add('hidden');
+    if (nav) nav.classList.remove('hidden');
+    if (content) content.classList.remove('hidden');
+
+    const progressNumber = document.getElementById('neuro-progress-number');
+    const progressCard = progressNumber?.closest('.bg-white');
+
+    if (progressCard) progressCard.classList.remove('hidden');
+
+    neuroRender();
 }
 
 function neuroQuickOpen() {
