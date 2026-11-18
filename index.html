@@ -1110,14 +1110,137 @@
 
     </div>
 
-    <div id="neuro-nihss-form" class="space-y-4">
-        <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
-            <p class="text-sm font-bold">Formulario NIHSS</p>
-            <p class="text-xs text-slate-500 mt-1">
-                En el siguiente paso incorporaremos los apartados de evaluación,
-                sus criterios de puntuación y el cálculo automático.
-            </p>
+    
+<div id="neuro-nihss-form" class="space-y-4">
+
+    <!-- DATOS DE LA EVALUACIÓN -->
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 space-y-3">
+
+        <h4 class="font-black text-sm">Datos de la evaluación</h4>
+
+        <div>
+            <label class="block text-xs font-bold mb-1">Identificación del paciente (opcional)</label>
+            <input id="nihss-patient" type="text"
+                placeholder="Nombre o identificación"
+                class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+                <label class="block text-xs font-bold mb-1">Fecha y hora</label>
+                <input id="nihss-date" type="datetime-local"
+                    class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold mb-1">Momento de evaluación</label>
+                <select id="nihss-interval"
+                    class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+                    <option value="Basal">Basal</option>
+                    <option value="2 horas después del tratamiento">2 horas después del tratamiento</option>
+                    <option value="24 horas desde el inicio de síntomas">24 horas desde el inicio de síntomas</option>
+                    <option value="7–10 días">7–10 días</option>
+                    <option value="3 meses">3 meses</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold mb-1">Evaluador (opcional)</label>
+            <input id="nihss-examiner" type="text"
+                placeholder="Nombre del profesional"
+                class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+        </div>
+    </div>
+
+    <!-- INSTRUCCIONES GENERALES -->
+    <div class="rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/20 p-3">
+        <p class="text-xs font-bold text-amber-900 dark:text-amber-200 mb-1">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            Reglas de aplicación
+        </p>
+        <ul class="list-disc pl-5 space-y-1 text-xs text-amber-900 dark:text-amber-200">
+            <li>Administra los ítems en el orden establecido.</li>
+            <li>Registra lo que el paciente hace, no lo que crees que puede hacer.</li>
+            <li>No ayudes ni entrenes al paciente, salvo cuando la instrucción del ítem lo permita.</li>
+            <li>Registra la primera respuesta, excepto cuando la escala indique otra cosa.</li>
+            <li>No confundas un ítem no evaluable con una puntuación de cero.</li>
+        </ul>
+    </div>
+
+    <!-- PUNTUACIÓN AUTOMÁTICA -->
+    <div class="sticky top-2 z-20 rounded-2xl border border-indigo-300 dark:border-indigo-800 bg-white dark:bg-slate-900 shadow-lg p-4">
+        <div class="flex items-center justify-between gap-3">
+            <div>
+                <p class="text-xs font-bold text-slate-500 dark:text-slate-400">PUNTUACIÓN NIHSS</p>
+                <p id="nihss-score-status" class="text-[10px] text-slate-500 mt-1">
+                    Completa los 15 registros para calcular el total.
+                </p>
+            </div>
+            <div class="text-right">
+                <div class="flex items-baseline justify-end gap-1">
+                    <span id="nihss-total" class="text-4xl font-black text-indigo-700 dark:text-indigo-300">—</span>
+                    <span class="text-xs text-slate-500">/ 42</span>
+                </div>
+                <p id="nihss-completed" class="text-[10px] text-slate-500">0 de 15 registros</p>
+            </div>
+        </div>
+        <div class="mt-3 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+            <div id="nihss-progress" class="h-full bg-indigo-500 rounded-full transition-all" style="width:0%"></div>
+        </div>
+    </div>
+
+    <!-- ÍTEMS NIHSS -->
+    <div id="nihss-items" class="space-y-3"></div>
+
+    <!-- RESULTADO E INFORME -->
+    <div id="nihss-report" class="hidden rounded-2xl border border-teal-200 dark:border-teal-900/50 bg-teal-50 dark:bg-teal-950/20 p-4 space-y-3">
+        <h4 class="font-black text-sm text-teal-900 dark:text-teal-200">
+            <i class="fa-solid fa-file-medical mr-2"></i>
+            Informe NIHSS
+        </h4>
+        <textarea id="nihss-report-text" rows="12" readonly
+            class="w-full p-3 rounded-xl border border-teal-200 dark:border-teal-800 bg-white dark:bg-slate-900 text-xs leading-relaxed"></textarea>
+
+        <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="neuroNihssCopyReport()"
+                class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold">
+                <i class="fa-solid fa-copy mr-1"></i>
+                Copiar informe
+            </button>
+
+            <button type="button" onclick="neuroNihssReportPrint()"
+                class="px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold">
+                <i class="fa-solid fa-print mr-1"></i>
+                Imprimir
+            </button>
+        </div>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="flex flex-wrap gap-2">
+        <button type="button" onclick="neuroNihssGenerateReport()"
+            class="flex-1 min-w-[160px] py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold">
+            <i class="fa-solid fa-file-lines mr-2"></i>
+            Generar informe NIHSS
+        </button>
+
+        <button type="button" onclick="neuroNihssReset()"
+            class="px-4 py-3 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-white text-xs font-bold">
+            <i class="fa-solid fa-rotate-left mr-1"></i>
+            Reiniciar NIHSS
+        </button>
+    </div>
+
+    <p class="text-[10px] leading-relaxed text-slate-500">
+        El NIHSS cuantifica déficits neurológicos, pero no sustituye el juicio clínico,
+        la neuroimagen ni la valoración especializada. Una puntuación baja no excluye
+        un ictus, especialmente en circulación posterior. No retrases la activación
+        de la ruta de ictus para completar esta escala.
+    </p>
+
+</div>
     </div>
 
 </div>
@@ -11712,6 +11835,546 @@ function neuroRedFlagsClear() {
 }
 
 
+// =====================================================
+// NIHSS - CONFIGURACIÓN DE LOS 11 ÍTEMS
+// 15 registros puntuables por separado
+// =====================================================
+
+const NEURO_NIHSS_ITEMS = [
+    {
+        id: '1a',
+        title: '1a. Nivel de conciencia',
+        max: 3,
+        instruction: 'Observa el nivel de alerta. Si es necesario, utiliza estímulos verbales o táctiles para valorar la respuesta.',
+        options: [
+            [0, 'Alerta: responde con atención normal.'],
+            [1, 'No está alerta, pero despierta con estimulación leve y responde.'],
+            [2, 'Requiere estimulación repetida o intensa para responder o realizar movimientos no estereotipados.'],
+            [3, 'Responde únicamente con reflejos o efectos autonómicos, o está totalmente inconsciente.']
+        ]
+    },
+    {
+        id: '1b',
+        title: '1b. Preguntas de orientación',
+        max: 2,
+        instruction: 'Pregunta al paciente su edad y el mes actual. Registra únicamente la primera respuesta. No des pistas ni crédito parcial por aproximaciones.',
+        options: [
+            [0, 'Responde correctamente ambas preguntas.'],
+            [1, 'Responde correctamente una pregunta.'],
+            [2, 'Responde incorrectamente ambas preguntas.']
+        ]
+    },
+    {
+        id: '1c',
+        title: '1c. Órdenes',
+        max: 2,
+        instruction: 'Solicita abrir y cerrar los ojos y luego apretar y soltar la mano no parética. Si no puede usar las manos, sustituye por otra orden sencilla. Si no responde, demuestra la orden mediante pantomima.',
+        options: [
+            [0, 'Realiza correctamente ambas órdenes.'],
+            [1, 'Realiza correctamente una orden.'],
+            [2, 'No realiza ninguna de las dos órdenes.']
+        ]
+    },
+    {
+        id: '2',
+        title: '2. Mirada conjugada',
+        max: 2,
+        instruction: 'Evalúa únicamente los movimientos oculares horizontales. Puedes valorar movimientos voluntarios o reflejos oculocefálicos cuando corresponda. No realices pruebas calóricas.',
+        options: [
+            [0, 'Normal.'],
+            [1, 'Paresia parcial de la mirada: movimiento anormal de uno o ambos ojos, sin desviación forzada.'],
+            [2, 'Desviación forzada o parálisis total de la mirada que no se supera con maniobra oculocefálica.']
+        ]
+    },
+    {
+        id: '3',
+        title: '3. Campos visuales',
+        max: 3,
+        instruction: 'Explora los cuadrantes superiores e inferiores mediante confrontación, conteo de dedos o amenaza visual. Si hay ceguera unilateral, evalúa el ojo restante. Realiza estimulación bilateral simultánea.',
+        options: [
+            [0, 'Sin pérdida visual.'],
+            [1, 'Hemianopsia parcial, incluida cuadrantanopsia.'],
+            [2, 'Hemianopsia completa.'],
+            [3, 'Hemianopsia bilateral, incluida ceguera cortical.']
+        ]
+    },
+    {
+        id: '4',
+        title: '4. Parálisis facial',
+        max: 3,
+        instruction: 'Pide mostrar los dientes, elevar las cejas y cerrar los ojos. En pacientes con baja respuesta o sin comprensión, valora la simetría de la mueca ante estímulo nocivo.',
+        options: [
+            [0, 'Movimientos faciales simétricos normales.'],
+            [1, 'Parálisis menor: surco nasolabial aplanado o asimetría al sonreír.'],
+            [2, 'Parálisis parcial: parálisis total o casi total de la mitad inferior de la cara.'],
+            [3, 'Parálisis completa de uno o ambos lados, con ausencia de movimiento facial superior e inferior.']
+        ]
+    },
+    {
+        id: '5a',
+        title: '5a. Fuerza del brazo izquierdo',
+        max: 4,
+        un: true,
+        instruction: 'Paciente sentado: brazo extendido a 90°. En decúbito supino: a 45°. Mantener durante 10 segundos. Registra deriva si cae antes de completar el tiempo. UN solo si existe amputación o fusión articular del hombro.',
+        options: [
+            [0, 'Sin deriva: mantiene la posición durante 10 segundos.'],
+            [1, 'Deriva: desciende antes de 10 segundos, pero no toca la cama ni otro soporte.'],
+            [2, 'Algún esfuerzo contra gravedad: no alcanza o no mantiene la posición y desciende hasta la cama, pero conserva esfuerzo contra gravedad.'],
+            [3, 'Sin esfuerzo contra gravedad: el brazo cae.'],
+            [4, 'Sin movimiento.']
+        ]
+    },
+    {
+        id: '5b',
+        title: '5b. Fuerza del brazo derecho',
+        max: 4,
+        un: true,
+        instruction: 'Paciente sentado: brazo extendido a 90°. En decúbito supino: a 45°. Mantener durante 10 segundos. Registra deriva si cae antes de completar el tiempo. UN solo si existe amputación o fusión articular del hombro.',
+        options: [
+            [0, 'Sin deriva: mantiene la posición durante 10 segundos.'],
+            [1, 'Deriva: desciende antes de 10 segundos, pero no toca la cama ni otro soporte.'],
+            [2, 'Algún esfuerzo contra gravedad: no alcanza o no mantiene la posición y desciende hasta la cama, pero conserva esfuerzo contra gravedad.'],
+            [3, 'Sin esfuerzo contra gravedad: el brazo cae.'],
+            [4, 'Sin movimiento.']
+        ]
+    },
+    {
+        id: '6a',
+        title: '6a. Fuerza de la pierna izquierda',
+        max: 4,
+        un: true,
+        instruction: 'Paciente en decúbito supino. Eleva la pierna a 30° y mantén la posición durante 5 segundos. Registra deriva si cae antes de completar el tiempo. UN solo si existe amputación o fusión articular de cadera.',
+        options: [
+            [0, 'Sin deriva: mantiene la posición durante 5 segundos.'],
+            [1, 'Deriva: cae antes de 5 segundos, pero no toca la cama.'],
+            [2, 'Algún esfuerzo contra gravedad: cae hasta la cama antes de 5 segundos, pero conserva esfuerzo contra gravedad.'],
+            [3, 'Sin esfuerzo contra gravedad: la pierna cae inmediatamente.'],
+            [4, 'Sin movimiento.']
+        ]
+    },
+    {
+        id: '6b',
+        title: '6b. Fuerza de la pierna derecha',
+        max: 4,
+        un: true,
+        instruction: 'Paciente en decúbito supino. Eleva la pierna a 30° y mantén la posición durante 5 segundos. Registra deriva si cae antes de completar el tiempo. UN solo si existe amputación o fusión articular de cadera.',
+        options: [
+            [0, 'Sin deriva: mantiene la posición durante 5 segundos.'],
+            [1, 'Deriva: cae antes de 5 segundos, pero no toca la cama.'],
+            [2, 'Algún esfuerzo contra gravedad: cae hasta la cama antes de 5 segundos, pero conserva esfuerzo contra gravedad.'],
+            [3, 'Sin esfuerzo contra gravedad: la pierna cae inmediatamente.'],
+            [4, 'Sin movimiento.']
+        ]
+    },
+    {
+        id: '7',
+        title: '7. Ataxia de miembros',
+        max: 2,
+        un: true,
+        instruction: 'Con los ojos abiertos, realiza dedo-nariz-dedo y talón-rodilla en ambos lados. Puntúa ataxia únicamente si es desproporcionada respecto a la debilidad. Si el paciente está paralizado o no comprende, no atribuyas ataxia. UN solo por amputación o fusión articular que impida la prueba.',
+        options: [
+            [0, 'Ausente.'],
+            [1, 'Presente en un miembro.'],
+            [2, 'Presente en dos miembros.']
+        ]
+    },
+    {
+        id: '8',
+        title: '8. Sensibilidad',
+        max: 2,
+        instruction: 'Evalúa la sensibilidad al pinchazo en cara, brazos (no manos), tronco y piernas, según sea necesario. Puntúa la pérdida atribuible al evento neurológico. En coma (1a = 3), este ítem recibe automáticamente 2 puntos.',
+        options: [
+            [0, 'Normal: sin pérdida sensitiva.'],
+            [1, 'Pérdida leve o moderada: percibe el estímulo, pero lo nota menos intenso o menos agudo.'],
+            [2, 'Pérdida grave o total: no es consciente del contacto en cara, brazo y pierna.']
+        ]
+    },
+    {
+        id: '9',
+        title: '9. Mejor lenguaje',
+        max: 3,
+        instruction: 'Evalúa comprensión y expresión mediante descripción de una imagen, denominación de objetos y lectura de frases. Si la visión impide realizar estas pruebas, utiliza objetos al tacto, repetición y producción del habla. En pacientes intubados, solicita escritura. En pacientes en coma (1a = 3), este ítem recibe automáticamente 3 puntos.',
+        options: [
+            [0, 'Sin afasia: lenguaje normal.'],
+            [1, 'Afasia leve o moderada: pérdida de fluidez o comprensión, sin limitación importante de las ideas expresadas.'],
+            [2, 'Afasia grave: comunicación fragmentaria; el examinador debe inferir gran parte del mensaje.'],
+            [3, 'Mutismo o afasia global: no existe lenguaje útil ni comprensión auditiva funcional.']
+        ]
+    },
+    {
+        id: '10',
+        title: '10. Disartria',
+        max: 2,
+        un: true,
+        instruction: 'Solicita leer o repetir palabras para obtener una muestra adecuada del habla. En afasia grave, valora la articulación del habla espontánea. UN únicamente si está intubado o existe otra barrera física para producir el habla.',
+        options: [
+            [0, 'Articulación normal.'],
+            [1, 'Disartria leve o moderada: arrastra algunas palabras, pero se entiende con cierta dificultad.'],
+            [2, 'Disartria grave: habla ininteligible o ausencia de articulación (anartria).']
+        ]
+    },
+    {
+        id: '11',
+        title: '11. Extinción e inatención',
+        max: 2,
+        instruction: 'Valora atención visual, táctil, auditiva, espacial o personal. Puedes obtener información durante las pruebas anteriores. Compara estímulos unilaterales y bilaterales simultáneos. Este ítem nunca se registra como UN.',
+        options: [
+            [0, 'Sin alteraciones.'],
+            [1, 'Inatención o extinción en una modalidad sensorial.'],
+            [2, 'Heminegligencia profunda o extinción en más de una modalidad; no reconoce su propia mano u orienta la atención hacia un solo lado.']
+        ]
+    }
+];
+
+// =====================================================
+// NIHSS - GENERAR FORMULARIO
+// =====================================================
+
+function neuroNihssRender() {
+    const container = document.getElementById('nihss-items');
+    if (!container || container.dataset.rendered === 'true') return;
+
+    container.innerHTML = NEURO_NIHSS_ITEMS.map((item, index) => `
+        <article class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 space-y-3">
+
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <h4 class="font-black text-sm">${item.title}</h4>
+                    <p class="text-[10px] text-slate-500 mt-1">
+                        Puntuación máxima: ${item.max}
+                    </p>
+                </div>
+                <span id="nihss-badge-${item.id}"
+                    class="shrink-0 rounded-lg bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-black">
+                    —
+                </span>
+            </div>
+
+            <div class="rounded-xl bg-slate-50 dark:bg-slate-900 p-3">
+                <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                    <strong>Cómo evaluar:</strong> ${item.instruction}
+                </p>
+            </div>
+
+            <div>
+                <label for="nihss-item-${item.id}"
+                    class="block text-xs font-bold mb-2">
+                    Selecciona el resultado:
+                </label>
+
+                <select id="nihss-item-${item.id}"
+                    onchange="neuroNihssUpdate('${item.id}')"
+                    class="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+                    <option value="">Seleccionar puntuación...</option>
+                    ${item.options.map(option => `
+                        <option value="${option[0]}">
+                            ${option[0]} puntos — ${option[1]}
+                        </option>
+                    `).join('')}
+                    ${item.un ? '<option value="UN">UN — No evaluable (requiere justificación)</option>' : ''}
+                </select>
+            </div>
+
+            <div id="nihss-un-box-${item.id}" class="hidden">
+                <label for="nihss-un-reason-${item.id}"
+                    class="block text-xs font-bold mb-1 text-amber-700 dark:text-amber-300">
+                    Justificación obligatoria de UN
+                </label>
+                <input id="nihss-un-reason-${item.id}"
+                    type="text"
+                    placeholder="Describe por qué no puede evaluarse..."
+                    oninput="neuroNihssUpdate()"
+                    class="w-full p-2.5 rounded-xl border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-slate-900 text-xs">
+            </div>
+
+        </article>
+    `).join('');
+
+    container.dataset.rendered = 'true';
+
+}
+
+// =====================================================
+// NIHSS - ACTUALIZAR PUNTUACIÓN
+// =====================================================
+
+function neuroNihssUpdate(changedId) {
+    if (changedId) {
+        const item = NEURO_NIHSS_ITEMS.find(x => x.id === changedId);
+        const select = document.getElementById('nihss-item-' + changedId);
+        const unBox = document.getElementById('nihss-un-box-' + changedId);
+        const badge = document.getElementById('nihss-badge-' + changedId);
+
+        if (item && select) {
+            const isUN = select.value === 'UN';
+
+            if (unBox) {
+                unBox.classList.toggle('hidden', !isUN);
+            }
+
+            if (badge) {
+                badge.textContent = isUN ? 'UN' : (select.value === '' ? '—' : select.value);
+            }
+        }
+    }
+
+    let total = 0;
+    let completed = 0;
+    let unCount = 0;
+    let unMissingReason = false;
+
+    NEURO_NIHSS_ITEMS.forEach(item => {
+        const select = document.getElementById('nihss-item-' + item.id);
+        const reason = document.getElementById('nihss-un-reason-' + item.id);
+        const badge = document.getElementById('nihss-badge-' + item.id);
+
+        if (!select) return;
+
+        if (select.value === 'UN') {
+            unCount++;
+            completed++;
+
+            if (!reason?.value.trim()) {
+                unMissingReason = true;
+            }
+
+            if (badge) badge.textContent = 'UN';
+        } else if (select.value !== '') {
+            total += Number(select.value);
+            completed++;
+
+            if (badge) badge.textContent = select.value;
+        } else {
+            if (badge) badge.textContent = '—';
+        }
+    });
+
+    const totalEl = document.getElementById('nihss-total');
+    const completedEl = document.getElementById('nihss-completed');
+    const statusEl = document.getElementById('nihss-score-status');
+    const progress = document.getElementById('nihss-progress');
+
+    if (totalEl) {
+        totalEl.textContent = completed === 15 && unCount === 0 ? total : (completed > 0 ? total : '—');
+    }
+
+    if (completedEl) {
+        completedEl.textContent = `${completed} de 15 registros`;
+    }
+
+    if (progress) {
+        progress.style.width = `${(completed / 15) * 100}%`;
+    }
+
+    if (statusEl) {
+        if (completed < 15) {
+            statusEl.textContent = 'Puntuación parcial: faltan registros.';
+        } else if (unCount > 0 && unMissingReason) {
+            statusEl.textContent = 'Hay ítems UN sin justificación.';
+        } else if (unCount > 0) {
+            statusEl.textContent = `Hay ${unCount} ítem(s) no evaluable(s). La suma no equivale a un NIHSS completo.`;
+        } else {
+            statusEl.textContent = 'Evaluación completa: puntuación total calculada.';
+        }
+    }
+
+    const report = document.getElementById('nihss-report');
+    if (report) report.classList.add('hidden');
+}
+
+// =====================================================
+// NIHSS - GENERAR INFORME
+// =====================================================
+
+function neuroNihssGenerateReport() {
+    const values = [];
+    let total = 0;
+    let completed = 0;
+    let unCount = 0;
+    let missing = [];
+    let unReasonsMissing = [];
+
+    NEURO_NIHSS_ITEMS.forEach(item => {
+        const select = document.getElementById('nihss-item-' + item.id);
+        const reason = document.getElementById('nihss-un-reason-' + item.id);
+
+        if (!select || select.value === '') {
+            missing.push(item.id);
+            return;
+        }
+
+        completed++;
+
+        if (select.value === 'UN') {
+            unCount++;
+
+            const explanation = reason?.value.trim() || '';
+
+            if (!explanation) {
+                unReasonsMissing.push(item.id);
+            }
+
+            values.push(`${item.title}: UN${explanation ? ' — ' + explanation : ''}`);
+        } else {
+            const score = Number(select.value);
+            total += score;
+
+            const option = item.options.find(x => x[0] === score);
+            values.push(`${item.title}: ${score} puntos${option ? ' — ' + option[1] : ''}`);
+        }
+    });
+
+    if (missing.length > 0) {
+        alert('Faltan por evaluar estos registros: ' + missing.join(', '));
+        return;
+    }
+
+    if (unReasonsMissing.length > 0) {
+        alert('Justifica los ítems UN antes de generar el informe: ' + unReasonsMissing.join(', '));
+        return;
+    }
+
+    const patient = document.getElementById('nihss-patient')?.value.trim() || 'No especificado';
+    const date = document.getElementById('nihss-date')?.value || 'No especificada';
+    const interval = document.getElementById('nihss-interval')?.value || 'No especificado';
+    const examiner = document.getElementById('nihss-examiner')?.value.trim() || 'No especificado';
+
+    const scoreText = unCount === 0
+        ? `PUNTUACIÓN NIHSS TOTAL: ${total}/42`
+        : `SUMA DE ÍTEMS EVALUABLES: ${total}. Hay ${unCount} ítem(s) UN; no debe interpretarse como una puntuación total completa de 0–42.`;
+
+    const reportText = [
+        'ADROOSIS — ESCALA NIHSS',
+        '========================================',
+        `Paciente: ${patient}`,
+        `Fecha y hora: ${date}`,
+        `Momento de evaluación: ${interval}`,
+        `Evaluador: ${examiner}`,
+        '',
+        scoreText,
+        '',
+        'RESULTADOS POR ÍTEM',
+        '----------------------------------------',
+        ...values,
+        '',
+        'OBSERVACIÓN:',
+        'La puntuación NIHSS cuantifica déficits neurológicos y no excluye por sí sola un ictus ni sustituye la valoración clínica y la neuroimagen.',
+        '========================================'
+    ].join('\n');
+
+    const reportField = document.getElementById('nihss-report-text');
+    const reportPanel = document.getElementById('nihss-report');
+
+    if (reportField) reportField.value = reportText;
+    if (reportPanel) {
+        reportPanel.classList.remove('hidden');
+        reportPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    neuroNihssUpdate();
+}
+
+// =====================================================
+// NIHSS - COPIAR INFORME
+// =====================================================
+
+function neuroNihssCopyReport() {
+    const field = document.getElementById('nihss-report-text');
+
+    if (!field || !field.value) return;
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(field.value)
+            .then(() => alert('Informe NIHSS copiado.'))
+            .catch(() => {
+                field.select();
+                alert('Selecciona y copia el informe manualmente.');
+            });
+    } else {
+        field.select();
+        alert('Selecciona y copia el informe manualmente.');
+    }
+}
+
+// =====================================================
+// NIHSS - IMPRIMIR INFORME
+// =====================================================
+
+function neuroNihssReportPrint() {
+    const field = document.getElementById('nihss-report-text');
+
+    if (!field || !field.value) return;
+
+    const printWindow = window.open('', '_blank');
+
+    if (!printWindow) {
+        alert('El navegador bloqueó la ventana de impresión. Permite las ventanas emergentes.');
+        return;
+    }
+
+    const safeText = field.value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <title>Informe NIHSS</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 30px; color: #111; }
+                pre { white-space: pre-wrap; font-size: 12px; line-height: 1.6; }
+                h2 { font-size: 18px; }
+            </style>
+        </head>
+        <body>
+            <h2>ADROOSIS — Informe NIHSS</h2>
+            <pre>${safeText}</pre>
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+}
+
+// =====================================================
+// NIHSS - REINICIAR SOLO ESTA ESCALA
+// =====================================================
+
+function neuroNihssReset() {
+    if (!confirm('¿Deseas borrar los datos y puntuaciones del NIHSS actual?')) return;
+
+    NEURO_NIHSS_ITEMS.forEach(item => {
+        const select = document.getElementById('nihss-item-' + item.id);
+        const reason = document.getElementById('nihss-un-reason-' + item.id);
+        const unBox = document.getElementById('nihss-un-box-' + item.id);
+
+        if (select) select.value = '';
+        if (reason) reason.value = '';
+        if (unBox) unBox.classList.add('hidden');
+    });
+
+    ['nihss-patient', 'nihss-date', 'nihss-examiner'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) field.value = '';
+    });
+
+    const interval = document.getElementById('nihss-interval');
+    if (interval) interval.value = 'Basal';
+
+    const report = document.getElementById('nihss-report');
+    const reportText = document.getElementById('nihss-report-text');
+
+    if (report) report.classList.add('hidden');
+    if (reportText) reportText.value = '';
+
+    neuroNihssUpdate();
+}
+
 function neuroNihssOpen() {
     const nihssPanel = document.getElementById('neuro-nihss-panel');
     const quickPanel = document.getElementById('neuro-quick-panel');
@@ -11730,6 +12393,8 @@ function neuroNihssOpen() {
     if (progressCard) progressCard.classList.add('hidden');
 
     if (nihssPanel) nihssPanel.classList.remove('hidden');
+
+    neuroNihssRender();
 
     nihssPanel?.scrollIntoView({
         behavior: 'smooth',
