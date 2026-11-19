@@ -1104,17 +1104,68 @@
 
     </div>
 
+    
     <div id="neuro-nihss-form" class="space-y-4">
-        <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
-            <p class="text-sm font-bold">Formulario NIHSS</p>
-            <p class="text-xs text-slate-500 mt-1">
-                En el siguiente paso incorporaremos los apartados de evaluación,
-                sus criterios de puntuación y el cálculo automático.
-            </p>
-        </div>
-    </div>
 
+        <!-- ESTÍMULO VISUAL DEL ÍTEM 9 -->
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 space-y-3">
+
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+                <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                        Material visual NIHSS
+                    </span>
+                    <h4 class="font-black text-base text-slate-900 dark:text-white mt-1">
+                        Ítem 9 · Mejor lenguaje
+                    </h4>
+                </div>
+
+                <span class="px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold">
+                    Estímulo 1
+                </span>
+            </div>
+
+            <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                Muestre la ilustración al paciente y solicítele que describa
+                lo que está sucediendo. No le sugiera respuestas ni describa
+                la escena por él.
+            </p>
+
+            <button type="button"
+                onclick="window.open('./nihss-precarious-painter.jpg', '_blank')"
+                class="block w-full text-left">
+
+                <img
+                    src="./nihss-precarious-painter.jpg"
+                    alt="Ilustración Precarious Painter utilizada como estímulo visual del ítem 9 de la NIHSS"
+                    class="w-full h-auto rounded-xl border border-slate-200 dark:border-slate-700 object-contain"
+                    loading="lazy"
+                >
+
+                <span class="block text-center text-[11px] text-indigo-600 dark:text-indigo-400 font-bold mt-2">
+                    Tocar la imagen para ampliarla
+                </span>
+            </button>
+
+            <div class="rounded-xl bg-slate-50 dark:bg-slate-800/70 p-3">
+                <p class="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    Instrucción para el examinador
+                </p>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                    Evalúe la capacidad de expresión y comprensión mediante
+                    la descripción de la imagen, la denominación de objetos
+                    y la lectura de frases. La puntuación debe reflejar
+                    el desempeño global del paciente.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- AQUÍ SE INCORPORARÁ EL FORMULARIO COMPLETO NIHSS -->
+        <div id="neuro-nihss-items" class="space-y-4"></div>
+    </div>
 </div>
+
 <!-- FIN NIHSS -->
 
 <!-- =====================================================
