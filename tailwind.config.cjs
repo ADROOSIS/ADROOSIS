@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./index.html", "./pwa.js"],
+  content: ["./index.html", "./src/**/*.{js,html}", "./js/**/*.js"],
   darkMode: "class",
   theme: {
     extend: {
