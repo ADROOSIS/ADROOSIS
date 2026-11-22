@@ -5,16 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Adroosis · Tu Aliado en la ronda Médica</title>
+    <meta name="description" content="Herramientas clínicas para internos y médicos rurales: calculadoras, vademécum, triadas, SIVIGILA y más. Funciona sin conexión.">
+    <meta name="theme-color" content="#123B32">
 
-    <!-- Logo de ADROOSIS en la pestaña del navegador -->
-    <link rel="icon" type="image/png" href="logo1.png">
-    <!-- Icono de la pestaña -->
-    <link rel="icon" type="image/png" href="./logo1.png">
-    <!-- Icono para iPhone -->
-    <link rel="apple-touch-icon" href="./logo1.png">
+    <!-- Tema: aplica el modo guardado antes de pintar para evitar el parpadeo -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('adroosis_theme');
+                var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (dark) document.documentElement.classList.add('dark');
+            } catch (e) {}
+        })();
+    </script>
 
-<!-- Configuración de la aplicación -->
-<link rel="manifest" href="./manifest.json">
+    <!-- Iconos -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+
+    <!-- Configuración de la aplicación -->
+    <link rel="manifest" href="./manifest.json">
   
     <!-- Tailwind CSS LOCAL: funciona sin internet -->
     <link rel="stylesheet" href="./tailwind.min.css">
@@ -47,8 +57,10 @@
             <div class="p-5 border-b border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-lg">
-                    <img src="logo1.png" 
-                        alt="Logo ADROOSIS" 
+                    <img src="./logo-192.webp"
+                        alt="Logo ADROOSIS"
+                        width="40" height="40"
+                        decoding="async"
                         class="w-full h-full object-contain">
                     </div>
                     <div>
@@ -77,7 +89,7 @@
             <div class="p-4 border-t border-slate-200 dark:border-slate-700/60 space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Modo Oscuro</span>
-                    <button onclick="toggleDarkMode()" class="relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300 dark:bg-teal-600 transition-colors focus:outline-none">
+                    <button id="dark-mode-toggle" onclick="toggleDarkMode()" role="switch" aria-checked="false" aria-label="Modo oscuro" class="relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300 dark:bg-teal-600 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500/40">
                         <span id="dark-mode-thumb" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1 dark:translate-x-6"></span>
                     </button>
                 </div>
@@ -7667,7 +7679,12 @@ function renderVademecum() {
         }
 
         function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
+            const root = document.documentElement;
+            root.classList.toggle('dark');
+            const isDark = root.classList.contains('dark');
+            try { localStorage.setItem('adroosis_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            const toggle = document.getElementById('dark-mode-toggle');
+            if (toggle) toggle.setAttribute('aria-checked', String(isDark));
         }
 
         function openCalc(id) {
@@ -12259,6 +12276,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // INITIALIZATION
         window.onload = function() {
+            const darkToggle = document.getElementById('dark-mode-toggle');
+            if (darkToggle) darkToggle.setAttribute('aria-checked', String(document.documentElement.classList.contains('dark')));
             renderSidebarModules();
             rotatePerla();
             renderNovedades();
@@ -12277,7 +12296,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener("load", () => {
             navigator.serviceWorker.register(
                 "./service-worker.js",
-                { scope: "./" }
+                { scope: "./", updateViaCache: "none" }
             )
             .then(registration => {
                 console.log(
