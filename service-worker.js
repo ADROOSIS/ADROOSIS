@@ -1,140 +1,74 @@
-
-const CACHE_NAME = "adroosis-v2";
-const RUNTIME_CACHE = "adroosis-runtime-v2";
-
-// Archivos que SÍ existen en la raíz del repositorio.
+const CACHE_NAME = "adroosis-v1";
 const ASSETS_TO_CACHE = [
     "/ADROOSIS/",
     "/ADROOSIS/index.html",
     "/ADROOSIS/manifest.json",
+
+    // Estilos locales
+    "/ADROOSIS/tailwind.min.css",
+    "/ADROOSIS/vendor/fontawesome/css/all.min.css",
+
+    // Logo e iconos de la aplicación
     "/ADROOSIS/logo1.png",
     "/ADROOSIS/icon-192.png",
     "/ADROOSIS/icon-512.png",
-    "/ADROOSIS/fa-brands-400.woff2",
-    "/ADROOSIS/fa-regular-400.woff2",
-    "/ADROOSIS/fa-solid-900.woff2",
-    "/ADROOSIS/fa-v4compatibility.woff2"
+
+    // Fuentes locales de Font Awesome
+    "/ADROOSIS/vendor/fontawesome/webfonts/fa-brands-400.woff2",
+    "/ADROOSIS/vendor/fontawesome/webfonts/fa-regular-400.woff2",
+    "/ADROOSIS/vendor/fontawesome/webfonts/fa-solid-900.woff2",
+    "/ADROOSIS/vendor/fontawesome/webfonts/fa-v4compatibility.woff2",
+
+    // Imagen utilizada por la escala NIHSS
+    "/ADROOSIS/nihss-precarious-painter.jpg"
 ];
 
-// Instalación
+// Instalación: guarda en caché los archivos esenciales
 self.addEventListener("install", (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(ASSETS_TO_CACHE))
-            .then(() => self.skipWaiting())
-    );
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
+  );
+  self.skipWaiting();
 });
 
-// Activación
+// Activación: limpia cachés viejas si actualizas la versión
 self.addEventListener("activate", (event) => {
-    event.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(
-                keys
-                    .filter(key =>
-                        key.startsWith("adroosis-") &&
-                        key !== CACHE_NAME &&
-                        key !== RUNTIME_CACHE
-                    )
-                    .map(key => caches.delete(key))
-            )
-        ).then(() => self.clients.claim())
-    );
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
 });
 
-// Interceptar solicitudes
+// Intercepta peticiones para servir el contenido offline
 self.addEventListener("fetch", (event) => {
-    const request = event.request;
-
-    if (request.method !== "GET") return;
-
-    const url = new URL(request.url);
-
-    // Navegación: primero intenta conectarse y luego usa la copia local.
-    if (request.mode === "navigate") {
-        event.respondWith(
-            fetch(request)
-                .then(response => {
-                    const copy = response.clone();
-
-                    event.waitUntil(
-                        caches.open(CACHE_NAME)
-                            .then(cache => cache.put(
-                                "/ADROOSIS/index.html",
-                                copy
-                            ))
-                    );
-
-                    return response;
-                })
-                .catch(async () => {
-                    return await caches.match("/ADROOSIS/index.html") ||
-                           await caches.match("/ADROOSIS/");
-                })
-        );
-
-        return;
-    }
-
-    // Archivos externos utilizados por la interfaz.
-    const allowedCDN = [
-        "cdn.tailwindcss.com",
-        "cdnjs.cloudflare.com"
-    ];
-
-    if (
-        url.origin !== self.location.origin &&
-        !allowedCDN.includes(url.hostname)
-    ) {
-        return;
-    }
-
-    // Caché primero y actualización en segundo plano.
-    event.respondWith(
-        (async () => {
-            const cache = await caches.open(
-                url.origin === self.location.origin
-                    ? CACHE_NAME
-                    : RUNTIME_CACHE
-            );
-
-            const cached = await cache.match(request);
-
-            const network = fetch(request)
-                .then(response => {
-                    if (response && response.ok) {
-                        const copy = response.clone();
-
-                        cache.put(request, copy).catch(() => {});
-                    }
-
-                    return response;
-                })
-                .catch(() => null);
-
-            if (cached) {
-                event.waitUntil(network);
-                return cached;
-            }
-
-            const response = await network;
-
-            return response || new Response(
-                "Recurso no disponible sin conexión.",
-                {
-                    status: 503,
-                    headers: {
-                        "Content-Type": "text/plain; charset=utf-8"
-                    }
-                }
-            );
-        })()
-    );
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).catch(() => {
+        // Si no hay red y se pide la página principal, se devuelve el index cacheado
+        if (event.request.mode === "navigate") {
+          return caches.match("/ADROOSIS/");
+        }
+      });
+    })
+  );
 });
 
-// Permitir actualización desde la aplicación.
+// Mensaje para forzar actualización inmediata
 self.addEventListener("message", (event) => {
-    if (event.data === "SKIP_WAITING") {
-        self.skipWaiting();
-    }
+  if (event.data === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
