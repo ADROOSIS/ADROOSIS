@@ -15,28 +15,10 @@
 
 <!-- Configuración de la aplicación -->
 <link rel="manifest" href="./manifest.json">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0fdfa',
-                            100: '#ccfbf1',
-                            500: '#14b8a6',
-                            600: '#0d9488',
-                            700: '#0f766e',
-                            800: '#115e59',
-                            900: '#134e4a',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+  
+    <!-- Tailwind CSS LOCAL: funciona sin internet -->
+    <link rel="stylesheet" href="./tailwind.min.css">
+    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12703,6 +12685,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })();
 </script>
-
 </body>
 </html>
