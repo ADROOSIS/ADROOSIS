@@ -42,6 +42,19 @@
 .dark .hc-chip{background:#0f172a;border-color:#334155;color:#cbd5e1}
 .dark .hc-chip.on{background:#0d9488;border-color:#0d9488;color:#fff}
 .dark .hc-chip.neg.on{background:#64748b;border-color:#64748b}
+
+/* ---------- Impresión / PDF ---------- */
+#print-root{display:none}
+@media print{
+  @page{size:A4;margin:16mm}
+  html,body{background:#fff!important;height:auto!important;overflow:visible!important}
+  body>*:not(#print-root){display:none!important}
+  #print-root{display:block!important;color:#000}
+  #print-root .print-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:2px solid #0d9488;padding-bottom:6px;margin-bottom:12px;font:600 11pt system-ui,-apple-system,"Segoe UI",sans-serif}
+  #print-root .print-head span{font-weight:400;color:#444}
+  #print-root pre{margin:0;white-space:pre-wrap;word-break:break-word;font:11.5pt/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#111}
+  #print-root .print-foot{margin-top:14px;border-top:1px solid #cbd5e1;padding-top:6px;font:8.5pt system-ui,-apple-system,"Segoe UI",sans-serif;color:#555}
+}
     </style>
 </head>
 <body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200">
@@ -87,6 +100,13 @@
 
             <!-- Sidebar Footer / Darkmode & Settings -->
             <div class="p-4 border-t border-slate-200 dark:border-slate-700/60 space-y-2">
+                <button id="install-app-btn" type="button" onclick="installApp()" class="hidden flex w-full items-center justify-between px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-sm">
+                    <span><i class="fa-solid fa-download mr-1"></i> Instalar app</span>
+                    <i class="fa-solid fa-arrow-down text-[10px] opacity-80"></i>
+                </button>
+                <p id="install-ios-help" class="hidden text-[10px] font-normal leading-snug text-slate-500 dark:text-slate-400">
+                    En iPhone/iPad: toca <strong>Compartir</strong> <i class="fa-solid fa-arrow-up-from-bracket"></i> y elige <strong>Añadir a pantalla de inicio</strong>.
+                </p>
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Modo Oscuro</span>
                     <button id="dark-mode-toggle" onclick="toggleDarkMode()" role="switch" aria-checked="false" aria-label="Modo oscuro" class="relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300 dark:bg-teal-600 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500/40">
@@ -386,9 +406,9 @@
             <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 space-y-2 text-xs font-bold">
                 <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-file-export text-teal-500"></i> Historia lista</h3>
                 <div class="grid grid-cols-2 gap-2">
-                    <button type="button" onclick="hcCopy()" class="py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white shadow"><i class="fa-solid fa-copy mr-1"></i>Copiar</button>
-                    <button type="button" onclick="hcDownload()" class="py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-download mr-1"></i>.txt</button>
-                    <button type="button" onclick="hcPrint()" class="py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-print mr-1"></i>Imprimir</button>
+                    <button type="button" onclick="hcCopy()" class="py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-copy mr-1"></i>Copiar</button>
+                    <button type="button" onclick="hcPrint()" title="Guardar como PDF o imprimir" class="py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white shadow"><i class="fa-solid fa-file-pdf mr-1"></i>PDF</button>
+                    <button type="button" onclick="hcShare()" class="py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"><i class="fa-solid fa-share-nodes mr-1"></i>Compartir</button>
                     <button type="button" onclick="hcClear()" class="py-2 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300"><i class="fa-solid fa-eraser mr-1"></i>Limpiar</button>
                 </div>
                 <p id="hc-copy-msg" class="text-emerald-600 dark:text-emerald-400 text-[11px] h-3"></p>
@@ -8897,17 +8917,39 @@ function hcCopy() {
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(() => hcToast('Historia copiada ✓')).catch(() => hcFallbackCopy(t));
     else hcFallbackCopy(t);
 }
-function hcDownload() {
-    const blob = new Blob([hcBuild()], { type: 'text/plain;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'historia_clinica_' + new Date().toISOString().slice(0, 10) + '.txt';
-    a.click(); URL.revokeObjectURL(a.href);
+function hcFillPrint(title, text) {
+    const root = document.getElementById('print-root');
+    if (!root) return null;
+    const date = new Date().toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' });
+    root.innerHTML =
+        '<div class="print-head"><strong>ADROOSIS</strong><span>' + hcEsc(title) + '</span></div>' +
+        '<pre>' + hcEsc(text) + '</pre>' +
+        '<div class="print-foot">Generado el ' + hcEsc(date) + ' · Documento clínico. Verifique los datos antes de usarlo.</div>';
+    return root;
 }
 function hcPrint() {
-    const w = window.open('', '_blank'); if (!w) { alert('Permite las ventanas emergentes para imprimir.'); return; }
-    w.document.write('<pre style="font:13px/1.5 monospace;white-space:pre-wrap;padding:24px">' + hcEsc(hcBuild()) + '</pre>');
-    w.document.close(); w.focus(); w.print();
+    const root = hcFillPrint('Historia clínica', hcBuild());
+    if (!root) return;
+    let cleaned = false;
+    const cleanup = () => {
+        if (cleaned) return;
+        cleaned = true;
+        root.innerHTML = '';
+        window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    window.print();
+    setTimeout(cleanup, 300000);
+}
+function hcShare() {
+    const text = hcBuild();
+    if (!navigator.share) { hcCopy(); return; }
+    navigator.share({ title: 'Historia clínica - ADROOSIS', text: text })
+        .then(() => hcToast('Historia compartida'))
+        .catch((err) => {
+            if (err && err.name === 'AbortError') return;
+            hcCopy();
+        });
 }
 
 /* ===== FAVORITOS ===== */
@@ -12291,27 +12333,125 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 
 <script>
-    // Registro de la PWA ADROOSIS
-    if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register(
-                "./service-worker.js",
-                { scope: "./", updateViaCache: "none" }
-            )
-            .then(registration => {
-                console.log(
-                    "ADROOSIS: Service Worker registrado correctamente",
-                    registration.scope
-                );
-            })
-            .catch(error => {
-                console.error(
-                    "Error registrando ADROOSIS:",
-                    error
-                );
-            });
+    /* =========================================================
+       PWA: instalación, actualizaciones y service worker
+       ========================================================= */
+    (function () {
+        /* ---------- Instalar la app ---------- */
+        let deferredPrompt = null;
+
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                window.navigator.standalone === true;
+        }
+
+        function showInstallButton() {
+            const btn = document.getElementById('install-app-btn');
+            if (btn && !isStandalone()) btn.classList.remove('hidden');
+        }
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+            showInstallButton();
         });
-    }
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            const btn = document.getElementById('install-app-btn');
+            if (btn) btn.classList.add('hidden');
+            const help = document.getElementById('install-ios-help');
+            if (help) help.classList.add('hidden');
+        });
+
+        window.installApp = function () {
+            const btn = document.getElementById('install-app-btn');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted' && btn) btn.classList.add('hidden');
+                    deferredPrompt = null;
+                }).catch(() => { deferredPrompt = null; });
+                return;
+            }
+            // iOS y navegadores sin beforeinstallprompt
+            const help = document.getElementById('install-ios-help');
+            if (help) help.classList.toggle('hidden');
+        };
+
+        // En iOS no existe beforeinstallprompt: mostramos la ayuda directamente
+        if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !isStandalone()) {
+            showInstallButton();
+            const help = document.getElementById('install-ios-help');
+            if (help) help.classList.remove('hidden');
+        }
+
+        /* ---------- Service worker y aviso de actualización ---------- */
+        if (!('serviceWorker' in navigator)) return;
+
+        const hadController = !!navigator.serviceWorker.controller;
+        let userRequestedReload = false;
+        let lastUpdateCheck = 0;
+
+        function showUpdateBanner() {
+            const banner = document.getElementById('update-banner');
+            if (banner) banner.classList.remove('hidden');
+        }
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (userRequestedReload) window.location.reload();
+        });
+
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register(
+                './service-worker.js',
+                { scope: './', updateViaCache: 'none' }
+            )
+                .then((registration) => {
+                    if (registration.waiting && hadController) showUpdateBanner();
+
+                    registration.addEventListener('updatefound', () => {
+                        const worker = registration.installing;
+                        if (!worker) return;
+                        worker.addEventListener('statechange', () => {
+                            if (worker.state === 'installed' && hadController) showUpdateBanner();
+                        });
+                    });
+
+                    const btnUpdate = document.getElementById('update-banner-btn');
+                    if (btnUpdate) {
+                        btnUpdate.addEventListener('click', () => {
+                            userRequestedReload = true;
+                            if (registration.waiting) {
+                                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                            } else {
+                                window.location.reload();
+                            }
+                        });
+                    }
+
+                    const btnClose = document.getElementById('update-banner-close');
+                    if (btnClose) {
+                        btnClose.addEventListener('click', () => {
+                            const banner = document.getElementById('update-banner');
+                            if (banner) banner.classList.add('hidden');
+                        });
+                    }
+
+                    // Revisa actualizaciones al volver a la app (máx. 1 vez por hora)
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.visibilityState !== 'visible') return;
+                        const now = Date.now();
+                        if (now - lastUpdateCheck < 3600000) return;
+                        lastUpdateCheck = now;
+                        registration.update().catch(() => {});
+                    });
+                })
+                .catch((error) => {
+                    console.error('ADROOSIS: error registrando el service worker', error);
+                });
+        });
+    })();
 </script>
 
 <script>
@@ -12705,5 +12845,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })();
 </script>
+
+<!-- Aviso de nueva versión (lo muestra el service worker) -->
+<div id="update-banner" class="hidden fixed inset-x-0 bottom-0 z-50 p-3">
+    <div class="mx-auto max-w-md flex items-center gap-3 rounded-2xl bg-slate-900 text-white shadow-2xl px-4 py-3 border border-teal-500/40">
+        <i class="fa-solid fa-arrows-rotate text-teal-400"></i>
+        <p class="flex-1 text-xs font-medium leading-snug">Hay una versión nueva de ADROOSIS.</p>
+        <button id="update-banner-btn" type="button" class="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-xs font-bold">Actualizar</button>
+        <button id="update-banner-close" type="button" aria-label="Cerrar aviso" class="p-1 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+</div>
+
+<!-- Contenedor de impresión / PDF (solo se muestra al imprimir) -->
+<div id="print-root"></div>
 </body>
 </html>
