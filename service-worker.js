@@ -8,7 +8,7 @@
    - Rutas relativas: funciona en /ADROOSIS/ o en la raíz.
    ========================================================= */
 
-const VERSION = "2.1.0";
+const VERSION = "2.2.0";
 const STATIC_CACHE = `adroosis-static-${VERSION}`;
 const HTML_CACHE = `adroosis-html-${VERSION}`;
 const INDEX_KEY = "./index.html";
@@ -17,6 +17,11 @@ const NAV_TIMEOUT_MS = 4000;
 const PRECACHE_STATIC = [
   "./manifest.json",
   "./tailwind.min.css",
+  "./css/app.css",
+  "./js/data.js",
+  "./js/app.js",
+  "./js/pwa.js",
+  "./js/nihss.js",
   "./vendor/fontawesome/css/all.min.css",
   "./logo-192.webp",
   "./icon-192.png",
@@ -88,23 +93,25 @@ async function handleNavigate(request) {
   const cache = await caches.open(HTML_CACHE);
   try {
     const response = await withTimeout(fetch(request), NAV_TIMEOUT_MS);
+    // Si hay red y responde bien, se sirve y se guarda la copia nueva.
     if (response && response.ok) {
       cache.put(INDEX_KEY, response.clone());
+      return response;
     }
-    return response;
   } catch (error) {
-    const cached = await cache.match(INDEX_KEY);
-    if (cached) return cached;
-    return new Response(OFFLINE_HTML, {
-      status: 503,
-      headers: { "Content-Type": "text/html; charset=utf-8" }
-    });
+    // Sin red o tiempo de espera agotado: se usa la copia local.
   }
+  const cached = await cache.match(INDEX_KEY);
+  if (cached) return cached;
+  return new Response(OFFLINE_HTML, {
+    status: 503,
+    headers: { "Content-Type": "text/html; charset=utf-8" }
+  });
 }
 
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(STATIC_CACHE);
-  const cached = await cache.match(request);
+  const cached = await cache.match(request, { ignoreSearch: true });
 
   const network = fetch(request)
     .then((response) => {
