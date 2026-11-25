@@ -4401,7 +4401,7 @@ function tplReset() {
 vademecumData.push(...vademecumTanda2);
 
 /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 1 · 31 oct 2026) ===== */
-const VAD_VERSION = 'v1.4 · 25 Nov 2026';
+const VAD_VERSION = 'v1.5 · 25 Nov 2026';
 
 const VAD_VERIF = {
     'Atropina': {
@@ -5365,6 +5365,58 @@ const VAD_VERIF9 = {
 Object.assign(VAD_VERIF, VAD_VERIF9);
 vademecumData.forEach(v => {
     const o = VAD_VERIF9[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = o.verificado === true;
+    v.parcial = !!o.parcial;
+    v.revisado = '25 nov 2026';
+});
+
+
+/* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 10 · 25 nov 2026) =====
+   Completa TMP/SMX: la dosis de P. jirovecii (15-20 mg/kg/día del
+   componente TMP c/6h x 14-21 días) SÍ aparece en la ficha FDA
+   (sulfametoxazol/trimetoprim, set_id 079c828c-...). Refina las
+   notas de los 6 restantes.                                    */
+const VAD_VERIF10 = {
+    'Trimetoprim / Sulfametoxazol (TMP/SMX)': {
+        verificado: true, parcial: false, nota: '',
+        fuente: { t: 'Ficha FDA · sulfametoxazol/trimetoprim (DailyMed, set_id 079c828c-148f-45b9-966e-d8906043b2a2)', url: 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=079c828c-148f-45b9-966e-d8906043b2a2' },
+        alcance: 'Dosis del adulto y pediátrica en ITU, shigelosis, otitis y P. jirovecii según la ficha FDA.',
+        adult: 'ITU y shigelosis: 160/800 mg (1 tableta DS) VO c/12h x 10 - 14 días; cistitis: 3 días. P. jirovecii: 75 - 100 mg/kg/día de SMX + 15 - 20 mg/kg/día de TMP c/6h x 14 - 21 días',
+        ped: 'ITU y otitis: 40 mg/kg/día de SMX + 8 mg/kg/día de TMP c/12h x 10 días. P. jirovecii: 75 - 100 mg/kg/día de SMX + 15 - 20 mg/kg/día de TMP c/6h x 14 - 21 días',
+        renal: 'ClCr 15 - 30: reducir 50 %; ClCr < 15: no recomendado',
+        warning: 'Reacciones cutáneas graves (SJS/TEN), hiperkalemia, cristaluria (hidratar) y hemólisis en déficit de G6PD. Contraindicado en < 2 meses y al término del embarazo.'
+    },
+    'Carbón activado': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica (1 g/kg, máx 50 g) es la práctica estándar de los centros de toxicología (AAP/Poison Control); no aparece en la ficha FDA (Actidose, solo adulto 20-30 g).'
+    },
+    'Gentamicina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis extendida (5-7 mg/kg c/24h) proviene de las guías de dosificación antimicrobiana; la ficha FDA da la dosis estándar (3 mg/kg/día en 3 dosis, hasta 5 mg/kg/día en infecciones graves) y el ajuste por intervalo en falla renal.'
+    },
+    'Insulina NPH': {
+        verificado: true, parcial: true,
+        nota: 'Las dosis de inicio (10 UI o 0,1-0,2 UI/kg/día en DM2; 0,5-1 UI/kg/día en DM1) son las habituales de las guías de diabetes (ADA); la ficha FDA individualiza y no las fija.'
+    },
+    'Ondansetrón': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica oncológica (4 mg en 4-11 años, 8 mg en 12-17 años) y la IV provienen de la ficha FDA (Zofran); la dosis de náuseas no oncológicas (4-8 mg VO c/8-12h) proviene de las guías clínicas.'
+    },
+    'Hioscina (butilbromuro)': {
+        verificado: true, parcial: true,
+        nota: 'La dosis parenteral (20 mg IV/IM/SC c/6-8h, máx 100 mg/día) es la estándar; la ficha CIMA (Nº reg. 18221) solo cubre la vía oral. Sin ficha oficial del inyectable en CIMA.'
+    },
+    'Loratadina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica (2-5 años 5 mg; ≥ 6 años 10 mg c/24h) proviene de la ficha de venta libre (OTC); el ajuste hepático/renal proviene de las guías clínicas.'
+    }
+};
+
+Object.assign(VAD_VERIF, VAD_VERIF10);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF10[v.name];
     if (!o) return;
     Object.assign(v, o);
     v.verificado = o.verificado === true;
