@@ -46,56 +46,265 @@
             if (subTab === 'antibiograma') loadAbgGermPanel();
         }
 
-        // ANTIBIOGRAM INTERPRETER LOGIC
+        // ANTIBIOGRAM INTERPRETER LOGIC (EUCAST v16.1, 2026)
+        // Puntos de corte de CMI en mg/L: s = "S ≤", r = "R >" (rIncl = "R ≥").
+        // offScale: EUCAST usa S ≤ 0.001 para no informar S (el wild-type queda como I).
+        // clsi: combinación sin corte de CMI en EUCAST; se usa CLSI y se rotula.
+        // ecoff: corte basado en ECOFF (nota 11/12 de EUCAST); interpretar con cautela.
+        const ABG_CRITERIA = 'EUCAST v16.1 (2026)';
+
+        const ABG_BP = {
+            ent: {
+                amp: { s: 8, r: 8 },
+                sam: { s: 8, r: 8 },
+                amc: { s: 8, r: 8 },
+                tzp: { s: 8, r: 16 },
+                cro: { s: 1, r: 2, sMen: 1, rMen: 1 },
+                fep: { s: 1, r: 4 },
+                mer: { s: 2, r: 8, sMen: 2, rMen: 2 },
+                ert: { s: 0.5, r: 0.5 },
+                cip: { s: 0.25, r: 0.5 },
+                ami: { s: 8, r: 8, ecoff: true },
+                gen: { s: 2, r: 2, ecoff: true },
+                nit: { s: 64, r: 64 },
+                sxt: { s: 0.5, r: 0.5 },
+                fos: { s: 8, r: 8 }
+            },
+            pse: {
+                tzp: { s: 0.001, r: 16, offScale: true },
+                caz: { s: 0.001, r: 8, offScale: true },
+                fep: { s: 0.001, r: 8, offScale: true },
+                mer: { s: 2, r: 8 },
+                imi: { s: 0.001, r: 4, offScale: true },
+                azt: { s: 0.001, r: 16, offScale: true },
+                cip: { s: 0.001, r: 0.5, offScale: true },
+                lev: { s: 0.001, r: 2, offScale: true },
+                ami: { s: 16, r: 16, ecoff: true },
+                gen: { s: 4, r: 16, rIncl: true, clsi: true },
+                col: { s: 4, r: 4, ecoff: true, note: 'La CMI de colistina es poco reproducible; confirma con el laboratorio.' }
+            },
+            acb: {
+                mer: { s: 2, r: 8, sMen: 2, rMen: 2 },
+                imi: { s: 2, r: 4 },
+                cip: { s: 0.001, r: 1, offScale: true },
+                lev: { s: 0.5, r: 1 },
+                ami: { s: 8, r: 8, ecoff: true },
+                gen: { s: 4, r: 4, ecoff: true },
+                sxt: { s: 0.5, r: 0.5 },
+                col: { s: 2, r: 2, ecoff: true, note: 'La CMI de colistina es poco reproducible; confirma con el laboratorio.' }
+            },
+            sta: {
+                oxa: { s: 2, r: 4, rIncl: true, clsi: true, sCoNS: 0.25, rCoNS: 0.5, note: 'EUCAST recomienda tamizaje con cefoxitina; el corte de oxacilina es CLSI (CoNS: S ≤ 0,25 · R ≥ 0,5).' },
+                fox: { s: 4, r: 8, rIncl: true, clsi: true, note: 'Tamizaje de mecA/SARM; no es un antibiótico para tratar.' },
+                van: { s: 2, r: 2, sCoNS: 4, rCoNS: 4 },
+                cli: { s: 0.25, r: 0.25 },
+                ery: { s: 1, r: 1 },
+                sxt: { s: 0.5, r: 0.5 },
+                dap: { s: 1, r: 1, note: 'S. aureus; no usar en neumonía (se inactiva por el surfactante).' },
+                lzd: { s: 4, r: 4 },
+                rif: { s: 0.06, r: 0.06, note: 'Solo como adyuvante en combinación; nunca en monoterapia.' }
+            },
+            entc: {
+                amp: { s: 4, r: 4 },
+                van: { s: 4, r: 4 },
+                lzd: { s: 4, r: 4 },
+                dap: { s: 4, r: 8, rIncl: true, clsi: true, note: 'CLSI para E. faecalis; EUCAST no da corte (IE). No usar en neumonía.' },
+                nit: { s: 64, r: 64 }
+            },
+            spn: {
+                pen: { s: 0.06, r: 1, sMen: 0.06, rMen: 0.06 },
+                cro: { s: 0.5, r: 2, sMen: 0.5, rMen: 0.5 },
+                van: { s: 2, r: 2 },
+                lev: { s: 0.001, r: 2, offScale: true },
+                ery: { s: 0.25, r: 0.25 },
+                cli: { s: 0.5, r: 0.5 },
+                sxt: { s: 1, r: 1 }
+            }
+        };
+
         const abgPanelData = {
             ecoli: [
                 { id: 'amp', name: 'Ampicilina' },
                 { id: 'sam', name: 'Ampicilina / Sulbactam' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
                 { id: 'cro', name: 'Ceftriaxona' },
                 { id: 'fep', name: 'Cefepime' },
-                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
                 { id: 'mer', name: 'Meropenem' },
+                { id: 'ert', name: 'Ertapenem' },
                 { id: 'cip', name: 'Ciprofloxacino' },
-                { id: 'nit', name: 'Nitrofurantoína (sólo ITU)' }
+                { id: 'ami', name: 'Amikacina' },
+                { id: 'gen', name: 'Gentamicina' },
+                { id: 'sxt', name: 'TMP / SMX' },
+                { id: 'nit', name: 'Nitrofurantoína', only: 'ITU no complicada' },
+                { id: 'fos', name: 'Fosfomicina', only: 'ITU no complicada' }
             ],
             klebsiella: [
                 { id: 'sam', name: 'Ampicilina / Sulbactam' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
                 { id: 'cro', name: 'Ceftriaxona' },
                 { id: 'fep', name: 'Cefepime' },
-                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
                 { id: 'mer', name: 'Meropenem' },
+                { id: 'ert', name: 'Ertapenem' },
                 { id: 'cip', name: 'Ciprofloxacino' },
-                { id: 'ami', name: 'Amikacina' }
+                { id: 'ami', name: 'Amikacina' },
+                { id: 'gen', name: 'Gentamicina' },
+                { id: 'sxt', name: 'TMP / SMX' }
+            ],
+            proteus: [
+                { id: 'amp', name: 'Ampicilina' },
+                { id: 'sam', name: 'Ampicilina / Sulbactam' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
+                { id: 'cro', name: 'Ceftriaxona' },
+                { id: 'fep', name: 'Cefepime' },
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'ert', name: 'Ertapenem' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'ami', name: 'Amikacina' },
+                { id: 'gen', name: 'Gentamicina' },
+                { id: 'sxt', name: 'TMP / SMX' }
+            ],
+            enterobacter: [
+                { id: 'sam', name: 'Ampicilina / Sulbactam' },
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
+                { id: 'cro', name: 'Ceftriaxona' },
+                { id: 'fep', name: 'Cefepime' },
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'ert', name: 'Ertapenem' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'ami', name: 'Amikacina' },
+                { id: 'gen', name: 'Gentamicina' },
+                { id: 'sxt', name: 'TMP / SMX' }
+            ],
+            paeruginosa: [
+                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
+                { id: 'caz', name: 'Ceftazidima' },
+                { id: 'fep', name: 'Cefepime' },
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'imi', name: 'Imipenem' },
+                { id: 'azt', name: 'Aztreonam' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'lev', name: 'Levofloxacino' },
+                { id: 'ami', name: 'Amikacina' },
+                { id: 'gen', name: 'Gentamicina' },
+                { id: 'col', name: 'Colistina' }
+            ],
+            acinetobacter: [
+                { id: 'mer', name: 'Meropenem' },
+                { id: 'imi', name: 'Imipenem' },
+                { id: 'cip', name: 'Ciprofloxacino' },
+                { id: 'lev', name: 'Levofloxacino' },
+                { id: 'ami', name: 'Amikacina' },
+                { id: 'gen', name: 'Gentamicina' },
+                { id: 'sxt', name: 'TMP / SMX' },
+                { id: 'col', name: 'Colistina' }
             ],
             saureus: [
                 { id: 'oxa', name: 'Oxacilina' },
-                { id: 'fox', name: 'Cefoxitina (Tamizaje SARM)' },
+                { id: 'fox', name: 'Cefoxitina (tamizaje SARM)' },
                 { id: 'van', name: 'Vancomicina' },
                 { id: 'cli', name: 'Clindamicina' },
+                { id: 'ery', name: 'Eritromicina' },
                 { id: 'sxt', name: 'TMP / SMX' },
-                { id: 'dap', name: 'Daptomicina' }
+                { id: 'dap', name: 'Daptomicina' },
+                { id: 'lzd', name: 'Linezolida' },
+                { id: 'rif', name: 'Rifampicina' }
             ],
-            paeruginosa: [
-                { id: 'fep', name: 'Cefepime' },
-                { id: 'tzp', name: 'Piperacilina / Tazobactam' },
-                { id: 'mer', name: 'Meropenem' },
-                { id: 'azt', name: 'Aztreonam' },
-                { id: 'cip', name: 'Ciprofloxacino' },
-                { id: 'ami', name: 'Amikacina' }
+            sepidermidis: [
+                { id: 'oxa', name: 'Oxacilina' },
+                { id: 'fox', name: 'Cefoxitina (tamizaje SARM)' },
+                { id: 'van', name: 'Vancomicina' },
+                { id: 'cli', name: 'Clindamicina' },
+                { id: 'ery', name: 'Eritromicina' },
+                { id: 'sxt', name: 'TMP / SMX' },
+                { id: 'lzd', name: 'Linezolida' },
+                { id: 'rif', name: 'Rifampicina' }
             ],
-            enterococcus: [
+            efaecalis: [
                 { id: 'amp', name: 'Ampicilina' },
                 { id: 'van', name: 'Vancomicina' },
-                { id: 'lzd', name: 'Linezolid' },
-                { id: 'dap', name: 'Daptomicina' }
+                { id: 'lzd', name: 'Linezolida' },
+                { id: 'dap', name: 'Daptomicina' },
+                { id: 'nit', name: 'Nitrofurantoína', only: 'ITU no complicada' }
+            ],
+            efaecium: [
+                { id: 'amp', name: 'Ampicilina', intrinsicR: true },
+                { id: 'van', name: 'Vancomicina' },
+                { id: 'lzd', name: 'Linezolida' },
+                { id: 'dap', name: 'Daptomicina', note: 'Sin corte de CMI validado para E. faecium; interpreta el S/I/R del laboratorio.' }
             ],
             spneumoniae: [
                 { id: 'pen', name: 'Penicilina' },
                 { id: 'cro', name: 'Ceftriaxona' },
                 { id: 'van', name: 'Vancomicina' },
-                { id: 'lvo', name: 'Levofloxacino' }
+                { id: 'lev', name: 'Levofloxacino' },
+                { id: 'ery', name: 'Eritromicina' },
+                { id: 'cli', name: 'Clindamicina' },
+                { id: 'sxt', name: 'TMP / SMX' }
             ]
         };
+
+        function abgFamily(germ) {
+            if (['ecoli', 'klebsiella', 'proteus', 'enterobacter'].includes(germ)) return 'ent';
+            if (germ === 'paeruginosa') return 'pse';
+            if (germ === 'acinetobacter') return 'acb';
+            if (germ === 'saureus' || germ === 'sepidermidis') return 'sta';
+            if (germ === 'efaecalis' || germ === 'efaecium') return 'entc';
+            return 'spn';
+        }
+
+        function abgSiteValue() {
+            return document.getElementById('abg-site-select')?.value || 'otro';
+        }
+
+        function abgMeningitis() {
+            return abgSiteValue() === 'snc';
+        }
+
+        function getAbgBreakpoint(germ, drugId) {
+            const fam = abgFamily(germ);
+            const bp = ABG_BP[fam]?.[drugId];
+            if (!bp) return null;
+            if (germ === 'efaecium' && drugId === 'dap') return null;
+            const out = Object.assign({}, bp);
+            if (abgMeningitis() && bp.sMen !== undefined) {
+                out.s = bp.sMen;
+                out.r = bp.rMen;
+            }
+            if (germ === 'sepidermidis' && bp.sCoNS !== undefined) {
+                out.s = bp.sCoNS;
+                out.r = bp.rCoNS;
+            }
+            return out;
+        }
+
+        function interpretAbgMic(mic, bp) {
+            if (!bp || !isFinite(mic) || mic < 0) return null;
+            if (bp.offScale) return mic > bp.r ? 'R' : 'I';
+            if (mic <= bp.s) return 'S';
+            if (bp.rIncl ? mic >= bp.r : mic > bp.r) return 'R';
+            return 'I';
+        }
+
+        function fmtAbgNum(n) {
+            return String(n).replace('.', ',');
+        }
+
+        function abgBpLabel(bp) {
+            if (!bp) return 'Sin corte CMI';
+            const pre = bp.clsi ? 'CLSI ' : '';
+            const rOp = bp.rIncl ? '≥' : '>';
+            if (bp.offScale) return `${pre}I ≤ ${fmtAbgNum(bp.r)} · R > ${fmtAbgNum(bp.r)}`;
+            return `${pre}S ≤ ${fmtAbgNum(bp.s)} · R ${rOp} ${fmtAbgNum(bp.r)}`;
+        }
+
+        function abgChip(cat) {
+            const map = {
+                S: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+                I: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+                R: 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+            };
+            return `<span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${map[cat] || 'bg-slate-700 text-slate-300 border-slate-600'}">${cat}</span>`;
+        }
 
         function loadAbgGermPanel() {
             const select = document.getElementById('abg-germ-select');
@@ -105,25 +314,56 @@
             const germ = select.value;
             const drugs = abgPanelData[germ] || [];
 
-            grid.innerHTML = drugs.map(d => `
-                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-2">
-                    <span class="font-bold text-slate-800 dark:text-slate-200">${d.name}</span>
-                    <div class="flex items-center gap-1.5 text-[11px] font-bold">
-                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-emerald-600 has-[:checked]:text-white">
-                            <input type="radio" name="abg_${d.id}" value="S" class="hidden" > S
-                        </label>
-                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-amber-500 has-[:checked]:text-white">
-                            <input type="radio" name="abg_${d.id}" value="I" class="hidden"> I
-                        </label>
-                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-rose-600 has-[:checked]:text-white">
-                            <input type="radio" name="abg_${d.id}" value="R" class="hidden"> R
-                        </label>
-                        <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-slate-400 has-[:checked]:text-white">
-                            <input type="radio" name="abg_${d.id}" value="NR" class="hidden" checked> NR
-                        </label>
-                    </div>
-                </div>
-            `).join('');
+            grid.innerHTML = drugs.map(d => {
+                const bp = getAbgBreakpoint(germ, d.id);
+                const label = d.intrinsicR ? 'R intrínseca' : abgBpLabel(bp);
+                const only = d.only ? `<span class="text-[9px] font-semibold text-slate-500 dark:text-slate-400">${d.only}</span>` : '';
+                const extra = d.note ? `<p class="text-[9px] leading-snug text-slate-500 dark:text-slate-400">${d.note}</p>` : '';
+                const bpNote = bp && bp.note ? `<p class="text-[9px] leading-snug text-slate-500 dark:text-slate-400">${bp.note}</p>` : '';
+
+                if (d.intrinsicR) {
+                    return `
+                        <div class="p-3 bg-rose-50 dark:bg-rose-950/30 rounded-xl border border-rose-200 dark:border-rose-900/60 flex flex-col justify-between gap-2">
+                            <div class="flex items-start justify-between gap-2">
+                                <span class="font-bold text-slate-800 dark:text-slate-200">${d.name}</span>
+                                <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400">${label}</span>
+                            </div>
+                            <p class="text-[10px] leading-snug text-rose-700 dark:text-rose-300">No usar: resistencia intrínseca en E. faecium.</p>
+                        </div>`;
+                }
+
+                return `
+                    <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="font-bold text-slate-800 dark:text-slate-200">${d.name}</span>
+                            <span class="text-[10px] font-mono font-semibold text-teal-700 dark:text-teal-300 whitespace-nowrap">${label}</span>
+                        </div>
+                        ${only}
+                        <div class="flex items-center gap-2">
+                            <label for="abg-mic-${d.id}" class="text-[10px] font-bold text-slate-500 dark:text-slate-400">CMI</label>
+                            <input type="number" step="any" min="0" inputmode="decimal" id="abg-mic-${d.id}" placeholder="mg/L"
+                                class="w-20 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[11px] text-slate-900 dark:text-white"
+                                oninput="onAbgMicInput('${germ}','${d.id}')">
+                            <span id="abg-micres-${d.id}" class="text-[10px] font-bold"></span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-[11px] font-bold">
+                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-emerald-600 has-[:checked]:text-white">
+                                <input type="radio" name="abg_${d.id}" value="S" class="hidden" onchange="onAbgManualChange('${d.id}')"> S
+                            </label>
+                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-amber-500 has-[:checked]:text-white">
+                                <input type="radio" name="abg_${d.id}" value="I" class="hidden" onchange="onAbgManualChange('${d.id}')"> I
+                            </label>
+                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-rose-600 has-[:checked]:text-white">
+                                <input type="radio" name="abg_${d.id}" value="R" class="hidden" onchange="onAbgManualChange('${d.id}')"> R
+                            </label>
+                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-slate-400 has-[:checked]:text-white">
+                                <input type="radio" name="abg_${d.id}" value="NR" class="hidden" checked onchange="onAbgManualChange('${d.id}')"> NR
+                            </label>
+                        </div>
+                        ${extra}
+                        ${bpNote}
+                    </div>`;
+            }).join('');
 
             const resultBox = document.getElementById('abg-result-box');
             if (resultBox) {
@@ -132,105 +372,333 @@
             }
         }
 
+        function onAbgMicInput(germ, drugId) {
+            const input = document.getElementById(`abg-mic-${drugId}`);
+            const badge = document.getElementById(`abg-micres-${drugId}`);
+            if (!input || !badge) return;
+            const raw = input.value.trim();
+            if (raw === '') {
+                badge.textContent = '';
+                badge.className = 'text-[10px] font-bold';
+                const nr = document.querySelector(`input[name="abg_${drugId}"][value="NR"]`);
+                if (nr) nr.checked = true;
+                return;
+            }
+            const mic = parseFloat(raw.replace(',', '.'));
+            const bp = getAbgBreakpoint(germ, drugId);
+            const cat = interpretAbgMic(mic, bp);
+            if (!cat) {
+                badge.textContent = 'sin corte';
+                badge.className = 'text-[10px] font-bold text-amber-600 dark:text-amber-400';
+                const nr = document.querySelector(`input[name="abg_${drugId}"][value="NR"]`);
+                if (nr) nr.checked = true;
+                return;
+            }
+            const radio = document.querySelector(`input[name="abg_${drugId}"][value="${cat}"]`);
+            if (radio) radio.checked = true;
+            badge.textContent = cat === 'I' && bp.offScale ? 'I (exp. ↑)' : cat;
+            badge.className = 'text-[10px] font-bold ' + (cat === 'S' ? 'text-emerald-600 dark:text-emerald-400' : cat === 'I' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400');
+        }
+
+        function onAbgManualChange(drugId) {
+            const input = document.getElementById(`abg-mic-${drugId}`);
+            const badge = document.getElementById(`abg-micres-${drugId}`);
+            if (input) input.value = '';
+            if (badge) {
+                badge.textContent = '';
+                badge.className = 'text-[10px] font-bold';
+            }
+        }
+
+        function getAbgMic(drugId) {
+            const el = document.getElementById(`abg-mic-${drugId}`);
+            if (!el || el.value.trim() === '') return null;
+            const n = parseFloat(el.value.replace(',', '.'));
+            return isFinite(n) && n >= 0 ? n : null;
+        }
+
         function getAbgVal(drugId) {
+            const germ = document.getElementById('abg-germ-select')?.value;
+            const panel = abgPanelData[germ] || [];
+            const entry = panel.find(d => d.id === drugId);
+            if (entry && entry.intrinsicR) return 'R';
+            const mic = getAbgMic(drugId);
+            if (mic !== null) {
+                const cat = interpretAbgMic(mic, getAbgBreakpoint(germ, drugId));
+                if (cat) return cat;
+            }
             const rad = document.querySelector(`input[name="abg_${drugId}"]:checked`);
             return rad ? rad.value : 'NR';
+        }
+
+        function loadAbgExample() {
+            const germSel = document.getElementById('abg-germ-select');
+            const siteSel = document.getElementById('abg-site-select');
+            if (!germSel) return;
+            germSel.value = 'ecoli';
+            if (siteSel) siteSel.value = 'bacteriemia';
+            loadAbgGermPanel();
+            const demo = { amp: 32, sam: 16, tzp: 8, cro: 8, fep: 2, mer: 0.25, ert: 0.25, cip: 8, ami: 4, gen: 1, sxt: 4, nit: 32, fos: 2 };
+            Object.keys(demo).forEach(id => {
+                const input = document.getElementById(`abg-mic-${id}`);
+                if (input) {
+                    input.value = demo[id];
+                    onAbgMicInput('ecoli', id);
+                }
+            });
+            runAntibiogramAnalysis();
         }
 
         function runAntibiogramAnalysis() {
             const germ = document.getElementById('abg-germ-select')?.value;
             const resultBox = document.getElementById('abg-result-box');
             if (!germ || !resultBox) return;
-            const marcados = (abgPanelData[germ] || []).filter(d => getAbgVal(d.id) !== 'NR').length;
-            if (marcados === 0) {
-                resultBox.innerHTML = '<p class="text-amber-300">Marca al menos un resultado (S / I / R) antes de analizar.</p>';
+
+            const panel = abgPanelData[germ] || [];
+            const site = abgSiteValue();
+            const men = abgMeningitis();
+
+            const rows = panel.map(d => {
+                const cat = getAbgVal(d.id);
+                const mic = getAbgMic(d.id);
+                const bp = getAbgBreakpoint(germ, d.id);
+                return Object.assign({}, d, { cat, mic, bp });
+            }).filter(r => r.cat !== 'NR' || r.mic !== null);
+
+            if (!rows.length) {
+                resultBox.innerHTML = '<p class="text-amber-300">Marca al menos un resultado (S / I / R) o ingresa una CMI antes de analizar.</p>';
                 resultBox.classList.remove('hidden');
-            return;
-        }
-
-            let pheno = 'Sensible / Sin mecanismo de resistencia de alto impacto detectado';
-            let options = '';
-            let avoid = '';
-            let warnings = 'Confirmar siempre con el laboratorio de microbiología local.';
-
-            if (germ === 'ecoli' || germ === 'klebsiella') {
-                const cro = getAbgVal('cro');
-                const mer = getAbgVal('mer');
-
-                if (mer === 'R' || mer === 'I') {
-                    pheno = '🚨 Sospecha de CARBAPENEMASA (KPC / MBL / OXA-48)';
-                    options = 'Colistina, Ceftazidima/Avibactam, Cefiderocol, Tigeciclina.';
-                    avoid = 'Todos los Betalactámicos y Carbapenémicos convencionales.';
-                    warnings = 'Interconsulta URGENTE a Infectología. Aislamiento de contacto estricto.';
-                } else if (cro === 'R') {
-                    pheno = '⚠️ Fenotipo BLEE (Betalactamasa de Espectro Extendido)';
-                    options = 'Primera línea: Meropenem 1g IV c/8h o Ertapenem 1g IV c/24h. En ITU: Fosfomicina o Nitrofurantoína.';
-                    avoid = 'Todas las Penicilinas, Cefalosporinas (Ceftriaxona, Cefepime) y Aztreonam.';
-                } else {
-                    options = 'Ceftriaxona 1-2g IV c/24h, Ampicilina/Sulbactam 1.5-3g IV c/6h, TMP/SMX o Ciprofloxacino.';
-                }
-            } else if (germ === 'saureus') {
-                const oxa = getAbgVal('oxa');
-                const fox = getAbgVal('fox');
-
-                if (oxa === 'R' || fox === 'R') {
-                    pheno = '⚠️ SARM / MRSA (Staphylococcus aureus Resistente a Meticilina)';
-                    options = 'Vancomicina (15-20 mg/kg IV c/8-12h), Daptomicina (6-10 mg/kg IV c/24h), Linezolid (600 mg IV/VO c/12h).';
-                    avoid = 'Todos los Betalactámicos (Oxacilina, Cefazolin, Ceftriaxona, Meropenem).';
-                } else {
-                    pheno = 'SASM (Staphylococcus aureus Sensible a Meticilina)';
-                    options = 'Cefazolina 1-2g IV c/8h u Oxacilina 2g IV c/4h.';
-                    avoid = 'Evitar Vancomicina si es sensible a Oxacilina (mayor mortalidad).';
-                }
-            } else if (germ === 'paeruginosa') {
-                const fep = getAbgVal('fep');
-                const mer = getAbgVal('mer');
-
-                if (mer === 'R' && fep === 'R') {
-                    pheno = '🚨 Pseudomonas aeruginosa Multirresistente (MDR)';
-                    options = 'Ceftolozano/Tazobactam, Ceftazidima/Avibactam o Colistina + Amikacina.';
-                    avoid = 'Betalactámicos antipseudomónicos convencionales.';
-                } else {
-                    options = 'Cefepime 2g IV c/8h, Piperacilina/Tazobactam 4.5g IV c/6h o Meropenem 1g IV c/8h.';
-                    avoid = 'Ceftriaxona, Ertapenem, Ampicilina/Sulbactam.';
-                }
-            } else {
-                options = 'Ajustar según perfiles de sensibilidad estandarizados CLSI / EUCAST.';
+                return;
             }
 
+            const val = id => {
+                const row = rows.find(r => r.id === id);
+                return row ? row.cat : 'NR';
+            };
+            const R = id => val(id) === 'R';
+            const I = id => val(id) === 'I';
+            const S = id => val(id) === 'S';
+            const has = id => panel.some(d => d.id === id);
+
+            const pheno = [];
+            const options = [];
+            const avoid = [];
+            const alerts = [];
+
+            if (['ecoli', 'klebsiella', 'proteus', 'enterobacter'].includes(germ)) {
+                const croR = R('cro');
+                const fepR = R('fep');
+                const merR = R('mer') || (has('ert') && R('ert'));
+                const esbl = croR && !merR;
+
+                if (merR) {
+                    pheno.push('Enterobacteral resistente a carbapenémicos (CRE): posible carbapenemasa (KPC, NDM u OXA-48).');
+                    options.push('Ceftazidima/avibactam (KPC, OXA-48), meropenem/vaborbactam (KPC) o cefiderocol (todas) según el tipo de carbapenemasa y la sensibilidad.');
+                    options.push('Aztreonam/avibactam si se sospecha metalo-betalactamasa (NDM).');
+                    if (S('ami') || S('gen')) options.push('Amikacina o gentamicina como parte de una combinación, no en monoterapia.');
+                    if (S('fos') || S('nit') || S('sxt')) options.push('En cistitis no complicada: fosfomicina, nitrofurantoína o TMP-SMX si son S.');
+                    avoid.push('Cefalosporinas, aztreonam, pip-tazo y carbapenémicos salvo combinación guiada por sensibilidad.');
+                    avoid.push('Tigeciclina en bacteriemia (baja concentración sérica).');
+                    alerts.push('Solicita estudio de carbapenemasa (PCR o inmunocromatografía), aislamiento de contacto e interconsulta a infectología.');
+                } else if (germ === 'enterobacter') {
+                    pheno.push('Enterobacter cloacae complex: AmpC cromosómico inducible.');
+                    options.push('Cefepime 2 g IV c/8h o meropenem 1 g IV c/8h para infección invasiva.');
+                    options.push('En cistitis: TMP-SMX, ciprofloxacino o aminoglucósido según sensibilidad.');
+                    avoid.push('Ceftriaxona/cefotaxima y pip-tazo aunque sean S: riesgo de selección de AmpC de-reprimido.');
+                    alerts.push('Si el aislado es de hemocultivo, UCI o hay fracaso de un betalactámico, prefiere cefepime o carbapenémico.');
+                } else if (esbl) {
+                    pheno.push('BLEE probable: resistencia a ceftriaxona/cefotaxima con carbapenémicos aún sensibles.');
+                    options.push('Meropenem 1 g IV c/8h o ertapenem 1 g IV c/24h para infección invasiva (bacteriemia, pielonefritis, intraabdominal).');
+                    options.push('En cistitis no complicada: fosfomicina, nitrofurantoína, TMP-SMX o ciprofloxacino si son S.');
+                    avoid.push('Ceftriaxona/cefotaxima aunque el laboratorio las informe S (efecto inóculo).');
+                    avoid.push('Pip-tazo para bacteriemia por BLEE (estudio MERINO: mayor mortalidad).');
+                    alerts.push('Confirma BLEE con sinergia de doble disco, test de Hodge o PCR. Si hay bacteriemia, prefiere carbapenémico.');
+                } else if (fepR) {
+                    pheno.push('Resistencia a cefepime con ceftriaxona sensible: posible AmpC o BLEE de bajo nivel.');
+                    options.push('Meropenem 1 g IV c/8h o ertapenem 1 g IV c/24h para infección invasiva; confirma el mecanismo.');
+                    avoid.push('Cefalosporinas de tercera generación y cefepime.');
+                    alerts.push('Confirma con el laboratorio (AmpC, BLEE, carbapenemasa).');
+                } else {
+                    pheno.push('Sensible a los fármacos probados (sin mecanismo de resistencia de alto impacto detectado).');
+                    options.push('Elige según el sitio: ampicilina/sulbactam, ceftriaxona, ciprofloxacino o TMP-SMX si son S.');
+                    if (S('nit') || S('fos')) options.push('En cistitis no complicada: nitrofurantoína o fosfomicina.');
+                    avoid.push('Aminoglucósido en monoterapia para infección sistémica.');
+                }
+
+                if (R('cip')) alerts.push('Resistencia a fluoroquinolonas: evita ciprofloxacino y levofloxacino.');
+                if (R('sxt')) alerts.push('TMP-SMX resistente: no usar para ITU ni para P. jirovecii.');
+                if (I('mer')) alerts.push('Meropenem I: usa 2 g IV c/8h en infusión extendida (3 h) y confirma el control del foco.');
+                if (I('cro')) alerts.push('Ceftriaxona I: requiere dosis alta (2 g c/12h) o elegir otro fármaco.');
+                if (S('ami') || S('gen')) alerts.push('Aminoglucósido sensible: útil en combinación, no en monoterapia.');
+            } else if (germ === 'paeruginosa') {
+                const mdr = (R('mer') && (R('fep') || R('caz') || R('tzp'))) || (R('fep') && R('caz') && R('tzp'));
+                if (mdr) {
+                    pheno.push('Pseudomonas aeruginosa multirresistente (MDR/XDR).');
+                    options.push('Ceftolozano/tazobactam, ceftazidima/avibactam, imipenem/relebactam o cefiderocol según sensibilidad.');
+                    options.push('Colistina o amikacina solo en combinación; añade un segundo fármaco activo.');
+                    avoid.push('Monoterapia con aminoglucósido o colistina.');
+                    avoid.push('Carbapenémicos si son R.');
+                    alerts.push('Solicita sensibilidad a los nuevos betalactámicos y consulta a infectología. Aislamiento si MDR.');
+                } else {
+                    pheno.push('Pseudomonas aeruginosa no MDR.');
+                    options.push('Cefepime 2 g IV c/8h, pip-tazo 4.5 g c/6h o meropenem 1 g c/8h; usa infusión extendida si la CMI es alta.');
+                    options.push('Añade amikacina si es S en infección grave o MDR.');
+                    avoid.push('Ceftriaxona, ertapenem, ampicilina/sulbactam y TMP-SMX no cubren Pseudomonas.');
+                    alerts.push('EUCAST informa I (exposición aumentada) para muchos aislamientos sensibles: no es resistencia; requiere dosis altas e infusión extendida.');
+                }
+                if (R('cip') || R('lev')) alerts.push('Resistencia a fluoroquinolonas: evita ciprofloxacino y levofloxacino.');
+                if (R('col')) alerts.push('Colistina R: no usar.');
+                if (site === 'pulmonar') alerts.push('En neumonía por Pseudomonas usa dosis altas e infusión extendida; considera tobramicina inhalada en MDR.');
+            } else if (germ === 'acinetobacter') {
+                const crab = R('mer') || R('imi');
+                if (crab) {
+                    pheno.push('Acinetobacter baumannii resistente a carbapenémicos (CRAB).');
+                    options.push('Colistina + tigeciclina dosis alta, o cefiderocol; ampicilina/sulbactam dosis alta (9 g de sulbactam/día) si es S; minociclina como alternativa.');
+                    avoid.push('Carbapenémicos, cefalosporinas y fluoroquinolonas si son R.');
+                    alerts.push('CRAB es un patógeno de UCI: consulta infectología. Colistina requiere dosis de carga y monitoría renal.');
+                } else {
+                    pheno.push('Acinetobacter baumannii sensible a carbapenémicos.');
+                    options.push('Meropenem 1 g IV c/8h o imipenem 500 mg IV c/6h; añade ampicilina/sulbactam en infección grave.');
+                    alerts.push('Confirma sensibilidad a sulbactam, colistina y tigeciclina; Acinetobacter suele ser multirresistente.');
+                }
+                if (R('sxt')) alerts.push('TMP-SMX R: no usar.');
+            } else if (germ === 'saureus' || germ === 'sepidermidis') {
+                const mrsa = R('oxa') || R('fox');
+                const coNS = germ === 'sepidermidis';
+                if (mrsa) {
+                    pheno.push(coNS ? 'Staphylococcus coagulasa-negativo resistente a meticilina (SARM-CoNS).' : 'SARM (MRSA).');
+                    options.push('Vancomicina 15-20 mg/kg IV c/8-12h (AUC/MIC 400-600), daptomicina 6-10 mg/kg c/24h (no neumonía), linezolida 600 mg c/12h, ceftarolina 600 mg c/8h o TMP-SMX si es S.');
+                    avoid.push('Betalactámicos (oxacilina, cefazolina, ceftriaxona) y vancomicina si el aislado es sensible a oxacilina.');
+                    alerts.push('Si la CMI de vancomicina es ≥ 2 mg/L, considera daptomicina o linezolida. Daptomicina se inactiva en pulmón: no usar en neumonía.');
+                } else {
+                    pheno.push(coNS ? 'Staphylococcus coagulasa-negativo sensible a meticilina.' : 'SASM (MSSA).');
+                    options.push('Cefazolina 2 g IV c/8h u oxacilina/nafcilina 2 g IV c/4h; en alergia grave a betalactámico, vancomicina o daptomicina.');
+                    avoid.push('Vancomicina si es sensible a oxacilina (peor resultado en bacteriemia).');
+                }
+                if (R('cli')) alerts.push('Clindamicina R: no usar. Si eritromicina es R y clindamicina S, solicita D-test (resistencia inducible).');
+                else if (R('ery') && S('cli')) alerts.push('Eritromicina R + clindamicina S: posible resistencia inducible (D-test). No uses clindamicina empíricamente hasta el resultado.');
+                if (R('van')) alerts.push('Vancomicina R: usa linezolida, daptomicina o ceftarolina.');
+                if (R('rif')) alerts.push('Rifampicina R: no usar como adyuvante.');
+                if (site === 'pulmonar' && mrsa) alerts.push('En neumonía por SARM usa linezolida o ceftarolina; daptomicina no sirve en pulmón.');
+                if (site === 'snc') alerts.push('En meningitis estafilocócica usa vancomicina + rifampicina; daptomicina no penetra bien el SNC.');
+            } else if (germ === 'efaecalis' || germ === 'efaecium') {
+                const faecium = germ === 'efaecium';
+                const vre = R('van');
+                if (vre) {
+                    pheno.push('Enterococo resistente a vancomicina (VRE).');
+                    options.push('Linezolida 600 mg IV/VO c/12h o daptomicina 8-12 mg/kg IV c/24h (no neumonía).');
+                    avoid.push('Ampicilina (intrínseca en E. faecium), vancomicina y teicoplanina.');
+                    alerts.push('Daptomicina no se usa en neumonía. En bacteriemia considera dosis altas y combinación con betalactámico (sinergia).');
+                } else {
+                    pheno.push(faecium ? 'E. faecium sensible a vancomicina (ampicilina intrínsecamente R).' : 'E. faecalis sensible a ampicilina/vancomicina.');
+                    options.push(faecium ? 'Vancomicina 15-20 mg/kg c/8-12h; linezolida o daptomicina si hay alergia o falla.' : 'Ampicilina 2 g IV c/4h o amoxicilina 500 mg VO c/8h; vancomicina si hay alergia.');
+                    if (S('nit')) options.push('En ITU no complicada por E. faecalis: nitrofurantoína.');
+                    avoid.push('Cefalosporinas (no cubren enterococo) y aminoglucósidos en monoterapia.');
+                    alerts.push('E. faecium es intrínsecamente resistente a ampicilina: no la uses aunque no se reporte.');
+                }
+                if (R('amp') && !faecium) alerts.push('Ampicilina R: usa vancomicina si es S; si también es R, linezolida o daptomicina.');
+                if (site === 'snc') alerts.push('Enterococo en SNC: ampicilina + ceftriaxona (sinergia) o vancomicina; consulta infectología.');
+            } else if (germ === 'spneumoniae') {
+                const penR = R('pen');
+                const penI = I('pen');
+                const croR = R('cro');
+                if (croR || penR) {
+                    pheno.push('Neumococo resistente a penicilina/cefalosporinas (PRSP).');
+                    options.push('Meningitis: vancomicina 15-20 mg/kg c/8-12h + ceftriaxona 2 g c/12h (o cefotaxima); añade rifampicina si la CMI de ceftriaxona es alta.');
+                    options.push('Neumonía no meníngea: ceftriaxona 2 g/día o amoxicilina 3 g/día si la CMI es ≤ 2; levofloxacino 750 mg/día si es S.');
+                    avoid.push('Penicilina/amoxicilina en meningitis si la CMI es > 0.06; cefalosporinas solas si la CMI de ceftriaxona es > 0.5 en SNC.');
+                    alerts.push('Confirma con el laboratorio; en meningitis añade vancomicina y rifampicina si hay resistencia a ceftriaxona.');
+                } else if (penI && !men) {
+                    pheno.push('Neumococo con sensibilidad intermedia a penicilina (solo neumonía no meníngea).');
+                    options.push('Amoxicilina 3 g/día o ceftriaxona 2 g/día; no uses penicilina en meningitis.');
+                    alerts.push('La categoría I en neumonía no meníngea se trata con dosis altas; en SNC se considera R.');
+                } else {
+                    pheno.push('Neumococo sensible a penicilina.');
+                    options.push('Amoxicilina 1 g c/8h o ceftriaxona 1-2 g/día; en meningitis, ceftriaxona 2 g c/12h + vancomicina hasta confirmar la sensibilidad.');
+                    avoid.push('Macrólidos empíricos por alta resistencia; confirma con sensibilidad.');
+                }
+                if (R('ery')) alerts.push('Resistencia a macrólidos: no uses azitromicina ni eritromicina.');
+                if (R('sxt')) alerts.push('TMP-SMX R: no usar.');
+                if (site === 'pulmonar' && penR) alerts.push('En neumonía por PRSP usa ceftriaxona 2 g/día o amoxicilina 3 g/día; considera vancomicina si es grave.');
+            }
+
+            if (site === 'urinario') alerts.push('Nitrofurantoína y fosfomicina solo sirven para cistitis no complicada; no para pielonefritis.');
+            if (site === 'snc') alerts.push('En SNC usa dosis altas y fármacos con buena penetración (ceftriaxona/cefotaxima, meropenem, vancomicina); evita aminoglucósidos, daptomicina y tigeciclina.');
+            if (site === 'pulmonar') alerts.push('En neumonía evita daptomicina y tigeciclina; los aminoglucósidos no son monoterapia.');
+            if (site === 'bacteriemia') alerts.push('En bacteriemia busca y controla el foco (drenaje, retiro de catéter); considera ecocardiograma si hay riesgo de endocarditis.');
+            if (site === 'hueso') alerts.push('En infección osteoarticular se requieren dosis altas, 4-6 semanas y valoración quirúrgica.');
+            if (site === 'piel') alerts.push('En piel y partes blandas drena el absceso y cubre Streptococcus si hay celulitis.');
+            if (site === 'abdominal') alerts.push('En intraabdominal el control del foco (cirugía/drenaje) es esencial; añade cobertura de anaerobios.');
+
+            const usedClsi = rows.some(r => r.bp && r.bp.clsi);
+            const usedEcoff = rows.some(r => r.bp && r.bp.ecoff);
+            const usedOffScale = rows.some(r => r.bp && r.bp.offScale && r.cat === 'I');
+            if (usedClsi) alerts.push('Algunos cortes son de CLSI porque EUCAST no ofrece CMI para esa combinación (oxacilina/cefoxitina, daptomicina en enterococo, gentamicina en Pseudomonas).');
+            if (usedEcoff) alerts.push('Algunos cortes se basan en ECOFF (amikacina, gentamicina, colistina): interpreta con cautela y confirma con el laboratorio.');
+            if (usedOffScale) alerts.push('EUCAST define I como "susceptible con exposición aumentada" (no resistencia): requiere dosis altas o infusión extendida.');
+            alerts.push('Criterio: ' + ABG_CRITERIA + (men ? ' · puntos de corte para meningitis/SNC' : '') + '. La CMI es el estándar; la categoría depende del corte y del sitio de infección.');
+            alerts.push('Confirma siempre con el laboratorio de microbiología local y las guías institucionales.');
+
+            const tableRows = rows.map(r => `
+                <tr class="border-t border-slate-700/60">
+                    <td class="py-1.5 pr-2 font-semibold text-slate-100">${r.name}</td>
+                    <td class="py-1.5 px-2 text-center font-mono text-slate-300">${r.mic !== null ? fmtAbgNum(r.mic) : '—'}</td>
+                    <td class="py-1.5 px-2 text-center font-mono text-[10px] text-slate-400">${r.intrinsicR ? 'intrínseca' : abgBpLabel(r.bp)}</td>
+                    <td class="py-1.5 pl-2 text-center">${abgChip(r.cat)}</td>
+                </tr>`).join('');
+
+            const uniq = arr => [...new Set(arr)];
+
             resultBox.innerHTML = `
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between border-b border-rose-800/80 pb-2">
+                <div class="space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-rose-800/80 pb-2">
                         <h4 class="font-bold text-sm text-amber-400 flex items-center gap-2">
-                            <i class="fa-solid fa-microscope"></i> Interpretación del Fenotipo
+                            <i class="fa-solid fa-microscope"></i> Interpretación del antibiograma
                         </h4>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-900/80 text-rose-200">CLSI M100 / EUCAST</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-900/80 text-rose-200">${ABG_CRITERIA}${men ? ' · SNC' : ''}</span>
                     </div>
                     <div>
-                        <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">Fenotipo Probable:</strong>
-                        <p class="font-extrabold text-white text-sm mt-0.5">${pheno}</p>
+                        <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">Fenotipo probable:</strong>
+                        <ul class="list-disc list-inside text-slate-100 mt-1 space-y-0.5">${uniq(pheno).map(p => `<li>${p}</li>`).join('')}</ul>
                     </div>
                     <div>
-                        <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">Opciones Recomendadas:</strong>
-                        <p class="text-slate-200 mt-0.5">${options}</p>
+                        <strong class="text-teal-400 block text-[11px] uppercase tracking-wider">Opciones recomendadas:</strong>
+                        <ul class="list-disc list-inside text-slate-200 mt-1 space-y-0.5">${uniq(options).map(p => `<li>${p}</li>`).join('')}</ul>
                     </div>
-                    ${avoid ? `
-                        <div>
-                            <strong class="text-rose-400 block text-[11px] uppercase tracking-wider">A Evitar:</strong>
-                            <p class="text-rose-200 mt-0.5">${avoid}</p>
-                        </div>
-                    ` : ''}
+                    ${avoid.length ? `
+                    <div>
+                        <strong class="text-rose-400 block text-[11px] uppercase tracking-wider">A evitar:</strong>
+                        <ul class="list-disc list-inside text-rose-200 mt-1 space-y-0.5">${uniq(avoid).map(p => `<li>${p}</li>`).join('')}</ul>
+                    </div>` : ''}
                     <div class="p-3 bg-slate-800 rounded-xl text-slate-300 border border-slate-700 space-y-1">
-                        <strong class="text-amber-400 block">Alertas Clínicas:</strong>
-                        <p>${warnings}</p>
+                        <strong class="text-amber-400 block">Alertas clínicas:</strong>
+                        <ul class="list-disc list-inside space-y-0.5">${uniq(alerts).map(p => `<li>${p}</li>`).join('')}</ul>
                     </div>
-                </div>
-            `;
+                    <div>
+                        <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">Lectura fármaco por fármaco:</strong>
+                        <div class="overflow-x-auto mt-1">
+                            <table class="w-full text-[11px]">
+                                <thead>
+                                    <tr class="text-slate-400 text-left">
+                                        <th class="pb-1">Fármaco</th>
+                                        <th class="pb-1 text-center">CMI</th>
+                                        <th class="pb-1 text-center">Corte (mg/L)</th>
+                                        <th class="pb-1 text-center">Categoría</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${tableRows}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400">CMI = concentración mínima inhibitoria. La categoría se calcula con el punto de corte del sitio seleccionado. Los cortes marcados CLSI se usan solo cuando EUCAST no ofrece CMI.</p>
+                </div>`;
 
             resultBox.classList.remove('hidden');
         }
 
         function resetAntibiogramForm() {
+            const siteSel = document.getElementById('abg-site-select');
+            if (siteSel) siteSel.value = 'otro';
             loadAbgGermPanel();
         }
 
@@ -5629,7 +6097,7 @@ function gsBuildIndex() {
     document.querySelectorAll('#abg-germ-select option').forEach(op => {
         const drugs = (abgPanelData[op.value] || []).map(d => d.name).join(' ');
         add({
-            g: 'inf', title: 'Interpretar antibiograma: ' + op.textContent, sub: 'Marca S/I/R y recibe fenotipo y recomendación',
+            g: 'inf', title: 'Interpretar antibiograma: ' + op.textContent, sub: 'Marca S/I/R o CMI y recibe fenotipo y recomendación',
             keys: 'antibiograma sensibilidad resistencia blee sarm carbapenemasa ' + op.value, body: drugs,
             go: () => {
                 switchTab('infectologia'); switchInfectoSubTab('antibiograma');

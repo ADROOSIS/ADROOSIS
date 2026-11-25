@@ -235,7 +235,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-slate-900 dark:text-white text-base">Infectología & Terapéutica</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Guías por Síndromes, Antibiograma interactivo (CLSI/EUCAST) y Fichas por Germen.</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Guías por Síndromes, Antibiograma interactivo con CMI (EUCAST) y Fichas por Germen.</p>
                                 </div>
                             </div>
                             
@@ -531,33 +531,65 @@
                         <div class="bg-amber-500/10 border-l-4 border-amber-500 p-3.5 rounded-r-xl text-xs flex items-center gap-3">
                             <i class="fa-solid fa-triangle-exclamation text-amber-500 text-lg shrink-0"></i>
                             <div class="text-amber-900 dark:text-amber-200">
-                                <strong>Aviso legal y clínico:</strong> Herramienta de apoyo a la decisión basada en estándares <em>CLSI M100 (Ed. 34) / EUCAST (v14.0)</em>. Prevalecen el informe del laboratorio de microbiología y el juicio clínico.
+                                <strong>Aviso legal y clínico:</strong> Herramienta de apoyo a la decisión basada en <em>EUCAST v16.1 (2026)</em>. Si tu laboratorio usa CLSI, interpreta el S/I/R del informe. Prevalecen el informe del laboratorio de microbiología y el juicio clínico.
                             </div>
                         </div>
 
                         <!-- Intérprete Form -->
                         <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-md space-y-5">
-                            <div class="space-y-1.5">
-                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">1. Selecciona el Microorganismo Aislado:</label>
-                                <select id="abg-germ-select" onchange="loadAbgGermPanel()" class="w-full sm:w-80 p-2.5 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
-                                    <option value="ecoli">Escherichia coli</option>
-                                    <option value="klebsiella">Klebsiella pneumoniae</option>
-                                    <option value="saureus">Staphylococcus aureus</option>
-                                    <option value="paeruginosa">Pseudomonas aeruginosa</option>
-                                    <option value="enterococcus">Enterococcus faecalis / faecium</option>
-                                    <option value="spneumoniae">Streptococcus pneumoniae</option>
-                                </select>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div class="space-y-1.5">
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">1. Microorganismo aislado:</label>
+                                    <select id="abg-germ-select" onchange="loadAbgGermPanel()" class="w-full p-2.5 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
+                                        <option value="ecoli">Escherichia coli</option>
+                                        <option value="klebsiella">Klebsiella pneumoniae</option>
+                                        <option value="proteus">Proteus mirabilis</option>
+                                        <option value="enterobacter">Enterobacter cloacae complex</option>
+                                        <option value="paeruginosa">Pseudomonas aeruginosa</option>
+                                        <option value="acinetobacter">Acinetobacter baumannii</option>
+                                        <option value="saureus">Staphylococcus aureus</option>
+                                        <option value="sepidermidis">Staphylococcus epidermidis / CoNS</option>
+                                        <option value="efaecalis">Enterococcus faecalis</option>
+                                        <option value="efaecium">Enterococcus faecium</option>
+                                        <option value="spneumoniae">Streptococcus pneumoniae</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Sitio de infección (opcional):</label>
+                                    <select id="abg-site-select" onchange="loadAbgGermPanel()" class="w-full p-2.5 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
+                                        <option value="otro">No especificado</option>
+                                        <option value="urinario">Urinario</option>
+                                        <option value="abdominal">Intraabdominal</option>
+                                        <option value="pulmonar">Pulmonar</option>
+                                        <option value="bacteriemia">Bacteriemia</option>
+                                        <option value="piel">Piel y partes blandas</option>
+                                        <option value="snc">SNC / meningitis</option>
+                                        <option value="hueso">Hueso y articulación</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="space-y-3">
-                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">2. Marca los resultados (S / I / R / NR):</label>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">2. Marca S / I / R o ingresa la CMI (mg/L):</label>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">La CMI es opcional: si la escribes, la app calcula S/I/R con el punto de corte EUCAST y muestra el corte usado. Si tu laboratorio ya informa S/I/R, marca la casilla. <strong>NR</strong> = no reportado.</p>
                                 <div id="abg-drugs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs"></div>
+                                <div class="flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-slate-500 dark:text-slate-400">
+                                    <span><strong class="text-emerald-600 dark:text-emerald-400">S</strong> sensible</span>
+                                    <span><strong class="text-amber-600 dark:text-amber-400">I</strong> susceptible con exposición aumentada (EUCAST)</span>
+                                    <span><strong class="text-rose-600 dark:text-rose-400">R</strong> resistente</span>
+                                    <span><strong>NR</strong> no reportado</span>
+                                </div>
                             </div>
 
-                            <div class="pt-2 flex items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-700">
-                                <button onclick="runAntibiogramAnalysis()" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analizar Fenotipo & Recomendar
-                                </button>
+                            <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-700">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <button onclick="runAntibiogramAnalysis()" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Analizar Fenotipo & Recomendar
+                                    </button>
+                                    <button onclick="loadAbgExample()" class="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:bg-slate-200 dark:hover:bg-slate-700 transition-all flex items-center gap-2">
+                                        <i class="fa-solid fa-lightbulb"></i> Ejemplo
+                                    </button>
+                                </div>
                                 <button onclick="resetAntibiogramForm()" class="text-xs text-slate-400 hover:text-slate-600">Restablecer</button>
                             </div>
 
