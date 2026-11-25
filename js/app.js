@@ -4401,7 +4401,7 @@ function tplReset() {
 vademecumData.push(...vademecumTanda2);
 
 /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 1 · 31 oct 2026) ===== */
-const VAD_VERSION = 'v1.3 · 25 Nov 2026';
+const VAD_VERSION = 'v1.4 · 25 Nov 2026';
 
 const VAD_VERIF = {
     'Atropina': {
@@ -5301,6 +5301,70 @@ const VAD_VERIF8 = {
 Object.assign(VAD_VERIF, VAD_VERIF8);
 vademecumData.forEach(v => {
     const o = VAD_VERIF8[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = o.verificado === true;
+    v.parcial = !!o.parcial;
+    v.revisado = '25 nov 2026';
+});
+
+
+/* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 9 · 25 nov 2026) =====
+   Completa azitromicina y levotiroxina con la ficha FDA (oral y
+   Synthroid), que incluyen las dosis pediátricas que antes
+   atribuíamos a guías. Refina las notas de las 7 restantes.      */
+const VAD_VERIF9 = {
+    'Azitromicina': {
+        verificado: true, parcial: false, nota: '',
+        fuente: { t: 'Ficha FDA · azitromicina oral (Zithromax, DailyMed, set_id 003307c5-3f73-4a5d-a704-bfdea3c656e8)', url: 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=003307c5-3f73-4a5d-a704-bfdea3c656e8' },
+        alcance: 'Dosis del adulto y pediátrica (otitis, sinusitis, neumonía, faringitis) según la ficha FDA oral. La vía IV es la ficha inyectable.',
+        adult: 'Neumonía comunitaria: 500 mg VO c/24h por al menos 2 días y luego 500 mg VO c/24h hasta completar 7 - 10 días. Ambulatorio: 500 mg el día 1 y 250 mg los días 2 - 5. Clamidia: 1 g VO dosis única. EPI: 500 mg IV c/24h x 1 - 2 días, luego 250 mg VO c/24h hasta 7 días. Sinusitis: 500 mg c/24h x 3 días. Uretritis/cervicitis gonocócica: 2 g dosis única',
+        ped: 'Otitis media (≥ 6 meses): 30 mg/kg dosis única o 10 mg/kg c/24h x 3 días o 10 mg/kg día 1 y 5 mg/kg días 2 - 5. Sinusitis (≥ 6 meses): 10 mg/kg c/24h x 3 días. Neumonía (≥ 6 meses): 10 mg/kg día 1 y 5 mg/kg c/24h días 2 - 5. Faringitis (≥ 2 años): 12 mg/kg c/24h x 5 días. Máx 500 mg/día',
+        renal: 'Sin ajuste renal',
+        warning: 'Prolonga el QT: evitar con otros fármacos que lo prolongan. Hepatotoxicidad rara. No usar en neumonía con alto riesgo de neumococo resistente.'
+    },
+    'Levotiroxina': {
+        verificado: true, parcial: false, nota: '',
+        fuente: { t: 'Ficha FDA · levotiroxina sódica (Synthroid, DailyMed, set_id 1e11ad30-1041-4520-10b0-8f9d30d30fcc)', url: 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1e11ad30-1041-4520-10b0-8f9d30d30fcc' },
+        alcance: 'Dosis del adulto, pediátrica por edad y administración según la ficha FDA (Synthroid).',
+        adult: 'Hipotiroidismo: 1.6 mcg/kg/día VO c/24h en ayunas, 30 - 60 min antes del desayuno. Ancianos o cardiopatía: iniciar 12.5 - 25 mcg/día y subir cada 6 - 8 semanas. Ajustar por TSH a las 6 - 8 semanas',
+        ped: '0 - 3 meses: 10 - 15 mcg/kg/día; 3 - 6 meses: 8 - 10; 6 - 12 meses: 6 - 8; 1 - 5 años: 5 - 6; 6 - 12 años: 4 - 5; > 12 años (crecimiento/pubertad incompletos): 2 - 3; crecimiento/pubertad completos: 1.6 mcg/kg/día',
+        renal: 'Sin ajuste renal',
+        warning: 'Tomar en ayunas y separada 4 h de hierro, calcio, antiácidos y café. El exceso causa fibrilación auricular y osteoporosis. No cambiar de marca sin control de TSH.'
+    },
+    'Carbón activado': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica (1 g/kg, máx 50 g) es la práctica estándar de los centros de toxicología (AAP/Poison Control); no aparece en la ficha FDA (Actidose, solo adulto 20-30 g).'
+    },
+    'Gentamicina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis extendida (5-7 mg/kg c/24h) proviene de las guías de dosificación antimicrobiana; la ficha FDA da la dosis estándar (3 mg/kg/día en 3 dosis) y el ajuste por intervalo en falla renal.'
+    },
+    'Trimetoprim / Sulfametoxazol (TMP/SMX)': {
+        verificado: true, parcial: true,
+        nota: 'La dosis de P. jirovecii (15-20 mg/kg/día del componente TMP c/6-8h x 21 días) proviene de las guías clínicas (IDSA); la ficha FDA da ITU, shigelosis y otitis.'
+    },
+    'Insulina NPH': {
+        verificado: true, parcial: true,
+        nota: 'Las dosis de inicio (10 UI o 0,1-0,2 UI/kg/día en DM2; 0,5-1 UI/kg/día en DM1) son las habituales de las guías de diabetes (ADA); la ficha FDA individualiza y no las fija.'
+    },
+    'Ondansetrón': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica oncológica y la IV provienen de la ficha FDA (Zofran); la dosis de náuseas no oncológicas (4-8 mg VO c/8-12h) proviene de las guías clínicas.'
+    },
+    'Hioscina (butilbromuro)': {
+        verificado: true, parcial: true,
+        nota: 'La dosis parenteral (20 mg IV/IM/SC c/6-8h, máx 100 mg/día) es la estándar; la ficha CIMA (Nº reg. 18221) solo cubre la vía oral. Sin ficha oficial del inyectable en CIMA.'
+    },
+    'Loratadina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica (2-5 años 5 mg; ≥ 6 años 10 mg c/24h) proviene de la ficha de venta libre (OTC); el ajuste hepático/renal proviene de las guías clínicas.'
+    }
+};
+
+Object.assign(VAD_VERIF, VAD_VERIF9);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF9[v.name];
     if (!o) return;
     Object.assign(v, o);
     v.verificado = o.verificado === true;
