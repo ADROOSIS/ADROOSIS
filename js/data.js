@@ -1370,6 +1370,99 @@ const sivigilaDirectory = [
 ];
 
 const novedadesData = [
+            {
+                id: 'hf-esc-2026',
+                especialidad: 'Cardiología',
+                icono: 'fa-heart-pulse',
+                color: 'rose',
+                titulo: 'Insuficiencia cardíaca: guía ESC 2026',
+                fecha: '2026',
+                cambiaPractica: true,
+                cifra: 'GDMT cuádruple',
+                cifraTexto: 'Terapia médica óptima con los cuatro pilares (ARNI/IECA/ARA II + betabloqueador + ARM + SGLT2i) en HFrEF, con titulación rápida y manejo integrado de comorbilidades.',
+                cambios: [
+                    {
+                        antes: 'Titulación lenta y secuencial de los fármacos (guía 2021).',
+                        ahora: 'Se enfatiza la titulación rápida de los cuatro pilares, iniciando dosis bajas y ajustando cada 1 - 2 semanas.'
+                    },
+                    {
+                        antes: 'SGLT2i solo en HFrEF.',
+                        ahora: 'SGLT2i (dapagliflozina, empagliflozina) recomendados en todo el espectro de FE (HFrEF, HFmrEF y HFpEF) y en la insuficiencia cardíaca aguda estabilizada.'
+                    },
+                    {
+                        ahora: 'Finerenona y vericiguat se incorporan como opciones en HFrEF con empeoramiento o intolerancia a los pilares estándar.'
+                    },
+                    {
+                        ahora: 'El manejo de comorbilidades (fibrilación auricular, diabetes, enfermedad renal, anemia) se integra en el plan terapéutico.'
+                    }
+                ],
+                detalle: 'La guía 2026 reemplaza a la de 2021 y actualiza el diagnóstico, la clasificación por FE y el manejo de la insuficiencia cardíaca aguda. Compárala con el protocolo de tu servicio y las guías colombianas. En Adroosis, el vademécum incluye los fármacos clave (sacubitril/valsartán, dapagliflozina, empagliflozina, espironolactona, furosemida).',
+                fuente: { texto: 'ESC: 2026 Guidelines for the management of heart failure', url: 'https://www.escardio.org/Guidelines/Clinical-Practice-Guidelines/Heart-Failure' },
+                aplica: { label: 'Ver Vademécum CV', tipo: 'tab', id: 'farmaco' },
+                revisado: '25 nov 2026',
+                verificado: false
+            },
+            {
+                id: 'cvd-ckd-esc-2026',
+                especialidad: 'Cardiología / Nefrología',
+                icono: 'fa-kidneys',
+                color: 'indigo',
+                titulo: 'Enfermedad cardiovascular y renal crónica: guía ESC 2026',
+                fecha: '2026',
+                cambiaPractica: true,
+                cifra: 'Manejo integrado',
+                cifraTexto: 'Primera guía ESC dedicada al manejo integrado de la enfermedad cardiovascular y la enfermedad renal crónica, con énfasis en SGLT2i y finerenona.',
+                cambios: [
+                    {
+                        antes: 'Manejo cardiovascular y renal por separado.',
+                        ahora: 'Abordaje integrado: evaluar riesgo cardiovascular y renal de forma conjunta y tratar con fármacos que protegen ambos órganos.'
+                    },
+                    {
+                        ahora: 'SGLT2i (dapagliflozina, empagliflozina) recomendados en ERC con o sin diabetes por su beneficio renal y cardiovascular.'
+                    },
+                    {
+                        ahora: 'Finerenona recomendada en ERC con diabetes y albuminuria para reducir la progresión renal y los eventos CV.'
+                    },
+                    {
+                        ahora: 'Control de PA < 130/80 mmHg y manejo intensivo de lípidos en pacientes con ERC.'
+                    }
+                ],
+                detalle: 'La guía se centra en la prevención y el manejo de la enfermedad cardiovascular en pacientes con enfermedad renal crónica. Compárala con el protocolo de tu servicio. En Adroosis, el vademécum incluye los fármacos clave (dapagliflozina, empagliflozina, espironolactona, enalapril, losartán).',
+                fuente: { texto: 'ESC: 2026 Guidelines for the management of cardiovascular disease and chronic kidney disease', url: 'https://www.escardio.org/Guidelines/Clinical-Practice-Guidelines' },
+                aplica: { label: 'Ver Vademécum', tipo: 'tab', id: 'farmaco' },
+                revisado: '25 nov 2026',
+                verificado: false
+            },
+            {
+                id: 'ckm-acc-2026',
+                especialidad: 'Cardiología / Endocrinología',
+                icono: 'fa-heart',
+                color: 'amber',
+                titulo: 'Síndrome cardio-reno-metabólico (CKM): guía ACC/AHA 2026',
+                fecha: '2026',
+                cambiaPractica: true,
+                cifra: 'Estratificación CKM',
+                cifraTexto: 'Primera guía dedicada al síndrome cardio-reno-metabólico, que integra obesidad, diabetes, enfermedad renal y cardiovascular en un solo marco de riesgo.',
+                cambios: [
+                    {
+                        antes: 'Manejo por separado de obesidad, diabetes, ERC y enfermedad CV.',
+                        ahora: 'Abordaje integrado: estratificar el riesgo CKM y tratar con fármacos que benefician múltiples órganos (SGLT2i, GLP-1 RA, finerenona).'
+                    },
+                    {
+                        ahora: 'Estratificación en etapas 0 a 4 según la presencia de factores de riesgo y enfermedad establecida.'
+                    },
+                    {
+                        ahora: 'Énfasis en la prevención primaria y el manejo del peso, la PA y la glucemia desde etapas tempranas.'
+                    }
+                ],
+                detalle: 'El síndrome CKM reconoce la interacción entre obesidad, diabetes, enfermedad renal y cardiovascular. Es una guía estadounidense: compárala con el protocolo de tu servicio y las guías colombianas. En Adroosis, el vademécum incluye SGLT2i (dapagliflozina, empagliflozina) y los fármacos cardiovasculares clave.',
+                fuente: { texto: 'ACC: 2026 Cardiovascular-Kidney-Metabolic Syndrome guideline', url: 'https://www.acc.org/guidelines' },
+                aplica: { label: 'Ver Vademécum', tipo: 'tab', id: 'farmaco' },
+                revisado: '25 nov 2026',
+                verificado: false
+            }
+
+,
             
             {
                 id: 'urosepsis-itu-2026',
