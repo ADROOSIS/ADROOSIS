@@ -346,18 +346,18 @@
                                 oninput="onAbgMicInput('${germ}','${d.id}')">
                             <span id="abg-micres-${d.id}" class="text-[10px] font-bold"></span>
                         </div>
-                        <div class="flex items-center gap-1.5 text-[11px] font-bold">
-                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-emerald-600 has-[:checked]:text-white">
-                                <input type="radio" name="abg_${d.id}" value="S" class="hidden" onchange="onAbgManualChange('${d.id}')"> S
+                        <div class="grid grid-cols-4 gap-1.5 text-xs font-bold select-none">
+                            <label id="abg-lbl-${d.id}-S" class="cursor-pointer text-center py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all active:scale-95" onclick="abgSelectRadio('${d.id}','S')">
+                                <input type="radio" name="abg_${d.id}" value="S" class="sr-only" onchange="onAbgRadioChange('${d.id}',this.value)"> S
                             </label>
-                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-amber-500 has-[:checked]:text-white">
-                                <input type="radio" name="abg_${d.id}" value="I" class="hidden" onchange="onAbgManualChange('${d.id}')"> I
+                            <label id="abg-lbl-${d.id}-I" class="cursor-pointer text-center py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all active:scale-95" onclick="abgSelectRadio('${d.id}','I')">
+                                <input type="radio" name="abg_${d.id}" value="I" class="sr-only" onchange="onAbgRadioChange('${d.id}',this.value)"> I
                             </label>
-                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-rose-600 has-[:checked]:text-white">
-                                <input type="radio" name="abg_${d.id}" value="R" class="hidden" onchange="onAbgManualChange('${d.id}')"> R
+                            <label id="abg-lbl-${d.id}-R" class="cursor-pointer text-center py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all active:scale-95" onclick="abgSelectRadio('${d.id}','R')">
+                                <input type="radio" name="abg_${d.id}" value="R" class="sr-only" onchange="onAbgRadioChange('${d.id}',this.value)"> R
                             </label>
-                            <label class="flex-1 cursor-pointer text-center py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 has-[:checked]:bg-slate-400 has-[:checked]:text-white">
-                                <input type="radio" name="abg_${d.id}" value="NR" class="hidden" checked onchange="onAbgManualChange('${d.id}')"> NR
+                            <label id="abg-lbl-${d.id}-NR" class="cursor-pointer text-center py-2.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all active:scale-95" onclick="abgSelectRadio('${d.id}','NR')">
+                                <input type="radio" name="abg_${d.id}" value="NR" class="sr-only" checked onchange="onAbgRadioChange('${d.id}',this.value)"> NR
                             </label>
                         </div>
                         ${extra}
@@ -370,6 +370,8 @@
                 resultBox.classList.add('hidden');
                 resultBox.innerHTML = '';
             }
+            drugs.forEach(d => { if (!d.intrinsicR) abgUpdateRadioVisuals(d.id, 'NR'); });
+            abgUpdateLiveCount();
         }
 
         function onAbgMicInput(germ, drugId) {
@@ -382,6 +384,8 @@
                 badge.className = 'text-[10px] font-bold';
                 const nr = document.querySelector(`input[name="abg_${drugId}"][value="NR"]`);
                 if (nr) nr.checked = true;
+                abgUpdateRadioVisuals(drugId, 'NR');
+                abgUpdateLiveCount();
                 return;
             }
             const mic = parseFloat(raw.replace(',', '.'));
@@ -396,11 +400,13 @@
             }
             const radio = document.querySelector(`input[name="abg_${drugId}"][value="${cat}"]`);
             if (radio) radio.checked = true;
+            abgUpdateRadioVisuals(drugId, cat);
+            abgUpdateLiveCount();
             badge.textContent = cat === 'I' && bp.offScale ? 'I (exp. ↑)' : cat;
             badge.className = 'text-[10px] font-bold ' + (cat === 'S' ? 'text-emerald-600 dark:text-emerald-400' : cat === 'I' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400');
         }
 
-        function onAbgManualChange(drugId) {
+        function onAbgRadioChange(drugId, value) {
             const input = document.getElementById(`abg-mic-${drugId}`);
             const badge = document.getElementById(`abg-micres-${drugId}`);
             if (input) input.value = '';
@@ -408,6 +414,56 @@
                 badge.textContent = '';
                 badge.className = 'text-[10px] font-bold';
             }
+            abgUpdateRadioVisuals(drugId, value);
+            abgUpdateLiveCount();
+        }
+
+        function abgSelectRadio(drugId, value) {
+            const radio = document.querySelector(`input[name="abg_${drugId}"][value="${value}"]`);
+            if (radio) radio.checked = true;
+            onAbgRadioChange(drugId, value);
+        }
+
+        function abgUpdateRadioVisuals(drugId, value) {
+            const selectedClasses = {
+                S: ['bg-emerald-600', 'text-white', 'shadow-md'],
+                I: ['bg-amber-500', 'text-white', 'shadow-md'],
+                R: ['bg-rose-600', 'text-white', 'shadow-md'],
+                NR: ['bg-slate-500', 'text-white', 'shadow-md']
+            };
+            const defaultClasses = ['bg-slate-200', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300'];
+            ['S', 'I', 'R', 'NR'].forEach(v => {
+                const lbl = document.getElementById(`abg-lbl-${drugId}-${v}`);
+                if (!lbl) return;
+                // remove all possible
+                [...selectedClasses.S, ...selectedClasses.I, ...selectedClasses.R, ...selectedClasses.NR, ...defaultClasses].forEach(c => lbl.classList.remove(c));
+                if (v === value) {
+                    lbl.classList.add(...selectedClasses[v]);
+                } else {
+                    lbl.classList.add(...defaultClasses);
+                }
+            });
+        }
+
+        function onAbgManualChange(drugId) {
+            onAbgRadioChange(drugId, document.querySelector(`input[name="abg_${drugId}"]:checked`)?.value || 'NR');
+        }
+
+        function abgUpdateLiveCount() {
+            const el = document.getElementById('abg-live-count');
+            if (!el) return;
+            const germ = document.getElementById('abg-germ-select')?.value;
+            const panel = abgPanelData[germ] || [];
+            let s = 0, i = 0, r = 0, n = 0;
+            panel.forEach(d => {
+                if (d.intrinsicR) { r++; return; }
+                const v = document.querySelector(`input[name="abg_${d.id}"]:checked`)?.value || 'NR';
+                if (v === 'S') s++; else if (v === 'I') i++; else if (v === 'R') r++; else n++;
+            });
+            const total = s + i + r;
+            el.innerHTML = total === 0
+                ? '<span class="text-slate-400">Sin resultados marcados</span>'
+                : `<span class="text-emerald-600 dark:text-emerald-400 font-bold">${s} S</span> · <span class="text-amber-600 dark:text-amber-400 font-bold">${i} I</span> · <span class="text-rose-600 dark:text-rose-400 font-bold">${r} R</span>${n ? ` · <span class="text-slate-400">${n} NR</span>` : ''}`;
         }
 
         function getAbgMic(drugId) {
@@ -655,7 +711,12 @@
                         <h4 class="font-bold text-sm text-amber-400 flex items-center gap-2">
                             <i class="fa-solid fa-microscope"></i> Interpretación del antibiograma
                         </h4>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-900/80 text-rose-200">${ABG_CRITERIA}${men ? ' · SNC' : ''}</span>
+                        <div class="flex items-center gap-2">
+                            <button id="abg-copy-btn" onclick="abgCopyResult()" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-[10px] font-bold transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-copy"></i> Copiar
+                            </button>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-900/80 text-rose-200">${ABG_CRITERIA}${men ? ' · SNC' : ''}</span>
+                        </div>
                     </div>
                     <div>
                         <strong class="text-slate-400 block text-[11px] uppercase tracking-wider">Fenotipo probable:</strong>
@@ -694,6 +755,21 @@
                 </div>`;
 
             resultBox.classList.remove('hidden');
+        }
+
+        function abgCopyResult() {
+            const box = document.getElementById('abg-result-box');
+            if (!box) return;
+            const text = box.innerText;
+            const btn = document.getElementById('abg-copy-btn');
+            const done = () => { if (btn) { btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado'; setTimeout(() => { if (btn) btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar'; }, 1500); } };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done).catch(() => {
+                    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+                });
+            } else {
+                const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+            }
         }
 
         function resetAntibiogramForm() {
