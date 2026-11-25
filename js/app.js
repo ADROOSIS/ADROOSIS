@@ -4273,72 +4273,72 @@ const TPL_TEMPLATES = {
     name: 'Urgencias · Dolor torácico',
     blocks: [
       {title:'Motivo de consulta', text:'Dolor torácico.'},
-      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por cuadro clínico de [tiempo de evolución] consistente en dolor torácico de localización [localización], inicio [súbito/progresivo], carácter [opresivo/punzante/urente], intensidad [__/10], irradiación [ ], duración [ ], con factores desencadenantes [ ], atenuantes [ ] y exacerbantes [ ].'},
-      {title:'Síntomas concomitantes y ALICIA', text:'Concomitante presenta [disnea / diaforesis / náuseas / vómito / palpitaciones / síncope / tos / fiebre / otros]. Niega [ ]. Relación con esfuerzo: [ ]. Episodios previos: [ ].'},
-      {title:'Antecedentes y factores de riesgo cardiovascular', text:'Antecedentes personales: [HTA / DM / dislipidemia / enfermedad cardiovascular / tabaquismo / enfermedad renal / otros]. Medicación habitual: [ ]. Alergias: [ ]. Antecedentes familiares cardiovasculares: [ ].'},
-      {title:'Examen físico y signos vitales', text:'PA [ ] mmHg, FC [ ] lpm, FR [ ] rpm, SatO₂ [ ] %, T [ ] °C. Estado general [ ]. Cardiovascular: [ ]. Respiratorio: [ ]. Pulsos periféricos [ ]. Perfusión [ ].'},
-      {title:'Estudios y evaluación', text:'ECG: [hora y hallazgos]. Troponina: [valor / hora / referencia]. Otros estudios: [ ]. Impresión clínica y diagnósticos diferenciales: [ ].'},
-      {title:'Análisis y conducta', text:'Se realiza valoración de riesgo y estabilidad hemodinámica. Conducta: [ ]. Reevaluación: [ ]. Criterios de observación, hospitalización o remisión: [ ].'}
+      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por cuadro clínico de [tiempo de evolución] consistente en dolor torácico de localización [localización], inicio [súbito/progresivo], carácter [opresivo/punzante/urente], intensidad , irradiación , duración , con factores desencadenantes , atenuantes  y exacerbantes .'},
+      {title:'Síntomas concomitantes y ALICIA', text:'Concomitante presenta [disnea / diaforesis / náuseas / vómito / palpitaciones / síncope / tos / fiebre / otros]. Niega . Relación con esfuerzo: . Episodios previos: .'},
+      {title:'Antecedentes y factores de riesgo cardiovascular', text:'Antecedentes personales: [HTA / DM / dislipidemia / enfermedad cardiovascular / tabaquismo / enfermedad renal / otros]. Medicación habitual: . Alergias: . Antecedentes familiares cardiovasculares: .'},
+      {title:'Examen físico y signos vitales', text:'PA  mmHg, FC  lpm, FR  rpm, SatO₂  %, T  °C. Estado general {v}bueno{/v} / {r}alterado{/r}. Cardiovascular: {v}sin soplos ni galope{/v} / {r}soplos, galope, roce{/r}. Respiratorio: {v}murmullo vesicular conservado, sin agregados{/v} / {r}crepitantes, sibilancias, hipoventilación{/r}. Pulsos periféricos {v}presentes y simétricos{/v} / {r}asimétricos o ausentes{/r}. Perfusión {v}adecuada (llenado capilar < 2 s){/v} / {r}alterada (llenado capilar > 2 s){/r}.'},
+      {title:'Estudios y evaluación', text:'ECG: [hora y hallazgos]. Troponina: [valor / hora / referencia]. Otros estudios: . Impresión clínica y diagnósticos diferenciales: .'},
+      {title:'Análisis y conducta', text:'Se realiza valoración de riesgo y estabilidad hemodinámica. Conducta: . Reevaluación: . Criterios de observación, hospitalización o remisión: .'}
     ]
   },
   urg_disnea: {
     name: 'Urgencias · Disnea',
     blocks: [
       {title:'Motivo de consulta', text:'Disnea.'},
-      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, con cuadro de [tiempo] de evolución consistente en disnea de inicio [súbito/progresivo], curso [ ], actualmente [en reposo/con esfuerzo], clase funcional habitual [ ] y actual [ ].'},
-      {title:'Caracterización y síntomas concomitantes', text:'Se acompaña de [tos / expectoración / fiebre / dolor torácico / sibilancias / ortopnea / disnea paroxística nocturna / edema / hemoptisis / otros]. Exposición a humo, biomasa o tabaco: [ ]. Episodios previos: [ ].'},
-      {title:'Antecedentes relevantes', text:'Antecedentes cardiopulmonares: [asma / EPOC / falla cardiaca / TEP / otros]. Hospitalizaciones o intubaciones previas: [ ]. Oxígeno domiciliario: [ ]. Medicación y adherencia: [ ]. Alergias: [ ].'},
-      {title:'Signos vitales y examen físico', text:'PA [ ] mmHg, FC [ ] lpm, FR [ ] rpm, SatO₂ [ ] % [con/sin oxígeno], T [ ] °C. Trabajo respiratorio [ ]. Habla [ ]. Auscultación pulmonar [ ]. Ruidos cardiacos [ ]. Edemas/perfusión [ ].'},
-      {title:'Estudios y análisis', text:'Gasometría [ ]. Radiografía/imagen [ ]. ECG [ ]. Laboratorios [ ]. Impresión diagnóstica y diferenciales [ ].'},
-      {title:'Conducta y reevaluación', text:'Intervenciones realizadas [ ]. Respuesta clínica [ ]. Plan de monitorización [ ]. Criterios de hospitalización/remisión [ ].'}
+      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, con cuadro de [tiempo] de evolución consistente en disnea de inicio [súbito/progresivo], curso , actualmente [en reposo/con esfuerzo], clase funcional habitual  y actual .'},
+      {title:'Caracterización y síntomas concomitantes', text:'Se acompaña de [tos / expectoración / fiebre / dolor torácico / sibilancias / ortopnea / disnea paroxística nocturna / edema / hemoptisis / otros]. Exposición a humo, biomasa o tabaco: . Episodios previos: .'},
+      {title:'Antecedentes relevantes', text:'Antecedentes cardiopulmonares: [asma / EPOC / falla cardiaca / TEP / otros]. Hospitalizaciones o intubaciones previas: . Oxígeno domiciliario: . Medicación y adherencia: . Alergias: .'},
+      {title:'Signos vitales y examen físico', text:'PA  mmHg, FC  lpm, FR  rpm, SatO₂  % [con/sin oxígeno], T  °C. Trabajo respiratorio . Habla . Auscultación pulmonar . Ruidos cardiacos . Edemas/perfusión .'},
+      {title:'Estudios y análisis', text:'Gasometría . Radiografía/imagen . ECG . Laboratorios . Impresión diagnóstica y diferenciales .'},
+      {title:'Conducta y reevaluación', text:'Intervenciones realizadas . Respuesta clínica . Plan de monitorización . Criterios de hospitalización/remisión .'}
     ]
   },
   consulta: {
     name: 'Consulta externa · Medicina general',
     blocks: [
       {title:'Motivo de consulta', text:'Paciente consulta por [motivo principal].'},
-      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien acude por cuadro de [tiempo] de evolución caracterizado por [síntoma principal]. Inicio [ ], localización [ ], características [ ], intensidad [ ], frecuencia [ ], duración [ ], factores agravantes [ ], atenuantes [ ] y síntomas concomitantes [ ].'},
-      {title:'Antecedentes', text:'Patológicos [ ]. Farmacológicos [ ]. Quirúrgicos [ ]. Alérgicos [ ]. Toxicológicos [ ]. Familiares [ ]. Gineco-obstétricos, si aplica [ ].'},
-      {title:'Tratamiento habitual y adherencia', text:'Tratamiento formulado [ ]. Refiere adherencia [buena / parcial / baja / nula]. Omisiones o barreras para cumplirlo [ ]. Efectos adversos [ ].'},
-      {title:'Revisión por sistemas', text:'Positivos: [ ]. Negativos relevantes: [ ].'},
-      {title:'Examen físico', text:'Signos vitales: PA [ ], FC [ ], FR [ ], SatO₂ [ ], T [ ], peso [ ], talla [ ]. Estado general [ ]. Hallazgos por sistemas [ ].'},
-      {title:'Análisis', text:'Paciente con [problemas clínicos], hallazgos relevantes [ ]. Impresión diagnóstica [ ]. Diagnósticos diferenciales [ ].'},
-      {title:'Plan', text:'Paraclínicos [ ]. Tratamiento [ ]. Educación y signos de alarma [ ]. Seguimiento [ ].'}
+      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien acude por cuadro de [tiempo] de evolución caracterizado por [síntoma principal]. Inicio , localización , características , intensidad , frecuencia , duración , factores agravantes , atenuantes  y síntomas concomitantes .'},
+      {title:'Antecedentes', text:'Patológicos . Farmacológicos . Quirúrgicos . Alérgicos . Toxicológicos . Familiares . Gineco-obstétricos, si aplica .'},
+      {title:'Tratamiento habitual y adherencia', text:'Tratamiento formulado . Refiere adherencia [buena / parcial / baja / nula]. Omisiones o barreras para cumplirlo . Efectos adversos .'},
+      {title:'Revisión por sistemas', text:'Positivos: . Negativos relevantes: .'},
+      {title:'Examen físico', text:'Signos vitales: PA , FC , FR , SatO₂ , T , peso , talla . Estado general {v}bueno{/v} / {r}alterado{/r}. Hallazgos por sistemas: {v}sin hallazgos patológicos{/v} / {r}hallazgos anormales: .'},
+      {title:'Análisis', text:'Paciente con [problemas clínicos], hallazgos relevantes . Impresión diagnóstica . Diagnósticos diferenciales .'},
+      {title:'Plan', text:'Paraclínicos . Tratamiento . Educación y signos de alarma . Seguimiento .'}
     ]
   },
   examen: {
     name: 'Examen físico general',
     blocks: [
-      {title:'Estado general', text:'Paciente [alerta/somnoliento], [orientado/desorientado] en [tiempo/espacio/persona], [colaborador/no colaborador], en [buen/regular/mal] estado general. Facies [ ], posición [ ], marcha [ ].'},
-      {title:'Piel y faneras', text:'Piel [normocoloreada/pálida/cianótica/ictérica], [hidratada/seca], temperatura [ ], lesiones [ ], llenado capilar [ ] segundos. Faneras [ ].'},
-      {title:'Cabeza y cuello', text:'Craneo [ ]. Pupilas [ ], conjuntivas [ ], escleras [ ], mucosa oral [ ]. Cuello [ ], movilidad [ ], adenopatías [ ], ingurgitación yugular [ ].'},
-      {title:'Cardiovascular', text:'Ruidos cardiacos [ ], ritmo [ ], soplos [ ]. Pulsos periféricos [ ], simetría [ ], perfusión distal [ ].'},
-      {title:'Respiratorio', text:'Tórax [ ], expansibilidad [ ], frémito [ ], percusión [ ], murmullo vesicular [ ], ruidos agregados [ ].'},
-      {title:'Abdomen', text:'Abdomen [ ], ruidos intestinales [ ], blando/depresible [ ], dolor [ ], masas/visceromegalias [ ], signos de irritación peritoneal [ ].'},
-      {title:'Genitourinario', text:'Hallazgos [ ]. Se examina si está indicado y con consentimiento [ ].'},
-      {title:'Osteomuscular y extremidades', text:'Movilidad [ ], fuerza [ ], deformidades [ ], edema [ ], dolor [ ], pulsos [ ].'},
-      {title:'Neurológico', text:'Estado mental [ ], pares craneales [ ], fuerza [ ], sensibilidad [ ], reflejos [ ], coordinación [ ], marcha [ ].'},
+      {title:'Estado general', text:'Paciente [alerta/somnoliento], [orientado/desorientado] en [tiempo/espacio/persona], [colaborador/no colaborador], en [buen/regular/mal] estado general. Facies , posición , marcha .'},
+      {title:'Piel y faneras', text:'Piel {v}normocoloreada, hidratada, tibia, sin lesiones{/v} / {r}pálida, cianótica, ictericia, deshidratada, lesiones, petequias, equimosis{/r}. Llenado capilar {v}< 2 s{/v} / {r}> 2 s{/r}. Faneras {v}sin alteraciones{/v} / {r}alteradas{/r}.'},
+      {title:'Cabeza y cuello', text:'Craneo . Pupilas , conjuntivas , escleras , mucosa oral . Cuello , movilidad , adenopatías , ingurgitación yugular .'},
+      {title:'Cardiovascular', text:'Ruidos cardiacos , ritmo , soplos . Pulsos periféricos , simetría , perfusión distal .'},
+      {title:'Respiratorio', text:'Tórax , expansibilidad , frémito , percusión , murmullo vesicular , ruidos agregados .'},
+      {title:'Abdomen', text:'Abdomen , ruidos intestinales , blando/depresible , dolor , masas/visceromegalias , signos de irritación peritoneal .'},
+      {title:'Genitourinario', text:'Hallazgos . Se examina si está indicado y con consentimiento .'},
+      {title:'Osteomuscular y extremidades', text:'Movilidad , fuerza , deformidades , edema , dolor , pulsos .'},
+      {title:'Neurológico', text:'Estado mental , pares craneales , fuerza , sensibilidad , reflejos , coordinación , marcha .'},
       {title:'Otros hallazgos', text:'[Describir hallazgos adicionales pertinentes o indicar no evaluado].'}
     ]
   },
   evolucion: {
     name: 'Hospitalización · Evolución médica',
     blocks: [
-      {title:'Identificación y contexto', text:'Paciente [sexo] de [edad] años, día [ ] de hospitalización, con diagnósticos de [ ].'},
-      {title:'Evolución subjetiva', text:'Durante las últimas [ ] horas refiere [mejoría / persistencia / empeoramiento] de [síntomas]. Síntomas nuevos [ ]. Tolerancia oral [ ]. Diuresis [ ]. Deposiciones [ ].'},
-      {title:'Hallazgos objetivos', text:'Signos vitales: PA [ ], FC [ ], FR [ ], SatO₂ [ ], T [ ]. Balance hídrico [ ]. Examen físico dirigido [ ]. Paraclínicos relevantes y tendencia [ ].'},
-      {title:'Tratamiento y respuesta', text:'Tratamiento actual [ ]. Adherencia/administración durante estancia [ ]. Respuesta y eventos adversos [ ]. Dispositivos/soportes [ ].'},
+      {title:'Identificación y contexto', text:'Paciente [sexo] de [edad] años, día  de hospitalización, con diagnósticos de .'},
+      {title:'Evolución subjetiva', text:'Durante las últimas  horas refiere [mejoría / persistencia / empeoramiento] de [síntomas]. Síntomas nuevos . Tolerancia oral . Diuresis . Deposiciones .'},
+      {title:'Hallazgos objetivos', text:'Signos vitales: PA , FC , FR , SatO₂ , T . Balance hídrico . Examen físico dirigido . Paraclínicos relevantes y tendencia .'},
+      {title:'Tratamiento y respuesta', text:'Tratamiento actual . Adherencia/administración durante estancia . Respuesta y eventos adversos . Dispositivos/soportes .'},
       {title:'Análisis por problemas', text:'1. [Problema]: [estado y análisis]. 2. [Problema]: [estado y análisis]. 3. [Problema]: [estado y análisis].'},
-      {title:'Plan', text:'Continuar/ajustar [ ]. Solicitar/seguir [ ]. Interconsultas [ ]. Vigilancia [ ]. Criterios de egreso [ ].'}
+      {title:'Plan', text:'Continuar/ajustar . Solicitar/seguir . Interconsultas . Vigilancia . Criterios de egreso .'}
     ]
   },
   sbar: {
     name: 'Entrega de turno · SBAR',
     blocks: [
-      {title:'S · Situación', text:'Paciente [identificación institucional], [edad] años, ubicado en [servicio/cama], con diagnóstico/problema principal [ ]. Motivo de entrega: [ ]. Estado actual [ ].'},
-      {title:'B · Antecedentes', text:'Antecedentes relevantes [ ]. Motivo de ingreso y evolución [ ]. Tratamientos/soportes actuales [ ]. Alergias [ ].'},
-      {title:'A · Evaluación', text:'Signos vitales [ ]. Hallazgos actuales [ ]. Paraclínicos relevantes [ ]. Riesgos identificados [ ]. Cambios durante el turno [ ].'},
-      {title:'R · Recomendaciones', text:'Pendientes [ ]. Medicamentos/horarios por verificar [ ]. Monitorización [ ]. Signos de alarma y acciones si aparecen [ ].'}
+      {title:'S · Situación', text:'Paciente [identificación institucional], [edad] años, ubicado en [servicio/cama], con diagnóstico/problema principal . Motivo de entrega: . Estado actual .'},
+      {title:'B · Antecedentes', text:'Antecedentes relevantes . Motivo de ingreso y evolución . Tratamientos/soportes actuales . Alergias .'},
+      {title:'A · Evaluación', text:'Signos vitales . Hallazgos actuales . Paraclínicos relevantes . Riesgos identificados . Cambios durante el turno .'},
+      {title:'R · Recomendaciones', text:'Pendientes . Medicamentos/horarios por verificar . Monitorización . Signos de alarma y acciones si aparecen .'}
     ]
   },
 urg_abdomen: {
@@ -4346,12 +4346,12 @@ urg_abdomen: {
     cat: 'urgencias',
     blocks: [
       {title:'Motivo de consulta', text:'Dolor abdominal.'},
-      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por cuadro de [tiempo] de evolución consistente en dolor abdominal de localización [epigastrio / HCD / HII / hipogastrio / difuso], carácter [cólico / continuo / punzante], intensidad [__/10], con irradiación [ ].'},
-      {title:'Síntomas concomitantes', text:'Acompañado de [náuseas / vómito / diarrea / estreñimiento / fiebre / anorexia / melena / hematoquecia / disuria / otros]. Niega [ ]. Relación con la ingesta: [ ].'},
-      {title:'Antecedentes relevantes', text:'Antecedentes: [cirugía abdominal previa / litiasis biliar / úlcera péptica / EII / otros]. Medicación habitual: [ ]. Alergias: [ ].'},
-      {title:'Signos vitales y examen físico', text:'PA [ ] mmHg, FC [ ] lpm, FR [ ] rpm, SatO₂ [ ] %, T [ ] °C. Abdomen: [ ]. Blumberg [ ]. Murphy [ ]. Rovsing [ ]. Psoas [ ]. Obturador [ ].'},
-      {title:'Estudios y evaluación', text:'Laboratorios [ ]. Imágenes [ ]. Impresión clínica y diferenciales [ ].'},
-      {title:'Conducta', text:'Tratamiento [ ]. Observación / hospitalización / remisión [ ]. Signos de alarma explicados [ ].'}
+      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por cuadro de [tiempo] de evolución consistente en dolor abdominal de localización [epigastrio / HCD / HII / hipogastrio / difuso], carácter [cólico / continuo / punzante], intensidad , con irradiación .'},
+      {title:'Síntomas concomitantes', text:'Acompañado de [náuseas / vómito / diarrea / estreñimiento / fiebre / anorexia / melena / hematoquecia / disuria / otros]. Niega . Relación con la ingesta: .'},
+      {title:'Antecedentes relevantes', text:'Antecedentes: [cirugía abdominal previa / litiasis biliar / úlcera péptica / EII / otros]. Medicación habitual: . Alergias: .'},
+      {title:'Signos vitales y examen físico', text:'PA  mmHg, FC  lpm, FR  rpm, SatO₂  %, T  °C. Abdomen: . Blumberg . Murphy . Rovsing . Psoas . Obturador .'},
+      {title:'Estudios y evaluación', text:'Laboratorios . Imágenes . Impresión clínica y diferenciales .'},
+      {title:'Conducta', text:'Tratamiento . Observación / hospitalización / remisión . Signos de alarma explicados .'}
     ]
   },
   urg_cefalea: {
@@ -4359,12 +4359,12 @@ urg_abdomen: {
     cat: 'urgencias',
     blocks: [
       {title:'Motivo de consulta', text:'Cefalea.'},
-      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por cefalea de [tiempo] de evolución, de inicio [súbito / progresivo], localización [ ], carácter [pulsátil / opresivo / punzante], intensidad [__/10].'},
-      {title:'Caracterización y banderas rojas', text:'Peor cefalea de la vida: [sí / no]. Inicio en segundos: [ ]. Fiebre: [ ]. Rigidez de nuca: [ ]. Déficit focal: [ ]. Trauma reciente: [ ]. Embarazo: [ ].'},
-      {title:'Antecedentes', text:'HTA [ ], migraña [ ], uso de anticoagulantes [ ], cefaleas previas [ ]. Medicación habitual [ ].'},
-      {title:'Examen neurológico y signos vitales', text:'PA [ ], FC [ ], T [ ]. Glasgow [ ]. Pupilas [ ]. Fondo de ojo [ ]. Rigidez nucal [ ]. Déficit focal [ ].'},
-      {title:'Estudios', text:'TC de cráneo [ ]. Punción lumbar [ ]. Laboratorios [ ].'},
-      {title:'Análisis y conducta', text:'Impresión diagnóstica [ ]. Diferenciales [ ]. Conducta [ ].'}
+      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por cefalea de [tiempo] de evolución, de inicio [súbito / progresivo], localización , carácter [pulsátil / opresivo / punzante], intensidad .'},
+      {title:'Caracterización y banderas rojas', text:'Peor cefalea de la vida: [sí / no]. Inicio en segundos: . Fiebre: . Rigidez de nuca: . Déficit focal: . Trauma reciente: . Embarazo: .'},
+      {title:'Antecedentes', text:'HTA , migraña , uso de anticoagulantes , cefaleas previas . Medicación habitual .'},
+      {title:'Examen neurológico y signos vitales', text:'PA , FC , T . Glasgow . Pupilas . Fondo de ojo . Rigidez nucal . Déficit focal .'},
+      {title:'Estudios', text:'TC de cráneo . Punción lumbar . Laboratorios .'},
+      {title:'Análisis y conducta', text:'Impresión diagnóstica . Diferenciales . Conducta .'}
     ]
   },
   urg_trauma: {
@@ -4372,13 +4372,13 @@ urg_abdomen: {
     cat: 'urgencias',
     blocks: [
       {title:'Motivo de consulta', text:'Trauma.'},
-      {title:'Mecanismo y cinemática', text:'Mecanismo: [ ]. Hora del evento: [ ]. Cinemática de alto/bajo impacto: [ ]. Uso de casco/cinturón: [ ]. Ingesta de alcohol/drogas: [ ].'},
-      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por trauma de [tiempo]. Dolor en [ ]. Pérdida de conciencia: [ ]. Vómito: [ ].'},
-      {title:'Revisión por sistemas (trauma)', text:'Cabeza [ ]. Cuello [ ]. Tórax [ ]. Abdomen [ ]. Pelvis [ ]. Extremidades [ ]. Neurológico [ ].'},
-      {title:'Signos vitales', text:'PA [ ], FC [ ], FR [ ], SatO₂ [ ], T [ ]. Glasgow [ ]. Pupilas [ ].'},
+      {title:'Mecanismo y cinemática', text:'Mecanismo: . Hora del evento: . Cinemática de alto/bajo impacto: . Uso de casco/cinturón: . Ingesta de alcohol/drogas: .'},
+      {title:'Enfermedad actual', text:'Paciente [sexo] de [edad] años, quien consulta por trauma de [tiempo]. Dolor en . Pérdida de conciencia: . Vómito: .'},
+      {title:'Revisión por sistemas (trauma)', text:'Cabeza . Cuello . Tórax . Abdomen . Pelvis . Extremidades . Neurológico .'},
+      {title:'Signos vitales', text:'PA , FC , FR , SatO₂ , T . Glasgow . Pupilas .'},
       {title:'Examen físico por regiones', text:'[Describir hallazgos por regiones afectadas].'},
-      {title:'Estudios', text:'Imágenes [ ]. Laboratorios [ ].'},
-      {title:'Análisis y conducta', text:'Lesiones identificadas [ ]. Plan [ ]. Criterios de remisión [ ].'}
+      {title:'Estudios', text:'Imágenes . Laboratorios .'},
+      {title:'Análisis y conducta', text:'Lesiones identificadas . Plan . Criterios de remisión .'}
     ]
   },
   consulta_ped: {
@@ -4386,26 +4386,26 @@ urg_abdomen: {
     cat: 'consulta',
     blocks: [
       {title:'Motivo de consulta', text:'Paciente pediátrico consulta por [motivo].'},
-      {title:'Enfermedad actual', text:'Paciente de [edad] [meses/años], [sexo], quien consulta por cuadro de [tiempo] consistente en [síntoma]. Inicio [ ], evolución [ ], factores agravantes [ ], atenuantes [ ].'},
-      {title:'Antecedentes perinatales', text:'EG [ ] semanas. Parto [vaginal/cesárea]. Peso al nacer [ ] g. APGAR [ ]. Complicaciones [ ].'},
-      {title:'Alimentación y desarrollo', text:'Alimentación [ ]. Vacunación [ ]. Desarrollo psicomotor [ ]. Escolaridad [ ].'},
-      {title:'Antecedentes', text:'Patológicos [ ]. Hospitalizaciones previas [ ]. Alergias [ ]. Medicamentos [ ].'},
-      {title:'Examen físico', text:'Signos vitales: PA [ ], FC [ ], FR [ ], SatO₂ [ ], T [ ], peso [ ], talla [ ], PC [ ]. Estado general [ ]. Hallazgos [ ].'},
-      {title:'Análisis y plan', text:'Impresión diagnóstica [ ]. Paraclínicos [ ]. Tratamiento [ ]. Educación a cuidadores [ ]. Seguimiento [ ].'}
+      {title:'Enfermedad actual', text:'Paciente de [edad] [meses/años], [sexo], quien consulta por cuadro de [tiempo] consistente en [síntoma]. Inicio , evolución , factores agravantes , atenuantes .'},
+      {title:'Antecedentes perinatales', text:'EG  semanas. Parto [vaginal/cesárea]. Peso al nacer  g. APGAR . Complicaciones .'},
+      {title:'Alimentación y desarrollo', text:'Alimentación . Vacunación . Desarrollo psicomotor . Escolaridad .'},
+      {title:'Antecedentes', text:'Patológicos . Hospitalizaciones previas . Alergias . Medicamentos .'},
+      {title:'Examen físico', text:'Signos vitales: PA , FC , FR , SatO₂ , T , peso , talla , PC . Estado general . Hallazgos .'},
+      {title:'Análisis y plan', text:'Impresión diagnóstica . Paraclínicos . Tratamiento . Educación a cuidadores . Seguimiento .'}
     ]
   },
   consulta_prenatal: {
     name: 'Consulta · Control prenatal',
     cat: 'consulta',
     blocks: [
-      {title:'Identificación', text:'Gestante de [edad] años, G [ ] P [ ] A [ ] C [ ] V [ ], EG [ ] semanas por FUR.'},
-      {title:'Motivo de consulta', text:'Control prenatal de rutina / consulta por [ ].'},
-      {title:'Enfermedad actual', text:'Evolución del embarazo [ ]. Síntomas [ ]. Movimientos fetales [ ].'},
+      {title:'Identificación', text:'Gestante de [edad] años, G  P  A  C  V , EG  semanas por FUR.'},
+      {title:'Motivo de consulta', text:'Control prenatal de rutina / consulta por .'},
+      {title:'Enfermedad actual', text:'Evolución del embarazo . Síntomas . Movimientos fetales .'},
       {title:'Signos de alarma obstétrica', text:'Niega / presenta [sangrado, pérdida de líquido, contracciones, cefalea, visión borrosa, edema, epigastralgia, fiebre, disminución de movimientos fetales].'},
-      {title:'Antecedentes', text:'Patológicos [ ]. Quirúrgicos [ ]. Alergias [ ]. Medicamentos [ ].'},
-      {title:'Signos vitales y examen', text:'PA [ ], FC [ ], peso [ ], altura uterina [ ], FCF [ ], presentación [ ].'},
-      {title:'Paraclínicos', text:'Grupo y Rh [ ]. VIH [ ]. Sífilis [ ]. Ecografía [ ]. Otros [ ].'},
-      {title:'Análisis y plan', text:'Impresión [ ]. Conducta [ ]. Próximo control [ ]. Signos de alarma explicados [ ].'}
+      {title:'Antecedentes', text:'Patológicos . Quirúrgicos . Alergias . Medicamentos .'},
+      {title:'Signos vitales y examen', text:'PA , FC , peso , altura uterina , FCF , presentación .'},
+      {title:'Paraclínicos', text:'Grupo y Rh . VIH . Sífilis . Ecografía . Otros .'},
+      {title:'Análisis y plan', text:'Impresión . Conducta . Próximo control . Signos de alarma explicados .'}
     ]
   },
   hosp_ingreso: {
@@ -4416,7 +4416,7 @@ urg_abdomen: {
       {title:'Motivo de ingreso', text:'[Motivo principal de hospitalización].'},
       {title:'Resumen de la enfermedad actual', text:'[Síntesis de la enfermedad actual y evolución hasta el ingreso].'},
       {title:'Antecedentes relevantes', text:'[Antecedentes patológicos, farmacológicos, alérgicos relevantes].'},
-      {title:'Examen físico de ingreso', text:'Signos vitales: PA [ ], FC [ ], FR [ ], SatO₂ [ ], T [ ]. Hallazgos por sistemas [ ].'},
+      {title:'Examen físico de ingreso', text:'Signos vitales: PA , FC , FR , SatO₂ , T . Hallazgos por sistemas .'},
       {title:'Paraclínicos de ingreso', text:'[Laboratorios, imágenes, ECG].'},
       {title:'Diagnósticos', text:'1. [Diagnóstico principal]. 2. [Comorbilidades].'},
       {title:'Plan inicial', text:'[Tratamiento, estudios pendientes, interconsultas, monitorización].'}
@@ -4426,7 +4426,7 @@ urg_abdomen: {
     name: 'Hospitalización · Egreso',
     cat: 'hospitalizacion',
     blocks: [
-      {title:'Identificación', text:'Paciente [sexo] de [edad] años, egresa tras [ ] días de hospitalización.'},
+      {title:'Identificación', text:'Paciente [sexo] de [edad] años, egresa tras  días de hospitalización.'},
       {title:'Diagnóstico de egreso', text:'[Diagnóstico principal] + [comorbilidades].'},
       {title:'Resumen de la estancia', text:'[Resumen de la evolución intrahospitalaria].'},
       {title:'Tratamiento al egreso', text:'[Medicamentos con dosis y frecuencia].'},
@@ -4440,11 +4440,11 @@ urg_abdomen: {
     cat: 'procedimiento',
     blocks: [
       {title:'Indicación', text:'Sutura de herida por [mecanismo].'},
-      {title:'Anestesia', text:'Lidocaína [ ] % con/sin epinefrina. Técnica [ ].'},
-      {title:'Lavado y desbridamiento', text:'Lavado con [ ] mL de SSN. Desbridamiento [ ].'},
-      {title:'Cierre', text:'Sutura con [material] calibre [ ], [número] puntos. Técnica [ ].'},
+      {title:'Anestesia', text:'Lidocaína  % con/sin epinefrina. Técnica .'},
+      {title:'Lavado y desbridamiento', text:'Lavado con  mL de SSN. Desbridamiento .'},
+      {title:'Cierre', text:'Sutura con [material] calibre , [número] puntos. Técnica .'},
       {title:'Curación y apósito', text:'[Tipo de apósito].'},
-      {title:'Indicaciones', text:'Retiro de puntos en [ ] días. Signos de alarma [ ]. Profilaxis antitetánica [ ]. Antibiótico [ ].'}
+      {title:'Indicaciones', text:'Retiro de puntos en  días. Signos de alarma . Profilaxis antitetánica . Antibiótico .'}
     ]
   },
   remision: {
@@ -4464,7 +4464,7 @@ urg_abdomen: {
     name: 'Incapacidad laboral',
     cat: 'administrativo',
     blocks: [
-      {title:'Identificación', text:'Paciente [sexo] de [edad] años, ocupación [ ], afiliado a [EPS].'},
+      {title:'Identificación', text:'Paciente [sexo] de [edad] años, ocupación , afiliado a [EPS].'},
       {title:'Diagnóstico', text:'[Diagnóstico con CIE-10].'},
       {title:'Motivo de la incapacidad', text:'[Razón médica de la incapacidad].'},
       {title:'Duración', text:'[Número] días, desde [fecha] hasta [fecha].'},
@@ -4476,32 +4476,32 @@ urg_abdomen: {
     name: 'Anamnesis completa (ALICIA)',
     cat: 'consulta',
     blocks: [
-      {title:'Aparición', text:'Forma de inicio: [súbita / progresiva / intermitente]. Contexto: [ ].'},
-      {title:'Localización', text:'Localización: [ ]. Irradiación: [ ].'},
-      {title:'Intensidad', text:'EVA [__/10]. Comparación con episodios previos [ ].'},
+      {title:'Aparición', text:'Forma de inicio: [súbita / progresiva / intermitente]. Contexto: .'},
+      {title:'Localización', text:'Localización: . Irradiación: .'},
+      {title:'Intensidad', text:'EVA . Comparación con episodios previos .'},
       {title:'Carácter / calidad', text:'[Opresivo / punzante / cólico / ardor / pulsátil / sordo / eléctrico].'},
-      {title:'Irradiación', text:'[Sí / No]. Hacia [ ].'},
+      {title:'Irradiación', text:'[Sí / No]. Hacia .'},
       {title:'Atenuantes', text:'[Qué lo mejora].'},
       {title:'Agravantes', text:'[Qué lo empeora].'},
       {title:'Síntomas concomitantes', text:'[Fiebre / náuseas / vómito / disnea / diaforesis / mareo / otros].'},
       {title:'Tiempo de evolución', text:'[Duración total]. Curso: [continuo / intermitente / episódico].'},
-      {title:'Episodios previos', text:'[Sí / No]. Frecuencia [ ]. Tratamiento previo [ ].'},
-      {title:'Factores de riesgo', text:'[ ].'},
-      {title:'Medicación habitual', text:'[ ].'}
+      {title:'Episodios previos', text:'[Sí / No]. Frecuencia . Tratamiento previo .'},
+      {title:'Factores de riesgo', text:'.'},
+      {title:'Medicación habitual', text:'.'}
     ]
   },
   examen_neurologico: {
     name: 'Examen neurológico dirigido',
     cat: 'neuro',
     blocks: [
-      {title:'Estado mental', text:'Alerta, orientado en [tiempo/espacio/persona], Glasgow [ ]. Lenguaje [ ].'},
-      {title:'Pares craneales', text:'I [ ], II [ ], III [ ], IV [ ], V [ ], VI [ ], VII [ ], VIII [ ], IX-X [ ], XI [ ], XII [ ].'},
-      {title:'Fuerza muscular (MRC)', text:'Miembros superiores: [ ]. Miembros inferiores: [ ]. Deriva pronadora: [ ].'},
-      {title:'Sensibilidad', text:'Tacto [ ], dolor [ ], temperatura [ ], vibración [ ], propiocepción [ ].'},
-      {title:'Reflejos osteotendinosos', text:'Bicipital [ ], tricipital [ ], rotuliano [ ], aquíleo [ ]. Signo de Babinski [ ].'},
-      {title:'Coordinación', text:'Dedo-nariz [ ], talón-rodilla [ ], movimientos alternantes [ ].'},
-      {title:'Marcha y equilibrio', text:'Marcha [ ], Romberg [ ], tándem [ ].'},
-      {title:'Signos meníngeos', text:'Rigidez nucal [ ], Kernig [ ], Brudzinski [ ].'}
+      {title:'Estado mental', text:'Alerta, orientado en [tiempo/espacio/persona], Glasgow . Lenguaje .'},
+      {title:'Pares craneales', text:'I , II , III , IV , V , VI , VII , VIII , IX-X , XI , XII .'},
+      {title:'Fuerza muscular (MRC)', text:'Miembros superiores: . Miembros inferiores: . Deriva pronadora: .'},
+      {title:'Sensibilidad', text:'Tacto , dolor , temperatura , vibración , propiocepción .'},
+      {title:'Reflejos osteotendinosos', text:'Bicipital , tricipital , rotuliano , aquíleo . Signo de Babinski .'},
+      {title:'Coordinación', text:'Dedo-nariz , talón-rodilla , movimientos alternantes .'},
+      {title:'Marcha y equilibrio', text:'Marcha , Romberg , tándem .'},
+      {title:'Signos meníngeos', text:'Rigidez nucal , Kernig , Brudzinski .'}
     ]
   },
 rcv_consulta: {
