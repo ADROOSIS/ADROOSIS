@@ -6161,6 +6161,7 @@ function toggleNovDetalle(id) {
 function scrollNovedades(dir) {
     const t = document.getElementById('novedades-track');
     if (t) t.scrollBy({ left: dir * 340, behavior: 'smooth' });
+    track.scrollLeft = 0;
 }
 
 function novAplicar(tipo, id) {
