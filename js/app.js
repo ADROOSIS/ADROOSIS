@@ -776,6 +776,49 @@ function analyzeGases() {
 
                     `
                 },
+                {
+                    id: 'liquidos-ped',
+                    cat: 'metabolico',
+                    title: 'Líquidos basales en pediatría (Holliday-Segar)',
+                    desc: 'Volumen de mantenimiento en niños con la regla 4-2-1 y alternativa por superficie corporal.',
+                    body: `
+<div class="space-y-3 text-xs">
+
+    <div>
+        <label class="block font-medium mb-1">Peso (kg)</label>
+        <input type="number" inputmode="decimal" id="liq-peso" min="0.5" max="150" step="0.1" placeholder="Ej. 12" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+    </div>
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <label class="block font-medium mb-1">Talla (cm) — opcional</label>
+            <input type="number" inputmode="decimal" id="liq-talla" min="30" max="200" step="0.1" placeholder="Para superficie corporal" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Edad (años) — opcional</label>
+            <input type="number" inputmode="decimal" id="liq-edad" min="0" max="18" step="0.1" placeholder="Ej. 3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        </div>
+    </div>
+
+    <button onclick="calcLiquidosPed()" class="w-full py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl">
+        Calcular
+    </button>
+
+    <div id="liq-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-1.5"></div>
+
+    <details class="rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 p-2">
+        <summary class="cursor-pointer font-bold text-[11px] text-slate-600 dark:text-slate-300">Regla 4-2-1 (Holliday-Segar)</summary>
+        <ul class="mt-2 space-y-1 text-[11px] text-slate-500 dark:text-slate-400">
+            <li>≤ 10 kg: <strong>100 mL/kg/día</strong> (4 mL/kg/h).</li>
+            <li>10 - 20 kg: <strong>1.000 mL + 50 mL/kg</strong> por cada kg &gt; 10 (40 + 2 mL/kg/h).</li>
+            <li>&gt; 20 kg: <strong>1.500 mL + 20 mL/kg</strong> por cada kg &gt; 20 (60 + 1 mL/kg/h).</li>
+            <li>Alternativa &gt; 30 kg: 1.500 mL/m²/día de superficie corporal.</li>
+        </ul>
+    </details>
+
+</div>
+                    `
+                },
                 // 5. CENTOR MODIFICADO
                 {
                     id: 'centor',
@@ -3890,7 +3933,7 @@ function tplReset() {
 vademecumData.push(...vademecumTanda2);
 
 /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 1 · 31 oct 2026) ===== */
-const VAD_VERSION = 'v1.1 · 1 Nov 2026';
+const VAD_VERSION = 'v1.2 · 24 Nov 2026';
 
 const VAD_VERIF = {
     'Atropina': {
@@ -4265,6 +4308,473 @@ vademecumData.forEach(v => {
     v.verificado = o.verificado === true;
     v.parcial = !!o.parcial;
     v.revisado = '1 nov 2026';
+});
+
+/* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 7 · 24 nov 2026) =====
+   Fuente principal: ficha técnica de la FDA publicada en DailyMed.
+   Se verificaron los 49 fármacos que quedaban pendientes.        */
+const DM = id => 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=' + id;
+
+const VAD_VERIF7 = {
+    // ---------------- Analgésicos ----------------
+    'Acetaminofén (Paracetamol)': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · acetaminofén inyectable (DailyMed)', url: DM('0f67c1bd-915b-4681-88dd-22f5154a80b3') },
+        alcance: 'Dosis oral e IV del adulto y pediátrica según la ficha FDA.',
+        adult: 'Dolor o fiebre: 500 - 1000 mg VO c/4-6h; máx 4 g/día (2 - 3 g/día en hepatopatía, desnutrición o alcoholismo crónico). IV (≥ 50 kg): 1000 mg c/6h o 650 mg c/4h, máx 4000 mg/día, con intervalo mínimo de 4 h',
+        ped: 'VO: 10 - 15 mg/kg/dosis c/4-6h (máx 75 mg/kg/día, sin pasar de 4 g/día). IV (< 50 kg): 15 mg/kg c/6h o 12.5 mg/kg c/4h, máx 75 mg/kg/día',
+        renal: 'Sin ajuste renal establecido; en hepatopatía reduce a 2 - 3 g/día',
+        warning: 'Hepatotoxicidad por sobredosis (antídoto: N-acetilcisteína). Revisa que el paciente no tome otros productos que también lo contengan (antigripales, resfríos).'
+    },
+    'Ibuprofeno': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · ibuprofeno (DailyMed)', url: DM('00872852-680a-41b3-901b-b991b12a176d') },
+        alcance: 'Dosis analgésica y antiinflamatoria del adulto y pediátrica.',
+        adult: 'Dolor leve a moderado: 400 mg VO c/4-6h. Artritis: 1200 - 3200 mg/día repartidos c/6-8h. En venta libre el máximo es 1200 mg/día; con prescripción hasta 3200 mg/día',
+        ped: '5 - 10 mg/kg/dosis VO c/6-8h; máx 40 mg/kg/día. No usar en < 6 meses',
+        renal: 'Evitar si eTFG < 30 mL/min. Suspender ante deshidratación o lesión renal aguda',
+        warning: 'Sangrado digestivo, lesión renal y eventos cardiovasculares. Evitar en dengue, úlcera activa, falla cardíaca descompensada y tercer trimestre del embarazo.'
+    },
+    'Diclofenaco': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · diclofenaco sódico oral (DailyMed)', url: DM('03c4f06f-6a49-4404-bf3b-0aafa33c81ef') },
+        alcance: 'Dosis oral del adulto en artrosis, artritis reumatoide y espondilitis.',
+        adult: '50 mg VO c/8h o 75 mg c/12h. Artrosis: 100 - 150 mg/día; artritis reumatoide: 150 - 200 mg/día; espondilitis: 100 - 125 mg/día. Máx 200 mg/día',
+        ped: 'No recomendado en < 14 años; uso pediátrico solo por especialista',
+        renal: 'Evitar si eTFG < 30 mL/min; no usar en insuficiencia renal avanzada',
+        warning: 'Riesgo cardiovascular y gastrointestinal. Contraindicado en úlcera o sangrado activo, dengue, tercer trimestre del embarazo y perioperatorio de revascularización.'
+    },
+    'Dipirona (Metamizol)': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha técnica AEMPS-CIMA · metamizol 575 mg cápsulas', url: 'https://cima.aemps.es/cima/dochtml/ft/68116/FT_68116.html' },
+        alcance: 'Dosis oral del adulto verificada en la ficha española. La vía parenteral y la dosis pediátrica no están en esa ficha.',
+        adult: 'Adultos y adolescentes ≥ 15 años (> 53 kg): 575 mg VO c/4-6h; máx 3450 mg (6 dosis)/día. Usar la dosis mínima eficaz y por corto tiempo',
+        ped: 'No recomendada en < 15 años en la ficha española. En Colombia se usa 10 - 20 mg/kg/dosis c/6-8h (uso fuera de ficha)',
+        renal: 'Ajustar en insuficiencia renal grave; evitar en falla renal avanzada',
+        warning: 'Agranulocitosis (rara pero grave): suspende ante fiebre, odinofagia o lesiones orales. Hipotensión con infusión rápida. Evitar en tercer trimestre, lactancia y déficit de G6PD.'
+    },
+    'Tramadol': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · tramadol clorhidrato oral (DailyMed)', url: DM('007bf37f-0e46-426a-ac8c-be63d4b7414c') },
+        alcance: 'Dosis oral del adulto y contraindicación pediátrica según la ficha FDA.',
+        adult: 'Dolor moderado a grave: 50 - 100 mg VO c/4-6h; máx 400 mg/día (300 mg/día en > 75 años). IV/IM: 50 - 100 mg c/6-8h, máx 400 mg/día',
+        ped: 'Contraindicado en < 12 años y después de amigdalectomía o adenoidectomía en < 18 años (depresión respiratoria en metabolizadores ultrarrápidos)',
+        renal: 'ClCr < 30: 50 - 100 mg c/12h; máx 200 mg/día',
+        warning: 'Opioide: depresión respiratoria, convulsiones y síndrome serotoninérgico. No combinar con IMAO. Riesgo de abuso y dependencia.'
+    },
+    // ---------------- Urgencias ----------------
+    'Dexametasona': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · dexametasona oral (DailyMed)', url: DM('01cfaa3e-5e30-18fa-e063-6394a90a084e') },
+        alcance: 'Dosis antiinflamatoria del adulto según la ficha FDA; las dosis de crup y asma son de las guías clínicas.',
+        adult: 'Antiinflamatorio: 0.75 - 9 mg/día VO según la enfermedad (0.02 - 0.3 mg/kg/día). Crisis asmática: 40 - 60 mg/día VO/IV x 3 - 5 días. Crup: 0.15 - 0.6 mg/kg dosis única. Náuseas por quimioterapia: 10 - 20 mg IV antes',
+        ped: 'Crup: 0.15 - 0.6 mg/kg dosis única (máx 10 mg). Crisis asmática: 0.6 mg/kg (máx 16 mg) dosis única o c/24h',
+        renal: 'Sin ajuste renal',
+        warning: 'Hiperglucemia, retención de líquidos, úlcera e infecciones. Suprime el eje suprarrenal con uso prolongado: retirar en forma gradual si dura > 2 semanas.'
+    },
+    'Gluconato de calcio': {
+        verificado: true, nota: 'Discrepancia documentada: la dosis de paro de las guías de reanimación es 30 mg/kg, mientras que la ficha FDA para hipocalcemia da 29 - 60 mg/kg en niños y 1000 - 2000 mg en el adulto. Confirma según la indicación.',
+        fuente: { t: 'Ficha FDA · gluconato de calcio inyectable 10 % (DailyMed)', url: DM('13d7cfc9-ff7a-437e-8c21-d9709ac07d48') },
+        alcance: 'Dosis de hipocalcemia del adulto, pediátrica y neonatal según la ficha FDA.',
+        adult: 'Hipocalcemia: 1000 - 2000 mg de gluconato IV (10 - 20 mL al 10 %), repetible c/6h; infusión 5.4 - 21.5 mg/kg/h. Velocidad máx 200 mg/min',
+        ped: '> 1 mes y < 17 años: 29 - 60 mg/kg IV, repetible c/6h; infusión 8 - 13 mg/kg/h. Neonatos: 100 - 200 mg/kg, repetible c/6h. Velocidad máx 100 mg/min',
+        renal: 'Precaución en falla renal (riesgo de hipercalcemia); monitoriza el calcio sérico c/4-6h',
+        warning: 'La extravasación causa necrosis: usa una vía segura. Incompatible con bicarbonato y fosfato. En paro cardíaco la dosis de las guías difiere (30 mg/kg).'
+    },
+    'Carbón activado': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · carbón activado 25 g (Actidose, DailyMed)', url: DM('76e4fe6a-afd4-4f68-b12d-0b094f750615') },
+        alcance: 'Dosis del adulto según la ficha FDA. La dosis pediátrica (1 g/kg) es la práctica estándar de los centros de toxicología.',
+        adult: '20 - 30 g VO o por sonda en al menos 240 mL de agua, lo antes posible y dentro de la primera hora de la ingesta. Repetir 10 - 20 g c/4-6h en intoxicaciones con circulación enterohepática (carbamazepina, teofilina)',
+        ped: '1 g/kg (máx 50 g) VO o por sonda, dosis única; repetir 0.5 g/kg c/4-6h si está indicado',
+        renal: 'Sin ajuste renal',
+        warning: 'Contraindicado en ingestión de cáusticos, hidrocarburos, metales (hierro, litio) y alcohol, y en paciente con riesgo de aspiración o sin protección de la vía aérea. No mezclar con leche ni helado.'
+    },
+    // ---------------- Antibióticos ----------------
+    'Amoxicilina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · amoxicilina (Amoxil, DailyMed)', url: DM('ec7dd735-dc92-3d29-e053-2a95a90af549') },
+        alcance: 'Dosis del adulto y pediátrica en ORL, piel, ITU y neumonía según la ficha FDA.',
+        adult: 'Leve a moderada (ORL, piel, ITU): 500 mg VO c/12h o 250 mg c/8h. Grave: 875 mg c/12h o 500 mg c/8h. Neumonía comunitaria: 1 g c/8h. Faringitis: 1 g c/24h o 500 mg c/12h x 10 días',
+        ped: '25 mg/kg/día c/12h o 20 mg/kg/día c/8h; grave: 45 mg/kg/día c/12h o 40 mg/kg/día c/8h. Otitis y neumonía: 80 - 90 mg/kg/día c/12h',
+        renal: 'ClCr 10 - 30: 250 - 500 mg c/12h; ClCr < 10: 250 - 500 mg c/24h',
+        warning: 'Anafilaxia y reacciones cutáneas graves. Ajustar en falla renal. Se puede dar con o sin alimentos.'
+    },
+    'Amoxicilina / Ácido clavulánico': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · amoxicilina/clavulanato 600/42.9 mg (DailyMed)', url: DM('00b86913-50c8-443f-8467-f4f499d358af') },
+        alcance: 'Dosis del adulto y pediátrica (incluida la dosis alta de 90 mg/kg/día) según la ficha FDA.',
+        adult: '875/125 mg VO c/12h o 500/125 mg c/8h; infección respiratoria baja o grave: 875/125 mg c/12h. IV: 1.2 g c/8h (grave c/6h)',
+        ped: 'Dosis alta (otitis, neumonía, sinusitis): 90 mg/kg/día del componente amoxicilina c/12h, suspensión 600/42.9 mg/5 mL. Dosis estándar: 25 - 45 mg/kg/día c/12h (presentación 7:1). Tomar al inicio de la comida',
+        renal: 'ClCr 10 - 30: no usar la presentación de 875 mg y espaciar a c/12h; en diálisis: dosis adicional tras la sesión',
+        warning: 'Diarrea y colestasis (más frecuente por el clavulanato). Hepatotoxicidad rara. Ajustar en falla renal.'
+    },
+    'Cefalexina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · cefalexina (DailyMed)', url: DM('02b5cd6f-3df8-43c1-879d-217fcf55231a') },
+        alcance: 'Dosis del adulto y pediátrica y ajuste renal según la ficha FDA.',
+        adult: '250 mg VO c/6h o 500 mg c/12h; infección grave: 500 mg c/6h (hasta 4 g/día). Faringitis: 500 mg c/12h x 10 días',
+        ped: 'Otitis media: 75 - 100 mg/kg/día c/6h. Otras infecciones: 25 - 50 mg/kg/día c/6h; graves: 50 - 100 mg/kg/día. Faringitis: 20 mg/kg/dosis c/12h (máx 500 mg)',
+        renal: 'ClCr < 30: 250 mg c/8-12h; en diálisis, dosis adicional tras la sesión',
+        warning: 'Alergia cruzada con penicilina (bajo riesgo). Colitis por C. difficile. Ajustar en falla renal.'
+    },
+    'Cefazolina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · cefazolina sódica inyectable (DailyMed)', url: DM('17f8f038-c204-4dab-80d7-6f7ac41ddbec') },
+        alcance: 'Dosis del adulto, profilaxis quirúrgica y ajuste renal según la ficha FDA.',
+        adult: 'Infección moderada a grave: 500 mg - 1 g IV/IM c/6-8h. Leve: 250 - 500 mg c/8h. ITU: 1 g c/12h. Grave (endocarditis, sepsis): 1 - 1.5 g c/6h (hasta 12 g/día). Profilaxis: 1 - 2 g IV 30 - 60 min antes de la incisión (2 g si > 120 kg) y repetir intraoperatorio',
+        ped: '50 - 100 mg/kg/día c/6-8h; profilaxis 25 - 30 mg/kg',
+        renal: 'ClCr 35 - 54: 1 g c/12h; 11 - 34: 500 mg c/12h; < 10: 500 mg c/24h; diálisis: dosis adicional',
+        warning: 'Alergia cruzada con penicilina. Flebitis con infusión rápida. Ajustar en falla renal.'
+    },
+    'Gentamicina': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · gentamicina inyectable (DailyMed)', url: DM('09cf88af-59da-f147-e063-6294a90aac99') },
+        alcance: 'Dosis del adulto según la ficha FDA; el ajuste renal y la dosis extendida provienen de guías de dosificación antimicrobiana.',
+        adult: 'Función renal normal: 3 mg/kg/día IV/IM en 3 dosis c/8h; infección potencialmente fatal: hasta 5 mg/kg/día c/6-8h y reducir a 3 mg/kg/día al mejorar. Dosis extendida: 5 - 7 mg/kg c/24h',
+        ped: '2.5 mg/kg/dosis c/8h (o 5 - 7.5 mg/kg c/24h en dosis extendida). Neonatos: según edad posmenstrual',
+        renal: 'Ajustar por ClCr: espaciar el intervalo (no reducir la dosis) o usar dosis extendida con monitoreo. Objetivo de valle < 1 - 2 mcg/mL',
+        warning: 'Nefrotoxicidad y ototoxicidad (irreversibles). Evitar con otros nefro o ototóxicos. Monitorear creatinina y niveles si el tratamiento pasa de 48 - 72 h.'
+    },
+    'Azitromicina': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · azitromicina inyectable (Zithromax, DailyMed)', url: DM('3b631aa1-2d46-40bc-a614-d698301ea4f9') },
+        alcance: 'Esquema del adulto (IV y paso a oral) y de la EPI según la ficha FDA. Los esquemas orales de 3 - 5 días son de las guías clínicas.',
+        adult: 'Neumonía comunitaria: 500 mg IV c/24h por al menos 2 días y luego 500 mg VO c/24h hasta completar 7 - 10 días. Ambulatorio: 500 mg el día 1 y 250 mg los días 2 - 5. Clamidia: 1 g VO dosis única. EPI: 500 mg IV c/24h x 1 - 2 días, luego 250 mg VO c/24h hasta 7 días',
+        ped: '10 mg/kg el día 1 (máx 500 mg) y 5 mg/kg los días 2 - 5 (máx 250 mg). Otitis: 10 mg/kg c/24h x 3 días o 30 mg/kg dosis única',
+        renal: 'Sin ajuste renal',
+        warning: 'Prolonga el QT: evitar con otros fármacos que lo prolongan. Hepatotoxicidad rara. No usar en neumonía con alto riesgo de neumococo resistente.'
+    },
+    'Ciprofloxacino': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · ciprofloxacino oral (Cipro, DailyMed)', url: DM('888dc7f9-ad9c-4c00-8d50-8ddfd9bd27c0') },
+        alcance: 'Dosis del adulto por indicación y ajuste renal según la ficha FDA.',
+        adult: 'ITU: 250 - 500 mg VO c/12h x 7 - 14 días; cistitis no complicada: 250 mg c/12h x 3 días. Pielonefritis: 500 mg c/12h x 7 días. Prostatitis: 500 mg c/12h x 28 días. Diarrea infecciosa: 500 mg c/12h x 5 - 7 días. Neumonía: 500 - 750 mg c/12h x 7 - 14 días',
+        ped: 'Reservado a indicaciones específicas (ITU complicada, pielonefritis) por riesgo de artropatía: 10 - 20 mg/kg/dosis c/12h (máx 750 mg/dosis)',
+        renal: 'ClCr 30 - 50: 250 - 500 mg c/12h; ClCr 5 - 29: 250 - 500 mg c/18h; diálisis: según la ficha',
+        warning: 'Tendinopatía y ruptura de tendón, neuropatía periférica, prolongación del QT y aneurisma aórtico. No combinar con tizanidina. Separar 2 h de antiácidos, hierro y calcio.'
+    },
+    'Trimetoprim / Sulfametoxazol (TMP/SMX)': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · sulfametoxazol/trimetoprim oral (DailyMed)', url: DM('079c828c-148f-45b9-966e-d8906043b2a2') },
+        alcance: 'Dosis del adulto y pediátrica en ITU, shigelosis y otitis según la ficha FDA. La dosis de P. jirovecii es de las guías clínicas.',
+        adult: 'ITU y shigelosis: 160/800 mg (1 tableta DS) VO c/12h x 10 - 14 días; cistitis: 3 días. P. jirovecii: 15 - 20 mg/kg/día del componente TMP c/6-8h x 21 días',
+        ped: 'ITU y otitis: 40 mg/kg/día de SMX + 8 mg/kg/día de TMP c/12h x 10 días. P. jirovecii: 15 - 20 mg/kg/día de TMP c/6-8h',
+        renal: 'ClCr 15 - 30: reducir 50 %; ClCr < 15: no recomendado',
+        warning: 'Reacciones cutáneas graves (SJS/TEN), hiperkalemia, cristaluria (hidratar) y hemólisis en déficit de G6PD. Contraindicado en < 2 meses y al término del embarazo.'
+    },
+    'Nitrofurantoína': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · nitrofurantoína oral (DailyMed)', url: DM('04af8b73-7e15-7da8-e063-6294a90af284') },
+        alcance: 'Dosis del adulto y pediátrica en cistitis según la ficha FDA.',
+        adult: 'Cistitis no complicada: 50 - 100 mg VO c/6h x 5 - 7 días (o 100 mg c/12h con la presentación de liberación modificada). Profilaxis: 50 - 100 mg al acostarse',
+        ped: '5 - 7 mg/kg/día VO c/6h; contraindicada en < 1 mes',
+        renal: 'Contraindicada si ClCr < 60 mL/min (ficha); otras fuentes usan < 30. No alcanza concentración urinaria y aumenta la toxicidad',
+        warning: 'Neumonitis y fibrosis pulmonar con uso prolongado, neuropatía y hemólisis en déficit de G6PD. No sirve para pielonefritis.'
+    },
+    'Metronidazol': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · metronidazol oral (DailyMed)', url: DM('02046a22-a5eb-4bb7-bec7-e5a2aa55e142') },
+        alcance: 'Dosis del adulto y pediátrica en anaerobios, vaginosis, tricomoniasis y amebiasis según la ficha FDA.',
+        adult: 'Anaerobios: 500 mg VO/IV c/8h. Vaginosis bacteriana: 500 mg c/12h x 7 días. Tricomoniasis: 500 mg c/12h x 7 días (o 2 g dosis única). Amebiasis intestinal: 750 mg c/8h x 5 - 10 días; absceso hepático: 500 - 750 mg c/8h x 10 días',
+        ped: 'Amebiasis: 35 - 50 mg/kg/día c/8h x 10 días. Anaerobios: 30 mg/kg/día c/8h (máx 4 g/día)',
+        renal: 'Sin ajuste en falla renal; reducir en insuficiencia hepática grave',
+        warning: 'Efecto disulfiram con alcohol (evitar hasta 72 h después). Neuropatía periférica con uso prolongado. Sabor metálico y náuseas.'
+    },
+    // ---------------- Cardiovascular ----------------
+    'Metoprolol': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · metoprolol tartrato oral (DailyMed)', url: DM('00de1f16-f979-4dbf-aa60-246ffac8d410') },
+        alcance: 'Dosis del adulto en HTA y angina según la ficha FDA.',
+        adult: 'HTA: 100 mg/día en 1 - 2 dosis; rango 100 - 450 mg/día. Angina: 100 mg/día en 2 dosis; rango 100 - 400 mg/día. Post-IAM y falla cardíaca: titular según tolerancia',
+        ped: 'No establecida en la ficha; uso pediátrico por especialista',
+        renal: 'Sin ajuste renal; en hepatopatía grave reducir la dosis',
+        warning: 'No suspender bruscamente (angina de rebote). Bradicardia, bloqueo AV, broncoespasmo e hipoglucemia enmascarada. Cuidado con verapamilo o diltiazem IV.'
+    },
+    'Enalapril': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · enalapril maleato (DailyMed)', url: DM('074fe718-88d8-365c-e063-6394a90a299d') },
+        alcance: 'Dosis del adulto y ajuste renal según la ficha FDA.',
+        adult: 'HTA: 5 mg VO c/24h de inicio; rango 10 - 40 mg/día en 1 - 2 dosis. Con diurético: iniciar 2.5 mg. Falla cardíaca: 2.5 mg c/12h, titular a 10 - 20 mg c/12h',
+        ped: 'HTA: 0.08 mg/kg c/24h (máx 5 mg), titular hasta 0.3 mg/kg/día. No recomendado en neonatos ni con eTFG < 30',
+        renal: 'ClCr ≤ 30: iniciar 2.5 mg c/24h y titular lento; diálisis: 2.5 mg en los días de sesión',
+        warning: 'Angioedema, tos seca, hiperkalemia y deterioro renal. Contraindicado en embarazo. Suspender ante estenosis bilateral de arteria renal.'
+    },
+    'Losartán': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · losartán potásico (DailyMed)', url: DM('021cd76a-b093-4704-8410-5e7d01e20a54') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'HTA: 50 mg VO c/24h; máx 100 mg/día. Nefropatía diabética tipo 2: 50 mg, subir a 100 mg/día. Falla cardíaca: 50 mg c/24h',
+        ped: '≥ 6 años: 0.7 mg/kg c/24h (máx 50 mg); rango 0.7 - 1.4 mg/kg (máx 100 mg)',
+        renal: 'Sin ajuste inicial; monitoriza potasio y creatinina. Evitar en estenosis bilateral de arteria renal',
+        warning: 'Hiperkalemia, hipotensión y deterioro renal. Contraindicado en embarazo. No combinar con aliskirén en diabéticos.'
+    },
+    'Furosemida': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · furosemida oral (DailyMed)', url: DM('01a5f094-b473-4e46-9e61-69d5ec6dd766') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'Edema: 20 - 80 mg VO dosis única; repetir a las 6 - 8 h o aumentar 20 - 40 mg hasta el efecto deseado; mantenimiento 1 - 2 veces/día. Estados edematosos graves: hasta 600 mg/día. IV: 20 - 40 mg (hasta 100 mg)',
+        ped: '1 - 2 mg/kg/dosis VO/IV c/6-12h (máx 6 mg/kg/dosis)',
+        renal: 'En falla renal puede requerir dosis mayores; vigila ototoxicidad con infusión rápida',
+        warning: 'Hipopotasemia, hipovolemia, hiponatremia y lesión renal. Ototoxicidad con bolos rápidos. En cirrosis evita la hipokalemia.'
+    },
+    'Espironolactona': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · espironolactona (DailyMed)', url: DM('08738ad4-1607-4d55-af71-6790477353bd') },
+        alcance: 'Dosis del adulto y umbrales de seguridad según la ficha FDA.',
+        adult: 'Falla cardíaca: 25 mg VO c/24h (subir a 50 mg si tolera; 25 mg en días alternos si hay hiperkalemia). HTA: 25 - 100 mg/día. Hiperaldosteronismo primario: 100 - 400 mg/día. Ascitis: 100 mg/día con furosemida 40 mg',
+        ped: '1 - 3 mg/kg/día c/24h o dividido (uso por especialista)',
+        renal: 'Iniciar solo si K⁺ ≤ 5.0 y eTFG > 50; con eTFG 30 - 50 usar 12.5 - 25 mg y monitorear; contraindicada si eTFG < 30 o K⁺ > 5.5',
+        warning: 'Hiperkalemia (riesgo alto con IECA/ARA II y falla renal). Ginecomastia y alteraciones menstruales. Controla K⁺ y creatinina a los 3 días y a la semana.'
+    },
+    'Verapamilo': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · verapamilo clorhidrato oral (DailyMed)', url: DM('006cf920-04ae-0b53-cb91-85481972abc2') },
+        alcance: 'Dosis oral del adulto en HTA, angina y arritmias según la ficha FDA.',
+        adult: 'HTA: 80 - 120 mg VO c/8h (o 240 - 480 mg/día en liberación sostenida). Angina: 80 - 120 mg c/8h. Arritmias: 240 - 320 mg/día; profilaxis de TSVP: 240 - 480 mg/día. IV: 5 - 10 mg en 2 min, repetible a los 30 min',
+        ped: 'No establecida en la ficha; uso pediátrico por especialista',
+        renal: 'Sin ajuste renal; reducir en hepatopatía grave',
+        warning: 'No administrar IV con betabloqueadores (bloqueo AV y asistolia). Estreñimiento, hipotensión y edema. Contraindicado en disfunción sistólica grave y en WPW con fibrilación auricular.'
+    },
+    'Digoxina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · digoxina (Lanoxin, DailyMed)', url: DM('9ec84cac-6ecc-43dc-8006-6ccc029e2707') },
+        alcance: 'Dosis de carga del adulto y pediátrica según la ficha FDA; el mantenimiento y el ajuste renal siguen la misma ficha.',
+        adult: 'Carga (si se requiere): 10 - 15 mcg/kg VO (8 - 12 mcg/kg IV) en dosis divididas. Mantenimiento: 0.125 - 0.25 mg VO c/24h, ajustado por edad, peso magro y función renal. En ancianos o falla renal: 0.125 mg/día',
+        ped: 'Carga: pretérmino 15 - 25 mcg/kg; a término 20 - 30; 1 - 24 meses 30 - 50; 2 - 5 años 25 - 35; 5 - 10 años 15 - 30; > 10 años 8 - 12 mcg/kg. Mantenimiento: 1/4 a 1/3 de la carga al día',
+        renal: 'Ajustar por ClCr: reducir la dosis y monitorear niveles. Rango terapéutico en falla cardíaca 0.5 - 0.9 ng/mL',
+        warning: 'Margen terapéutico estrecho: náuseas, visión amarilla, bradicardia y arritmias. La hipokalemia y la hipomagnesemia aumentan la toxicidad. Antídoto: anticuerpos antidigoxina.'
+    },
+    'Amlodipino': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · amlodipino besilato (DailyMed)', url: DM('003dd1ec-16f8-4f96-b6a8-c4689d35892a') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'HTA y angina: 5 mg VO c/24h; máx 10 mg/día. Ancianos, frágiles o hepatopatía: iniciar 2.5 mg. Esperar 7 - 14 días entre ajustes',
+        ped: '6 - 17 años: 2.5 - 5 mg c/24h (no se han estudiado dosis > 5 mg)',
+        renal: 'Sin ajuste renal',
+        warning: 'Edema periférico, cefalea y rubor. Hipotensión en estenosis aórtica grave. No suspender bruscamente.'
+    },
+    'Hidroclorotiazida': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · hidroclorotiazida (DailyMed)', url: DM('01ad3531-5ed9-434c-b7d5-02d72aa82e46') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'HTA: 25 mg VO c/24h de inicio; puede subir a 50 mg/día (dosis > 50 mg no aportan más y causan hipokalemia). Edema: 25 - 100 mg/día en 1 - 2 dosis',
+        ped: '1 - 2 mg/kg/día en 1 - 2 dosis; máx 37.5 mg/día (< 2 años) o 100 mg/día (2 - 12 años)',
+        renal: 'Poco eficaz si eTFG < 30; monitoriza Na⁺, K⁺ y ácido úrico',
+        warning: 'Hiponatremia, hipokalemia, hiperuricemia y fotosensibilidad. Aumenta la calcemia. Cuidado en alérgicos a sulfonamidas.'
+    },
+    'Captopril': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · captopril (DailyMed)', url: DM('1395ba5b-2fc9-41ff-9c43-e0740d781dee') },
+        alcance: 'Dosis del adulto en HTA según la ficha FDA.',
+        adult: 'HTA: 25 mg VO c/12h de inicio; si no responde en 1 - 2 semanas, 50 mg c/12h; rango 25 - 150 mg c/12h; máx 450 mg/día. Falla cardíaca: 6.25 - 12.5 mg c/8h',
+        ped: '0.3 mg/kg/dosis c/8h (uso por especialista); iniciar bajo por riesgo de hipotensión',
+        renal: 'ClCr 10 - 50: 75 % de la dosis; ClCr < 10: 50 %',
+        warning: 'Angioedema, tos, hiperkalemia y neutropenia (rara). Contraindicado en embarazo. Tomar 1 h antes de las comidas.'
+    },
+    'Carvedilol': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · carvedilol (DailyMed)', url: DM('010290af-81f4-0037-e063-6394a90a4638') },
+        alcance: 'Dosis del adulto en falla cardíaca, post-IAM e HTA según la ficha FDA.',
+        adult: 'Falla cardíaca: 3.125 mg VO c/12h x 2 semanas, luego 6.25, 12.5 y 25 mg c/12h cada ≥ 2 semanas (máx 25 mg c/12h si < 85 kg; 50 mg c/12h si > 85 kg). Post-IAM con disfunción VI: 6.25 mg c/12h, subir a 12.5 y 25 mg c/12h. HTA: 6.25 mg c/12h, subir a 12.5 y 25 mg c/12h',
+        ped: 'No establecida',
+        renal: 'Sin ajuste renal; contraindicado en hepatopatía grave',
+        warning: 'Tomar con alimentos. Bradicardia, hipotensión ortostática y broncoespasmo. No suspender bruscamente.'
+    },
+    'Atorvastatina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · atorvastatina cálcica (DailyMed)', url: DM('00afce9b-48c9-487a-a738-e359c005c707') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: '10 - 20 mg VO c/24h de inicio; rango 10 - 80 mg/día. Si se requiere reducir el LDL > 45 %: iniciar 40 mg. A cualquier hora, con o sin comida',
+        ped: '≥ 10 años con hipercolesterolemia familiar: 10 mg c/24h (rango 10 - 20 mg en heterocigota; 10 - 80 mg en homocigota)',
+        renal: 'Sin ajuste renal',
+        warning: 'Mialgia y rabdomiólisis (rara): mide CK si hay dolor muscular. Hepatotoxicidad: controla transaminasas. Contraindicada en embarazo y lactancia.'
+    },
+    'Tenecteplasa': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · tenecteplasa (TNKase, DailyMed)', url: DM('739a3c53-caf6-40d6-a6af-84ce733a948b') },
+        alcance: 'Dosis por peso en IAMCEST según la ficha FDA.',
+        adult: 'IAMCEST: bolo IV único de 0.5 mg/kg: < 60 kg 30 mg; 60 - 69 kg 35 mg; 70 - 79 kg 40 mg; 80 - 89 kg 45 mg; ≥ 90 kg 50 mg. Administrar en 5 - 10 segundos, con aspirina y heparina o enoxaparina',
+        ped: 'No establecida',
+        renal: 'Sin ajuste renal; precaución en > 75 años (mayor riesgo de hemorragia intracraneal)',
+        warning: 'Hemorragia grave, incluida intracraneal. Contraindicada en ACV reciente, sangrado activo, disección aórtica, HTA no controlada (> 180/110) y cirugía mayor reciente.'
+    },
+    // ---------------- Endocrino / Metabolismo ----------------
+    'Metformina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · metformina clorhidrato (DailyMed)', url: DM('011de1a5-1ac0-4831-9e8d-26ec79ba2205') },
+        alcance: 'Dosis del adulto y pediátrica y umbrales renales según la ficha FDA.',
+        adult: 'Inicio: 500 mg VO c/12h o 850 mg c/24h con las comidas; subir 500 mg/semana (o 850 mg c/2 semanas) hasta máx 2550 mg/día. Dosis > 2000 mg se toleran mejor c/8h',
+        ped: '≥ 10 años: 500 mg c/12h con las comidas; subir 500 mg/semana hasta máx 2000 mg/día c/12h',
+        renal: 'No iniciar si eTFG 30 - 45; contraindicada si eTFG < 30. Suspender antes de medios de contraste y cirugía',
+        warning: 'Acidosis láctica (rara y grave): suspender ante vómito, diarrea, deshidratación, sepsis o hipoxia. Déficit de B12 con uso prolongado. No causa hipoglucemia en monoterapia.'
+    },
+    'Insulina NPH': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · insulina humana NPH (Humulin N, DailyMed)', url: DM('f6edd793-440b-40c2-96b5-c16133b7a921') },
+        alcance: 'Vía SC e individualización según la ficha FDA; las dosis de inicio son las habituales de las guías de diabetes.',
+        adult: 'Individualizar. Diabetes tipo 2: iniciar 10 UI o 0.1 - 0.2 UI/kg/día SC al acostarse; subir 2 UI cada 3 días hasta la meta de glucemia en ayunas. Tipo 1: 0.5 - 1 UI/kg/día, 2/3 en la mañana y 1/3 en la noche, con insulina rápida prandial',
+        ped: 'Individualizar; suele requerir 0.5 - 1 UI/kg/día en 2 dosis (2/3 y 1/3)',
+        renal: 'Reducir la dosis en falla renal (menor requerimiento); monitorear más',
+        warning: 'Hipoglucemia (la principal). Agitar o rodar el vial antes de usar (suspensión turbia). No mezclar con insulina glargina. Rotar los sitios de inyección.'
+    },
+    'Insulina glargina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · insulina glargina 100 UI/mL (Basaglar, DailyMed)', url: DM('0ad21db3-2b1c-4ed9-a687-bdd6a74d0aae') },
+        alcance: 'Dosis inicial del adulto y uso pediátrico según la ficha FDA.',
+        adult: 'Diabetes tipo 2: iniciar 0.2 UI/kg o 10 UI SC c/24h a la misma hora. Tipo 1: ~1/3 de la dosis total diaria como basal. Ajustar 2 - 4 UI cada 3 - 7 días según la glucemia en ayunas',
+        ped: '≥ 6 años con tipo 1: individualizar; misma dosis que otras insulinas glargina 100 UI/mL',
+        renal: 'Reducir en falla renal',
+        warning: 'Hipoglucemia. Solución transparente: no agitar. No mezclar en la misma jeringa. No cambiar de marca sin ajustar la dosis.'
+    },
+    'Glibenclamida': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · gliburida (glibenclamida) oral (DailyMed)', url: DM('05341afe-5b7a-462a-a196-689cb09f83fc') },
+        alcance: 'Dosis del adulto según la ficha FDA.',
+        adult: 'Inicio: 2.5 - 5 mg VO c/24h con el desayuno o la primera comida (1.25 mg en sensibles). Subir 2.5 mg cada 1 - 2 semanas; máx 20 mg/día (habitual 10 mg)',
+        ped: 'No recomendada',
+        renal: 'Evitar si ClCr < 60 (riesgo de hipoglucemia prolongada); contraindicada en falla renal grave',
+        warning: 'Hipoglucemia prolongada, sobre todo en ancianos y falla renal. Aumento de peso. Interacciona con muchos fármacos.'
+    },
+    'Empagliflozina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · empagliflozina (Jardiance, DailyMed)', url: DM('1782b947-4a72-4feb-a488-1469d9af82bd') },
+        alcance: 'Dosis del adulto y umbrales renales según la ficha FDA.',
+        adult: 'Diabetes tipo 2: 10 mg VO c/24h por la mañana; subir a 25 mg si se tolera. Falla cardíaca o enfermedad renal crónica: 10 mg c/24h',
+        ped: 'No establecida',
+        renal: 'No recomendada para control glucémico si eTFG < 30; en falla cardíaca se puede usar hasta eTFG 20; iniciar con precaución si eTFG < 45',
+        warning: 'Cetoacidosis euglucémica (suspender 3 días antes de cirugía o ayuno), infecciones genitourinarias, hipotensión y depleción de volumen. No usar en diabetes tipo 1.'
+    },
+    'Levotiroxina': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · levotiroxina sódica oral (DailyMed)', url: DM('008de8fd-150f-4022-8ccb-c8bfa94875c7') },
+        alcance: 'Administración y dosis del adulto según la ficha FDA; la dosis pediátrica por edad es de las guías de endocrinología pediátrica.',
+        adult: 'Hipotiroidismo: 1.6 mcg/kg/día VO c/24h en ayunas, 30 - 60 min antes del desayuno. Ancianos o cardiopatía: iniciar 12.5 - 25 mcg/día y subir cada 6 - 8 semanas. Ajustar por TSH a las 6 - 8 semanas',
+        ped: '0 - 3 meses: 10 - 15 mcg/kg/día; 3 - 6 meses: 8 - 10; 6 - 12 meses: 6 - 8; 1 - 5 años: 5 - 6; 6 - 12 años: 4 - 5; > 12 años: 2 - 3 mcg/kg/día',
+        renal: 'Sin ajuste renal',
+        warning: 'Tomar en ayunas y separada 4 h de hierro, calcio, antiácidos y café. El exceso causa fibrilación auricular y osteoporosis. No cambiar de marca sin control de TSH.'
+    },
+    // ---------------- Gastrointestinal ----------------
+    'Omeprazol': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · omeprazol oral (DailyMed)', url: DM('0344268f-d8e6-48d5-b1e1-f750ed1d8a52') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'ERGE: 20 mg VO c/24h x 4 - 8 semanas. Úlcera duodenal: 20 mg c/24h x 4 semanas. Úlcera gástrica: 40 mg c/24h x 4 - 8 semanas. H. pylori (triple terapia): 20 mg + amoxicilina 1 g + claritromicina 500 mg c/12h x 10 días',
+        ped: '≥ 2 años: 5 - 10 kg 5 mg; 10 - 20 kg 10 mg; > 20 kg 20 mg, c/24h',
+        renal: 'Sin ajuste renal; reducir en hepatopatía grave (máx 20 mg/día)',
+        warning: 'Tomar 30 - 60 min antes del desayuno. Uso prolongado: hipomagnesemia, déficit de B12, fracturas y C. difficile. Interacciona con clopidogrel.'
+    },
+    'Pantoprazol': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · pantoprazol sódico oral (DailyMed)', url: DM('03dea010-4bae-43ab-893e-9bbddb58062d') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'Esofagitis erosiva: 40 mg VO c/24h hasta 8 semanas. Mantenimiento: 40 mg c/24h. Zollinger-Ellison: 40 mg c/12h',
+        ped: '≥ 5 años: 15 - 40 kg 20 mg c/24h; ≥ 40 kg 40 mg c/24h (hasta 8 semanas)',
+        renal: 'Sin ajuste renal; reducir en hepatopatía grave',
+        warning: 'Tomar antes del desayuno. Hipomagnesemia y fracturas con uso prolongado. Interacciona con clopidogrel (menos que el omeprazol).'
+    },
+    'Metoclopramida': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · metoclopramida oral (DailyMed)', url: DM('3cc8ca5b-8b71-4c77-a181-9ce154597b9a') },
+        alcance: 'Dosis del adulto, límite de duración y ajuste renal según la ficha FDA.',
+        adult: 'Gastroparesia diabética: 10 mg VO 30 min antes de cada comida y al acostarse; máx 40 mg/día x 2 - 8 semanas. ERGE: 10 - 15 mg 30 min antes de las comidas y al acostarse; máx 60 mg/día. IV/IM: 10 mg c/6-8h',
+        ped: '0.1 - 0.15 mg/kg/dosis c/6-8h (máx 0.5 mg/kg/día); solo por especialista y por ≤ 5 días',
+        renal: 'ClCr < 40: reducir la dosis 50 %; en diálisis reducir 75 %',
+        warning: 'Reacciones extrapiramidales y discinesia tardía (aumentan con más de 12 semanas). Máximo 5 días en pediatría. Contraindicada en obstrucción intestinal y feocromocitoma.'
+    },
+    'Ondansetrón': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · ondansetrón oral (DailyMed)', url: DM('00327696-c496-4c83-a63e-9e29fd6246d4') },
+        alcance: 'Dosis del adulto según la ficha FDA; la dosis pediátrica y la de náuseas no oncológicas son de las guías clínicas.',
+        adult: 'Náuseas y vómito: 4 - 8 mg VO c/8-12h (máx 16 mg/día; en hepatopatía grave máx 8 mg/día). Quimioterapia: 8 mg 30 min antes y a las 8 h, luego c/12h. IV: 4 mg c/8h',
+        ped: '≥ 4 años: 4 mg VO c/8-12h (máx 8 mg/dosis); IV 0.15 mg/kg c/8h (máx 4 mg/dosis)',
+        renal: 'Sin ajuste renal',
+        warning: 'Prolonga el QT (cuidado con otros fármacos que lo prolongan y en hipokalemia o hipomagnesemia). Cefalea y estreñimiento. No usar de rutina en íleo.'
+    },
+    'Hioscina (butilbromuro)': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha técnica AEMPS-CIMA · butilbromuro de hioscina 10 mg', url: 'https://cima.aemps.es/cima/dochtml/ft/18221/FT_18221.html' },
+        alcance: 'Dosis oral del adulto según la ficha española (Buscapina). La dosis parenteral no está en esa ficha.',
+        adult: 'Cólico abdominal: 10 - 20 mg VO (1 - 2 tabletas de 10 mg) 3 - 5 veces/día; máx 100 mg/día',
+        ped: 'No indicada en < 6 años; de 6 a 12 años solo con supervisión médica',
+        renal: 'Sin ajuste renal ni hepático',
+        warning: 'Anticolinérgico: sequedad de boca, taquicardia y retención urinaria. Contraindicada en glaucoma de ángulo cerrado, miastenia gravis, megacolon e íleo. No usar más de 3 días sin evaluar la causa del dolor.'
+    },
+    'Loperamida': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · loperamida de venta libre (Imodium A-D, DailyMed)', url: DM('01da76d0-1979-4c45-9d39-c72ae4e4ffe2') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha de venta libre.',
+        adult: 'Diarrea aguda: 4 mg VO inicial, luego 2 mg después de cada deposición líquida; máx 8 mg/día en venta libre (16 mg/día con prescripción). Suspender a las 48 h sin mejoría',
+        ped: 'No usar en < 2 años. 2 - 5 años: solo con indicación médica; 6 - 8 años: 2 mg tras la primera deposición, máx 6 mg/día; 9 - 11 años: 2 mg, máx 8 mg/día',
+        renal: 'Sin ajuste renal',
+        warning: 'No usar en diarrea sanguinolenta, fiebre alta ni sospecha de infección invasiva (Shigella, Salmonella, C. difficile). Riesgo de íleo y megacolon.'
+    },
+    'Lactulosa': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · lactulosa oral (Enulose, DailyMed)', url: DM('00c42c5c-d19e-4130-aa08-a8bbd47d3e5b') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'Estreñimiento: 30 - 45 mL (20 - 30 g) VO c/24h, ajustando cada 1 - 2 días hasta 2 - 3 deposiciones blandas/día. Encefalopatía hepática: 30 - 45 mL c/6-8h hasta 2 - 3 deposiciones/día, luego la dosis mínima eficaz',
+        ped: 'Lactantes: 2.5 - 10 mL/día divididos. Niños y adolescentes: 40 - 90 mL/día',
+        renal: 'Sin ajuste renal',
+        warning: 'Flatulencia y cólicos al inicio. Contraindicada en obstrucción intestinal y galactosemia. En encefalopatía vigila el Na⁺ y la deshidratación.'
+    },
+    // ---------------- Neurología ----------------
+    'Carbamazepina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · carbamazepina oral (DailyMed)', url: DM('047bc284-060a-4db9-bf37-75d10f95a0a6') },
+        alcance: 'Dosis del adulto en epilepsia según la ficha FDA; la dosis pediátrica y la de neuralgia del trigémino son estándar.',
+        adult: 'Epilepsia: 200 mg VO c/12h (o 400 mg/día) de inicio; subir 200 mg/semana hasta respuesta. Máx 1200 mg/día en > 15 años (1000 mg en 12 - 15 años); hasta 1600 mg en casos raros. Neuralgia del trigémino: 100 mg c/12h, subir hasta 200 mg c/8h (máx 1200 mg)',
+        ped: '6 - 12 años: 100 mg c/12h (o 200 mg/día), subir 100 mg/semana; mantenimiento 15 - 20 mg/kg/día c/8-12h (máx 1000 mg/día)',
+        renal: 'Sin ajuste renal; reducir en hepatopatía',
+        warning: 'HLA-B*1502 en asiáticos (riesgo de SJS/TEN): tamizar antes de iniciar. Inductor enzimático potente (reduce anticonceptivos y warfarina). Hiponatremia y agranulocitosis. No suspender bruscamente.'
+    },
+    'Gabapentina': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · gabapentina oral (DailyMed)', url: DM('01b810b7-f4c8-4412-bbc5-b9220d8770d8') },
+        alcance: 'Dosis del adulto y pediátrica y ajuste renal según la ficha FDA.',
+        adult: 'Neuralgia posherpética: 300 mg el día 1, 600 mg el día 2, 900 mg el día 3, luego titular hasta 1800 mg/día c/8h (hasta 3600 mg/día). Epilepsia: 300 mg c/8h, subir hasta 600 mg c/8h',
+        ped: '3 - 11 años: 10 - 15 mg/kg/día c/8h; 3 - 4 años hasta 40 mg/kg/día; 5 - 11 años 25 - 35 mg/kg/día',
+        renal: 'ClCr 30 - 59: 200 - 700 mg c/12h; 15 - 29: 200 - 700 mg c/24h; < 15: 200 - 300 mg c/24h; diálisis: dosis adicional',
+        warning: 'Sedación, mareo y edema. Ajustar en falla renal. Riesgo de depresión respiratoria con opioides. No suspender bruscamente.'
+    },
+    // ---------------- Respiratorio ----------------
+    'Budesonida inhalada': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · budesonida inhalada (Pulmicort Flexhaler, DailyMed)', url: DM('10ea5d87-6ed0-4fa5-a37b-2043c8560bc0') },
+        alcance: 'Dosis del adulto y pediátrica según la ficha FDA.',
+        adult: 'Asma: 180 - 360 mcg c/12h; máx 720 mcg c/12h. Ajustar a la dosis mínima eficaz',
+        ped: '6 - 17 años: 180 mcg c/12h; máx 360 mcg c/12h',
+        renal: 'Sin ajuste renal',
+        warning: 'Enjuagar la boca después de cada inhalación (candidiasis oral y disfonía). No sirve para la crisis asmática. No suspender bruscamente si se usa en dosis altas.'
+    },
+    'Montelukast': {
+        verificado: true, nota: '',
+        fuente: { t: 'Ficha FDA · montelukast sódico (DailyMed)', url: DM('04b3faff-1ea1-4d2a-aa31-9d6e742e1759') },
+        alcance: 'Dosis por edad según la ficha FDA.',
+        adult: 'Asma y rinitis alérgica: 10 mg VO c/24h por la noche. Prevención del broncoespasmo por ejercicio: 10 mg al menos 2 h antes',
+        ped: '≥ 15 años: 10 mg; 6 - 14 años: 5 mg (masticable); 2 - 5 años: 4 mg (masticable), c/24h',
+        renal: 'Sin ajuste renal',
+        warning: 'Advertencia de caja: eventos neuropsiquiátricos (pesadillas, agitación, ideación suicida). Suspender si aparecen. No reemplaza al corticoide inhalado en el asma.'
+    },
+    'Loratadina': {
+        verificado: true, parcial: true, nota: '',
+        fuente: { t: 'Ficha FDA · loratadina 10 mg de venta libre (DailyMed)', url: DM('0038bc38-c205-4d8d-ab78-1abbcd76829e') },
+        alcance: 'Dosis del adulto según la ficha de venta libre; la dosis pediátrica y el ajuste hepático o renal son de las guías.',
+        adult: 'Rinitis alérgica y urticaria: 10 mg VO c/24h. En hepatopatía grave: 10 mg en días alternos',
+        ped: '2 - 5 años: 5 mg c/24h; ≥ 6 años: 10 mg c/24h',
+        renal: 'ClCr < 30: 10 mg en días alternos',
+        warning: 'Poco sedante. No usar en < 2 años. Reducir en hepatopatía.'
+    }
+};
+
+Object.assign(VAD_VERIF, VAD_VERIF7);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF7[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = o.verificado === true;
+    v.parcial = !!o.parcial;
+    v.revisado = '24 nov 2026';
 });
 
 /* =====================================================================
@@ -8862,7 +9372,62 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================================
 
         // INITIALIZATION
-        window.onload = function() {
+        /* ---------------------------------------------------------
+   Líquidos basales pediátricos (Holliday-Segar)
+   --------------------------------------------------------- */
+function calcLiquidosPed() {
+    const peso = Number(document.getElementById('liq-peso').value);
+    const talla = Number(document.getElementById('liq-talla').value);
+    const edadRaw = document.getElementById('liq-edad').value.trim();
+    const edad = Number(edadRaw);
+    const res = document.getElementById('liq-res');
+
+    if (!Number.isFinite(peso) || peso < 0.5 || peso > 150) {
+        alert('Ingrese un peso válido entre 0,5 y 150 kg.');
+        return;
+    }
+
+    let mlDia, mlHora, detalle;
+    if (peso <= 10) {
+        mlDia = peso * 100;
+        mlHora = peso * 4;
+        detalle = peso + ' kg × 100 mL/kg/día';
+    } else if (peso <= 20) {
+        mlDia = 1000 + (peso - 10) * 50;
+        mlHora = 40 + (peso - 10) * 2;
+        detalle = '1.000 mL + (' + (peso - 10) + ' kg × 50 mL)';
+    } else {
+        mlDia = 1500 + (peso - 20) * 20;
+        mlHora = 60 + (peso - 20) * 1;
+        detalle = '1.500 mL + (' + (peso - 20) + ' kg × 20 mL)';
+    }
+
+    let extra = '';
+    if (Number.isFinite(talla) && talla >= 30) {
+        const sc = Math.sqrt((talla * peso) / 3600);
+        extra += '<div class="text-[11px] text-slate-500 dark:text-slate-400">Superficie corporal (Mosteller): <strong>' +
+            sc.toFixed(2) + ' m²</strong> · 1.500 mL/m²/día ≈ <strong>' + Math.round(1500 * sc) + ' mL/día</strong></div>';
+    }
+    if (peso > 30) {
+        extra += '<div class="text-[10px] leading-snug text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/30 rounded-lg p-2">' +
+            'En mayores de 30 kg la fórmula sobreestima: usa 1.500 mL/m²/día o 30 - 35 mL/kg/día.</div>';
+    }
+
+    res.innerHTML =
+        '<div class="flex items-baseline justify-between">' +
+        '<span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Mantenimiento (Holliday-Segar)</span>' +
+        '<span class="text-[10px] text-slate-400">' + peso + ' kg' + (edadRaw !== '' ? ' · ' + edad + ' años' : '') + '</span>' +
+        '</div>' +
+        '<div class="text-2xl font-extrabold text-teal-700 dark:text-teal-300">' + Math.round(mlDia) + ' mL/día</div>' +
+        '<div class="text-sm font-bold text-slate-700 dark:text-slate-200">' + mlHora.toFixed(1) + ' mL/h</div>' +
+        '<div class="text-[11px] text-slate-500 dark:text-slate-400">' + detalle + '</div>' +
+        extra +
+        '<div class="text-[10px] leading-snug text-slate-500 dark:text-slate-400 pt-1">' +
+        'Es solo mantenimiento: no reemplaza los bolos de rehidratación ni el manejo del choque. En neonatos usa el esquema por días de vida. Ajusta en fiebre, quemaduras, cardiopatía o falla renal.</div>';
+    res.classList.remove('hidden');
+}
+
+window.onload = function() {
             const darkToggle = document.getElementById('dark-mode-toggle');
             if (darkToggle) darkToggle.setAttribute('aria-checked', String(document.documentElement.classList.contains('dark')));
             renderSidebarModules();
