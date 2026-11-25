@@ -4401,7 +4401,7 @@ function tplReset() {
 vademecumData.push(...vademecumTanda2);
 
 /* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 1 · 31 oct 2026) ===== */
-const VAD_VERSION = 'v1.2 · 24 Nov 2026';
+const VAD_VERSION = 'v1.3 · 25 Nov 2026';
 
 const VAD_VERIF = {
     'Atropina': {
@@ -5244,6 +5244,70 @@ vademecumData.forEach(v => {
     v.parcial = !!o.parcial;
     v.revisado = '24 nov 2026';
 });
+
+/* ===== VERIFICACIÓN DEL VADEMÉCUM (lote 8 · 25 nov 2026) =====
+   Completa la ficha de dipirona con la vía IV (CIMA, ficha técnica
+   del inyectable 0,4 g/mL, Nº reg. 63430) y afina las notas de las
+   10 entradas que quedaban parciales.                           */
+const VAD_VERIF8 = {
+    'Dipirona (Metamizol)': {
+        verificado: true, parcial: false, nota: '',
+        fuente: { t: 'Ficha técnica AEMPS-CIMA · metamizol 0,4 g/mL solución inyectable y para perfusión EFG (Nº reg. 63430)', url: 'https://cima.aemps.es/cima/dochtml/ft/63430/FT_63430.html' },
+        alcance: 'Dosis oral e IV/IM del adulto y pediátrica por peso según la ficha española del inyectable.',
+        adult: 'Adultos y adolescentes ≥ 15 años (> 53 kg): 400 - 1000 mg IV/IM/SC c/6-8h (1 - 2,5 mL de la solución 0,4 g/mL); máx 4000 mg/día (hasta 5000 mg si es necesario). IV muy lenta para minimizar hipotensión. Oral (cápsulas 575 mg): 575 mg c/4-6h, máx 3450 mg (6 dosis)/día. En dolor oncológico: 800 mg VO c/6-8h, máx 4000 mg/día y no más de 7 días',
+        ped: '8 - 16 mg/kg en dosis única (10 mg/kg suele bastar en fiebre), c/6-8h, máx 4 dosis/día. Por peso: 5-8 kg 40-120 mg; 9-15 kg 80-240 mg; 16-23 kg 120-360 mg; 24-30 kg 200-480 mg; 31-45 kg 240-720 mg; 46-53 kg 360-840 mg; > 53 kg 400-1000 mg',
+        renal: 'Ajustar en insuficiencia renal grave; evitar en falla renal avanzada',
+        warning: 'Agranulocitosis (rara pero grave): suspende ante fiebre, odinofagia o lesiones orales. Hipotensión con infusión rápida (disponer de equipo para shock). Evitar en tercer trimestre, lactancia y déficit de G6PD.'
+    },
+    'Carbón activado': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica (1 g/kg, máx 50 g) es la práctica estándar de los centros de toxicología (AAP/Poison Control); no aparece en la ficha FDA (Actidose, solo adulto 20-30 g).'
+    },
+    'Gentamicina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis extendida (5-7 mg/kg c/24h) y el ajuste fino por ClCr provienen de las guías de dosificación antimicrobiana; la ficha FDA da la dosis estándar (3 mg/kg/día en 3 dosis) y el ajuste por intervalo.'
+    },
+    'Azitromicina': {
+        verificado: true, parcial: true,
+        nota: 'Los esquemas orales de 3-5 días (500 mg día 1 y 250 mg días 2-5) y la dosis de clamidia provienen de las guías clínicas; la ficha FDA da la vía IV y el esquema de la EPI.'
+    },
+    'Trimetoprim / Sulfametoxazol (TMP/SMX)': {
+        verificado: true, parcial: true,
+        nota: 'La dosis de P. jirovecii (15-20 mg/kg/día del componente TMP c/6-8h x 21 días) proviene de las guías clínicas (IDSA); la ficha FDA da ITU, shigelosis y otitis.'
+    },
+    'Insulina NPH': {
+        verificado: true, parcial: true,
+        nota: 'Las dosis de inicio (10 UI o 0,1-0,2 UI/kg/día en DM2; 0,5-1 UI/kg/día en DM1) son las habituales de las guías de diabetes (ADA); la ficha FDA individualiza y no las fija.'
+    },
+    'Levotiroxina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica por edad proviene de las guías de endocrinología pediátrica (AAP/ATA); la ficha FDA da la dosis del adulto y la administración.'
+    },
+    'Ondansetrón': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica y la de náuseas no oncológicas (4-8 mg VO c/8-12h) provienen de las guías clínicas; la ficha FDA da la dosis oncológica y la IV.'
+    },
+    'Hioscina (butilbromuro)': {
+        verificado: true, parcial: true,
+        nota: 'La dosis parenteral (20 mg IV/IM/SC c/6-8h, máx 100 mg/día) es la estándar; la ficha CIMA (Nº reg. 18221) solo cubre la vía oral. Sin ficha oficial del inyectable en CIMA.',
+        adult: 'Cólico abdominal: 10 - 20 mg VO (1 - 2 tabletas de 10 mg) 3 - 5 veces/día; máx 100 mg/día. IV/IM/SC: 20 mg c/6-8h; máx 100 mg/día'
+    },
+    'Loratadina': {
+        verificado: true, parcial: true,
+        nota: 'La dosis pediátrica y el ajuste hepático/renal provienen de las guías; la ficha de venta libre (OTC) da la dosis del adulto (10 mg c/24h).'
+    }
+};
+
+Object.assign(VAD_VERIF, VAD_VERIF8);
+vademecumData.forEach(v => {
+    const o = VAD_VERIF8[v.name];
+    if (!o) return;
+    Object.assign(v, o);
+    v.verificado = o.verificado === true;
+    v.parcial = !!o.parcial;
+    v.revisado = '25 nov 2026';
+});
+
 
 /* =====================================================================
    SELECTOR ADULTO / PEDIÁTRICO
