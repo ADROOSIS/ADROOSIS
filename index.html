@@ -745,12 +745,32 @@
       <label class="text-xs font-bold text-slate-700 dark:text-slate-200">
         Tipo de atención / plantilla
         <select id="tpl-template" onchange="tplLoadTemplate(this.value)" class="mt-1 w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 p-2.5 text-sm">
-          <option value="urg_dolor">Urgencias · Dolor torácico</option>
-          <option value="urg_disnea">Urgencias · Disnea</option>
-          <option value="consulta">Consulta externa · Medicina general</option>
-          <option value="examen">Examen físico general</option>
-          <option value="evolucion">Hospitalización · Evolución médica</option>
-          <option value="sbar">Entrega de turno · SBAR</option>
+          <optgroup label="Urgencias">
+            <option value="urg_dolor">Dolor torácico</option>
+            <option value="urg_disnea">Disnea</option>
+            <option value="urg_abdomen">Dolor abdominal</option>
+            <option value="urg_cefalea">Cefalea aguda</option>
+            <option value="urg_trauma">Trauma</option>
+          </optgroup>
+          <optgroup label="Consulta externa">
+            <option value="consulta">Medicina general</option>
+            <option value="consulta_ped">Pediatría</option>
+            <option value="consulta_prenatal">Control prenatal</option>
+            <option value="anamnesis_alicia">Anamnesis completa (ALICIA)</option>
+          </optgroup>
+          <optgroup label="Hospitalización">
+            <option value="hosp_ingreso">Ingreso</option>
+            <option value="evolucion">Evolución médica</option>
+            <option value="hosp_egreso">Egreso</option>
+          </optgroup>
+          <optgroup label="Procedimientos y administrativo">
+            <option value="examen">Examen físico general</option>
+            <option value="examen_neurologico">Examen neurológico dirigido</option>
+            <option value="proc_sutura">Sutura de herida</option>
+            <option value="remision">Remisión a mayor nivel</option>
+            <option value="incapacidad">Incapacidad laboral</option>
+            <option value="sbar">Entrega de turno (SBAR)</option>
+          </optgroup>
         </select>
       </label>
       <label class="text-xs font-bold text-slate-700 dark:text-slate-200">
