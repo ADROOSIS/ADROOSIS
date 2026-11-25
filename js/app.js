@@ -4538,35 +4538,21 @@ function tplLoadTemplate(key) {
 function tplRender() {
   const host = document.getElementById('tpl-blocks');
   if (!host) return;
-  const shown = TPL_STATE.blocks.filter(b => b.visible !== false && !(TPL_STATE.hiddenNormal && b.status === 'normal'));
-  const colors = {
-    normal: 'border-emerald-300 bg-emerald-50 dark:bg-emerald-900/20',
-    partial: 'border-amber-300 bg-amber-50 dark:bg-amber-900/20',
-    abnormal: 'border-rose-300 bg-rose-50 dark:bg-rose-900/20',
-    pending: 'border-slate-200 bg-white dark:bg-slate-800',
-    omit: 'border-slate-300 bg-slate-100 dark:bg-slate-900 opacity-60'
-  };
-  const labels = {normal:'Normal',partial:'Leve / parcial',abnormal:'Patológico / alarma',pending:'Pendiente',omit:'No aplica'};
+  const shown = TPL_STATE.blocks.filter(b => b.visible !== false);
   host.innerHTML = shown.map(b => `
-    <article class="rounded-2xl border p-3 space-y-2 ${colors[b.status] || colors.pending}" data-tpl-id="${tplEscape(b.id)}">
+    <article class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 space-y-2" data-tpl-id="${tplEscape(b.id)}">
       <div class="flex items-center justify-between gap-2">
         <input aria-label="Título del bloque" value="${tplEscape(b.title)}" onchange="tplUpdate('${tplEscape(b.id)}','title',this.value)" class="min-w-0 flex-1 bg-transparent font-extrabold text-xs text-slate-800 dark:text-slate-100 border-b border-transparent focus:border-teal-500 outline-none">
         <button onclick="tplDeleteBlock('${tplEscape(b.id)}')" title="Eliminar bloque" class="text-slate-400 hover:text-rose-600"><i class="fa-solid fa-trash"></i></button>
       </div>
       <textarea oninput="tplUpdate('${tplEscape(b.id)}','text',this.value)" rows="4" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white/90 dark:bg-slate-950/60 p-2.5 text-xs leading-relaxed text-slate-800 dark:text-slate-100">${tplEscape(b.text)}</textarea>
       <div class="flex flex-wrap gap-1.5">
-        <button onclick="tplSetStatus('${tplEscape(b.id)}','normal')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${b.status==='normal'?'bg-emerald-600 text-white':'bg-emerald-100 text-emerald-800'}">🟢 Normal</button>
-        <button onclick="tplSetStatus('${tplEscape(b.id)}','partial')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${b.status==='partial'?'bg-amber-500 text-white':'bg-amber-100 text-amber-800'}">🟠 Leve/parcial</button>
-        <button onclick="tplSetStatus('${tplEscape(b.id)}','abnormal')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${b.status==='abnormal'?'bg-rose-600 text-white':'bg-rose-100 text-rose-800'}">🔴 Patológico</button>
-        <button onclick="tplSetStatus('${tplEscape(b.id)}','omit')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${b.status==='omit'?'bg-slate-600 text-white':'bg-slate-200 text-slate-700'}">— No aplica</button>
-        <button onclick="tplSetStatus('${tplEscape(b.id)}','pending')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${b.status==='pending'?'bg-slate-500 text-white':'bg-slate-100 text-slate-600'}">Pendiente</button>
+        <button onclick="tplSetStatus('${tplEscape(b.id)}','omit')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${b.status==='omit'?'bg-slate-600 text-white':'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200'}">— No aplica</button>
       </div>
     </article>
   `).join('');
-  const total = TPL_STATE.blocks.length;
-  const done = TPL_STATE.blocks.filter(b => b.status !== 'pending').length;
   const p = document.getElementById('tpl-progress');
-  if (p) p.textContent = `${done}/${total} bloques revisados`;
+  if (p) p.textContent = `${shown.length} bloques`;
   tplRenderPreview();
 }
 function tplUpdate(id, field, value) {
@@ -4609,9 +4595,8 @@ function tplBuildNote(filter) {
   TPL_STATE.blocks.forEach(b => {
     if (b.status === 'omit') return;
     if (filter === 'abnormal' && !['partial','abnormal'].includes(b.status)) return;
-    const marker = b.status === 'normal' ? '[NORMAL]' : b.status === 'partial' ? '[LEVE/PARCIAL]' : b.status === 'abnormal' ? '[PATOLÓGICO/ALARMA]' : '[PENDIENTE DE VERIFICAR]';
     const cleanText = b.text.replace(/\{[vnr]\}/g, '').replace(/\{\/[vnr]\}/g, '');
-    lines.push(`${b.title.toUpperCase()}:\n${cleanText}\n${b.status === 'pending' ? marker : ''}`.trim());
+    lines.push(`${b.title.toUpperCase()}:\n${cleanText}`.trim());
   });
   return lines.join('\n\n');
 }
@@ -4628,10 +4613,9 @@ function tplColorize(text) {
 function tplRenderPreview() {
   const preview = document.getElementById('tpl-preview');
   if (!preview) return;
-  const visible = TPL_STATE.blocks.filter(b => b.status !== 'omit' && !(TPL_STATE.hiddenNormal && b.status === 'normal'));
-  const statusClass = {normal:'text-emerald-700 dark:text-emerald-400',partial:'text-amber-700 dark:text-amber-400',abnormal:'text-rose-700 dark:text-rose-400',pending:'text-slate-500 dark:text-slate-400'};
+  const visible = TPL_STATE.blocks.filter(b => b.status !== 'omit');
   preview.innerHTML = `<div class="font-extrabold text-teal-700 dark:text-teal-300 mb-3">${tplEscape(TPL_TEMPLATES[TPL_STATE.key]?.name || 'Nota clínica')}</div>` +
-    visible.map(b => `<div class="mb-3"><div class="font-extrabold text-xs ${statusClass[b.status] || statusClass.pending}">${tplEscape(b.title)} · ${b.status==='normal'?'NORMAL':b.status==='partial'?'LEVE/PARCIAL':b.status==='abnormal'?'PATOLÓGICO/ALARMA':'PENDIENTE'}</div><div class="text-xs whitespace-pre-wrap">${tplColorize(b.text)}</div></div>`).join('');
+    visible.map(b => `<div class="mb-3"><div class="font-extrabold text-xs text-slate-700 dark:text-slate-200">${tplEscape(b.title)}</div><div class="text-xs whitespace-pre-wrap">${tplColorize(b.text)}</div></div>`).join('');
   const pending = TPL_STATE.blocks.filter(b => b.status === 'pending').length;
   const alerts = TPL_STATE.blocks.filter(b => b.status === 'abnormal' || b.status === 'partial').length;
   const a = document.getElementById('tpl-alerts');
