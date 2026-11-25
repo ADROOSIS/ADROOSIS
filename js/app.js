@@ -6711,6 +6711,18 @@ const HC_FORM = [
         hcN('gluc', 'Glucometría (mg/dL)'),
         hcN('peso', 'Peso (kg)'), hcN('talla', 'Talla (cm)')
     ]},
+    { id: 'tamizaje', t: 'Tamizaje y riesgo', short: 'Tamizaje', ic: 'fa-clipboard-check', f: [
+        hcS('eva', 'Dolor EVA (0-10)', ['', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']),
+        hcS('nutricion', 'Tamizaje nutricional (MUST)', ['No valorado', 'Bajo riesgo (0 pts)', 'Riesgo medio (1 pt)', 'Alto riesgo (≥ 2 pts)']),
+        hcS('caidas', 'Riesgo de caídas (Morse)', ['No valorado', 'Bajo (0-24)', 'Moderado (25-44)', 'Alto (≥ 45)']),
+        hcS('tvp', 'Riesgo de TVP (Wells)', ['No valorado', 'Bajo (0-1)', 'Moderado (2)', 'Alto (≥ 3)']),
+        hcS('mental', 'Tamizaje de salud mental (PHQ-2)', ['No valorado', 'Negativo (0-2)', 'Positivo (≥ 3) - ampliar PHQ-9']),
+        hcS('alcohol', 'Consumo de alcohol (AUDIT-C)', ['No valorado', 'Bajo riesgo', 'Riesgo moderado', 'Riesgo alto']),
+        hcC('tabaco', 'Tabaquismo', ['No fuma', 'Fumador activo', 'Exfumador', 'Nunca fumó'], { ex: 'No fuma' }),
+        hcS('braden', 'Riesgo de úlcera por presión (Braden)', ['No valorado', 'Bajo riesgo (19-23)', 'Riesgo moderado (15-18)', 'Alto riesgo (13-14)', 'Muy alto riesgo (≤ 12)']),
+        hcS('barthel', 'Dependencia funcional (Barthel)', ['No valorado', 'Independiente (100)', 'Dependencia leve (61-99)', 'Dependencia moderada (41-60)', 'Dependencia grave (21-40)', 'Dependencia total (0-20)']),
+        hcC('plan_tamizaje', 'Conducta (marca todo lo que aplique)', ['Consejería de cesación tabáquica', 'Consejería de reducción de alcohol', 'Derivación a nutrición', 'Derivación a psicología/psiquiatría', 'Medidas de prevención de caídas', 'Profilaxis de TVP', 'Superficie de apoyo (colchón antiescaras)', 'Tamizaje de cáncer (citología, mamografía, PSA, FIT)'], { noo: true })
+    ]},
     { id: 'ef', t: 'Examen físico', short: 'Examen físico', ic: 'fa-user-doctor',
       hdr: { l: 'Todo normal', on: 'hcAllNormal()' },
       f: HC_EF.map(e => hcA(e.k, e.l, { rows: 2, wide: true, normal: true })) },
@@ -6921,6 +6933,15 @@ function hcChecks() {
         { sec: 'ros', t: 'Revisión por sistemas (≥ 3 sistemas)', ok: HC_ROS.filter(s => c(s.k)).length >= 3 },
         { sec: 'vit', t: 'Signos vitales: TA, FC, FR, T° y SatO₂', ok: ['ta_s', 'ta_d', 'fc', 'fr', 'temp', 'sat'].every(f), crit: true },
         { sec: 'vit', t: 'PESO (lo necesitas para dosificar)', ok: f('peso'), crit: true },
+        { sec: 'tamizaje', t: 'Dolor (EVA) valorado', ok: f('eva') },
+        { sec: 'tamizaje', t: 'Tamizaje nutricional (MUST)', ok: f('nutricion') },
+        { sec: 'tamizaje', t: 'Riesgo de caídas (Morse)', ok: f('caidas') },
+        { sec: 'tamizaje', t: 'Riesgo de TVP (Wells)', ok: f('tvp') },
+        { sec: 'tamizaje', t: 'Tamizaje de salud mental (PHQ-2)', ok: f('mental') },
+        { sec: 'tamizaje', t: 'Consumo de alcohol (AUDIT-C)', ok: f('alcohol') },
+        { sec: 'tamizaje', t: 'Tabaquismo', ok: c('tabaco') },
+        { sec: 'tamizaje', t: 'Riesgo de úlcera por presión (Braden)', ok: f('braden') },
+        { sec: 'tamizaje', t: 'Dependencia funcional (Barthel)', ok: f('barthel') },
         { sec: 'ef', t: 'Examen físico (≥ 4 sistemas)', ok: HC_EF.filter(e => f(e.k)).length >= 4 },
         { sec: 'dx', t: 'Análisis clínico', ok: f('ana') },
         { sec: 'dx', t: 'Impresión diagnóstica', ok: f('dx') },
@@ -7025,6 +7046,21 @@ function hcBuild() {
     if (v.h != null) vv.push(`Talla ${v.h} cm`);
     if (v.imc != null) vv.push(`IMC ${v.imc.toFixed(1)}`);
     add(vv.join(' | ') || '[PENDIENTE]');
+
+    H('Tamizaje y riesgo');
+    const tam = [
+        ['Dolor EVA', g('eva')],
+        ['Nutrición (MUST)', g('nutricion')],
+        ['Caídas (Morse)', g('caidas')],
+        ['TVP (Wells)', g('tvp')],
+        ['Salud mental (PHQ-2)', g('mental')],
+        ['Alcohol (AUDIT-C)', g('alcohol')],
+        ['Tabaquismo', ch('tabaco').join(', ')],
+        ['Úlcera por presión (Braden)', g('braden')],
+        ['Funcional (Barthel)', g('barthel')],
+        ['Conducta', ch('plan_tamizaje').join(', ')]
+    ].filter(x => x[1]).map(x => `${x[0]}: ${x[1]}`);
+    add(tam.join(' | ') || '[PENDIENTE]');
 
     H('Examen físico');
     let e = false;
