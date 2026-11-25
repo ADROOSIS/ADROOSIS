@@ -5836,19 +5836,64 @@ function renderVademecum() {
 
         // SEMIOLOGY CARDS RENDER (SÍNDROMES COMPLETOS & CONECTADOS)
 
+        let currentSemiCat = 'all';
+        function filterSemiCat(cat) {
+            currentSemiCat = cat;
+            document.querySelectorAll('.sem-cat-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            });
+            const target = [...document.querySelectorAll('.sem-cat-btn')].find(b => b.getAttribute('onclick')?.includes("'" + cat + "'"));
+            if (target) {
+                target.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                target.classList.add('bg-teal-600', 'text-white');
+            }
+            renderSemiologia();
+        }
+
         function renderSemiologia() {
             const container = document.getElementById('semiologia-cards-container');
             if (!container) return;
 
             const query = (document.getElementById('semiologia-search')?.value || '').toLowerCase().trim();
-            const filtered = semiologiaData.filter(s => !query || s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query));
+            const otrosCats = ['general', 'psiq', 'gineco', 'uro', 'orl', 'oftalmo', 'endo', 'trauma', 'pediatria', 'toxico'];
+            const filtered = semiologiaData.filter(s => {
+                if (query && !(s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query))) return false;
+                if (currentSemiCat === 'all') return true;
+                if (currentSemiCat === 'otros') return otrosCats.includes(s.cat);
+                return s.cat === currentSemiCat;
+            });
+
+            const catColors = {
+                cardio: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300',
+                neuro: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300',
+                gastro: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+                infecto: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300',
+                urgencias: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
+                respiratorio: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300',
+                renal: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+                msk: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
+                general: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300'
+            };
+            const catLabels = {
+                cardio: 'Cardiovascular', neuro: 'Neurológico', gastro: 'Gastrointestinal', infecto: 'Infeccioso',
+                urgencias: 'Urgencias', respiratorio: 'Respiratorio', renal: 'Renal', msk: 'Musculoesquelético',
+                general: 'General', psiq: 'Psiquiatría', gineco: 'Ginecología', uro: 'Urología',
+                orl: 'ORL', oftalmo: 'Oftalmología', endo: 'Endocrino', trauma: 'Trauma',
+                pediatria: 'Pediatría', toxico: 'Toxicología'
+            };
+
+            if (!filtered.length) {
+                container.innerHTML = '<p class="col-span-full text-center text-sm text-slate-400 py-8">No hay síndromes que coincidan con la búsqueda o categoría.</p>';
+                return;
+            }
 
             container.innerHTML = filtered.map(s => `
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between text-xs">
                     <div class="space-y-2.5">
                         <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
                             <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">${s.title}</h3>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300">Semiología</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${catColors[s.cat] || catColors.general}">${catLabels[s.cat] || s.cat || 'General'}</span>
                         </div>
                         <p class="text-slate-600 dark:text-slate-300">${s.desc}</p>
                         <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl space-y-1.5 border border-slate-200/60 dark:border-slate-700/60">

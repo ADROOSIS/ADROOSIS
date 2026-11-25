@@ -714,6 +714,18 @@
                         <input type="text" id="semiologia-search" onkeyup="runDebounced('sem', renderSemiologia)" placeholder="Buscar síndrome semiológico (ej: dolor torácico, disnea, cefalea, ictericia)..." class="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                     </div>
 
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterSemiCat('all')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-teal-600 text-white transition-all">Todos</button>
+                        <button onclick="filterSemiCat('cardio')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Cardiovascular</button>
+                        <button onclick="filterSemiCat('neuro')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Neurológico</button>
+                        <button onclick="filterSemiCat('gastro')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Gastrointestinal</button>
+                        <button onclick="filterSemiCat('infecto')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Infeccioso</button>
+                        <button onclick="filterSemiCat('urgencias')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Urgencias</button>
+                        <button onclick="filterSemiCat('respiratorio')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Respiratorio</button>
+                        <button onclick="filterSemiCat('renal')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Renal</button>
+                        <button onclick="filterSemiCat('msk')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Musculoesquelético</button>
+                        <button onclick="filterSemiCat('otros')" class="sem-cat-btn px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all">Otros</button>
+                    </div>
                     <div id="semiologia-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                 </section>
 
