@@ -72,7 +72,10 @@ const triadsDatabase = [
             { id: 'anton', name: 'Tríada de Anton', category: 'neuro', entity: 'Ceguera cortical con negación (síndrome de Anton)', items: ['1. Ceguera cortical bilateral', '2. Negación de la ceguera (anosognosia)', '3. Confabulación visual'], pearl: 'Lesión bilateral de la corteza occipital. Asociado a síndrome de Balint.' },
             { id: 'balint', name: 'Tríada de Balint', category: 'neuro', entity: 'Síndrome de Balint', items: ['1. Simultanagnosia', '2. Ataxia óptica', '3. Apraxia oculomotora'], pearl: 'Lesión bilateral parieto-occipital. Incapacidad para ver más de un objeto a la vez.' },
             { id: 'gerstmann', name: 'Tríada de Gerstmann', category: 'neuro', entity: 'Síndrome de Gerstmann', items: ['1. Agrafía', '2. Acalculia', '3. Agnosia digital', '4. Desorientación izquierda-derecha'], pearl: 'Lesión del giro angular (hemisferio dominante). Cuatro síntomas clásicos.' },
-            { id: 'klüver_bucy', name: 'Tríada de Kluver-Bucy', category: 'neuro', entity: 'Síndrome de Kluver-Bucy', items: ['1. Hiperoralidad', '2. Hipersexualidad', '3. Placidez / docilidad'], pearl: 'Lesión bilateral de los lóbulos temporales (amígdala). Asociado a herpes encefalitis.' }
+            { id: 'klüver_bucy', name: 'Tríada de Kluver-Bucy', category: 'neuro', entity: 'Síndrome de Kluver-Bucy', items: ['1. Hiperoralidad', '2. Hipersexualidad', '3. Placidez / docilidad'], pearl: 'Lesión bilateral de los lóbulos temporales (amígdala). Asociado a herpes encefalitis.' },
+            { id: 'mirizzi', name: 'Tríada de Mirizzi', category: 'gastro', entity: 'Síndrome de Mirizzi', items: ['1. Ictericia obstructiva', '2. Dolor en hipocondrio derecho', '3. Masa palpable en hipocondrio derecho'], pearl: 'Obstrucción del conducto hepático común por cálculo impactado en el conducto cístico. Cirugía (colecistectomía + exploración de vías biliares).' },
+            { id: 'opitz', name: 'Tríada de Opitz (G/BBB)', category: 'genetica', entity: 'Síndrome de Opitz G/BBB', items: ['1. Hipertelorismo (ojos muy separados)', '2. Hipospadias', '3. Disfagia / dificultad para la deglución (por anomalía laríngea)'], pearl: 'Síndrome genético (mutación MID1 en Xp22). Asociado a defectos cardíacos y anorrectales. Evaluación multidisciplinaria.' }
+
 
         ];
 
