@@ -662,6 +662,131 @@
                      <div id="gas-steps-container" class="space-y-4 hidden"></div>
                     </section>
 
+                <!-- SECTION: CARDIOLOGÍA BÁSICA -->
+                <section id="tab-cardiologia" class="tab-content space-y-6 hidden">
+                    <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4">
+                        <h2 class="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-heart-pulse text-rose-500"></i> Cardiología Básica
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ECG, insuficiencia cardíaca y síndrome coronario agudo para el médico general.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
+                        <button onclick="switchCardioSubTab('ecg')" id="btn-cardiosub-ecg" class="cardiosub-btn px-4 py-2 rounded-xl font-bold bg-rose-600 text-white shadow transition-all shrink-0">
+                            <i class="fa-solid fa-heart-pulse"></i> ECG
+                        </button>
+                        <button onclick="switchCardioSubTab('ic')" id="btn-cardiosub-ic" class="cardiosub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-heart"></i> Insuficiencia cardíaca
+                        </button>
+                        <button onclick="switchCardioSubTab('sca')" id="btn-cardiosub-sca" class="cardiosub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-triangle-exclamation"></i> SCA
+                        </button>
+                    </div>
+
+                    <!-- ECG -->
+                    <div id="cardio-view-ecg" class="space-y-4">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Interpretación de ECG paso a paso</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 1: Frecuencia y ritmo</strong>
+                                    <p class="mt-1">FC = 300 / número de cuadros grandes entre R-R. Ritmo sinusal: onda P antes de cada QRS, PR constante, FC 60-100.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 2: Eje eléctrico</strong>
+                                    <p class="mt-1">Normal: -30° a +90°. Desviación izquierda: < -30° (HVI, bloqueo anterior). Desviación derecha: > +90° (HVD, bloqueo posterior, TEP).</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 3: Intervalo PR</strong>
+                                    <p class="mt-1">Normal: 120-200 ms (3-5 cuadritos pequeños). PR > 200 ms = bloqueo AV de 1º grado. PR < 120 ms = pre-excitación (WPW).</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 4: Duración del QRS</strong>
+                                    <p class="mt-1">Normal: < 120 ms. QRS ancho: bloqueo de rama (BRI/BRD), ritmo ventricular, pre-excitación.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 5: Intervalo QT</strong>
+                                    <p class="mt-1">QTc = QT / √RR. Normal: < 440 ms (hombres), < 460 ms (mujeres). Prolongado: riesgo de torsades de pointes.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 6: Onda P</strong>
+                                    <p class="mt-1">Normal: positiva en I, II, aVF; negativa en aVR. P mitrale: ancha y bífida (HAI). P pulmonale: alta y puntiaguda (HAD). P invertida: ritmo de la unión.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 7: Segmento ST</strong>
+                                    <p class="mt-1">Elevación del ST ≥ 1 mm en 2 derivaciones contiguas = STEMI. Depresión del ST = isquemia subendocárdica o NSTEMI. Supradesnivel del ST en aVR + depresión difusa = isquemia del tronco.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 8: Onda T</strong>
+                                    <p class="mt-1">T invertida: isquemia, HVI, TEP (S1Q3T3), pericarditis. T alta y puntiaguda: hiperpotasemia. T aplanada: hipopotasemia, isquemia.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Paso 9: Onda Q</strong>
+                                    <p class="mt-1">Q patológica: duración ≥ 40 ms o profundidad ≥ 25% de la R. Indica necrosis (IAM previo). Q normal en III y aVF.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Insuficiencia cardíaca -->
+                    <div id="cardio-view-ic" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Insuficiencia cardíaca</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Clasificación por FE</strong>
+                                    <p class="mt-1">HFrEF: FE < 40% (sistólica). HFmrEF: FE 41-49% (intermedia). HFpEF: FE ≥ 50% (diastólica).</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">GDMT (terapia médica óptima)</strong>
+                                    <p class="mt-1">HFrEF: IECA/ARA II/ARNI + betabloqueador + ARM + SGLT2i. Titular rápidamente. HFpEF: SGLT2i + manejo de comorbilidades.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Descompensación aguda</strong>
+                                    <p class="mt-1">Diuréticos IV (furosemida), vasodilatadores (nitroglicerina), oxígeno, CPAP si edema pulmonar. Evaluar: ortopnea, disnea paroxística nocturna, edema, crepitantes.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Signos de congestión</strong>
+                                    <p class="mt-1">Yugular, crepitantes, edema periférico, hepatomegalia, ascitis. Peso diario, balance hídrico.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Signos de bajo gasto</strong>
+                                    <p class="mt-1">Hipotensión, oliguria, extremidades frías, confusión, llenado capilar lento. Inotrópicos (dobutamina) si es necesario.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SCA -->
+                    <div id="cardio-view-sca" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Síndrome coronario agudo (SCA)</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Reconocimiento</strong>
+                                    <p class="mt-1">Dolor torácico opresivo retroesternal con irradiación a cuello, mandíbula, brazo izquierdo. Duración > 20 min, no cede con reposo ni nitroglicerina. Diaforesis, náuseas, disnea, síncope.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">ECG en 10 min</strong>
+                                    <p class="mt-1">STEMI: elevación del ST ≥ 1 mm en 2 derivaciones contiguas. NSTEMI/angina inestable: sin elevación del ST, pero con cambios en ST/T o troponina elevada.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Tratamiento inicial</strong>
+                                    <p class="mt-1">Aspirina 150-300 mg (masticar) + clopidogrel 300-600 mg (o ticagrelor 180 mg). Nitroglicerina si hay dolor. Morfina si persiste. Oxígeno solo si SatO₂ < 90%. Anticoagulación: heparina o enoxaparina.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">STEMI: reperfusión</strong>
+                                    <p class="mt-1">ICP primaria en ≤ 120 min. Si no disponible: fibrinólisis en ≤ 30 min. Alteplasa, tenecteplasa o reteplasa.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-rose-600 dark:text-rose-400">Signos de alarma</strong>
+                                    <p class="mt-1">Hipotensión, shock cardiogénico, arritmias malignas, insuficiencia cardíaca aguda, paro cardíaco.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- SECTION 3: TRIADAS CLÍNICAS -->
                 <section id="tab-triadas" class="tab-content space-y-6 hidden">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-700/60 pb-4">

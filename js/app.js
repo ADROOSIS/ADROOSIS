@@ -6212,6 +6212,26 @@ function renderVademecum() {
             `).join('');
         }
 
+        function switchCardioSubTab(subTab) {
+            const views = ['ecg', 'ic', 'sca'];
+            views.forEach(v => {
+                const viewEl = document.getElementById(`cardio-view-${v}`);
+                if (viewEl) viewEl.classList.add('hidden');
+                const btnEl = document.getElementById(`btn-cardiosub-${v}`);
+                if (btnEl) {
+                    btnEl.classList.remove('bg-rose-600', 'text-white', 'shadow');
+                    btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                }
+            });
+            const targetView = document.getElementById(`cardio-view-${subTab}`);
+            if (targetView) targetView.classList.remove('hidden');
+            const targetBtn = document.getElementById(`btn-cardiosub-${subTab}`);
+            if (targetBtn) {
+                targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                targetBtn.classList.add('bg-rose-600', 'text-white', 'shadow');
+            }
+        }
+
         // NAVIGATION & TAB SWITCHING
         /* ---------------------------------------------------------
    Utilidades de interfaz
@@ -6257,6 +6277,7 @@ function switchTab(tabId) {
 
             if (tabId === 'hc') hcOpen();
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
+            if (tabId === 'cardiologia') switchCardioSubTab('ecg');
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'neurologico') neuroRender();
             if (tabId === 'calculadoras') {

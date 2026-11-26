@@ -3,6 +3,7 @@
 let moduleList = [
             { id: 'infectologia', label: 'Infectología', icon: 'fa-bugs' },
             { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
+            { id: 'cardiologia', label: 'Cardiología', icon: 'fa-heart-pulse', kw: 'cardiologia ecg electrocardiograma insuficiencia cardiaca sca sindrome coronario infarto' },
             { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
             { id: 'neurologico', label: 'Examen neurológico', icon: 'fa-brain', kw: 'neurología examen neurológico pares craneales fuerza sensibilidad reflejos coordinación marcha meninges estado mental' },
             { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
