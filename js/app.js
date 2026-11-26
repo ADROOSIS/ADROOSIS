@@ -6050,7 +6050,7 @@ function renderVademecum() {
             if (!container) return;
 
             const query = (document.getElementById('semiologia-search')?.value || '').toLowerCase().trim();
-            const otrosCats = ['general', 'psiq', 'gineco', 'uro', 'orl', 'oftalmo', 'endo', 'trauma', 'pediatria', 'toxico'];
+            const otrosCats = ['general', 'psiq', 'gineco', 'uro', 'orl', 'oftalmo', 'endo', 'trauma', 'pediatria', 'neonato', 'toxico'];
             const filtered = semiologiaData.filter(s => {
                 if (query && !(s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query))) return false;
                 if (currentSemiCat === 'all') return true;
@@ -6067,14 +6067,16 @@ function renderVademecum() {
                 respiratorio: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300',
                 renal: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
                 msk: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-                general: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300'
+                general: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
+                pediatria: 'bg-pink-100 text-pink-800 dark:bg-pink-900/40 dark:text-pink-300',
+                neonato: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300'
             };
             const catLabels = {
                 cardio: 'Cardiovascular', neuro: 'Neurológico', gastro: 'Gastrointestinal', infecto: 'Infeccioso',
                 urgencias: 'Urgencias', respiratorio: 'Respiratorio', renal: 'Renal', msk: 'Musculoesquelético',
                 general: 'General', psiq: 'Psiquiatría', gineco: 'Ginecología', uro: 'Urología',
                 orl: 'ORL', oftalmo: 'Oftalmología', endo: 'Endocrino', trauma: 'Trauma',
-                pediatria: 'Pediatría', toxico: 'Toxicología'
+                pediatria: 'Pediatría', neonato: 'Neonato', toxico: 'Toxicología'
             };
 
             if (!filtered.length) {
