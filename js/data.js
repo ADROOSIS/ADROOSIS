@@ -2,6 +2,7 @@
 
 let moduleList = [
             { id: 'infectologia', label: 'Infectología', icon: 'fa-bugs' },
+            { id: 'dengue', label: 'Dengue & Arbovirus', icon: 'fa-virus', kw: 'dengue zika chikungunya arbovirus fiebre amarilla aedes mosquito arbovirosis' },
             { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
             { id: 'cardiologia', label: 'Cardiología', icon: 'fa-heart-pulse', kw: 'cardiologia ecg electrocardiograma insuficiencia cardiaca sca sindrome coronario infarto' },
             { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },

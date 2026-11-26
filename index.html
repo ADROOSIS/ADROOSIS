@@ -599,6 +599,135 @@
                     </div>
                 </section>
 
+                <!-- SECTION: DENGUE & ARBOVIRUS -->
+                <section id="tab-dengue" class="tab-content space-y-6 hidden">
+                    <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4">
+                        <h2 class="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-virus text-emerald-500"></i> Dengue & Arbovirus
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Clasificación, manejo de líquidos, signos de alarma y prevención. Basado en la guía OMS 2025 y el protocolo del INS.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
+                        <button onclick="switchDengueSubTab('dengue')" id="btn-denguesub-dengue" class="denguesub-btn px-4 py-2 rounded-xl font-bold bg-emerald-600 text-white shadow transition-all shrink-0">
+                            <i class="fa-solid fa-virus"></i> Dengue
+                        </button>
+                        <button onclick="switchDengueSubTab('zika')" id="btn-denguesub-zika" class="denguesub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-virus"></i> Zika
+                        </button>
+                        <button onclick="switchDengueSubTab('chik')" id="btn-denguesub-chik" class="denguesub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-virus"></i> Chikungunya
+                        </button>
+                        <button onclick="switchDengueSubTab('ama')" id="btn-denguesub-ama" class="denguesub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-virus"></i> Fiebre amarilla
+                        </button>
+                    </div>
+
+                    <!-- Dengue -->
+                    <div id="dengue-view-dengue" class="space-y-4">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Dengue: clasificación y manejo</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-900/60">
+                                    <strong class="text-emerald-700 dark:text-emerald-300">Dengue sin signos de alarma</strong>
+                                    <p class="mt-1">Fiebre + 2 de: náuseas/vómito, rash, cefalea/dolor retroocular, mialgias/artralgias, leucopenia, petequias. Manejo ambulatorio: hidratación oral, acetaminofén (NO AINE, NO aspirina). Control diario.</p>
+                                </div>
+                                <div class="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-900/60">
+                                    <strong class="text-amber-700 dark:text-amber-300">Dengue con signos de alarma</strong>
+                                    <p class="mt-1">Dolor abdominal intenso, vómito persistente, hepatomegalia, sangrado mucoso, letargia/irritabilidad, acumulación de líquidos (ascitis, derrame pleural), aumento del Hcto con descenso de plaquetas. Hospitalizar. Líquidos IV: SSN 0.9% o Ringer lactato 5-7 mL/kg/h las primeras 2-4 h, luego ajustar.</p>
+                                </div>
+                                <div class="p-3 bg-rose-50 dark:bg-rose-950/30 rounded-xl border border-rose-200 dark:border-rose-900/60">
+                                    <strong class="text-rose-700 dark:text-rose-300">Dengue grave</strong>
+                                    <p class="mt-1">Choque por fuga plasmática, sangrado grave, falla orgánica. UCI. Reanimación con cristaloides, transfusión si hay sangrado activo, soporte inotrópico si es necesario.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Fases del dengue</strong>
+                                    <p class="mt-1">Fase febril (1-7 días): fiebre alta, mialgias, cefalea. Fase crítica (día 3-7): fuga plasmática, riesgo de choque. Fase de recuperación (día 7-10): reabsorción de líquidos, bradicardia, erupción.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-rose-600 dark:text-rose-400">Signos de alarma (hospitalizar)</strong>
+                                    <p class="mt-1">Dolor abdominal intenso o continuo. Vómito persistente. Acumulación de líquidos (ascitis, derrame pleural, edema). Sangrado de mucosas. Letargia, irritabilidad. Hepatomegalia > 2 cm. Aumento del Hcto con descenso rápido de plaquetas.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-amber-600 dark:text-amber-400">Lo que NO se debe hacer</strong>
+                                    <p class="mt-1">NO dar AINE (ibuprofeno, naproxeno, diclofenaco). NO dar aspirina. NO dar corticoides. NO dar transfusión profiláctica de plaquetas. Usar acetaminofén para la fiebre.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Manejo de líquidos (fase crítica)</strong>
+                                    <p class="mt-1">SSN 0.9% o Ringer lactato. Iniciar 5-7 mL/kg/h por 2-4 h. Ajustar según respuesta: llenado capilar, diuresis, Hcto, plaquetas. Si hay choque: bolo de 10-20 mL/kg en 15-30 min, repetir si es necesario.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-rose-600 dark:text-rose-400">Cuándo referir</strong>
+                                    <p class="mt-1">Dengue con signos de alarma, dengue grave, embarazadas, < 1 año, > 65 años, comorbilidades (DM, HTA, obesidad, ERC), desnutrición, imposibilidad de hidratación oral.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zika -->
+                    <div id="dengue-view-zika" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Zika</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Cuadro clínico</strong>
+                                    <p class="mt-1">Fiebre baja, rash maculopapular, artralgias, conjuntivitis no purulenta, cefalea. Generalmente leve y autolimitado (2-7 días).</p>
+                                </div>
+                                <div class="p-3 bg-rose-50 dark:bg-rose-950/30 rounded-xl border border-rose-200 dark:border-rose-900/60">
+                                    <strong class="text-rose-700 dark:text-rose-300">Riesgo en embarazo</strong>
+                                    <p class="mt-1">Microcefalia, calcificaciones cerebrales, síndrome de Guillain-Barré. Evitar embarazo en zonas de transmisión. Tamizaje prenatal si hay exposición.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Manejo</strong>
+                                    <p class="mt-1">Sintomático: acetaminofén, hidratación. NO AINE ni aspirina (riesgo de sangrado). Evitar embarazo 2 meses después de la infección (hombres 3 meses por transmisión sexual).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chikungunya -->
+                    <div id="dengue-view-chik" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Chikungunya</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Cuadro clínico</strong>
+                                    <p class="mt-1">Fiebre alta súbita, artralgias intensas (manos, pies, rodillas), rash maculopapular, cefalea, mialgias. La artralgia puede persistir meses.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Manejo</strong>
+                                    <p class="mt-1">Sintomático: acetaminofén, hidratación. NO AINE en la fase aguda (riesgo de sangrado si hay dengue). En la fase crónica (artralgia persistente): AINE, fisioterapia, considerar DMARDs.</p>
+                                </div>
+                                <div class="p-3 bg-rose-50 dark:bg-rose-950/30 rounded-xl border border-rose-200 dark:border-rose-900/60">
+                                    <strong class="text-rose-700 dark:text-rose-300">Formas graves</strong>
+                                    <p class="mt-1">Neonatos (transmisión vertical), ancianos, inmunosuprimidos. Encefalitis, miocarditis, hepatitis. Hospitalizar.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fiebre amarilla -->
+                    <div id="dengue-view-ama" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Fiebre amarilla</h3>
+                            <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Cuadro clínico</strong>
+                                    <p class="mt-1">Fiebre alta, cefalea, mialgias, náuseas, vómito. Fase tóxica (15%): ictericia, hemorragias, falla hepática y renal. Letalidad 20-50% en casos graves.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Prevención</strong>
+                                    <p class="mt-1">Vacuna (17D): una dosis, protección de por vida. Obligatoria para viajeros a zonas endémicas. Control vectorial (Aedes aegypti).</p>
+                                </div>
+                                <div class="p-3 bg-rose-50 dark:bg-rose-950/30 rounded-xl border border-rose-200 dark:border-rose-900/60">
+                                    <strong class="text-rose-700 dark:text-rose-300">Manejo</strong>
+                                    <p class="mt-1">Soporte: hidratación, corrección de coagulopatía, soporte hepático/renal. No hay antiviral específico. Hospitalizar en UCI si hay falla orgánica.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- SECTION 2: GASES ARTERIALES -->
                 <section id="tab-gases" class="tab-content space-y-6 hidden">
                     <div class="border-b border-slate-200 dark:border-slate-700/60 pb-4">

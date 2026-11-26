@@ -6232,6 +6232,26 @@ function renderVademecum() {
             }
         }
 
+        function switchDengueSubTab(subTab) {
+            const views = ['dengue', 'zika', 'chik', 'ama'];
+            views.forEach(v => {
+                const viewEl = document.getElementById(`dengue-view-${v}`);
+                if (viewEl) viewEl.classList.add('hidden');
+                const btnEl = document.getElementById(`btn-denguesub-${v}`);
+                if (btnEl) {
+                    btnEl.classList.remove('bg-emerald-600', 'text-white', 'shadow');
+                    btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                }
+            });
+            const targetView = document.getElementById(`dengue-view-${subTab}`);
+            if (targetView) targetView.classList.remove('hidden');
+            const targetBtn = document.getElementById(`btn-denguesub-${subTab}`);
+            if (targetBtn) {
+                targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                targetBtn.classList.add('bg-emerald-600', 'text-white', 'shadow');
+            }
+        }
+
         // NAVIGATION & TAB SWITCHING
         /* ---------------------------------------------------------
    Utilidades de interfaz
@@ -6278,6 +6298,7 @@ function switchTab(tabId) {
             if (tabId === 'hc') hcOpen();
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
             if (tabId === 'cardiologia') switchCardioSubTab('ecg');
+            if (tabId === 'dengue') switchDengueSubTab('dengue');
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'neurologico') neuroRender();
             if (tabId === 'calculadoras') {
