@@ -3810,7 +3810,70 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">Wells > 4 = probabilidad alta. Wells ≤ 4 = probabilidad baja/intermedia → D-dímero.</p>
         </div>
     `
+},
+{
+    id: 'psofa', cat: 'urgencias', title: 'pSOFA (Sepsis pediátrica)',
+    desc: 'Pediatric SOFA para evaluación de disfunción orgánica en sepsis pediátrica.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Adaptación pediátrica del SOFA. Evalúa 6 sistemas.</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaO₂/FiO₂:</label>
+                    <select id="psofa-pafi" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">≥ 400 (0)</option>
+                        <option value="1">300-399 (1)</option>
+                        <option value="2">200-299 (2)</option>
+                        <option value="3">100-199 (3)</option>
+                        <option value="4">< 100 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Plaquetas (×10³):</label>
+                    <select id="psofa-plq" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">≥ 150 (0)</option>
+                        <option value="1">100-149 (1)</option>
+                        <option value="2">50-99 (2)</option>
+                        <option value="3">20-49 (3)</option>
+                        <option value="4">< 20 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Bilirrubina (mg/dL):</label>
+                    <select id="psofa-bili" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">< 1.2 (0)</option>
+                        <option value="1">1.2-1.9 (1)</option>
+                        <option value="2">2.0-5.9 (2)</option>
+                        <option value="3">6.0-11.9 (3)</option>
+                        <option value="4">≥ 12 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAM / vasopresores:</label>
+                    <select id="psofa-pam" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">PAM ≥ 70 (0)</option>
+                        <option value="1">PAM < 70 (1)</option>
+                        <option value="2">Dopamina ≤ 5 o dobutamina (2)</option>
+                        <option value="3">Dopamina > 5 o noradrenalina ≤ 0.1 (3)</option>
+                        <option value="4">Dopamina > 15 o noradrenalina > 0.1 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Glasgow (GCS):</label>
+                    <select id="psofa-gcs" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">15 (0)</option>
+                        <option value="1">13-14 (1)</option>
+                        <option value="2">10-12 (2)</option>
+                        <option value="3">6-9 (3)</option>
+                        <option value="4">< 6 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Creatinina (mg/dL):</label>
+                    <select id="psofa-cr" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">< 1.2 (0)</option>
+                        <option value="1">1.2-1.9 (1)</option>
+                        <option value="2">2.0-3.4 (2)</option>
+                        <option value="3">3.5-4.9 (3)</option>
+                        <option value="4">≥ 5.0 (4)</option>
+                    </select></div>
+            </div>
+            <button onclick="calcPSOFA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular pSOFA</button>
+            <div id="psofa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">pSOFA ≥ 2 = sepsis pediátrica. ΔpSOFA ≥ 2 = deterioro.</p>
+        </div>
+    `
 }
+
 
 
 
@@ -12544,6 +12607,24 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+﻿        function calcPSOFA() {
+            const g = id => document.getElementById(id);
+            const pafi = parseInt(g('psofa-pafi')?.value || 0);
+            const plq = parseInt(g('psofa-plq')?.value || 0);
+            const bili = parseInt(g('psofa-bili')?.value || 0);
+            const pam = parseInt(g('psofa-pam')?.value || 0);
+            const gcs = parseInt(g('psofa-gcs')?.value || 0);
+            const cr = parseInt(g('psofa-cr')?.value || 0);
+            const total = pafi + plq + bili + pam + gcs + cr;
+            const res = g('psofa-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 2) interp = 'pSOFA >= 2 → sepsis pediátrica';
+            else interp = 'pSOFA < 2 → sin disfunción orgánica significativa';
+            res.innerHTML = '<div class="font-bold text-slate-800 dark:text-slate-200">pSOFA: ' + total + ' pts — ' + interp + '</div>';
+            res.classList.remove('hidden');
+        }
+
         function calcBrooke() {
             const g = id => document.getElementById(id);
             const peso = parseFloat(g('brooke-peso')?.value || 0);
