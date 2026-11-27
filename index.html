@@ -776,6 +776,8 @@
                                 </div>
                                 <div><label class="block font-medium text-slate-500 mb-0.5">Perímetro cefálico (cm):</label>
                                     <input id="ped-pc" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 45"></div>
+                                <div><label class="block font-medium text-slate-500 mb-0.5">Edad gestacional (sem, opcional):</label>
+                                    <input id="ped-eg" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 38"></div>
                                 <button onclick="calcCrecimiento()" class="w-full py-2 bg-pink-600 text-white font-bold rounded-xl mt-2">Evaluar crecimiento</button>
                                 <div id="ped-crec-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
                                 <div id="ped-crec-bars" class="hidden space-y-2"></div>
@@ -792,7 +794,7 @@
                                     <p class="text-[10px] leading-relaxed"><strong>4 años:</strong> salta en un pie, copia cruz, frases completas, interactúa con pares.</p>
                                     <p class="text-[10px] leading-relaxed"><strong>5 años:</strong> salta, copia triángulo, cuenta hasta 10, viste solo.</p>
                                 </div>
-                                <p class="text-[10px] text-slate-500 leading-relaxed">Percentiles según tablas OMS. Z-score: -2 a +2 = normal. < -2 = desnutrición/bajo peso. > +2 = sobrepeso/obesidad.</p>
+                                <p class="text-[10px] text-slate-500 leading-relaxed">Clasificación por indicador (Res. 2465/2016): P/E, T/E, P/T o IMC/E, PC/E. Longitud acostado < 2 años, talla de pie después. Referencias OMS 0-5 años y OMS 5-19 años cuando aplique. Z-score: -2 a +2 = normal. < -2 = bajo. > +2 = alto.</p>
                             </div>
                         </div>
                     </div>
@@ -808,20 +810,32 @@
                                     </tr></thead>
                                     <tbody class="text-slate-700 dark:text-slate-300">
                                         <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">Nacimiento</td><td class="py-1 pr-2">BCG + Hepatitis B</td><td class="py-1">1 dosis cada una</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">2 meses</td><td class="py-1 pr-2">Pentavalente + Rotavirus + Neumococo 10V + Polio (IPV)</td><td class="py-1">1 dosis cada una</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">4 meses</td><td class="py-1 pr-2">Pentavalente + Rotavirus + Neumococo 10V + Polio (IPV)</td><td class="py-1">1 dosis cada una</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">2 meses</td><td class="py-1 pr-2">Pentavalente + Rotavirus + Neumococo conjugado + Polio (IPV)</td><td class="py-1">1 dosis cada una</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">4 meses</td><td class="py-1 pr-2">Pentavalente + Rotavirus + Neumococo conjugado + Polio (IPV)</td><td class="py-1">1 dosis cada una</td></tr>
                                         <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">6 meses</td><td class="py-1 pr-2">Pentavalente + Polio (IPV) + Influenza</td><td class="py-1">1 dosis cada una</td></tr>
                                         <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">7 meses</td><td class="py-1 pr-2">Influenza (2ª dosis)</td><td class="py-1">1 dosis</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">12 meses</td><td class="py-1 pr-2">Neumococo 10V + Fiebre amarilla + Triple viral (SRP) + Hepatitis A</td><td class="py-1">1 dosis cada una</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">18 meses</td><td class="py-1 pr-2">Pentavalente (refuerzo) + Polio (IPV refuerzo) + DPT (refuerzo)</td><td class="py-1">1 dosis cada una</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">5 años</td><td class="py-1 pr-2">DPT (refuerzo) + Triple viral (SRP refuerzo)</td><td class="py-1">1 dosis cada una</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">9-17 años</td><td class="py-1 pr-2">VPH (virus del papiloma humano) — niñas y niños</td><td class="py-1">2 dosis (0 y 6 meses)</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">10 años</td><td class="py-1 pr-2">TD (tétanos-difteria)</td><td class="py-1">1 dosis (refuerzo)</td></tr>
-                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">15 años</td><td class="py-1 pr-2">TD (refuerzo)</td><td class="py-1">1 dosis</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">9 meses</td><td class="py-1 pr-2">Fiebre amarilla + Dengue (municipios priorizados)</td><td class="py-1">1 dosis cada una</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">12 meses</td><td class="py-1 pr-2">Neumococo conjugado (refuerzo) + Varicela 1ª dosis + Triple viral (SRP) + Hepatitis A</td><td class="py-1">1 dosis cada una</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">18 meses</td><td class="py-1 pr-2">Pentavalente (1er refuerzo) + VIP (1er refuerzo) + Triple viral (2ª dosis)</td><td class="py-1">1 dosis cada una</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">5 años</td><td class="py-1 pr-2">DPT (2º refuerzo) + VIP (2º refuerzo) + Varicela (refuerzo)</td><td class="py-1">1 dosis cada una</td></tr>
+                                        <tr class="border-t border-slate-100 dark:border-slate-700/60"><td class="py-1 pr-2 font-bold">9-17 años</td><td class="py-1 pr-2">VPH (virus del papiloma humano) — niñas y niños</td><td class="py-1">1 dosis (2 dosis solo en inmunocomprometidos)</td></tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <p class="text-[10px] text-slate-500 leading-relaxed">Esquema PAI Colombia. Verificar actualizaciones del Ministerio de Salud. Contraindicaciones: inmunodeficiencia severa para vacunas vivas, alergia a componentes, enfermedad aguda grave.</p>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
+                                <p class="font-bold text-teal-600 dark:text-teal-400 text-xs">Bloque de gestantes</p>
+                                <p class="text-[10px] leading-relaxed">Influenza (1 dosis), Tdap (1 dosis en cada embarazo, preferiblemente semanas 27-36), VSR ( semanas 28-36, temporada), COVID-19 (según esquema vigente). Td: 5 dosis para mujeres de 10 a 49 años, refuerzo cada 10 años (NO es refuerzo universal a los 10 y 15 años).</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-900/60 space-y-1.5">
+                                <p class="font-bold text-amber-700 dark:text-amber-300 text-xs">Notas importantes</p>
+                                <p class="text-[10px] leading-relaxed">• Neumococo: etiqueta "neumococo conjugado" (no "10V"). MinSalud anunció en sept 2026 una vacuna de 20 valencias para el primer semestre de 2027.</p>
+                                <p class="text-[10px] leading-relaxed">• Polio: solo inyectable (IPV). No se usa polio oral (OPV).</p>
+                                <p class="text-[10px] leading-relaxed">• Hexavalente: disponible en algunos sitios (según disponibilidad local).</p>
+                                <p class="text-[10px] leading-relaxed">• Dengue: solo en municipios priorizados (a los 9 años).</p>
+                                <p class="text-[10px] leading-relaxed">• Regla de rezagados: NO reiniciar el esquema. Continuar desde donde quedó.</p>
+                                <p class="text-[10px] leading-relaxed">• Contraindicaciones: inmunodeficiencia severa para vacunas vivas, alergia a componentes, enfermedad aguda grave.</p>
+                            </div>
+                            <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: MinSalud/PAI Colombia. Revisado: 26 nov 2026. Verificar actualizaciones del Ministerio de Salud.</p>
                         </div>
                     </div>
 
@@ -839,8 +853,12 @@
                                     <p class="mt-1">Inicio a los 6 meses. Alimentos ricos en hierro (carnes, legumbres, cereales fortificados). Textura progresiva (puré → picado → trozos). Evitar miel, leche de vaca, sal, azúcar.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <strong class="text-teal-600 dark:text-teal-400">Desnutrición aguda (SAM/MAM)</strong>
-                                    <p class="mt-1">SAM (desnutrición aguda severa): MUAC < 11.5 cm o peso/talla < -3 DE o edema bilateral. MAM (moderada): MUAC 11.5-12.5 cm o peso/talla -2 a -3 DE. Tratamiento: F-75 (fase 1), F-100 (fase 2), RUTF.</p>
+                                    <strong class="text-teal-600 dark:text-teal-400">Desnutrición aguda (SAM/MAM) — Res. 2350/2020</strong>
+                                    <p class="mt-1">Los cortes son para 6-59 meses. SAM complicada (hospital): F-75 (fase 1), F-100 (fase 2), antibiótico, manejo de complicaciones. SAM no complicada (ambulatoria): RUTF (alimento terapéutico listo para usar), prueba de apetito. MAM: suplementación nutricional, consejería.</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
+                                    <strong class="text-teal-600 dark:text-teal-400">Zinc en EDA</strong>
+                                    <p class="mt-1">10 mg/día si < 6 meses, 20 mg/día si ≥ 6 meses, por 10-14 días. Reducir duración y severidad de la diarrea.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Micronutrientes</strong>

@@ -7529,9 +7529,20 @@ function renderVademecum() {
             const peso = parseFloat(g('ped-peso')?.value || 0);
             const talla = parseFloat(g('ped-talla')?.value || 0);
             const pc = parseFloat(g('ped-pc')?.value || 0);
+            const eg = parseFloat(g('ped-eg')?.value || 0);
             const res = g('ped-crec-res');
             if (!res) return;
             if (!edad || !peso) { res.innerHTML = '<div class="font-bold text-amber-600">Ingresa al menos edad y peso.</div>'; res.classList.remove('hidden'); return; }
+            // Corrected age if preterm
+            let edadCorr = edad;
+            if (eg > 0 && eg < 37 && edad <= 24) {
+                const semanasPretermino = 40 - eg;
+                const mesesCorreccion = semanasPretermino / 4.33;
+                edadCorr = Math.max(0, edad - mesesCorreccion);
+                var html = `<div class="text-[10px] text-amber-600 dark:text-amber-400 mb-2">Edad corregida: ${edadCorr.toFixed(1)} meses (nació a las ${eg} semanas). Se usan percentiles para edad corregida.</div>`;
+            } else {
+                html = '';
+            }
 
             // Simplified WHO growth assessment (approximate Z-scores for key ages)
             // Weight-for-age median and SD for boys/girls (approximate from WHO tables)
@@ -7546,8 +7557,8 @@ function renderVademecum() {
                 return closest;
             }
 
-            const wMed = wMedians[sexo][closestKey(wMedians[sexo], edad)];
-            const wSd = wSD[sexo][closestKey(wSD[sexo], edad)];
+            const wMed = wMedians[sexo][closestKey(wMedians[sexo], edadCorr)];
+            const wSd = wSD[sexo][closestKey(wSD[sexo], edadCorr)];
             const wZ = (peso - wMed) / wSd;
 
             let wInterp = '';
@@ -7559,7 +7570,8 @@ function renderVademecum() {
             else if (wZ <= 3) wInterp = 'Sobrepeso (2 < Z ≤ 3)';
             else wInterp = 'Obesidad (Z > 3)';
 
-            let html = `<div class="font-bold text-slate-800 dark:text-slate-200">Peso: ${peso} kg — Z-score: ${wZ.toFixed(2)} — ${wInterp}</div>`;
+            html += `<div class="font-bold text-slate-800 dark:text-slate-200">Peso: ${peso} kg — Z-score: ${wZ.toFixed(2)} — ${wInterp}</div>`;
+            html += `<div class="text-[10px] text-slate-500 mt-1">Indicador P/E (peso para la edad): ${wZ.toFixed(2)} DE — ${wInterp}</div>`;
             // Visual bar for Z-score
             const barColor = wZ < -2 ? 'bg-rose-500' : wZ < -1 ? 'bg-amber-500' : wZ <= 1 ? 'bg-emerald-500' : wZ <= 2 ? 'bg-amber-500' : 'bg-rose-500';
             const barWidth = Math.min(100, Math.max(0, (wZ + 3) / 6 * 100));
@@ -7582,8 +7594,8 @@ function renderVademecum() {
                 // Height-for-age (approximate)
                 const hMedians = { m: {0:49.9,1:54.7,2:58.4,3:61.4,4:63.9,5:65.9,6:67.6,9:72.0,12:75.7,18:82.3,24:87.8,36:96.1,48:103.3,60:109.9}, f: {0:49.1,1:53.7,2:57.1,3:59.8,4:62.1,5:64.0,6:65.7,9:70.1,12:74.0,18:80.7,24:86.4,36:95.1,48:102.7,60:109.4} };
                 const hSD = { m: {0:1.9,1:2.0,2:2.1,3:2.2,4:2.3,5:2.4,6:2.4,9:2.6,12:2.8,18:3.1,24:3.3,36:3.7,48:4.1,60:4.5}, f: {0:1.9,1:2.0,2:2.0,3:2.1,4:2.2,5:2.3,6:2.3,9:2.5,12:2.7,18:3.0,24:3.2,36:3.6,48:4.0,60:4.4} };
-                const hMed = hMedians[sexo][closestKey(hMedians[sexo], edad)];
-                const hSd = hSD[sexo][closestKey(hSD[sexo], edad)];
+                const hMed = hMedians[sexo][closestKey(hMedians[sexo], edadCorr)];
+                const hSd = hSD[sexo][closestKey(hSD[sexo], edadCorr)];
                 const hZ = (talla - hMed) / hSd;
                 let hInterp = '';
                 if (hZ < -3) hInterp = 'Talla baja severa (Z < -3)';
@@ -7593,6 +7605,7 @@ function renderVademecum() {
                 else if (hZ <= 2) hInterp = 'Talla alta (1 < Z ≤ 2)';
                 else hInterp = 'Talla muy alta (Z > 2)';
                 html += `<div class="font-bold text-slate-800 dark:text-slate-200 mt-1">Talla: ${talla} cm — Z-score: ${hZ.toFixed(2)} — ${hInterp}</div>`;
+                html += `<div class="text-[10px] text-slate-500 mt-1">Indicador T/E (talla para la edad): ${hZ.toFixed(2)} DE — ${hInterp}</div>`;
             }
 
             if (pc > 0 && edad <= 24) {
