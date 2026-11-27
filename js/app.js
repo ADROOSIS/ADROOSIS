@@ -3622,7 +3622,129 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">Si algún criterio es positivo → radiografía de tobillo. Si todos negativos → no radiografía.</p>
         </div>
     `
+},
+{
+    id: 'rifle', cat: 'metabolico', title: 'RIFLE (Lesión renal aguda)',
+    desc: 'Clasificación de AKI por creatinina y diuresis (RIFLE).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cr basal (mg/dL):</label>
+                    <input id="rifle-cr-basal" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.0"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cr actual (mg/dL):</label>
+                    <input id="rifle-cr-actual" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 2.5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Diuresis (mL/kg/h):</label>
+                    <input id="rifle-diuresis" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 0.3"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Duración (h):</label>
+                    <input id="rifle-duracion" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
+            </div>
+            <button onclick="calcRIFLE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Clasificar RIFLE</button>
+            <div id="rifle-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">R: Cr 1.5× basal o diuresis < 0.5 × 6h. I: Cr 2× basal o diuresis < 0.5 × 12h. F: Cr 3× basal o Cr ≥ 4 o diuresis < 0.3 × 24h.</p>
+        </div>
+    `
+},
+{
+    id: 'akin', cat: 'metabolico', title: 'AKIN (Lesión renal aguda)',
+    desc: 'Clasificación de AKI por creatinina y diuresis (AKIN).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cr basal (mg/dL):</label>
+                    <input id="akin-cr-basal" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.0"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cr actual (mg/dL):</label>
+                    <input id="akin-cr-actual" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 2.5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Diuresis (mL/kg/h):</label>
+                    <input id="akin-diuresis" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 0.3"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Duración (h):</label>
+                    <input id="akin-duracion" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
+            </div>
+            <button onclick="calcAKIN()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Clasificar AKIN</button>
+            <div id="akin-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">AKIN 1: Cr 1.5-2× basal o ≥ 0.3 en 48h. AKIN 2: Cr 2-3× basal. AKIN 3: Cr > 3× basal o ≥ 4.0 o diálisis.</p>
+        </div>
+    `
+},
+{
+    id: 'prism', cat: 'urgencias', title: 'PRISM (Mortalidad pediátrica)',
+    desc: 'Pediatric Risk of Mortality (probabilidad de muerte).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Ingrese los valores del primer contacto en UCI.</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAS (mmHg):</label>
+                    <input id="prism-pas" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 90"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FC (lpm):</label>
+                    <input id="prism-fc" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 120"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FR (rpm):</label>
+                    <input id="prism-fr" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 30"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Glasgow:</label>
+                    <input id="prism-gcs" type="number" min="3" max="15" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="3-15"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Pupilas:</label>
+                    <select id="prism-pup" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Ambas reactivas (0)</option>
+                        <option value="1">Una fija/dilatada (1)</option>
+                        <option value="2">Ambas fijas/dilatadas (2)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaO₂ (mmHg):</label>
+                    <input id="prism-pao2" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 80"></div>
+            </div>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="prism-vent" class="cn-chk"> Ventilación mecánica</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="prism-conv" class="cn-chk"> Convulsiones</label>
+            <button onclick="calcPRISM()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PRISM</button>
+            <div id="prism-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">PRISM estima la probabilidad de muerte en UCI pediátrica. Requiere validación local.</p>
+        </div>
+    `
+},
+{
+    id: 'pelod', cat: 'urgencias', title: 'PELOD (Disfunción orgánica pediátrica)',
+    desc: 'Pediatric Logistic Organ Dysfunction (0-71).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Ingrese los valores del peor día en UCI.</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Glasgow:</label>
+                    <input id="pelod-gcs" type="number" min="3" max="15" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="3-15"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FC (lpm):</label>
+                    <input id="pelod-fc" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 120"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAS (mmHg):</label>
+                    <input id="pelod-pas" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 90"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaO₂ (mmHg):</label>
+                    <input id="pelod-pao2" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 80"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaCO₂ (mmHg):</label>
+                    <input id="pelod-paco2" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 40"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Creatinina (mg/dL):</label>
+                    <input id="pelod-cr" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.2"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Plaquetas (×10³):</label>
+                    <input id="pelod-plq" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 150"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Leucocitos (×10³):</label>
+                    <input id="pelod-leu" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 10"></div>
+            </div>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pelod-vent" class="cn-chk"> Ventilación mecánica</label>
+            <button onclick="calcPELOD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PELOD</button>
+            <div id="pelod-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">PELOD ≥ 20: alto riesgo de mortalidad. Requiere validación local.</p>
+        </div>
+    `
+},
+{
+    id: 'ps (phoenix)', cat: 'urgencias', title: 'Phoenix (Sepsis pediátrica)',
+    desc: 'Criterios de sepsis pediátrica (Phoenix).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Criterios de sepsis pediátrica (Phoenix 2024). Requiere disfunción orgánica.</p>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="phoenix-resp" class="cn-chk"> Disfunción respiratoria (PaO₂/FiO₂ < 400 o SatO₂/FiO₂ < 264)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="phoenix-cv" class="cn-chk"> Disfunción cardiovascular (hipotensión o vasopresor)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="phoenix-coag" class="cn-chk"> Disfunción de coagulación (plaquetas < 100 o INR > 1.5 o D-dímero elevado)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="phoenix-hep" class="cn-chk"> Disfunción hepática (bilirrubina > 1.0 o ALT > 2× normal)</label>
+            <button onclick="calcPhoenix()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar Phoenix</button>
+            <div id="phoenix-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Phoenix ≥ 2: sepsis. Phoenix ≥ 2 con cardiovascular: choque séptico.</p>
+        </div>
+    `
 }
+
 
 
 
@@ -12354,6 +12476,126 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcRIFLE() {
+            const g = id => document.getElementById(id);
+            const crBasal = parseFloat(g('rifle-cr-basal')?.value || 0);
+            const crActual = parseFloat(g('rifle-cr-actual')?.value || 0);
+            const diuresis = parseFloat(g('rifle-diuresis')?.value || 0);
+            const duracion = parseFloat(g('rifle-duracion')?.value || 0);
+            const res = g('rifle-res');
+            if (!res) return;
+            let estadio = 'Sin AKI';
+            if (crBasal > 0 && crActual > 0) {
+                const ratio = crActual / crBasal;
+                if (ratio >= 3 || crActual >= 4.0) estadio = 'Failure (F)';
+                else if (ratio >= 2.0) estadio = 'Injury (I)';
+                else if (ratio >= 1.5) estadio = 'Risk (R)';
+            }
+            if (diuresis > 0 && duracion >= 6) {
+                if (diuresis < 0.3 && duracion >= 24) estadio = 'Failure (F)';
+                else if (diuresis < 0.5 && duracion >= 12) estadio = estadio === 'Sin AKI' ? 'Injury (I)' : estadio;
+                else if (diuresis < 0.5 && duracion >= 6) estadio = estadio === 'Sin AKI' ? 'Risk (R)' : estadio;
+            }
+            const colors = { 'Sin AKI': 'text-emerald-700 dark:text-emerald-400', 'Risk (R)': 'text-amber-700 dark:text-amber-400', 'Injury (I)': 'text-rose-600 dark:text-rose-400', 'Failure (F)': 'text-rose-700 dark:text-rose-400' };
+            res.innerHTML = `<div class="font-bold ${colors[estadio]}">${estadio}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcAKIN() {
+            const g = id => document.getElementById(id);
+            const crBasal = parseFloat(g('akin-cr-basal')?.value || 0);
+            const crActual = parseFloat(g('akin-cr-actual')?.value || 0);
+            const diuresis = parseFloat(g('akin-diuresis')?.value || 0);
+            const duracion = parseFloat(g('akin-duracion')?.value || 0);
+            const res = g('akin-res');
+            if (!res) return;
+            let estadio = 0;
+            if (crBasal > 0 && crActual > 0) {
+                const ratio = crActual / crBasal;
+                if (ratio > 3 || crActual >= 4.0) estadio = 3;
+                else if (ratio >= 2.0) estadio = 2;
+                else if (ratio >= 1.5 || (crActual - crBasal >= 0.3)) estadio = 1;
+            }
+            if (diuresis > 0 && duracion >= 6) {
+                if (diuresis < 0.3 && duracion >= 24) estadio = Math.max(estadio, 3);
+                else if (diuresis < 0.5 && duracion >= 12) estadio = Math.max(estadio, 2);
+            }
+            const labels = ['Sin AKI', 'AKIN 1', 'AKIN 2', 'AKIN 3'];
+            const colors = ['text-emerald-700 dark:text-emerald-400', 'text-amber-700 dark:text-amber-400', 'text-rose-600 dark:text-rose-400', 'text-rose-700 dark:text-rose-400'];
+            res.innerHTML = `<div class="font-bold ${colors[estadio]}">${labels[estadio]}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcPRISM() {
+            const g = id => document.getElementById(id);
+            const pas = parseFloat(g('prism-pas')?.value || 0);
+            const fc = parseFloat(g('prism-fc')?.value || 0);
+            const fr = parseFloat(g('prism-fr')?.value || 0);
+            const gcs = parseFloat(g('prism-gcs')?.value || 0);
+            const pup = parseInt(g('prism-pup')?.value || 0);
+            const pao2 = parseFloat(g('prism-pao2')?.value || 0);
+            const vent = g('prism-vent')?.checked;
+            const conv = g('prism-conv')?.checked;
+            const res = g('prism-res');
+            if (!res) return;
+            let score = 0;
+            if (pas < 65) score += 6; else if (pas < 80) score += 3;
+            if (fc > 160 || fc < 80) score += 4;
+            if (fr > 60 || fr < 10) score += 4;
+            if (gcs < 8) score += 5; else if (gcs < 11) score += 3;
+            score += pup * 5;
+            if (pao2 < 50) score += 6; else if (pao2 < 70) score += 3;
+            if (vent) score += 3;
+            if (conv) score += 4;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">PRISM: ${score} pts</div><div class="text-[10px] text-slate-500 mt-1">Mayor score = mayor riesgo de mortalidad.</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcPELOD() {
+            const g = id => document.getElementById(id);
+            const gcs = parseFloat(g('pelod-gcs')?.value || 0);
+            const fc = parseFloat(g('pelod-fc')?.value || 0);
+            const pas = parseFloat(g('pelod-pas')?.value || 0);
+            const pao2 = parseFloat(g('pelod-pao2')?.value || 0);
+            const paco2 = parseFloat(g('pelod-paco2')?.value || 0);
+            const cr = parseFloat(g('pelod-cr')?.value || 0);
+            const plq = parseFloat(g('pelod-plq')?.value || 0);
+            const leu = parseFloat(g('pelod-leu')?.value || 0);
+            const vent = g('pelod-vent')?.checked;
+            const res = g('pelod-res');
+            if (!res) return;
+            let score = 0;
+            if (gcs < 7) score += 21; else if (gcs < 11) score += 10;
+            if (fc > 160 || fc < 60) score += 4;
+            if (pas < 65) score += 6; else if (pas < 80) score += 3;
+            if (pao2 < 50) score += 6; else if (pao2 < 70) score += 3;
+            if (paco2 > 60) score += 4;
+            if (cr > 1.4) score += 4;
+            if (plq < 50) score += 4;
+            if (leu < 2 || leu > 40) score += 4;
+            if (vent) score += 3;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">PELOD: ${score} pts</div><div class="text-[10px] text-slate-500 mt-1">PELOD ≥ 20: alto riesgo de mortalidad.</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcPhoenix() {
+            const g = id => document.getElementById(id);
+            const resp = g('phoenix-resp')?.checked;
+            const cv = g('phoenix-cv')?.checked;
+            const coag = g('phoenix-coag')?.checked;
+            const hep = g('phoenix-hep')?.checked;
+            const count = [resp, cv, coag, hep].filter(Boolean).length;
+            const res = g('phoenix-res');
+            if (!res) return;
+            let interp = '';
+            if (count >= 2) {
+                if (cv) interp = 'Choque séptico (Phoenix ≥ 2 con disfunción cardiovascular)';
+                else interp = 'Sepsis (Phoenix ≥ 2)';
+            } else if (count === 1) interp = 'Disfunción orgánica (1 criterio) — monitorizar';
+            else interp = 'Sin disfunción orgánica';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">${interp} (${count}/4 criterios)</div>`;
+            res.classList.remove('hidden');
+        }
         function calcGeneva() {
             const g = id => document.getElementById(id);
             let score = 0;
