@@ -7513,14 +7513,7 @@ function renderVademecum() {
             if (el) el.textContent = `${checked} / ${total} hitos marcados (${Math.round(checked/total*100)}%)`;
         }
 
-        function updateVacProgress() {
-            const checked = document.querySelectorAll('.vac-chk:checked').length;
-            const total = document.querySelectorAll('.vac-chk').length;
-            const fill = document.getElementById('vac-progress-fill');
-            const txt = document.getElementById('vac-progress-txt');
-            if (fill) fill.style.width = (checked/total*100) + '%';
-            if (txt) txt.textContent = `${checked} / ${total} vacunas (${Math.round(checked/total*100)}%)`;
-        }
+        // (updateVacProgress removed - vaccheck tab no longer exists)
 
         function calcCrecimiento() {
             const g = id => document.getElementById(id);
@@ -7632,7 +7625,7 @@ function renderVademecum() {
             if (targetView) targetView.classList.remove('hidden');
             const targetBtn = document.getElementById(`btn-pedsub-${subTab}`);
             if (targetBtn) {
-                targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
                 targetBtn.classList.add('bg-pink-600', 'text-white', 'shadow-lg', 'ring-2', 'ring-pink-300', 'dark:ring-pink-800', 'scale-105');
             }
             if (subTab === 'desarrollo') updateDevProgress();
@@ -7691,11 +7684,7 @@ function switchTab(tabId) {
                 document.querySelectorAll('.dev-chk').forEach(cb => {
                     cb.onchange = updateDevProgress;
                 });
-                document.querySelectorAll('.vac-chk').forEach(cb => {
-                    cb.onchange = updateVacProgress;
-                });
                 updateDevProgress();
-                updateVacProgress();
             }
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'neurologico') neuroRender();
