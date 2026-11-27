@@ -7605,13 +7605,13 @@ function renderVademecum() {
         }
 
         function switchPedSubTab(subTab) {
-            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato', 'desarrollo', 'vaccheck'];
+            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato', 'desarrollo'];
             views.forEach(v => {
                 const viewEl = document.getElementById(`ped-view-${v}`);
                 if (viewEl) viewEl.classList.add('hidden');
                 const btnEl = document.getElementById(`btn-pedsub-${v}`);
                 if (btnEl) {
-                    btnEl.classList.remove('bg-pink-600', 'text-white', 'shadow');
+                    btnEl.classList.remove('bg-pink-600', 'text-white', 'shadow', 'shadow-lg', 'ring-2', 'ring-pink-300', 'dark:ring-pink-800', 'scale-105');
                     btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
                 }
             });
@@ -7620,10 +7620,9 @@ function renderVademecum() {
             const targetBtn = document.getElementById(`btn-pedsub-${subTab}`);
             if (targetBtn) {
                 targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
-                targetBtn.classList.add('bg-pink-600', 'text-white', 'shadow');
+                targetBtn.classList.add('bg-pink-600', 'text-white', 'shadow-lg', 'ring-2', 'ring-pink-300', 'dark:ring-pink-800', 'scale-105');
             }
             if (subTab === 'desarrollo') updateDevProgress();
-            if (subTab === 'vaccheck') updateVacProgress();
         }
 
         // NAVIGATION & TAB SWITCHING

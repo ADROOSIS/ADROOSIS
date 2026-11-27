@@ -738,7 +738,7 @@
                     </div>
 
                     <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
-                        <button onclick="switchPedSubTab('crecimiento')" id="btn-pedsub-crecimiento" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-pink-600 text-white shadow transition-all shrink-0">
+                        <button onclick="switchPedSubTab('crecimiento')" id="btn-pedsub-crecimiento" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-pink-600 text-white shadow-lg ring-2 ring-pink-300 dark:ring-pink-800 scale-105 transition-all shrink-0">
                             <i class="fa-solid fa-chart-line"></i> Crecimiento
                         </button>
                         <button onclick="switchPedSubTab('vacunacion')" id="btn-pedsub-vacunacion" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
@@ -753,9 +753,7 @@
                         <button onclick="switchPedSubTab('desarrollo')" id="btn-pedsub-desarrollo" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
                             <i class="fa-solid fa-child-reaching"></i> Desarrollo
                         </button>
-                        <button onclick="switchPedSubTab('vaccheck')" id="btn-pedsub-vaccheck" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
-                            <i class="fa-solid fa-clipboard-check"></i> Checklist vacunas
-                        </button>
+
                     </div>
 
                     <!-- Crecimiento -->
@@ -966,46 +964,7 @@
                         </div>
                     </div>
 
-                    <!-- Checklist vacunas -->
-                    <div id="ped-view-vaccheck" class="space-y-4 hidden">
-                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Checklist de vacunación</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Marca las vacunas que el niño ya recibió. El progreso se actualiza automáticamente.</p>
-                            <div id="vac-progress-bar" class="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
-                                <div id="vac-progress-fill" class="h-full bg-pink-500 transition-all" style="width: 0%"></div>
-                            </div>
-                            <div id="vac-progress-txt" class="text-[11px] font-bold text-pink-600 dark:text-pink-400 text-center">0 / 0 vacunas</div>
-                            <div class="space-y-2" id="vac-checklist">
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="bcg"> BCG (nacimiento)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="hepb"> Hepatitis B (nacimiento)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta1"> Pentavalente 1ª (2 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="rota1"> Rotavirus 1ª (2 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="neumo1"> Neumococo 10V 1ª (2 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio1"> Polio IPV 1ª (2 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta2"> Pentavalente 2ª (4 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="rota2"> Rotavirus 2ª (4 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="neumo2"> Neumococo 10V 2ª (4 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio2"> Polio IPV 2ª (4 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta3"> Pentavalente 3ª (6 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio3"> Polio IPV 3ª (6 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="infl1"> Influenza 1ª (6 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="infl2"> Influenza 2ª (7 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="neumo3"> Neumococo 10V 3ª (12 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="fa"> Fiebre amarilla (12 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="srp1"> Triple viral SRP 1ª (12 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="hepa"> Hepatitis A (12 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta4"> Pentavalente refuerzo (18 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio4"> Polio IPV refuerzo (18 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="dpt1"> DPT refuerzo (18 meses)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="dpt2"> DPT refuerzo (5 años)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="srp2"> Triple viral SRP refuerzo (5 años)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="vph1"> VPH 1ª (9-17 años)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="vph2"> VPH 2ª (9-17 años)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="td1"> TD refuerzo (10 años)</label>
-                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="td2"> TD refuerzo (15 años)</label>
-                            </div>
-                        </div>
-                    </div>
+
 
                     </div>
                 </section>
