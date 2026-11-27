@@ -2890,7 +2890,302 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">AIMS65 ≥ 2: alto riesgo de mortalidad. Requiere UCI y manejo agresivo.</p>
         </div>
     `
+},
+{
+    id: 'phq9', cat: 'neuro', title: 'PHQ-9 (Depresión)',
+    desc: 'Cuestionario de 9 ítems para tamizaje y severidad de depresión.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">En las últimas 2 semanas, ¿con qué frecuencia ha tenido estos problemas?</p>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">1. Poco interés o placer en hacer cosas:</label>
+                <select id="phq9-q1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">2. Sentirse deprimido/a o sin esperanza:</label>
+                <select id="phq9-q2" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">3. Problemas para dormir o dormir demasiado:</label>
+                <select id="phq9-q3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">4. Cansancio o falta de energía:</label>
+                <select id="phq9-q4" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">5. Poco apetito o comer en exceso:</label>
+                <select id="phq9-q5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">6. Sentirse mal consigo mismo/a:</label>
+                <select id="phq9-q6" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">7. Dificultad para concentrarse:</label>
+                <select id="phq9-q7" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">8. Moverse o hablar muy lento/rápido:</label>
+                <select id="phq9-q8" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">9. Pensamientos de muerte o suicidio:</label>
+                <select id="phq9-q9" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <button onclick="calcPHQ9()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PHQ-9</button>
+            <div id="phq9-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">PHQ-9 ≥ 10: depresión moderada. ≥ 15: moderadamente severa. ≥ 20: severa. Pregunta 9 positiva: evaluar riesgo suicida.</p>
+        </div>
+    `
+},
+{
+    id: 'gad7', cat: 'neuro', title: 'GAD-7 (Ansiedad generalizada)',
+    desc: 'Cuestionario de 7 ítems para tamizaje de ansiedad generalizada.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">En las últimas 2 semanas, ¿con qué frecuencia ha tenido estos problemas?</p>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">1. Sentirse nervioso/a, ansioso/a o al límite:</label>
+                <select id="gad7-q1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">2. No poder dejar de preocuparse:</label>
+                <select id="gad7-q2" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">3. Preocuparse demasiado por diferentes cosas:</label>
+                <select id="gad7-q3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">4. Dificultad para relajarse:</label>
+                <select id="gad7-q4" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">5. Estar tan inquieto/a que no puede quedarse quieto/a:</label>
+                <select id="gad7-q5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">6. Irritarse o enojarse fácilmente:</label>
+                <select id="gad7-q6" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">7. Sentir miedo de que algo terrible va a pasar:</label>
+                <select id="gad7-q7" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Varios días (1)</option>
+                    <option value="2">Más de la mitad de los días (2)</option>
+                    <option value="3">Casi todos los días (3)</option>
+                </select>
+            </div>
+            <button onclick="calcGAD7()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular GAD-7</button>
+            <div id="gad7-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">GAD-7 ≥ 5: ansiedad leve. ≥ 10: moderada. ≥ 15: severa.</p>
+        </div>
+    `
+},
+{
+    id: 'auditc', cat: 'neuro', title: 'AUDIT-C (Consumo de alcohol)',
+    desc: 'Tamizaje de consumo de alcohol de riesgo (3 preguntas).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">1. ¿Con qué frecuencia consume bebidas alcohólicas?</label>
+                <select id="auditc-q1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">1 vez al mes o menos (1)</option>
+                    <option value="2">2-4 veces al mes (2)</option>
+                    <option value="3">2-3 veces por semana (3)</option>
+                    <option value="4">4 o más veces por semana (4)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">2. ¿Cuántas bebidas consume en un día típico de consumo?</label>
+                <select id="auditc-q2" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">1-2 (0)</option>
+                    <option value="1">3-4 (1)</option>
+                    <option value="2">5-6 (2)</option>
+                    <option value="3">7-9 (3)</option>
+                    <option value="4">10 o más (4)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">3. ¿Con qué frecuencia consume 6 o más bebidas en una ocasión?</label>
+                <select id="auditc-q3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Nunca (0)</option>
+                    <option value="1">Menos de 1 vez al mes (1)</option>
+                    <option value="2">1 vez al mes (2)</option>
+                    <option value="3">1 vez por semana (3)</option>
+                    <option value="4">Diariamente o casi (4)</option>
+                </select>
+            </div>
+            <button onclick="calcAUDITC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular AUDIT-C</button>
+            <div id="auditc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Hombres: ≥ 4 = consumo de riesgo. Mujeres: ≥ 3 = consumo de riesgo. Requiere intervención breve.</p>
+        </div>
+    `
+},
+{
+    id: 'moca', cat: 'neuro', title: 'MoCA (Montreal Cognitive Assessment)',
+    desc: 'Tamizaje cognitivo (0-30). Más sensible que MMSE para deterioro leve.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Ingrese el puntaje obtenido en cada dominio.</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Visuoespacial/Ejecutivo (0-5):</label>
+                    <input id="moca-ve" type="number" min="0" max="5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Denominación (0-3):</label>
+                    <input id="moca-den" type="number" min="0" max="3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-3"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Atención (0-6):</label>
+                    <input id="moca-at" type="number" min="0" max="6" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-6"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Lenguaje (0-3):</label>
+                    <input id="moca-len" type="number" min="0" max="3" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-3"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Abstracción (0-2):</label>
+                    <input id="moca-abs" type="number" min="0" max="2" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-2"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Recuerdo diferido (0-5):</label>
+                    <input id="moca-rec" type="number" min="0" max="5" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Orientación (0-6):</label>
+                    <input id="moca-ori" type="number" min="0" max="6" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-6"></div>
+            </div>
+            <button onclick="calcMoCA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular MoCA</button>
+            <div id="moca-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">MoCA ≥ 26: normal. 18-25: deterioro cognitivo leve. < 18: deterioro moderado-severo. Añadir 1 punto si ≤ 12 años de educación.</p>
+        </div>
+    `
+},
+{
+    id: 'cam', cat: 'neuro', title: 'CAM (Confusion Assessment Method - Delirium)',
+    desc: 'Tamizaje de delirium en hospitalizados.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">El CAM requiere: (1) inicio agudo y curso fluctuante, (2) inatención, y (3) pensamiento desorganizado O (4) alteración del nivel de conciencia.</p>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cam-1" class="cn-chk"> 1. Inicio agudo y curso fluctuante</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cam-2" class="cn-chk"> 2. Inatención</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cam-3" class="cn-chk"> 3. Pensamiento desorganizado</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cam-4" class="cn-chk"> 4. Alteración del nivel de conciencia</label>
+            <button onclick="calcCAM()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar CAM</button>
+            <div id="cam-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">CAM positivo: criterios 1 + 2 + (3 o 4). Indica delirium. Requiere evaluación y tratamiento de la causa.</p>
+        </div>
+    `
+},
+{
+    id: '4at', cat: 'neuro', title: '4AT (Delirium)',
+    desc: 'Tamizaje rápido de delirium (0-12). ≥ 4 = probable delirium.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Alertness (0-4):</label>
+                <select id="4at-alert" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Normal (0)</option>
+                    <option value="4">Alterado (4)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">AMT4 (0-2):</label>
+                <select id="4at-amt" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">4 correctas (0)</option>
+                    <option value="1">1-3 correctas (1)</option>
+                    <option value="2">0 correctas (2)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Atención (0-2):</label>
+                <select id="4at-at" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Normal (0)</option>
+                    <option value="1">Alteración leve (1)</option>
+                    <option value="2">Alteración marcada (2)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Cambio agudo o fluctuante (0-4):</label>
+                <select id="4at-cambio" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">No (0)</option>
+                    <option value="4">Sí (4)</option>
+                </select>
+            </div>
+            <button onclick="calc4AT()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular 4AT</button>
+            <div id="4at-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">4AT 0: delirium improbable. 1-3: posible deterioro cognitivo. ≥ 4: probable delirium.</p>
+        </div>
+    `
 }
+
   
 
             ];
@@ -11618,6 +11913,107 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcPHQ9() {
+            const g = id => document.getElementById(id);
+            let total = 0;
+            for (let i = 1; i <= 9; i++) total += parseInt(g(`phq9-q${i}`)?.value || 0);
+            const res = g('phq9-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 20) interp = 'Depresión severa';
+            else if (total >= 15) interp = 'Depresión moderadamente severa';
+            else if (total >= 10) interp = 'Depresión moderada';
+            else if (total >= 5) interp = 'Depresión leve';
+            else interp = 'Sin depresión significativa';
+            const q9 = parseInt(g('phq9-q9')?.value || 0);
+            const alerta = q9 > 0 ? ' ⚠ Pregunta 9 positiva: evaluar riesgo suicida.' : '';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">PHQ-9: ${total}/27 — ${interp}${alerta}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcGAD7() {
+            const g = id => document.getElementById(id);
+            let total = 0;
+            for (let i = 1; i <= 7; i++) total += parseInt(g(`gad7-q${i}`)?.value || 0);
+            const res = g('gad7-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 15) interp = 'Ansiedad severa';
+            else if (total >= 10) interp = 'Ansiedad moderada';
+            else if (total >= 5) interp = 'Ansiedad leve';
+            else interp = 'Sin ansiedad significativa';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">GAD-7: ${total}/21 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcAUDITC() {
+            const g = id => document.getElementById(id);
+            const q1 = parseInt(g('auditc-q1')?.value || 0);
+            const q2 = parseInt(g('auditc-q2')?.value || 0);
+            const q3 = parseInt(g('auditc-q3')?.value || 0);
+            const total = q1 + q2 + q3;
+            const res = g('auditc-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 4) interp = 'Consumo de riesgo (hombres: ≥ 4, mujeres: ≥ 3)';
+            else interp = 'Consumo de bajo riesgo';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">AUDIT-C: ${total}/12 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcMoCA() {
+            const g = id => document.getElementById(id);
+            const ve = parseInt(g('moca-ve')?.value || 0);
+            const den = parseInt(g('moca-den')?.value || 0);
+            const at = parseInt(g('moca-at')?.value || 0);
+            const len = parseInt(g('moca-len')?.value || 0);
+            const abs = parseInt(g('moca-abs')?.value || 0);
+            const rec = parseInt(g('moca-rec')?.value || 0);
+            const ori = parseInt(g('moca-ori')?.value || 0);
+            const total = ve + den + at + len + abs + rec + ori;
+            const res = g('moca-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 26) interp = 'Normal (≥ 26)';
+            else if (total >= 18) interp = 'Deterioro cognitivo leve (18-25)';
+            else interp = 'Deterioro moderado-severo (< 18)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">MoCA: ${total}/30 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcCAM() {
+            const g = id => document.getElementById(id);
+            const c1 = g('cam-1')?.checked;
+            const c2 = g('cam-2')?.checked;
+            const c3 = g('cam-3')?.checked;
+            const c4 = g('cam-4')?.checked;
+            const positivo = c1 && c2 && (c3 || c4);
+            const res = g('cam-res');
+            if (!res) return;
+            if (positivo) {
+                res.innerHTML = `<div class="font-bold text-rose-700 dark:text-rose-400">CAM positivo → DELIRIUM. Evaluar y tratar la causa.</div>`;
+            } else {
+                res.innerHTML = `<div class="font-bold text-emerald-700 dark:text-emerald-400">CAM negativo → sin delirium.</div>`;
+            }
+            res.classList.remove('hidden');
+        }
+
+        function calc4AT() {
+            const g = id => document.getElementById(id);
+            const alert = parseInt(g('4at-alert')?.value || 0);
+            const amt = parseInt(g('4at-amt')?.value || 0);
+            const at = parseInt(g('4at-at')?.value || 0);
+            const cambio = parseInt(g('4at-cambio')?.value || 0);
+            const total = alert + amt + at + cambio;
+            const res = g('4at-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 4) interp = 'Probable delirium (≥ 4)';
+            else if (total >= 1) interp = 'Posible deterioro cognitivo (1-3)';
+            else interp = 'Delirium improbable (0)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">4AT: ${total}/12 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
         function calcNEWS2() {
             const g = id => document.getElementById(id);
             const fr = parseInt(g('news2-fr')?.value || 0);
