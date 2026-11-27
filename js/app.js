@@ -7625,7 +7625,7 @@ function renderVademecum() {
                 const btnEl = document.getElementById(`btn-pedsub-${v}`);
                 if (btnEl) {
                     btnEl.classList.remove('bg-pink-600', 'text-white', 'shadow', 'shadow-lg', 'ring-2', 'ring-pink-300', 'dark:ring-pink-800', 'scale-105');
-                    btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                    btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
                 }
             });
             const targetView = document.getElementById(`ped-view-${subTab}`);
