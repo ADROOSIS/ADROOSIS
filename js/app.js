@@ -7618,7 +7618,7 @@ function renderVademecum() {
         }
 
         function switchPedSubTab(subTab) {
-            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato', 'desarrollo'];
+            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato', 'desarrollo', 'signosvitales', 'tamizajeneonatal', 'lactancia'];
             views.forEach(v => {
                 const viewEl = document.getElementById(`ped-view-${v}`);
                 if (viewEl) viewEl.classList.add('hidden');
