@@ -2626,7 +2626,272 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                             <div id="epoc-anth-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
                             <p class="text-[10px] text-slate-500">Anthonisen describe síntomas cardinales. La decisión de antibiótico requiere integrar gravedad, purulencia, ventilación, diagnósticos diferenciales y guía local.</p>
                         </div>`
-                }  
+                },
+// === CALCULADORAS: LOTE 1 (urgencias/crítico) ===
+// Insertar en calcsData (antes del cierre ]) y las funciones calcX() después de calcLiquidosPed
+
+// --- calcsData entries ---
+{
+    id: 'news2', cat: 'urgencias', title: 'NEWS2 (National Early Warning Score)',
+    desc: 'Puntuación de deterioro clínico para detectar sepsis y deterioro.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">FR (rpm):</label>
+                    <select id="news2-fr" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">12-20 (0)</option>
+                        <option value="1">< 12 o 21-24 (1)</option>
+                        <option value="2">9-11 o 25-30 (2)</option>
+                        <option value="3">< 9 o > 30 (3)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">SatO₂ (%):</label>
+                    <select id="news2-sat" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">≥ 96 (0)</option>
+                        <option value="1">94-95 (1)</option>
+                        <option value="2">92-93 (2)</option>
+                        <option value="3">< 92 (3)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Temp (°C):</label>
+                    <select id="news2-t" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">36.1-38.0 (0)</option>
+                        <option value="1">35.1-36.0 o 38.1-39.0 (1)</option>
+                        <option value="2">< 35.1 o > 39.0 (2)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAS (mmHg):</label>
+                    <select id="news2-pas" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">111-219 (0)</option>
+                        <option value="1">101-110 (1)</option>
+                        <option value="2">91-100 (2)</option>
+                        <option value="3">< 91 (3)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FC (lpm):</label>
+                    <select id="news2-fc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">51-90 (0)</option>
+                        <option value="1">41-50 o 91-110 (1)</option>
+                        <option value="2">< 41 o 111-130 (2)</option>
+                        <option value="3">> 130 (3)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Conciencia:</label>
+                    <select id="news2-avpu" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Alerta (0)</option>
+                        <option value="3">Voz, dolor o inconsciente (3)</option>
+                    </select></div>
+            </div>
+            <button onclick="calcNEWS2()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular NEWS2</button>
+            <div id="news2-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">NEWS2 ≥ 5 o cualquier parámetro con 3 puntos = riesgo alto. Activar respuesta rápida.</p>
+        </div>
+    `
+},
+{
+    id: 'sofa', cat: 'urgencias', title: 'SOFA (Sequential Organ Failure Assessment)',
+    desc: 'Evaluación de disfunción orgánica en sepsis. Score ≥ 2 = sepsis.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaO₂/FiO₂:</label>
+                    <select id="sofa-pafi" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">≥ 400 (0)</option>
+                        <option value="1">300-399 (1)</option>
+                        <option value="2">200-299 (2)</option>
+                        <option value="3">100-199 (3)</option>
+                        <option value="4">< 100 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Plaquetas (×10³):</label>
+                    <select id="sofa-plq" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">≥ 150 (0)</option>
+                        <option value="1">100-149 (1)</option>
+                        <option value="2">50-99 (2)</option>
+                        <option value="3">20-49 (3)</option>
+                        <option value="4">< 20 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Bilirrubina (mg/dL):</label>
+                    <select id="sofa-bili" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">< 1.2 (0)</option>
+                        <option value="1">1.2-1.9 (1)</option>
+                        <option value="2">2.0-5.9 (2)</option>
+                        <option value="3">6.0-11.9 (3)</option>
+                        <option value="4">≥ 12 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAM / vasopresores:</label>
+                    <select id="sofa-pam" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">PAM ≥ 70 (0)</option>
+                        <option value="1">PAM < 70 (1)</option>
+                        <option value="2">Dopamina ≤ 5 o dobutamina (2)</option>
+                        <option value="3">Dopamina > 5 o noradrenalina ≤ 0.1 (3)</option>
+                        <option value="4">Dopamina > 15 o noradrenalina > 0.1 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Glasgow (GCS):</label>
+                    <select id="sofa-gcs" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">15 (0)</option>
+                        <option value="1">13-14 (1)</option>
+                        <option value="2">10-12 (2)</option>
+                        <option value="3">6-9 (3)</option>
+                        <option value="4">< 6 (4)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Creatinina (mg/dL):</label>
+                    <select id="sofa-cr" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">< 1.2 (0)</option>
+                        <option value="1">1.2-1.9 (1)</option>
+                        <option value="2">2.0-3.4 (2)</option>
+                        <option value="3">3.5-4.9 (3)</option>
+                        <option value="4">≥ 5.0 (4)</option>
+                    </select></div>
+            </div>
+            <button onclick="calcSOFA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular SOFA</button>
+            <div id="sofa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">SOFA ≥ 2 = sepsis. ΔSOFA ≥ 2 = deterioro. Mortalidad aumenta con el score.</p>
+        </div>
+    `
+},
+{
+    id: 'wells-tep', cat: 'urgencias', title: 'Wells para TEP (probabilidad clínica)',
+    desc: 'Estratificación de probabilidad clínica de tromboembolismo pulmonar.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-tvp" class="cn-chk"> Signos clínicos de TVP (+3)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-alt" class="cn-chk"> TEP más probable que alternativa (+3)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-fc" class="cn-chk"> FC > 100 lpm (+1.5)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-inm" class="cn-chk"> Inmovilización o cirugía en 4 semanas (+1.5)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-hem" class="cn-chk"> Hemoptisis (+1)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-can" class="cn-chk"> Cáncer activo (+1)</label>
+            <button onclick="calcWellsTEP()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Wells TEP</button>
+            <div id="wells-tep-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Wells > 4 = probabilidad alta. Wells ≤ 4 = probabilidad baja/intermedia → D-dímero.</p>
+        </div>
+    `
+},
+{
+    id: 'perc', cat: 'urgencias', title: 'PERC (Pulmonary Embolism Rule-Out Criteria)',
+    desc: 'Excluir TEP en pacientes de bajo riesgo sin pruebas adicionales.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Solo usar si el paciente tiene probabilidad pre-test baja (< 15%). Todos los criterios deben cumplirse para excluir TEP.</p>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-edad" class="cn-chk"> Edad ≥ 50 años</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-fc" class="cn-chk"> FC ≥ 100 lpm</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-sat" class="cn-chk"> SatO₂ < 95%</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-hem" class="cn-chk"> Hemoptisis</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-est" class="cn-chk"> Uso de estrógenos</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-tvp" class="cn-chk"> TVP o TEP previo</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-trauma" class="cn-chk"> Cirugía o trauma en 4 semanas</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-unilat" class="cn-chk"> Edema unilateral de pierna</label>
+            <button onclick="calcPERC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar PERC</button>
+            <div id="perc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+        </div>
+    `
+},
+{
+    id: 'pesi', cat: 'urgencias', title: 'PESI / sPESI (Severidad de TEP)',
+    desc: 'Predicción de mortalidad a 30 días en TEP.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Edad (años):</label>
+                    <input id="pesi-edad" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 65"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FC (lpm):</label>
+                    <input id="pesi-fc" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 90"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAS (mmHg):</label>
+                    <input id="pesi-pas" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 120"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">SatO₂ (%):</label>
+                    <input id="pesi-sat" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 95"></div>
+            </div>
+            <div class="space-y-1">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pesi-can" class="cn-chk"> Cáncer activo (+30)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pesi-ic" class="cn-chk"> Insuficiencia cardíaca (+10)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pesi-enf" class="cn-chk"> Enfermedad pulmonar crónica (+10)</label>
+            </div>
+            <button onclick="calcPESI()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PESI</button>
+            <div id="pesi-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">PESI clase I-II (≤ 85): bajo riesgo, considerar manejo ambulatorio. sPESI: 0 = bajo riesgo.</p>
+        </div>
+    `
+},
+{
+    id: 'glasgow-blatchford', cat: 'urgencias', title: 'Glasgow-Blatchford (Hemorragia digestiva alta)',
+    desc: 'Predicción de necesidad de intervención en hemorragia digestiva alta.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Urea (mg/dL):</label>
+                    <input id="gb-urea" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 30"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Hb (g/dL):</label>
+                    <input id="gb-hb" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAS (mmHg):</label>
+                    <input id="gb-pas" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 110"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FC (lpm):</label>
+                    <input id="gb-fc" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 80"></div>
+            </div>
+            <div class="space-y-1">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="gb-melena" class="cn-chk"> Melena (+1)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="gb-sincope" class="cn-chk"> Síncope (+2)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="gb-hepatic" class="cn-chk"> Enfermedad hepática (+2)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="gb-cardiac" class="cn-chk"> Insuficiencia cardíaca (+2)</label>
+            </div>
+            <button onclick="calcGlasgowBlatchford()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Glasgow-Blatchford</button>
+            <div id="gb-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Score 0-1: bajo riesgo, puede manejarse ambulatoriamente. Score ≥ 2: requiere hospitalización.</p>
+        </div>
+    `
+},
+{
+    id: 'rockall', cat: 'urgencias', title: 'Rockall (Hemorragia digestiva alta)',
+    desc: 'Predicción de mortalidad y resangrado en hemorragia digestiva alta.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Edad:</label>
+                    <select id="rock-edad" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">< 60 años (0)</option>
+                        <option value="1">60-79 años (1)</option>
+                        <option value="2">≥ 80 años (2)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Shock:</label>
+                    <select id="rock-shock" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Sin shock (0)</option>
+                        <option value="1">Taquicardia (1)</option>
+                        <option value="2">Hipotensión (2)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Comorbilidad:</label>
+                    <select id="rock-com" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Ninguna (0)</option>
+                        <option value="2">Cardiopatía/otra mayor (2)</option>
+                        <option value="3">Falla renal/hepática/malignidad (3)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Diagnóstico endoscópico:</label>
+                    <select id="rock-dx" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Mallory-Weiss o sin lesión (0)</option>
+                        <option value="1">Todos los demás (1)</option>
+                        <option value="2">Malignidad (2)</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Sangrado:</label>
+                    <select id="rock-sang" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Sin sangrado (0)</option>
+                        <option value="2">Sangrado activo (2)</option>
+                    </select></div>
+            </div>
+            <button onclick="calcRockall()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Rockall</button>
+            <div id="rockall-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Rockall ≤ 2: bajo riesgo. Rockall ≥ 3: alto riesgo de resangrado/mortalidad.</p>
+        </div>
+    `
+},
+{
+    id: 'aims65', cat: 'urgencias', title: 'AIMS65 (Hemorragia digestiva alta)',
+    desc: 'Predicción de mortalidad hospitalaria en hemorragia digestiva alta.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-alb" class="cn-chk"> Albúmina < 3.0 g/dL (+1)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-inr" class="cn-chk"> INR > 1.5 (+1)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-pas" class="cn-chk"> PAS ≤ 90 mmHg (+1)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-edad" class="cn-chk"> Edad > 65 años (+1)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-alt" class="cn-chk"> Alteración del estado mental (+1)</label>
+            <button onclick="calcAIMS65()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular AIMS65</button>
+            <div id="aims65-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">AIMS65 ≥ 2: alto riesgo de mortalidad. Requiere UCI y manejo agresivo.</p>
+        </div>
+    `
+}
+  
 
             ];
 
@@ -11353,4 +11618,163 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcNEWS2() {
+            const g = id => document.getElementById(id);
+            const fr = parseInt(g('news2-fr')?.value || 0);
+            const sat = parseInt(g('news2-sat')?.value || 0);
+            const t = parseInt(g('news2-t')?.value || 0);
+            const pas = parseInt(g('news2-pas')?.value || 0);
+            const fc = parseInt(g('news2-fc')?.value || 0);
+            const avpu = parseInt(g('news2-avpu')?.value || 0);
+            const total = fr + sat + t + pas + fc + avpu;
+            const res = g('news2-res');
+            if (!res) return;
+            let interp = '', color = '';
+            if (total >= 7) { interp = 'Riesgo ALTO — activar respuesta rápida'; color = 'text-rose-700 dark:text-rose-400'; }
+            else if (total >= 5) { interp = 'Riesgo MEDIO — evaluar y tratar'; color = 'text-amber-700 dark:text-amber-400'; }
+            else if (total >= 1) { interp = 'Riesgo BAJO — monitorizar'; color = 'text-teal-700 dark:text-teal-400'; }
+            else { interp = 'Sin riesgo — monitorización rutinaria'; color = 'text-emerald-700 dark:text-emerald-400'; }
+            res.innerHTML = `<div class="font-bold ${color}">NEWS2: ${total} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcSOFA() {
+            const g = id => document.getElementById(id);
+            const pafi = parseInt(g('sofa-pafi')?.value || 0);
+            const plq = parseInt(g('sofa-plq')?.value || 0);
+            const bili = parseInt(g('sofa-bili')?.value || 0);
+            const pam = parseInt(g('sofa-pam')?.value || 0);
+            const gcs = parseInt(g('sofa-gcs')?.value || 0);
+            const cr = parseInt(g('sofa-cr')?.value || 0);
+            const total = pafi + plq + bili + pam + gcs + cr;
+            const res = g('sofa-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 2) interp = 'SOFA ≥ 2 → SEPSIS (disfunción orgánica)';
+            else interp = 'SOFA < 2 → sin disfunción orgánica significativa';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">SOFA: ${total} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcWellsTEP() {
+            const g = id => document.getElementById(id);
+            let score = 0;
+            if (g('wtep-tvp')?.checked) score += 3;
+            if (g('wtep-alt')?.checked) score += 3;
+            if (g('wtep-fc')?.checked) score += 1.5;
+            if (g('wtep-inm')?.checked) score += 1.5;
+            if (g('wtep-hem')?.checked) score += 1;
+            if (g('wtep-can')?.checked) score += 1;
+            const res = g('wells-tep-res');
+            if (!res) return;
+            let interp = '';
+            if (score > 4) interp = 'Probabilidad ALTA → Angio-TC de tórax';
+            else if (score >= 2) interp = 'Probabilidad INTERMEDIA → D-dímero';
+            else interp = 'Probabilidad BAJA → D-dímero';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Wells TEP: ${score} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcPERC() {
+            const g = id => document.getElementById(id);
+            const checks = ['perc-edad','perc-fc','perc-sat','perc-hem','perc-est','perc-tvp','perc-trauma','perc-unilat'];
+            const allNegative = checks.every(id => !g(id)?.checked);
+            const res = g('perc-res');
+            if (!res) return;
+            if (allNegative) {
+                res.innerHTML = `<div class="font-bold text-emerald-700 dark:text-emerald-400">PERC negativo → TEP excluido (sin pruebas adicionales)</div>`;
+            } else {
+                res.innerHTML = `<div class="font-bold text-amber-700 dark:text-amber-400">PERC positivo → realizar D-dímero o angio-TC</div>`;
+            }
+            res.classList.remove('hidden');
+        }
+
+        function calcPESI() {
+            const g = id => document.getElementById(id);
+            const edad = parseFloat(g('pesi-edad')?.value || 0);
+            const fc = parseFloat(g('pesi-fc')?.value || 0);
+            const pas = parseFloat(g('pesi-pas')?.value || 0);
+            const sat = parseFloat(g('pesi-sat')?.value || 0);
+            let score = edad;
+            if (fc >= 110) score += 10;
+            if (pas < 100) score += 30;
+            if (sat < 90) score += 20;
+            if (g('pesi-can')?.checked) score += 30;
+            if (g('pesi-ic')?.checked) score += 10;
+            if (g('pesi-enf')?.checked) score += 10;
+            const res = g('pesi-res');
+            if (!res) return;
+            let clase = '', interp = '';
+            if (score <= 65) { clase = 'I'; interp = 'Muy bajo riesgo (1.6%)'; }
+            else if (score <= 85) { clase = 'II'; interp = 'Bajo riesgo (3.5%)'; }
+            else if (score <= 105) { clase = 'III'; interp = 'Riesgo intermedio (3.2%)'; }
+            else if (score <= 125) { clase = 'IV'; interp = 'Alto riesgo (4.0%)'; }
+            else { clase = 'V'; interp = 'Muy alto riesgo (10.4%)'; }
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">PESI: ${Math.round(score)} pts — Clase ${clase} — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcGlasgowBlatchford() {
+            const g = id => document.getElementById(id);
+            const urea = parseFloat(g('gb-urea')?.value || 0);
+            const hb = parseFloat(g('gb-hb')?.value || 0);
+            const pas = parseFloat(g('gb-pas')?.value || 0);
+            const fc = parseFloat(g('gb-fc')?.value || 0);
+            let score = 0;
+            if (urea >= 10 && urea <= 25) score += 2;
+            else if (urea > 25) score += 3;
+            if (hb >= 12 && hb <= 13) score += 1;
+            else if (hb >= 10 && hb < 12) score += 3;
+            else if (hb < 10) score += 6;
+            if (pas >= 100 && pas <= 109) score += 1;
+            else if (pas >= 90 && pas < 100) score += 2;
+            else if (pas < 90) score += 3;
+            if (fc >= 100) score += 1;
+            if (g('gb-melena')?.checked) score += 1;
+            if (g('gb-sincope')?.checked) score += 2;
+            if (g('gb-hepatic')?.checked) score += 2;
+            if (g('gb-cardiac')?.checked) score += 2;
+            const res = g('gb-res');
+            if (!res) return;
+            let interp = '';
+            if (score <= 1) interp = 'Bajo riesgo — puede manejarse ambulatoriamente';
+            else interp = 'Alto riesgo — hospitalizar y endoscopia urgente';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Glasgow-Blatchford: ${score} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcRockall() {
+            const g = id => document.getElementById(id);
+            const edad = parseInt(g('rock-edad')?.value || 0);
+            const shock = parseInt(g('rock-shock')?.value || 0);
+            const com = parseInt(g('rock-com')?.value || 0);
+            const dx = parseInt(g('rock-dx')?.value || 0);
+            const sang = parseInt(g('rock-sang')?.value || 0);
+            const total = edad + shock + com + dx + sang;
+            const res = g('rockall-res');
+            if (!res) return;
+            let interp = '';
+            if (total <= 2) interp = 'Bajo riesgo — mortalidad < 5%';
+            else if (total <= 4) interp = 'Riesgo intermedio — mortalidad 5-10%';
+            else interp = 'Alto riesgo — mortalidad > 10%, resangrado alto';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Rockall: ${total} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcAIMS65() {
+            const g = id => document.getElementById(id);
+            let score = 0;
+            if (g('aims-alb')?.checked) score++;
+            if (g('aims-inr')?.checked) score++;
+            if (g('aims-pas')?.checked) score++;
+            if (g('aims-edad')?.checked) score++;
+            if (g('aims-alt')?.checked) score++;
+            const res = g('aims65-res');
+            if (!res) return;
+            let interp = '';
+            if (score <= 1) interp = 'Bajo riesgo';
+            else interp = 'Alto riesgo — mortalidad aumentada, UCI';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">AIMS65: ${score} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
 
