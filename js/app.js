@@ -7438,6 +7438,7 @@ function renderVademecum() {
             moduleList = [
                 { id: 'hc', label: 'Historia Clínica', icon: 'fa-file-medical', kw: 'anamnesis historia clinica alicia sample motivo de consulta enfermedad actual revision por sistemas antecedentes examen fisico signos vitales plan nota medica' },
                 { id: 'infectologia', label: 'Infectología', icon: 'fa-bugs' },
+                { id: 'obstetricia', label: 'Obstetricia & Ginecología', icon: 'fa-person-pregnant' },
                 { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
                 { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
                 { id: 'calculadoras', label: 'Calculadoras', icon: 'fa-calculator' },
@@ -7631,6 +7632,149 @@ function renderVademecum() {
             if (subTab === 'desarrollo') updateDevProgress();
         }
 
+        function switchObsSubTab(subTab) {
+            const views = ['calc', 'preeclampsia', 'hemorragia', 'parto', 'prenatal', 'ginecologia'];
+            views.forEach(v => {
+                const viewEl = document.getElementById(`obs-view-${v}`);
+                if (viewEl) viewEl.classList.add('hidden');
+                const btnEl = document.getElementById(`btn-obssub-${v}`);
+                if (btnEl) {
+                    btnEl.classList.remove('bg-rose-600', 'text-white', 'shadow');
+                    btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                }
+            });
+            const targetView = document.getElementById(`obs-view-${subTab}`);
+            if (targetView) targetView.classList.remove('hidden');
+            const targetBtn = document.getElementById(`btn-obssub-${subTab}`);
+            if (targetBtn) {
+                targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                targetBtn.classList.add('bg-rose-600', 'text-white', 'shadow');
+            }
+        }
+
+        function calcEdadGestacional() {
+            const g = id => document.getElementById(id);
+            const fum = g('obs-fum')?.value;
+            const eco = parseFloat(g('obs-eco')?.value || 0);
+            const res = g('obs-eg-res');
+            if (!res) return;
+            if (!fum) { res.innerHTML = '<div class="font-bold text-amber-600">Ingresa la FUM.</div>'; res.classList.remove('hidden'); return; }
+            const fumDate = new Date(fum);
+            const hoy = new Date();
+            const diffMs = hoy - fumDate;
+            const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const sem = Math.floor(diffDias / 7);
+            const dias = diffDias % 7;
+            const fpp = new Date(fumDate);
+            fpp.setDate(fpp.getDate() + 280);
+            let txt = `<div class="font-bold text-slate-800 dark:text-slate-200">EG: ${sem} semanas + ${dias} días</div>`;
+            txt += `<div class="text-[10px] text-slate-500 mt-1">FPP (Naegele): ${fpp.toLocaleDateString('es-CO')}</div>`;
+            if (eco > 0) txt += `<div class="text-[10px] text-slate-500">Ecografía: ${eco} semanas. Discrepancia: ${Math.abs(eco - sem)} semanas.</div>`;
+            res.innerHTML = txt;
+            res.classList.remove('hidden');
+        }
+
+        function calcBishop() {
+            const g = id => document.getElementById(id);
+            const dil = parseInt(g('bishop-dil')?.value || 0);
+            const bor = parseInt(g('bishop-bor')?.value || 0);
+            const cons = parseInt(g('bishop-cons')?.value || 0);
+            const pos = parseInt(g('bishop-pos')?.value || 0);
+            const alt = parseInt(g('bishop-alt')?.value || 0);
+            const total = dil + bor + cons + pos + alt;
+            const res = g('bishop-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 8) interp = 'Cuello favorable (≥ 8) — inducción probablemente exitosa';
+            else interp = 'Cuello no favorable (< 8) — considerar maduración cervical';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Bishop: ${total}/13 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcIndiceChoque() {
+            const g = id => document.getElementById(id);
+            const fc = parseFloat(g('ic-fc')?.value || 0);
+            const pas = parseFloat(g('ic-pas')?.value || 0);
+            const res = g('ic-res');
+            if (!res) return;
+            if (!fc || !pas) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
+            const ic = fc / pas;
+            let interp = '';
+            if (ic > 1.0) interp = 'Choque severo (> 1.0)';
+            else if (ic > 0.9) interp = 'Choque (> 0.9)';
+            else if (ic > 0.7) interp = 'Riesgo elevado (0.7-0.9)';
+            else interp = 'Normal (0.5-0.7)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Índice de choque: ${ic.toFixed(2)} — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcMEOWS() {
+            const g = id => document.getElementById(id);
+            const fc = parseInt(g('meows-fc')?.value || 0);
+            const fr = parseInt(g('meows-fr')?.value || 0);
+            const pas = parseInt(g('meows-pas')?.value || 0);
+            const t = parseInt(g('meows-t')?.value || 0);
+            const avpu = parseInt(g('meows-avpu')?.value || 0);
+            const dolor = parseInt(g('meows-dolor')?.value || 0);
+            const total = fc + fr + pas + t + avpu + dolor;
+            const res = g('meows-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 4) interp = 'MEOWS ≥ 4: UCI / respuesta rápida';
+            else if (total >= 2) interp = 'MEOWS ≥ 2: activar respuesta rápida';
+            else interp = 'MEOWS < 2: monitorización rutinaria';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">MEOWS: ${total} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcAlturaUterina() {
+            const g = id => document.getElementById(id);
+            const sem = parseFloat(g('au-sem')?.value || 0);
+            const cm = parseFloat(g('au-cm')?.value || 0);
+            const res = g('au-res');
+            if (!res) return;
+            if (!sem || !cm) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
+            const esperado = sem;
+            const diff = Math.abs(cm - esperado);
+            let interp = '';
+            if (diff <= 2) interp = 'Normal (± 2 cm)';
+            else if (cm < esperado - 2) interp = 'Altura uterina baja — evaluar (RCIU, oligohidramnios)';
+            else interp = 'Altura uterina alta — evaluar (polihidramnios, macrosomía, embarazo múltiple)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">AU: ${cm} cm vs esperado ${esperado} cm — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcMgSO4() {
+            const g = id => document.getElementById(id);
+            const conc = parseFloat(g('mg-conc')?.value || 0);
+            const dosis = parseFloat(g('mg-dosis')?.value || 0);
+            const res = g('mg-res');
+            if (!res) return;
+            if (!conc || !dosis) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
+            const mlh = (dosis / conc) * 100;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Goteo: ${mlh.toFixed(1)} mL/h</div><div class="text-[10px] text-slate-500 mt-1">Fórmula: (dosis g/h ÷ concentración g/100mL) × 100. Monitorear reflejo patelar, FR y diuresis.</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcPerdidaSangre() {
+            const g = id => document.getElementById(id);
+            const peso = parseFloat(g('sang-peso')?.value || 0);
+            const hbBasal = parseFloat(g('sang-hb-basal')?.value || 0);
+            const hbActual = parseFloat(g('sang-hb-actual')?.value || 0);
+            const res = g('sang-res');
+            if (!res) return;
+            if (!peso || !hbBasal || !hbActual) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
+            const volSangre = peso * 70; // mL (70 mL/kg)
+            const perdida = volSangre * (hbBasal - hbActual) / hbBasal;
+            let interp = '';
+            if (perdida > 1500) interp = 'Hemorragia masiva (> 1500 mL) — activar código rojo';
+            else if (perdida > 1000) interp = 'Hemorragia mayor (1000-1500 mL) — transfundir';
+            else if (perdida > 500) interp = 'Hemorragia moderada (500-1000 mL) — observar';
+            else interp = 'Hemorragia leve (< 500 mL)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Pérdida estimada: ${perdida.toFixed(0)} mL — ${interp}</div><div class="text-[10px] text-slate-500 mt-1">Volumen sanguíneo estimado: ${volSangre.toFixed(0)} mL (70 mL/kg). Fórmula: VSE × (Hb basal - Hb actual) / Hb basal.</div>`;
+            res.classList.remove('hidden');
+        }
+
         // NAVIGATION & TAB SWITCHING
         /* ---------------------------------------------------------
    Utilidades de interfaz
@@ -7686,6 +7830,7 @@ function switchTab(tabId) {
                 });
                 updateDevProgress();
             }
+            if (tabId === 'obstetricia') switchObsSubTab('calc');
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'neurologico') neuroRender();
             if (tabId === 'calculadoras') {

@@ -4,6 +4,8 @@ let moduleList = [
             { id: 'infectologia', label: 'Infectología', icon: 'fa-bugs' },
             { id: 'dengue', label: 'Dengue & Arbovirus', icon: 'fa-virus', kw: 'dengue zika chikungunya arbovirus fiebre amarilla aedes mosquito arbovirosis' },
             { id: 'pediatria', label: 'Pediatría', icon: 'fa-child', kw: 'pediatria niño lactante recien nacido vacunacion pai crecimiento desarrollo desnutricion eda' },
+            { id: 'obstetricia', label: 'Obstetricia & Ginecología', icon: 'fa-person-pregnant', kw: 'obstetricia ginecologia embarazo parto preeclampsia hemorragia prenatal gestante' },
+            { id: 'obstetricia', label: 'Obstetricia & Ginecología', icon: 'fa-person-pregnant', kw: 'obstetricia ginecologia embarazo parto preeclampsia hemorragia prenatal gestante' },
             { id: 'gases', label: 'Gases Arteriales', icon: 'fa-vial-circle-check' },
             { id: 'cardiologia', label: 'Cardiología', icon: 'fa-heart-pulse', kw: 'cardiologia ecg electrocardiograma insuficiencia cardiaca sca sindrome coronario infarto' },
             { id: 'semiologia', label: 'Síndromes Clínicos', icon: 'fa-notes-medical' },
