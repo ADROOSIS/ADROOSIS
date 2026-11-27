@@ -7506,6 +7506,22 @@ function renderVademecum() {
             }
         }
 
+        function updateDevProgress() {
+            const checked = document.querySelectorAll('.dev-chk:checked').length;
+            const total = document.querySelectorAll('.dev-chk').length;
+            const el = document.getElementById('dev-progress');
+            if (el) el.textContent = `${checked} / ${total} hitos marcados (${Math.round(checked/total*100)}%)`;
+        }
+
+        function updateVacProgress() {
+            const checked = document.querySelectorAll('.vac-chk:checked').length;
+            const total = document.querySelectorAll('.vac-chk').length;
+            const fill = document.getElementById('vac-progress-fill');
+            const txt = document.getElementById('vac-progress-txt');
+            if (fill) fill.style.width = (checked/total*100) + '%';
+            if (txt) txt.textContent = `${checked} / ${total} vacunas (${Math.round(checked/total*100)}%)`;
+        }
+
         function calcCrecimiento() {
             const g = id => document.getElementById(id);
             const sexo = g('ped-sexo')?.value;
@@ -7544,6 +7560,23 @@ function renderVademecum() {
             else wInterp = 'Obesidad (Z > 3)';
 
             let html = `<div class="font-bold text-slate-800 dark:text-slate-200">Peso: ${peso} kg — Z-score: ${wZ.toFixed(2)} — ${wInterp}</div>`;
+            // Visual bar for Z-score
+            const barColor = wZ < -2 ? 'bg-rose-500' : wZ < -1 ? 'bg-amber-500' : wZ <= 1 ? 'bg-emerald-500' : wZ <= 2 ? 'bg-amber-500' : 'bg-rose-500';
+            const barWidth = Math.min(100, Math.max(0, (wZ + 3) / 6 * 100));
+            const barsDiv = document.getElementById('ped-crec-bars');
+            if (barsDiv) {
+                barsDiv.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[10px] text-slate-500"><span>-3 DE</span><span>0</span><span>+3 DE</span></div>
+                        <div class="h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden relative">
+                            <div class="h-full ${barColor} rounded-full transition-all" style="width: ${barWidth}%"></div>
+                            <div class="absolute top-0 h-full w-0.5 bg-slate-900 dark:bg-white" style="left: 50%"></div>
+                        </div>
+                        <div class="text-[10px] text-center text-slate-500">Z-score: ${wZ.toFixed(2)} (${wInterp})</div>
+                    </div>
+                `;
+                barsDiv.classList.remove('hidden');
+            }
 
             if (talla > 0) {
                 // Height-for-age (approximate)
@@ -7572,7 +7605,7 @@ function renderVademecum() {
         }
 
         function switchPedSubTab(subTab) {
-            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato'];
+            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato', 'desarrollo', 'vaccheck'];
             views.forEach(v => {
                 const viewEl = document.getElementById(`ped-view-${v}`);
                 if (viewEl) viewEl.classList.add('hidden');
@@ -7589,6 +7622,8 @@ function renderVademecum() {
                 targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
                 targetBtn.classList.add('bg-pink-600', 'text-white', 'shadow');
             }
+            if (subTab === 'desarrollo') updateDevProgress();
+            if (subTab === 'vaccheck') updateVacProgress();
         }
 
         // NAVIGATION & TAB SWITCHING
@@ -7638,7 +7673,18 @@ function switchTab(tabId) {
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
             if (tabId === 'cardiologia') switchCardioSubTab('ecg');
             if (tabId === 'dengue') switchDengueSubTab('dengue');
-            if (tabId === 'pediatria') switchPedSubTab('crecimiento');
+            if (tabId === 'pediatria') {
+                switchPedSubTab('crecimiento');
+                // Add event listeners for interactive checkboxes
+                document.querySelectorAll('.dev-chk').forEach(cb => {
+                    cb.onchange = updateDevProgress;
+                });
+                document.querySelectorAll('.vac-chk').forEach(cb => {
+                    cb.onchange = updateVacProgress;
+                });
+                updateDevProgress();
+                updateVacProgress();
+            }
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'neurologico') neuroRender();
             if (tabId === 'calculadoras') {

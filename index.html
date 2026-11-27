@@ -750,6 +750,12 @@
                         <button onclick="switchPedSubTab('neonato')" id="btn-pedsub-neonato" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
                             <i class="fa-solid fa-baby"></i> Recién nacido
                         </button>
+                        <button onclick="switchPedSubTab('desarrollo')" id="btn-pedsub-desarrollo" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-child-reaching"></i> Desarrollo
+                        </button>
+                        <button onclick="switchPedSubTab('vaccheck')" id="btn-pedsub-vaccheck" class="pedsub-btn px-4 py-2 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0">
+                            <i class="fa-solid fa-clipboard-check"></i> Checklist vacunas
+                        </button>
                     </div>
 
                     <!-- Crecimiento -->
@@ -773,7 +779,8 @@
                                 <div><label class="block font-medium text-slate-500 mb-0.5">Perímetro cefálico (cm):</label>
                                     <input id="ped-pc" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 45"></div>
                                 <button onclick="calcCrecimiento()" class="w-full py-2 bg-pink-600 text-white font-bold rounded-xl mt-2">Evaluar crecimiento</button>
-                                <div id="ped-crec-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                <div id="ped-crec-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
+                                <div id="ped-crec-bars" class="hidden space-y-2"></div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
                                     <p class="font-bold text-teal-600 dark:text-teal-400">Hitos del desarrollo por edad</p>
                                     <p class="text-[10px] leading-relaxed"><strong>2 meses:</strong> sonríe, sigue objetos, levanta cabeza en prono.</p>
@@ -876,6 +883,130 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Desarrollo -->
+                    <div id="ped-view-desarrollo" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Hitos del desarrollo (Denver II simplificado)</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Marca los hitos que el niño ya alcanzó. Si no alcanza un hito esperado para su edad, evaluar.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">2 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="2"> Sonríe socialmente</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="2"> Sigue objetos con la mirada</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="2"> Levanta la cabeza en prono</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="2"> Gira la cabeza hacia sonidos</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">4 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="4"> Sostiene la cabeza estable</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="4"> Agarra objetos</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="4"> Balbucea (a, e, o)</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="4"> Se ríe a carcajadas</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">6 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="6"> Se sienta con apoyo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="6"> Pasa objetos de mano a mano</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="6"> Responde a su nombre</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="6"> Duerme toda la noche</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">9 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="9"> Se sienta sin apoyo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="9"> Gatea</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="9"> Pinza fina (agarra objetos pequeños)</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="9"> Dice "mamá/papá" (sin significado)</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">12 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="12"> Se para con apoyo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="12"> Primeros pasos</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="12"> 2-3 palabras con significado</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="12"> Pinza fina (pulgar-índice)</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">18 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="18"> Camina solo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="18"> Sube escaleras con ayuda</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="18"> 10-20 palabras</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="18"> Come solo con cuchara</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">24 meses</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="24"> Corre</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="24"> Salta en el lugar</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="24"> Frases de 2 palabras</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="24"> Control de esfínteres diurno</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">3 años</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="36"> Monta triciclo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="36"> Copia círculo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="36"> Frases de 3 palabras</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="36"> Control de esfínteres completo</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">4 años</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="48"> Salta en un pie</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="48"> Copia cruz</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="48"> Frases completas</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="48"> Interactúa con pares</label>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-sm text-pink-600 dark:text-pink-400">5 años</h4>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="60"> Salta, copia triángulo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="60"> Cuenta hasta 10</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="60"> Viste solo</label>
+                                    <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="dev-chk" data-age="60"> Conoce colores básicos</label>
+                                </div>
+                            </div>
+                            <div id="dev-progress" class="text-xs text-slate-500 dark:text-slate-400 text-center py-2">0 hitos marcados</div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist vacunas -->
+                    <div id="ped-view-vaccheck" class="space-y-4 hidden">
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                            <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Checklist de vacunación</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Marca las vacunas que el niño ya recibió. El progreso se actualiza automáticamente.</p>
+                            <div id="vac-progress-bar" class="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                                <div id="vac-progress-fill" class="h-full bg-pink-500 transition-all" style="width: 0%"></div>
+                            </div>
+                            <div id="vac-progress-txt" class="text-[11px] font-bold text-pink-600 dark:text-pink-400 text-center">0 / 0 vacunas</div>
+                            <div class="space-y-2" id="vac-checklist">
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="bcg"> BCG (nacimiento)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="hepb"> Hepatitis B (nacimiento)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta1"> Pentavalente 1ª (2 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="rota1"> Rotavirus 1ª (2 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="neumo1"> Neumococo 10V 1ª (2 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio1"> Polio IPV 1ª (2 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta2"> Pentavalente 2ª (4 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="rota2"> Rotavirus 2ª (4 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="neumo2"> Neumococo 10V 2ª (4 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio2"> Polio IPV 2ª (4 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta3"> Pentavalente 3ª (6 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio3"> Polio IPV 3ª (6 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="infl1"> Influenza 1ª (6 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="infl2"> Influenza 2ª (7 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="neumo3"> Neumococo 10V 3ª (12 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="fa"> Fiebre amarilla (12 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="srp1"> Triple viral SRP 1ª (12 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="hepa"> Hepatitis A (12 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="penta4"> Pentavalente refuerzo (18 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="polio4"> Polio IPV refuerzo (18 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="dpt1"> DPT refuerzo (18 meses)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="dpt2"> DPT refuerzo (5 años)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="srp2"> Triple viral SRP refuerzo (5 años)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="vph1"> VPH 1ª (9-17 años)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="vph2"> VPH 2ª (9-17 años)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="td1"> TD refuerzo (10 años)</label>
+                                <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="vac-chk" data-vac="td2"> TD refuerzo (15 años)</label>
+                            </div>
+                        </div>
+                    </div>
+
                     </div>
                 </section>
 
