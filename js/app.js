@@ -3398,7 +3398,143 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">CPOT ≥ 3: dolor significativo. Tratar con analgesia.</p>
         </div>
     `
+},
+{
+    id: 'cockcroft-gault', cat: 'metabolico', title: 'Cockcroft-Gault (CrCl)',
+    desc: 'Estimación de depuración de creatinina (mL/min) para ajuste de dosis.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Edad (años):</label>
+                    <input id="cg-edad" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 65"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Peso (kg):</label>
+                    <input id="cg-peso" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 70"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Creatinina (mg/dL):</label>
+                    <input id="cg-cr" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.2"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Sexo:</label>
+                    <select id="cg-sexo" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="m">Masculino</option>
+                        <option value="f">Femenino (× 0.85)</option>
+                    </select></div>
+            </div>
+            <button onclick="calcCockcroftGault()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular CrCl</button>
+            <div id="cg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">CrCl (mL/min) = (140 - edad) × peso / (72 × Cr). × 0.85 si es mujer. Usar peso ideal si obeso.</p>
+        </div>
+    `
+},
+{
+    id: 'ibw', cat: 'metabolico', title: 'Pesos para dosificación (IBW/ABW/LBW)',
+    desc: 'Peso ideal, peso ajustado y peso magro para dosificación de fármacos.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Sexo:</label>
+                    <select id="ibw-sexo" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="m">Masculino</option>
+                        <option value="f">Femenino</option>
+                    </select></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Altura (cm):</label>
+                    <input id="ibw-altura" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 170"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Peso actual (kg):</label>
+                    <input id="ibw-peso" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 80"></div>
+            </div>
+            <button onclick="calcIBW()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular pesos</button>
+            <div id="ibw-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">IBW: peso ideal. ABW: peso ajustado (para obesos). LBW: peso magro. Usar el peso adecuado según el fármaco.</p>
+        </div>
+    `
+},
+{
+    id: 'kdigo', cat: 'metabolico', title: 'KDIGO (Lesión renal aguda)',
+    desc: 'Clasificación de AKI por creatinina y diuresis.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cr basal (mg/dL):</label>
+                    <input id="kdigo-cr-basal" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.0"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cr actual (mg/dL):</label>
+                    <input id="kdigo-cr-actual" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 2.5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Diuresis (mL/kg/h):</label>
+                    <input id="kdigo-diuresis" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 0.3"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Duración (h):</label>
+                    <input id="kdigo-duracion" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
+            </div>
+            <button onclick="calcKDIGO()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Clasificar KDIGO</button>
+            <div id="kdigo-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">KDIGO 1: Cr 1.5-1.9× basal o ≥ 0.3 mg/dL en 48h. KDIGO 2: Cr 2.0-2.9× basal. KDIGO 3: Cr ≥ 3× basal o ≥ 4.0 o diálisis.</p>
+        </div>
+    `
+},
+{
+    id: 'parkland', cat: 'urgencias', title: 'Parkland (Quemaduras)',
+    desc: 'Fórmula de Parkland para reanimación de quemaduras.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Peso (kg):</label>
+                    <input id="parkland-peso" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 70"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">% SCTQ:</label>
+                    <input id="parkland-sctq" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 30"></div>
+            </div>
+            <button onclick="calcParkland()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Parkland</button>
+            <div id="parkland-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Volumen 24h = 4 mL × kg × %SCTQ. Mitad en las primeras 8 h, mitad en las siguientes 16 h.</p>
+        </div>
+    `
+},
+{
+    id: 'rule-of-nines', cat: 'urgencias', title: 'Regla de los 9 (Quemaduras)',
+    desc: 'Estimación rápida de superficie corporal quemada (SCTQ).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cabeza (%):</label>
+                    <input id="ron-cabeza" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Tronco anterior (%):</label>
+                    <input id="ron-troncoant" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Tronco posterior (%):</label>
+                    <input id="ron-troncopost" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Brazo derecho (%):</label>
+                    <input id="ron-brd" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Brazo izquierdo (%):</label>
+                    <input id="ron-bri" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Pierna derecha (%):</label>
+                    <input id="ron-pd" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Pierna izquierda (%):</label>
+                    <input id="ron-pi" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Genitales (%):</label>
+                    <input id="ron-gen" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+            </div>
+            <button onclick="calcRuleOfNines()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular SCTQ</button>
+            <div id="ron-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Regla de los 9: cabeza 9%, tronco anterior 18%, tronco posterior 18%, cada brazo 9%, cada pierna 18%, genitales 1%.</p>
+        </div>
+    `
+},
+{
+    id: 'morcft', cat: 'metabolico', title: 'MELD (Model for End-Stage Liver Disease)',
+    desc: 'Predicción de mortalidad a 3 meses en cirrosis.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Bilirrubina (mg/dL):</label>
+                    <input id="meld-bili" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 2.5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">INR:</label>
+                    <input id="meld-inr" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Creatinina (mg/dL):</label>
+                    <input id="meld-cr" type="number" step="0.01" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1.2"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Na (mEq/L):</label>
+                    <input id="meld-na" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 135"></div>
+            </div>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="meld-dialisis" class="cn-chk"> En diálisis (creatinina = 4.0)</label>
+            <button onclick="calcMELD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular MELD</button>
+            <div id="meld-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">MELD ≥ 15: prioridad para trasplante. MELD-Na incluye sodio para mejor predicción.</p>
+        </div>
+    `
 }
+
 
 
   
@@ -12128,6 +12264,132 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcCockcroftGault() {
+            const g = id => document.getElementById(id);
+            const edad = parseFloat(g('cg-edad')?.value || 0);
+            const peso = parseFloat(g('cg-peso')?.value || 0);
+            const cr = parseFloat(g('cg-cr')?.value || 0);
+            const sexo = g('cg-sexo')?.value;
+            if (!edad || !peso || !cr) { const res = g('cg-res'); if (res) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); } return; }
+            let crcl = (140 - edad) * peso / (72 * cr);
+            if (sexo === 'f') crcl *= 0.85;
+            const res = g('cg-res');
+            if (!res) return;
+            let interp = '';
+            if (crcl >= 90) interp = 'Normal (≥ 90)';
+            else if (crcl >= 60) interp = 'Leve (60-89)';
+            else if (crcl >= 30) interp = 'Moderado (30-59)';
+            else if (crcl >= 15) interp = 'Severo (15-29)';
+            else interp = 'Falla renal (< 15)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">CrCl: ${crcl.toFixed(1)} mL/min — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcIBW() {
+            const g = id => document.getElementById(id);
+            const sexo = g('ibw-sexo')?.value;
+            const altura = parseFloat(g('ibw-altura')?.value || 0);
+            const peso = parseFloat(g('ibw-peso')?.value || 0);
+            if (!altura || !peso) { const res = g('ibw-res'); if (res) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); } return; }
+            const alturaIn = altura / 2.54;
+            let ibw = 0;
+            if (sexo === 'm') ibw = 50 + 2.3 * (alturaIn - 60);
+            else ibw = 45.5 + 2.3 * (alturaIn - 60);
+            const abw = ibw + 0.4 * (peso - ibw);
+            let lbw = 0;
+            if (sexo === 'm') lbw = 0.407 * peso + 0.267 * altura - 19.2;
+            else lbw = 0.252 * peso + 0.473 * altura - 48.3;
+            const res = g('ibw-res');
+            if (!res) return;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">IBW: ${ibw.toFixed(1)} kg · ABW: ${abw.toFixed(1)} kg · LBW: ${lbw.toFixed(1)} kg</div><div class="text-[10px] text-slate-500 mt-1">IBW = peso ideal. ABW = peso ajustado (obesos). LBW = peso magro.</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcKDIGO() {
+            const g = id => document.getElementById(id);
+            const crBasal = parseFloat(g('kdigo-cr-basal')?.value || 0);
+            const crActual = parseFloat(g('kdigo-cr-actual')?.value || 0);
+            const diuresis = parseFloat(g('kdigo-diuresis')?.value || 0);
+            const duracion = parseFloat(g('kdigo-duracion')?.value || 0);
+            const res = g('kdigo-res');
+            if (!res) return;
+            let estadio = 0;
+            let criterio = '';
+            if (crBasal > 0 && crActual > 0) {
+                const ratio = crActual / crBasal;
+                if (ratio >= 3 || crActual >= 4.0) { estadio = 3; criterio = 'Cr ≥ 3× basal o ≥ 4.0 mg/dL'; }
+                else if (ratio >= 2.0) { estadio = 2; criterio = 'Cr 2.0-2.9× basal'; }
+                else if (ratio >= 1.5 || (crActual - crBasal >= 0.3)) { estadio = 1; criterio = 'Cr 1.5-1.9× basal o ≥ 0.3 mg/dL en 48h'; }
+            }
+            if (diuresis > 0 && duracion >= 6) {
+                if (diuresis < 0.3) estadio = Math.max(estadio, 3);
+                else if (diuresis < 0.5) estadio = Math.max(estadio, 2);
+                else if (diuresis < 0.6) estadio = Math.max(estadio, 1);
+            }
+            const labels = ['Sin AKI', 'KDIGO 1', 'KDIGO 2', 'KDIGO 3'];
+            const colors = ['text-emerald-700 dark:text-emerald-400', 'text-amber-700 dark:text-amber-400', 'text-rose-600 dark:text-rose-400', 'text-rose-700 dark:text-rose-400'];
+            res.innerHTML = `<div class="font-bold ${colors[estadio]}">${labels[estadio]}${criterio ? ' — ' + criterio : ''}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcParkland() {
+            const g = id => document.getElementById(id);
+            const peso = parseFloat(g('parkland-peso')?.value || 0);
+            const sctq = parseFloat(g('parkland-sctq')?.value || 0);
+            const res = g('parkland-res');
+            if (!res) return;
+            if (!peso || !sctq) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
+            const vol24 = 4 * peso * sctq;
+            const primeras8 = vol24 / 2;
+            const siguientes16 = vol24 / 2;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Volumen 24h: ${vol24.toFixed(0)} mL</div><div class="text-[10px] text-slate-500 mt-1">Primeras 8 h: ${primeras8.toFixed(0)} mL (${(primeras8/8).toFixed(0)} mL/h). Siguientes 16 h: ${siguientes16.toFixed(0)} mL (${(siguientes16/16).toFixed(0)} mL/h).</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcRuleOfNines() {
+            const g = id => document.getElementById(id);
+            const cabeza = parseFloat(g('ron-cabeza')?.value || 0);
+            const troncoant = parseFloat(g('ron-troncoant')?.value || 0);
+            const troncopost = parseFloat(g('ron-troncopost')?.value || 0);
+            const brd = parseFloat(g('ron-brd')?.value || 0);
+            const bri = parseFloat(g('ron-bri')?.value || 0);
+            const pd = parseFloat(g('ron-pd')?.value || 0);
+            const pi = parseFloat(g('ron-pi')?.value || 0);
+            const gen = parseFloat(g('ron-gen')?.value || 0);
+            const total = cabeza + troncoant + troncopost + brd + bri + pd + pi + gen;
+            const res = g('ron-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 20) interp = 'Quemadura mayor — reanimación con Parkland';
+            else if (total >= 10) interp = 'Quemadura moderada — hospitalizar';
+            else interp = 'Quemadura menor — manejo ambulatorio';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">SCTQ: ${total}% — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcMELD() {
+            const g = id => document.getElementById(id);
+            let bili = parseFloat(g('meld-bili')?.value || 0);
+            let inr = parseFloat(g('meld-inr')?.value || 0);
+            let cr = parseFloat(g('meld-cr')?.value || 0);
+            const na = parseFloat(g('meld-na')?.value || 0);
+            const dialisis = g('meld-dialisis')?.checked;
+            if (dialisis) cr = 4.0;
+            if (bili < 1) bili = 1;
+            if (inr < 1) inr = 1;
+            if (cr < 1) cr = 1;
+            if (cr > 4) cr = 4;
+            const meld = 3.78 * Math.log(bili) + 11.2 * Math.log(inr) + 9.57 * Math.log(cr) + 6.43;
+            const meldNa = meld + 1.32 * (137 - na) - 0.033 * meld * (137 - na);
+            const res = g('meld-res');
+            if (!res) return;
+            let interp = '';
+            if (meld >= 15) interp = 'Prioridad para trasplante (≥ 15)';
+            else if (meld >= 10) interp = 'Riesgo moderado (10-14)';
+            else interp = 'Riesgo bajo (< 10)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">MELD: ${meld.toFixed(1)} · MELD-Na: ${meldNa.toFixed(1)} — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
         function calcFLACC() {
             const g = id => document.getElementById(id);
             const cara = parseInt(g('flacc-cara')?.value || 0);
