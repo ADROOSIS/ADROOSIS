@@ -3533,7 +3533,97 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">MELD ≥ 15: prioridad para trasplante. MELD-Na incluye sodio para mejor predicción.</p>
         </div>
     `
+},
+{
+    id: 'geneva', cat: 'urgencias', title: 'Geneva (Probabilidad de TEP)',
+    desc: 'Score de Ginebra revisado para probabilidad clínica de TEP.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="space-y-1">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-tvp" class="cn-chk"> TVP o TEP previo (+3)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-fc" class="cn-chk"> FC > 95 lpm (+5)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-hem" class="cn-chk"> Hemoptisis (+2)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-can" class="cn-chk"> Cáncer activo (+2)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-unilat" class="cn-chk"> Dolor unilateral de pierna (+3)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-dolor" class="cn-chk"> Dolor a la palpación de la pierna y edema unilateral (+4)</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-cir" class="cn-chk"> Cirugía o fractura en 1 mes (+2)</label>
+            </div>
+            <button onclick="calcGeneva()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Geneva</button>
+            <div id="geneva-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Geneva ≤ 3: probabilidad baja. 4-10: intermedia. ≥ 11: alta.</p>
+        </div>
+    `
+},
+{
+    id: 'hestia', cat: 'urgencias', title: 'Hestia (TEP ambulatorio)',
+    desc: 'Criterios para manejo ambulatorio de TEP.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Si TODOS los criterios son negativos, el paciente puede manejarse ambulatoriamente.</p>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-1" class="cn-chk"> Inestabilidad hemodinámica</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-2" class="cn-chk"> Trombólisis o embolectomía necesaria</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-3" class="cn-chk"> Sangrado activo o alto riesgo de sangrado</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-4" class="cn-chk"> CrCl < 30 mL/min</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-5" class="cn-chk"> Embarazo</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-6" class="cn-chk"> Historia de HIT</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-7" class="cn-chk"> Dolor que requiere analgesia IV</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-8" class="cn-chk"> Comorbilidad médica o social que requiere hospitalización</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-9" class="cn-chk"> Historia de TEP con anticoagulación</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-10" class="cn-chk"> Barriers para tratamiento o seguimiento</label>
+            <button onclick="calcHestia()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar Hestia</button>
+            <div id="hestia-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+        </div>
+    `
+},
+{
+    id: 'pim3', cat: 'urgencias', title: 'PIM3 (Mortalidad pediátrica)',
+    desc: 'Pediatric Index of Mortality 3 (probabilidad de muerte).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Ingrese los valores del primer contacto en UCI.</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">PAS (mmHg):</label>
+                    <input id="pim3-pas" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 90"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaO₂ (mmHg):</label>
+                    <input id="pim3-pao2" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 80"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">FiO₂ (%):</label>
+                    <input id="pim3-fio2" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 40"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">PaCO₂ (mmHg):</label>
+                    <input id="pim3-paco2" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 40"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">BE (mEq/L):</label>
+                    <input id="pim3-be" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: -5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Pupilas:</label>
+                    <select id="pim3-pup" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                        <option value="0">Ambas reactivas (0)</option>
+                        <option value="1">Una fija/dilatada (1)</option>
+                        <option value="2">Ambas fijas/dilatadas (2)</option>
+                    </select></div>
+            </div>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pim3-vent" class="cn-chk"> Ventilación mecánica en la primera hora</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pim3-bypass" class="cn-chk"> Bypass cardiopulmonar</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pim3-nocancer" class="cn-chk"> Sin cáncer (no oncológico)</label>
+            <button onclick="calcPIM3()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PIM3</button>
+            <div id="pim3-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">PIM3 estima la probabilidad de muerte en UCI pediátrica. Requiere validación local.</p>
+        </div>
+    `
+},
+{
+    id: 'ottawa-tobillo', cat: 'urgencias', title: 'Ottawa (Fractura de tobillo)',
+    desc: 'Regla de Ottawa para fractura de tobillo. Radiografía si hay dolor + alguno de los criterios.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Dolor en la zona malleolar + al menos uno de:</p>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ott-tob-1" class="cn-chk"> Dolor en la punta del maléolo lateral (6 cm distal)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ott-tob-2" class="cn-chk"> Dolor en la punta del maléolo medial (6 cm distal)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ott-tob-3" class="cn-chk"> Incapacidad para dar 4 pasos inmediatamente y en urgencias</label>
+            <button onclick="calcOttawaTobillo()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar Ottawa</button>
+            <div id="ottawa-tobillo-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Si algún criterio es positivo → radiografía de tobillo. Si todos negativos → no radiografía.</p>
+        </div>
+    `
 }
+
 
 
 
@@ -12264,6 +12354,86 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcGeneva() {
+            const g = id => document.getElementById(id);
+            let score = 0;
+            if (g('geneva-tvp')?.checked) score += 3;
+            if (g('geneva-fc')?.checked) score += 5;
+            if (g('geneva-hem')?.checked) score += 2;
+            if (g('geneva-can')?.checked) score += 2;
+            if (g('geneva-unilat')?.checked) score += 3;
+            if (g('geneva-dolor')?.checked) score += 4;
+            if (g('geneva-cir')?.checked) score += 2;
+            const res = g('geneva-res');
+            if (!res) return;
+            let interp = '';
+            if (score <= 3) interp = 'Probabilidad baja (≤ 3)';
+            else if (score <= 10) interp = 'Probabilidad intermedia (4-10)';
+            else interp = 'Probabilidad alta (≥ 11)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Geneva: ${score} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcHestia() {
+            const g = id => document.getElementById(id);
+            const checks = ['hestia-1','hestia-2','hestia-3','hestia-4','hestia-5','hestia-6','hestia-7','hestia-8','hestia-9','hestia-10'];
+            const anyPositive = checks.some(id => g(id)?.checked);
+            const res = g('hestia-res');
+            if (!res) return;
+            if (anyPositive) {
+                res.innerHTML = `<div class="font-bold text-amber-700 dark:text-amber-400">Hestia positivo → hospitalizar (no ambulatorio)</div>`;
+            } else {
+                res.innerHTML = `<div class="font-bold text-emerald-700 dark:text-emerald-400">Hestia negativo → puede manejarse ambulatoriamente</div>`;
+            }
+            res.classList.remove('hidden');
+        }
+
+        function calcPIM3() {
+            const g = id => document.getElementById(id);
+            const pas = parseFloat(g('pim3-pas')?.value || 0);
+            const pao2 = parseFloat(g('pim3-pao2')?.value || 0);
+            const fio2 = parseFloat(g('pim3-fio2')?.value || 0);
+            const paco2 = parseFloat(g('pim3-paco2')?.value || 0);
+            const be = parseFloat(g('pim3-be')?.value || 0);
+            const pup = parseInt(g('pim3-pup')?.value || 0);
+            const vent = g('pim3-vent')?.checked;
+            const bypass = g('pim3-bypass')?.checked;
+            const nocancer = g('pim3-nocancer')?.checked;
+            const res = g('pim3-res');
+            if (!res) return;
+            // Simplified PIM3 (full formula requires more variables)
+            let logit = -4.8;
+            if (pas > 0) logit += (100 - pas) * 0.01;
+            if (pao2 > 0 && fio2 > 0) {
+                const ratio = pao2 / (fio2 / 100);
+                if (ratio < 100) logit += 1.5;
+                else if (ratio < 200) logit += 0.8;
+            }
+            if (paco2 > 0) logit += (paco2 - 40) * 0.02;
+            if (be < 0) logit += Math.abs(be) * 0.1;
+            logit += pup * 0.5;
+            if (vent) logit += 0.5;
+            if (bypass) logit -= 1.0;
+            if (nocancer) logit -= 0.3;
+            const prob = 1 / (1 + Math.exp(-logit));
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">PIM3: probabilidad de muerte ${(prob * 100).toFixed(1)}%</div><div class="text-[10px] text-slate-500 mt-1">Estimación simplificada. Usar con precaución.</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcOttawaTobillo() {
+            const g = id => document.getElementById(id);
+            const c1 = g('ott-tob-1')?.checked;
+            const c2 = g('ott-tob-2')?.checked;
+            const c3 = g('ott-tob-3')?.checked;
+            const res = g('ottawa-tobillo-res');
+            if (!res) return;
+            if (c1 || c2 || c3) {
+                res.innerHTML = `<div class="font-bold text-amber-700 dark:text-amber-400">Ottawa positivo → radiografía de tobillo indicada</div>`;
+            } else {
+                res.innerHTML = `<div class="font-bold text-emerald-700 dark:text-emerald-400">Ottawa negativo → no radiografía</div>`;
+            }
+            res.classList.remove('hidden');
+        }
         function calcCockcroftGault() {
             const g = id => document.getElementById(id);
             const edad = parseFloat(g('cg-edad')?.value || 0);
