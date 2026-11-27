@@ -3743,7 +3743,75 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">Phoenix ≥ 2: sepsis. Phoenix ≥ 2 con cardiovascular: choque séptico.</p>
         </div>
     `
+},
+{
+    id: 'brooke', cat: 'urgencias', title: 'Brooke (Quemaduras)',
+    desc: 'Fórmula de Brooke para reanimación de quemaduras.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Peso (kg):</label>
+                    <input id="brooke-peso" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 70"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">% SCTQ:</label>
+                    <input id="brooke-sctq" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 30"></div>
+            </div>
+            <button onclick="calcBrooke()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Brooke</button>
+            <div id="brooke-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Volumen 24h = 2 mL (cristaloide) + 0.5 mL (coloide) × kg × %SCTQ + 2000 mL (glucosa). Mitad en las primeras 8 h.</p>
+        </div>
+    `
+},
+{
+    id: 'lund-browder', cat: 'urgencias', title: 'Lund-Browder (Quemaduras pediátricas)',
+    desc: 'Estimación de SCTQ en niños (más precisa que la regla de los 9).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block font-medium text-slate-500 mb-0.5">Edad (años):</label>
+                    <input id="lb-edad" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 5"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cabeza (%):</label>
+                    <input id="lb-cabeza" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Cuello (%):</label>
+                    <input id="lb-cuello" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Tronco ant (%):</label>
+                    <input id="lb-troncoant" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Tronco post (%):</label>
+                    <input id="lb-troncopost" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Brazo der (%):</label>
+                    <input id="lb-brd" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Brazo izq (%):</label>
+                    <input id="lb-bri" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Pierna der (%):</label>
+                    <input id="lb-pd" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Pierna izq (%):</label>
+                    <input id="lb-pi" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+                <div><label class="block font-medium text-slate-500 mb-0.5">Genitales (%):</label>
+                    <input id="lb-gen" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
+            </div>
+            <button onclick="calcLundBrowder()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular SCTQ</button>
+            <div id="lund-browder-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Lund-Browder: ajusta el % de cabeza y piernas según la edad del niño. Más preciso que la regla de los 9.</p>
+        </div>
+    `
+},
+{
+    id: 'wells-pe', cat: 'urgencias', title: 'Wells para PE (probabilidad clínica)',
+    desc: 'Probabilidad clínica de tromboembolismo pulmonar (Wells).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-tvp" class="cn-chk"> Signos clínicos de TVP (+3)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-alt" class="cn-chk"> TEP más probable que alternativa (+3)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-fc" class="cn-chk"> FC > 100 lpm (+1.5)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-inm" class="cn-chk"> Inmovilización o cirugía en 4 semanas (+1.5)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-hem" class="cn-chk"> Hemoptisis (+1)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-can" class="cn-chk"> Cáncer activo (+1)</label>
+            <button onclick="calcWellsPE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Wells PE</button>
+            <div id="wells-pe-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Wells > 4 = probabilidad alta. Wells ≤ 4 = probabilidad baja/intermedia → D-dímero.</p>
+        </div>
+    `
 }
+
 
 
 
@@ -12476,6 +12544,62 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcBrooke() {
+            const g = id => document.getElementById(id);
+            const peso = parseFloat(g('brooke-peso')?.value || 0);
+            const sctq = parseFloat(g('brooke-sctq')?.value || 0);
+            const res = g('brooke-res');
+            if (!res) return;
+            if (!peso || !sctq) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
+            const cristaloide = 2 * peso * sctq;
+            const coloide = 0.5 * peso * sctq;
+            const glucosa = 2000;
+            const vol24 = cristaloide + coloide + glucosa;
+            const primeras8 = (cristaloide + coloide) / 2;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Volumen 24h: ${vol24.toFixed(0)} mL</div><div class="text-[10px] text-slate-500 mt-1">Cristaloide: ${cristaloide.toFixed(0)} mL. Coloide: ${coloide.toFixed(0)} mL. Glucosa: ${glucosa} mL. Primeras 8 h: ${primeras8.toFixed(0)} mL.</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcLundBrowder() {
+            const g = id => document.getElementById(id);
+            const cabeza = parseFloat(g('lb-cabeza')?.value || 0);
+            const cuello = parseFloat(g('lb-cuello')?.value || 0);
+            const troncoant = parseFloat(g('lb-troncoant')?.value || 0);
+            const troncopost = parseFloat(g('lb-troncopost')?.value || 0);
+            const brd = parseFloat(g('lb-brd')?.value || 0);
+            const bri = parseFloat(g('lb-bri')?.value || 0);
+            const pd = parseFloat(g('lb-pd')?.value || 0);
+            const pi = parseFloat(g('lb-pi')?.value || 0);
+            const gen = parseFloat(g('lb-gen')?.value || 0);
+            const total = cabeza + cuello + troncoant + troncopost + brd + bri + pd + pi + gen;
+            const res = g('lund-browder-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 20) interp = 'Quemadura mayor — reanimación con Parkland';
+            else if (total >= 10) interp = 'Quemadura moderada — hospitalizar';
+            else interp = 'Quemadura menor — manejo ambulatorio';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">SCTQ: ${total}% — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcWellsPE() {
+            const g = id => document.getElementById(id);
+            let score = 0;
+            if (g('wpe-tvp')?.checked) score += 3;
+            if (g('wpe-alt')?.checked) score += 3;
+            if (g('wpe-fc')?.checked) score += 1.5;
+            if (g('wpe-inm')?.checked) score += 1.5;
+            if (g('wpe-hem')?.checked) score += 1;
+            if (g('wpe-can')?.checked) score += 1;
+            const res = g('wells-pe-res');
+            if (!res) return;
+            let interp = '';
+            if (score > 4) interp = 'Probabilidad ALTA → Angio-TC de tórax';
+            else if (score >= 2) interp = 'Probabilidad INTERMEDIA → D-dímero';
+            else interp = 'Probabilidad BAJA → D-dímero';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Wells PE: ${score} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
         function calcRIFLE() {
             const g = id => document.getElementById(id);
             const crBasal = parseFloat(g('rifle-cr-basal')?.value || 0);
