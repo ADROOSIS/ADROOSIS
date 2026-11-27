@@ -7506,6 +7506,91 @@ function renderVademecum() {
             }
         }
 
+        function calcCrecimiento() {
+            const g = id => document.getElementById(id);
+            const sexo = g('ped-sexo')?.value;
+            const edad = parseFloat(g('ped-edad')?.value || 0);
+            const peso = parseFloat(g('ped-peso')?.value || 0);
+            const talla = parseFloat(g('ped-talla')?.value || 0);
+            const pc = parseFloat(g('ped-pc')?.value || 0);
+            const res = g('ped-crec-res');
+            if (!res) return;
+            if (!edad || !peso) { res.innerHTML = '<div class="font-bold text-amber-600">Ingresa al menos edad y peso.</div>'; res.classList.remove('hidden'); return; }
+
+            // Simplified WHO growth assessment (approximate Z-scores for key ages)
+            // Weight-for-age median and SD for boys/girls (approximate from WHO tables)
+            const wMedians = { m: {0:3.3,1:4.5,2:5.6,3:6.4,4:7.0,5:7.5,6:7.9,9:8.9,12:9.6,18:10.9,24:12.2,36:14.3,48:16.3,60:18.3}, f: {0:3.2,1:4.3,2:5.4,3:6.1,4:6.7,5:7.2,6:7.6,9:8.5,12:9.2,18:10.4,24:11.5,36:13.9,48:15.8,60:17.7} };
+            const wSD = { m: {0:0.4,1:0.5,2:0.6,3:0.6,4:0.7,5:0.7,6:0.7,9:0.8,12:0.9,18:1.0,24:1.1,36:1.3,48:1.5,60:1.7}, f: {0:0.4,1:0.5,2:0.5,3:0.6,4:0.6,5:0.7,6:0.7,9:0.8,12:0.9,18:1.0,24:1.1,36:1.3,48:1.5,60:1.6} };
+
+            // Find closest age key
+            function closestKey(obj, age) {
+                const keys = Object.keys(obj).map(Number).sort((a,b)=>a-b);
+                let closest = keys[0];
+                for (const k of keys) { if (Math.abs(k-age) < Math.abs(closest-age)) closest = k; }
+                return closest;
+            }
+
+            const wMed = wMedians[sexo][closestKey(wMedians[sexo], edad)];
+            const wSd = wSD[sexo][closestKey(wSD[sexo], edad)];
+            const wZ = (peso - wMed) / wSd;
+
+            let wInterp = '';
+            if (wZ < -3) wInterp = 'Desnutrición severa (Z < -3)';
+            else if (wZ < -2) wInterp = 'Desnutrición moderada (-3 ≤ Z < -2)';
+            else if (wZ < -1) wInterp = 'Riesgo de desnutrición (-2 ≤ Z < -1)';
+            else if (wZ <= 1) wInterp = 'Normal (-1 ≤ Z ≤ 1)';
+            else if (wZ <= 2) wInterp = 'Riesgo de sobrepeso (1 < Z ≤ 2)';
+            else if (wZ <= 3) wInterp = 'Sobrepeso (2 < Z ≤ 3)';
+            else wInterp = 'Obesidad (Z > 3)';
+
+            let html = `<div class="font-bold text-slate-800 dark:text-slate-200">Peso: ${peso} kg — Z-score: ${wZ.toFixed(2)} — ${wInterp}</div>`;
+
+            if (talla > 0) {
+                // Height-for-age (approximate)
+                const hMedians = { m: {0:49.9,1:54.7,2:58.4,3:61.4,4:63.9,5:65.9,6:67.6,9:72.0,12:75.7,18:82.3,24:87.8,36:96.1,48:103.3,60:109.9}, f: {0:49.1,1:53.7,2:57.1,3:59.8,4:62.1,5:64.0,6:65.7,9:70.1,12:74.0,18:80.7,24:86.4,36:95.1,48:102.7,60:109.4} };
+                const hSD = { m: {0:1.9,1:2.0,2:2.1,3:2.2,4:2.3,5:2.4,6:2.4,9:2.6,12:2.8,18:3.1,24:3.3,36:3.7,48:4.1,60:4.5}, f: {0:1.9,1:2.0,2:2.0,3:2.1,4:2.2,5:2.3,6:2.3,9:2.5,12:2.7,18:3.0,24:3.2,36:3.6,48:4.0,60:4.4} };
+                const hMed = hMedians[sexo][closestKey(hMedians[sexo], edad)];
+                const hSd = hSD[sexo][closestKey(hSD[sexo], edad)];
+                const hZ = (talla - hMed) / hSd;
+                let hInterp = '';
+                if (hZ < -3) hInterp = 'Talla baja severa (Z < -3)';
+                else if (hZ < -2) hInterp = 'Talla baja (-3 ≤ Z < -2)';
+                else if (hZ < -1) hInterp = 'Riesgo de talla baja (-2 ≤ Z < -1)';
+                else if (hZ <= 1) hInterp = 'Normal (-1 ≤ Z ≤ 1)';
+                else if (hZ <= 2) hInterp = 'Talla alta (1 < Z ≤ 2)';
+                else hInterp = 'Talla muy alta (Z > 2)';
+                html += `<div class="font-bold text-slate-800 dark:text-slate-200 mt-1">Talla: ${talla} cm — Z-score: ${hZ.toFixed(2)} — ${hInterp}</div>`;
+            }
+
+            if (pc > 0 && edad <= 24) {
+                html += `<div class="text-[10px] text-slate-500 mt-1">PC: ${pc} cm (evaluar según tabla de PC por edad y sexo).</div>`;
+            }
+
+            html += `<div class="text-[10px] text-slate-500 mt-2">Z-scores aproximados basados en tablas OMS. Para evaluación precisa, usar tablas OMS completas. Z-score: -2 a +2 = normal.</div>`;
+            res.innerHTML = html;
+            res.classList.remove('hidden');
+        }
+
+        function switchPedSubTab(subTab) {
+            const views = ['crecimiento', 'vacunacion', 'nutricion', 'neonato'];
+            views.forEach(v => {
+                const viewEl = document.getElementById(`ped-view-${v}`);
+                if (viewEl) viewEl.classList.add('hidden');
+                const btnEl = document.getElementById(`btn-pedsub-${v}`);
+                if (btnEl) {
+                    btnEl.classList.remove('bg-pink-600', 'text-white', 'shadow');
+                    btnEl.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                }
+            });
+            const targetView = document.getElementById(`ped-view-${subTab}`);
+            if (targetView) targetView.classList.remove('hidden');
+            const targetBtn = document.getElementById(`btn-pedsub-${subTab}`);
+            if (targetBtn) {
+                targetBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                targetBtn.classList.add('bg-pink-600', 'text-white', 'shadow');
+            }
+        }
+
         // NAVIGATION & TAB SWITCHING
         /* ---------------------------------------------------------
    Utilidades de interfaz
@@ -7553,6 +7638,7 @@ function switchTab(tabId) {
             if (tabId === 'infectologia') switchInfectoSubTab('sindrome');
             if (tabId === 'cardiologia') switchCardioSubTab('ecg');
             if (tabId === 'dengue') switchDengueSubTab('dengue');
+            if (tabId === 'pediatria') switchPedSubTab('crecimiento');
             if (tabId === 'triadas') renderTriads();
             if (tabId === 'neurologico') neuroRender();
             if (tabId === 'calculadoras') {
