@@ -3184,7 +3184,222 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <p class="text-[10px] text-slate-500 leading-relaxed">4AT 0: delirium improbable. 1-3: posible deterioro cognitivo. ≥ 4: probable delirium.</p>
         </div>
     `
+},
+{
+    id: 'flacc', cat: 'urgencias', title: 'FLACC (Dolor pediátrico)',
+    desc: 'Escala de dolor en niños de 2 meses a 7 años (0-10).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <p class="text-[10px] text-slate-500">Evalúa 5 categorías (0-2 cada una). Total 0-10.</p>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Cara (0-2):</label>
+                <select id="flacc-cara" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Expresión normal/sonriente</option>
+                    <option value="1">1 - Mueca ocasional</option>
+                    <option value="2">2 - Mueca frecuente, ceño fruncido</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Piernas (0-2):</label>
+                <select id="flacc-piernas" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Relajadas/normal</option>
+                    <option value="1">1 - Inquietas, tensas</option>
+                    <option value="2">2 - Patadas, piernas flexionadas</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Actividad (0-2):</label>
+                <select id="flacc-act" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Acostado tranquilo, posición normal</option>
+                    <option value="1">1 - Se retuerce, se balancea</option>
+                    <option value="2">2 - Arqueado, rígido, sacudidas</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Llanto (0-2):</label>
+                <select id="flacc-llanto" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Sin llanto</option>
+                    <option value="1">1 - Gemidos, quejidos</option>
+                    <option value="2">2 - Llanto persistente, gritos</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Consolabilidad (0-2):</label>
+                <select id="flacc-cons" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Contento, relajado</option>
+                    <option value="1">1 - Se consuela con toques/abrazos</option>
+                    <option value="2">2 - Inconsolable</option>
+                </select>
+            </div>
+            <button onclick="calcFLACC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular FLACC</button>
+            <div id="flacc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">FLACC 0: sin dolor. 1-3: dolor leve. 4-6: moderado. 7-10: severo.</p>
+        </div>
+    `
+},
+{
+    id: 'braden', cat: 'urgencias', title: 'Braden (Riesgo de úlcera por presión)',
+    desc: 'Escala de riesgo de úlceras por presión (6-23). Menor = mayor riesgo.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Percepción sensorial:</label>
+                <select id="braden-sens" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="1">1 - Completamente limitada</option>
+                    <option value="2">2 - Muy limitada</option>
+                    <option value="3">3 - Ligeramente limitada</option>
+                    <option value="4">4 - Sin limitación</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Humedad:</label>
+                <select id="braden-hum" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="1">1 - Constantemente húmeda</option>
+                    <option value="2">2 - Muy húmeda</option>
+                    <option value="3">3 - Ocasionalmente húmeda</option>
+                    <option value="4">4 - Raramente húmeda</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Actividad:</label>
+                <select id="braden-act" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="1">1 - En cama</option>
+                    <option value="2">2 - Confinado a silla</option>
+                    <option value="3">3 - Camina ocasionalmente</option>
+                    <option value="4">4 - Camina frecuentemente</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Movilidad:</label>
+                <select id="braden-mov" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="1">1 - Completamente inmóvil</option>
+                    <option value="2">2 - Muy limitada</option>
+                    <option value="3">3 - Ligeramente limitada</option>
+                    <option value="4">4 - Sin limitación</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Nutrición:</label>
+                <select id="braden-nut" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="1">1 - Muy pobre</option>
+                    <option value="2">2 - Probablemente inadecuada</option>
+                    <option value="3">3 - Adecuada</option>
+                    <option value="4">4 - Excelente</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Fricción y cizallamiento:</label>
+                <select id="braden-fric" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="1">1 - Problema</option>
+                    <option value="2">2 - Problema potencial</option>
+                    <option value="3">3 - Sin problema aparente</option>
+                </select>
+            </div>
+            <button onclick="calcBraden()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Braden</button>
+            <div id="braden-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Braden ≤ 9: riesgo muy alto. 10-12: alto. 13-14: moderado. 15-18: leve. 19-23: sin riesgo.</p>
+        </div>
+    `
+},
+{
+    id: 'morse', cat: 'urgencias', title: 'Morse (Riesgo de caídas)',
+    desc: 'Escala de riesgo de caídas (0-125).',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Historia de caídas:</label>
+                <select id="morse-hist" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">No (0)</option>
+                    <option value="25">Sí (25)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Diagnóstico secundario:</label>
+                <select id="morse-dx" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">No (0)</option>
+                    <option value="15">Sí (15)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Ayuda para deambular:</label>
+                <select id="morse-ayuda" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Sin ayuda / reposo en cama (0)</option>
+                    <option value="15">Bastón/muletas/andador (15)</option>
+                    <option value="30">Se apoya en muebles (30)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Vía IV / heparina lock:</label>
+                <select id="morse-iv" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">No (0)</option>
+                    <option value="20">Sí (20)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Marcha/transferencia:</label>
+                <select id="morse-marcha" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Normal/encamado (0)</option>
+                    <option value="10">Débil (10)</option>
+                    <option value="20">Alterada (20)</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Estado mental:</label>
+                <select id="morse-mental" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">Orientado (0)</option>
+                    <option value="15">Olvidadizo/confuso (15)</option>
+                </select>
+            </div>
+            <button onclick="calcMorse()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Morse</button>
+            <div id="morse-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">Morse < 25: bajo riesgo. 25-44: riesgo moderado. ≥ 45: alto riesgo.</p>
+        </div>
+    `
+},
+{
+    id: 'cpot', cat: 'urgencias', title: 'CPOT (Dolor en UCI)',
+    desc: 'Critical-Care Pain Observation Tool (0-8). Para pacientes no verbales.',
+    body: `
+        <div class="space-y-2 text-xs">
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Expresión facial (0-2):</label>
+                <select id="cpot-cara" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Relajada, neutral</option>
+                    <option value="1">1 - Ceño fruncido, tensa</option>
+                    <option value="2">2 - Mueca, ojos cerrados</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Movimientos corporales (0-2):</label>
+                <select id="cpot-mov" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Sin movimiento</option>
+                    <option value="1">1 - Movimientos protectores</option>
+                    <option value="2">2 - Agitación, sacudidas</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Tensión muscular (0-2):</label>
+                <select id="cpot-musc" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Relajado</option>
+                    <option value="1">1 - Tenso, resistente</option>
+                    <option value="2">2 - Muy tenso, rígido</option>
+                </select>
+            </div>
+            <div class="space-y-1">
+                <label class="block font-medium text-slate-500 mb-0.5">Ventilación (0-2):</label>
+                <select id="cpot-vent" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold">
+                    <option value="0">0 - Tolerancia al ventilador</option>
+                    <option value="1">1 - Tos pero tolera</option>
+                    <option value="2">2 - Lucha contra el ventilador</option>
+                </select>
+            </div>
+            <button onclick="calcCPOT()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular CPOT</button>
+            <div id="cpot-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <p class="text-[10px] text-slate-500 leading-relaxed">CPOT ≥ 3: dolor significativo. Tratar con analgesia.</p>
+        </div>
+    `
 }
+
 
   
 
@@ -11913,6 +12128,80 @@ window.onload = function() {
             enhanceNumericInputs();
             switchTab('inicio');
         };
+        function calcFLACC() {
+            const g = id => document.getElementById(id);
+            const cara = parseInt(g('flacc-cara')?.value || 0);
+            const piernas = parseInt(g('flacc-piernas')?.value || 0);
+            const act = parseInt(g('flacc-act')?.value || 0);
+            const llanto = parseInt(g('flacc-llanto')?.value || 0);
+            const cons = parseInt(g('flacc-cons')?.value || 0);
+            const total = cara + piernas + act + llanto + cons;
+            const res = g('flacc-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 7) interp = 'Dolor severo (7-10)';
+            else if (total >= 4) interp = 'Dolor moderado (4-6)';
+            else if (total >= 1) interp = 'Dolor leve (1-3)';
+            else interp = 'Sin dolor (0)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">FLACC: ${total}/10 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcBraden() {
+            const g = id => document.getElementById(id);
+            const sens = parseInt(g('braden-sens')?.value || 0);
+            const hum = parseInt(g('braden-hum')?.value || 0);
+            const act = parseInt(g('braden-act')?.value || 0);
+            const mov = parseInt(g('braden-mov')?.value || 0);
+            const nut = parseInt(g('braden-nut')?.value || 0);
+            const fric = parseInt(g('braden-fric')?.value || 0);
+            const total = sens + hum + act + mov + nut + fric;
+            const res = g('braden-res');
+            if (!res) return;
+            let interp = '';
+            if (total <= 9) interp = 'Riesgo muy alto (≤ 9)';
+            else if (total <= 12) interp = 'Riesgo alto (10-12)';
+            else if (total <= 14) interp = 'Riesgo moderado (13-14)';
+            else if (total <= 18) interp = 'Riesgo leve (15-18)';
+            else interp = 'Sin riesgo (19-23)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Braden: ${total}/23 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcMorse() {
+            const g = id => document.getElementById(id);
+            const hist = parseInt(g('morse-hist')?.value || 0);
+            const dx = parseInt(g('morse-dx')?.value || 0);
+            const ayuda = parseInt(g('morse-ayuda')?.value || 0);
+            const iv = parseInt(g('morse-iv')?.value || 0);
+            const marcha = parseInt(g('morse-marcha')?.value || 0);
+            const mental = parseInt(g('morse-mental')?.value || 0);
+            const total = hist + dx + ayuda + iv + marcha + mental;
+            const res = g('morse-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 45) interp = 'Alto riesgo (≥ 45)';
+            else if (total >= 25) interp = 'Riesgo moderado (25-44)';
+            else interp = 'Bajo riesgo (< 25)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Morse: ${total} pts — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
+
+        function calcCPOT() {
+            const g = id => document.getElementById(id);
+            const cara = parseInt(g('cpot-cara')?.value || 0);
+            const mov = parseInt(g('cpot-mov')?.value || 0);
+            const musc = parseInt(g('cpot-musc')?.value || 0);
+            const vent = parseInt(g('cpot-vent')?.value || 0);
+            const total = cara + mov + musc + vent;
+            const res = g('cpot-res');
+            if (!res) return;
+            let interp = '';
+            if (total >= 3) interp = 'Dolor significativo (≥ 3) — tratar con analgesia';
+            else interp = 'Sin dolor significativo (< 3)';
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">CPOT: ${total}/8 — ${interp}</div>`;
+            res.classList.remove('hidden');
+        }
         function calcPHQ9() {
             const g = id => document.getElementById(id);
             let total = 0;
