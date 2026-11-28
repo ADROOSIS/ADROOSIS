@@ -11165,6 +11165,7 @@ function algOpen(id) {
 
 function algShowRun() {
     const a = ALG.cur; if (!a) { algShowList(); return; }
+    if (typeof algVisualRender === 'function') { algVisualRender(a); return; }
     document.getElementById('alg-list-view')?.classList.add('hidden');
     const rv = document.getElementById('alg-run-view'); if (!rv) return;
     rv.classList.remove('hidden');

@@ -1,4 +1,3 @@
-console.log('algo-engine.js loaded, ALG_DATA available:', typeof ALG_DATA !== 'undefined', 'ALG available:', typeof ALG !== 'undefined');
 /* ===== ALGORITHM VISUAL ENGINE (FASE 0) ===== */
 /* Reusable data-driven engine for clinical algorithms */
 
@@ -318,7 +317,7 @@ window.algOpen = function(id) { console.log('algOpen called with', id);
     if (container) { container.classList.remove('hidden'); }
     if (listEl) listEl.classList.add('hidden');
     if (runEl) runEl.classList.add('hidden');
-    try { algVisualRender(a); console.log('rendered OK'); } catch(e) { console.error('render error:', e); }
+    algVisualRender(a);
 };
 
 // ---- Override algInit ----
