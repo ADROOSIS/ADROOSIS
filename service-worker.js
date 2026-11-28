@@ -8,7 +8,7 @@
    - Rutas relativas: funciona en /ADROOSIS/ o en la raíz.
    ========================================================= */
 
-const VERSION = "3.0.0";
+const VERSION = "3.1.0";
 const STATIC_CACHE = `adroosis-static-${VERSION}`;
 const HTML_CACHE = `adroosis-html-${VERSION}`;
 const INDEX_KEY = "./index.html";
@@ -22,6 +22,7 @@ const PRECACHE_STATIC = [
   "./js/app.js",
   "./js/pwa.js",
   "./js/nihss.js",
+  "./js/algo-engine.js",
   "./vendor/fontawesome/css/all.min.css",
   "./logo-192.webp",
   "./icon-192.png",

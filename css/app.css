@@ -29,3 +29,257 @@
     font-size: 0.75rem;
     font-weight: normal;
 }
+
+/* ===== ALGORITHM VISUAL ENGINE (FASE 0) ===== */
+:root {
+  --alg-banner-bg: #1e3a5f;
+  --alg-banner-text: #ffffff;
+  --alg-phase-bg: #d6eaf8;
+  --alg-phase-text: #1a3a5c;
+  --alg-phase-crit-bg: #f8d0d0;
+  --alg-phase-crit-text: #7a1a1a;
+  --alg-node-bg: #CFE8F0;
+  --alg-node-border: #1e3a5f;
+  --alg-node-text: #1a2a3a;
+  --alg-time-bg: #c0392b;
+  --alg-time-text: #ffffff;
+  --alg-note-bg: #c0392b;
+  --alg-note-text: #ffffff;
+  --alg-arrow: #2c3e50;
+  --alg-decision-bg: #e8f4f8;
+  --alg-decision-border: #1e3a5f;
+  --alg-action-bg: #f0f4f8;
+  --alg-footer-bg: #f8f9fa;
+  --alg-footer-text: #4a5568;
+}
+.dark {
+  --alg-banner-bg: #0f2744;
+  --alg-banner-text: #e2e8f0;
+  --alg-phase-bg: #1a3050;
+  --alg-phase-text: #a8d4f0;
+  --alg-phase-crit-bg: #3a1a1a;
+  --alg-phase-crit-text: #f8a0a0;
+  --alg-node-bg: #1a3050;
+  --alg-node-border: #4a7ab0;
+  --alg-node-text: #d0e0f0;
+  --alg-time-bg: #a03020;
+  --alg-time-text: #f0d0d0;
+  --alg-note-bg: #a03020;
+  --alg-note-text: #f0d0d0;
+  --alg-arrow: #8090a0;
+  --alg-decision-bg: #1a2a3a;
+  --alg-decision-border: #4a7ab0;
+  --alg-action-bg: #1a2535;
+  --alg-footer-bg: #0f1a2a;
+  --alg-footer-text: #8090a0;
+}
+
+.alg-banner {
+  background: var(--alg-banner-bg);
+  color: var(--alg-banner-text);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.alg-banner-num {
+  background: rgba(255,255,255,0.2);
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 900;
+}
+.alg-time-badge {
+  background: var(--alg-time-bg);
+  color: var(--alg-time-text);
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.alg-phase {
+  background: var(--alg-phase-bg);
+  color: var(--alg-phase-text);
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.alg-phase-crit {
+  background: var(--alg-phase-crit-bg);
+  color: var(--alg-phase-crit-text);
+}
+.alg-node {
+  background: var(--alg-node-bg);
+  border: 1.5px solid var(--alg-node-border);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--alg-node-text);
+  line-height: 1.4;
+}
+.alg-node-title {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.alg-node ul {
+  margin: 0.25rem 0 0 1rem;
+  padding: 0;
+  list-style: disc;
+}
+.alg-node li {
+  margin-bottom: 0.125rem;
+}
+.alg-node .drug {
+  font-weight: 700;
+}
+.alg-decision {
+  background: var(--alg-decision-bg);
+  border: 1.5px solid var(--alg-decision-border);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--alg-node-text);
+  font-weight: 600;
+  text-align: center;
+}
+.alg-note-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background: var(--alg-note-bg);
+  color: var(--alg-note-text);
+  font-size: 0.625rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+}
+.alg-note-circle:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+.alg-arrow {
+  color: var(--alg-arrow);
+  font-size: 0.75rem;
+}
+.alg-footer {
+  background: var(--alg-footer-bg);
+  color: var(--alg-footer-text);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+.alg-view-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.alg-view-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--alg-node-border);
+  background: var(--alg-node-bg);
+  color: var(--alg-node-text);
+  transition: all 0.2s;
+}
+.alg-view-btn.active {
+  background: var(--alg-banner-bg);
+  color: var(--alg-banner-text);
+  border-color: var(--alg-banner-bg);
+}
+.alg-step-card {
+  background: var(--alg-node-bg);
+  border: 1.5px solid var(--alg-node-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.alg-step-card .step-time {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--alg-time-bg);
+  margin-bottom: 0.5rem;
+}
+.alg-step-card .step-phase {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--alg-phase-text);
+  margin-bottom: 0.25rem;
+}
+.alg-pob-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.alg-pob-tab {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--alg-node-border);
+  background: var(--alg-node-bg);
+  color: var(--alg-node-text);
+}
+.alg-pob-tab.active {
+  background: var(--alg-banner-bg);
+  color: var(--alg-banner-text);
+}
+.alg-note-panel {
+  background: var(--alg-footer-bg);
+  border: 1.5px solid var(--alg-node-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--alg-footer-text);
+}
+.alg-note-panel .note-title {
+  font-weight: 700;
+  color: var(--alg-node-text);
+  margin-bottom: 0.25rem;
+}
+.alg-diagram-container {
+  overflow: auto;
+  max-height: 70vh;
+  border: 1.5px solid var(--alg-node-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: var(--alg-footer-bg);
+}
+.alg-diagram-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.alg-time-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 3rem;
+}
+.alg-content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
