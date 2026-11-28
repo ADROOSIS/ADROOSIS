@@ -170,6 +170,103 @@
                         </div>
                     </div>
 
+                        <!-- ACCESO RAPIDO A EMERGENCIAS -->
+                        <section class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-truck-medical"></i></span>
+                                <div>
+                                    <h3 class="font-extrabold text-slate-900 dark:text-white text-base">Emergencias - Acceso Rapido</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Algoritmos criticos para la guardia</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                                <button onclick="switchTab('algoritmos'); algOpen('sepsis')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-xs font-bold shadow-md transition-all">
+                                    <i class="fa-solid fa-bacterium"></i> Sepsis / Shock
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('anafilaxia')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-xs font-bold shadow-md transition-all">
+                                    <i class="fa-solid fa-allergies"></i> Anafilaxia
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('preeclampsia')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-xs font-bold shadow-md transition-all">
+                                    <i class="fa-solid fa-person-pregnant"></i> Eclampsia
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('hemorragia_posparto')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-xs font-bold shadow-md transition-all">
+                                    <i class="fa-solid fa-droplet"></i> HPP Codigo Rojo
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('paro')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-bold border border-rose-800/60 shadow-md transition-all">
+                                    <i class="fa-solid fa-heart-pulse"></i> Paro (ACLS)
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('sca')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-bold border border-rose-800/60 shadow-md transition-all">
+                                    <i class="fa-solid fa-heart-crack"></i> SCA
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('ictus')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-bold border border-rose-800/60 shadow-md transition-all">
+                                    <i class="fa-solid fa-brain"></i> Codigo Ictus
+                                </button>
+                                <button onclick="switchTab('algoritmos'); algOpen('asma')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-bold border border-rose-800/60 shadow-md transition-all">
+                                    <i class="fa-solid fa-lungs"></i> Crisis Asmatica
+                                </button>
+                            </div>
+                        </section>
+                        <!-- REFERENCIA RAPIDA: VALORES NORMALES -->
+                        <section class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-clipboard-list"></i></span>
+                                <div>
+                                    <h3 class="font-extrabold text-slate-900 dark:text-white text-base">Referencia Rapida - Valores Normales</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Parametros frecuentes en la guardia</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">FC</div>
+                                    <div class="text-slate-500 dark:text-slate-400">60-100 lpm</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">FR</div>
+                                    <div class="text-slate-500 dark:text-slate-400">12-20 rpm</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">PAS/PAD</div>
+                                    <div class="text-slate-500 dark:text-slate-400">&lt; 120/80 mmHg</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">T</div>
+                                    <div class="text-slate-500 dark:text-slate-400">36.0-37.5 C</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">SpO2</div>
+                                    <div class="text-slate-500 dark:text-slate-400">&gt;= 94%</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">Glucosa</div>
+                                    <div class="text-slate-500 dark:text-slate-400">70-100 mg/dL</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">Na</div>
+                                    <div class="text-slate-500 dark:text-slate-400">135-145 mEq/L</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">K</div>
+                                    <div class="text-slate-500 dark:text-slate-400">3.5-5.0 mEq/L</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">Creatinina</div>
+                                    <div class="text-slate-500 dark:text-slate-400">0.7-1.3 mg/dL</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">Hb</div>
+                                    <div class="text-slate-500 dark:text-slate-400">H: 13.5-17.5, M: 12-16 g/dL</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">Plaquetas</div>
+                                    <div class="text-slate-500 dark:text-slate-400">150-400 x10^3/uL</div>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                    <div class="font-bold text-slate-700 dark:text-slate-200">INR</div>
+                                    <div class="text-slate-500 dark:text-slate-400">0.8-1.2</div>
+                                </div>
+                            </div>
+                        </section>
+                        
                         <!-- NOVEDADES CLÍNICAS (INICIO) -->
                     <section class="space-y-3 mb-6">
                         <div class="flex items-center justify-between">
