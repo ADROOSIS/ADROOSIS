@@ -7699,12 +7699,12 @@ function renderVademecum() {
             if (!res) return;
             if (!fc || !pas) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
             const ic = fc / pas;
-            let interp = '';
-            if (ic > 1.0) interp = 'Choque severo (> 1.0)';
-            else if (ic > 0.9) interp = 'Choque (> 0.9)';
-            else if (ic > 0.7) interp = 'Riesgo elevado (0.7-0.9)';
-            else interp = 'Normal (0.5-0.7)';
-            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Índice de choque: ${ic.toFixed(2)} — ${interp}</div>`;
+            let interp = '', clasif = '';
+            if (ic > 1.0) { interp = 'Choque severo (> 1.0)'; clasif = 'Shock hipovolémico o cardiogénico probable. Reanimación agresiva.'; }
+            else if (ic > 0.9) { interp = 'Choque (> 0.9)'; clasif = 'Shock en curso. Evaluar causa (hipovolémico, cardiogénico, séptico, obstructivo).'; }
+            else if (ic > 0.7) { interp = 'Riesgo elevado (0.7-0.9)'; clasif = 'Riesgo de deterioro. Monitorizar de cerca.'; }
+            else { interp = 'Normal (0.5-0.7)'; clasif = 'Sin signos de choque.'; }
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Índice de choque: ${ic.toFixed(2)} — ${interp}</div><div class="text-[10px] text-slate-500 mt-1">${clasif}</div>`;
             res.classList.remove('hidden');
         }
 
@@ -7719,11 +7719,12 @@ function renderVademecum() {
             const total = fc + fr + pas + t + avpu + dolor;
             const res = g('meows-res');
             if (!res) return;
-            let interp = '';
-            if (total >= 4) interp = 'MEOWS ≥ 4: UCI / respuesta rápida';
-            else if (total >= 2) interp = 'MEOWS ≥ 2: activar respuesta rápida';
-            else interp = 'MEOWS < 2: monitorización rutinaria';
-            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">MEOWS: ${total} pts — ${interp}</div>`;
+            let interp = '', accion = '';
+            if (total >= 4) { interp = 'MEOWS ≥ 4: riesgo alto'; accion = 'Activar código de respuesta rápida. Evaluar ingreso a UCI. Reevaluar cada 15 min.'; }
+            else if (total >= 2) { interp = 'MEOWS ≥ 2: riesgo moderado'; accion = 'Activar respuesta rápida. Reevaluar cada 30 min. Considerar traslado a UCI.'; }
+            else if (total === 1) { interp = 'MEOWS = 1: riesgo bajo'; accion = 'Monitorización rutinaria. Reevaluar cada 4 h.'; }
+            else { interp = 'MEOWS = 0: sin riesgo'; accion = 'Monitorización estándar.'; }
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">MEOWS: ${total} pts — ${interp}</div><div class="text-[10px] text-slate-500 mt-1">${accion}</div>`;
             res.classList.remove('hidden');
         }
 
@@ -7734,13 +7735,19 @@ function renderVademecum() {
             const res = g('au-res');
             if (!res) return;
             if (!sem || !cm) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
-            const esperado = sem;
-            const diff = Math.abs(cm - esperado);
+            // Johnson curve: AU (cm) = (semanas - 12) × 0.85 for ≥ 20 weeks
+            let johnson = 0;
+            if (sem >= 20) johnson = (sem - 12) * 0.85;
+            // McDonald rule: AU = semanas × 0.7 for 20-31 weeks, (semanas - 11) × 0.9 for ≥ 32 weeks
+            let mcdonald = 0;
+            if (sem >= 20 && sem <= 31) mcdonald = sem * 0.7;
+            else if (sem >= 32) mcdonald = (sem - 11) * 0.9;
+            const diff = Math.abs(cm - sem);
             let interp = '';
             if (diff <= 2) interp = 'Normal (± 2 cm)';
-            else if (cm < esperado - 2) interp = 'Altura uterina baja — evaluar (RCIU, oligohidramnios)';
+            else if (cm < sem - 2) interp = 'Altura uterina baja — evaluar (RCIU, oligohidramnios)';
             else interp = 'Altura uterina alta — evaluar (polihidramnios, macrosomía, embarazo múltiple)';
-            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">AU: ${cm} cm vs esperado ${esperado} cm — ${interp}</div>`;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">AU: ${cm} cm vs esperado ${sem} cm — ${interp}</div><div class="text-[10px] text-slate-500 mt-1">Johnson: ${johnson.toFixed(1)} cm. McDonald: ${mcdonald.toFixed(1)} cm. Fórmula simple: semanas ± 2 cm.</div>`;
             res.classList.remove('hidden');
         }
 
@@ -7761,17 +7768,19 @@ function renderVademecum() {
             const peso = parseFloat(g('sang-peso')?.value || 0);
             const hbBasal = parseFloat(g('sang-hb-basal')?.value || 0);
             const hbActual = parseFloat(g('sang-hb-actual')?.value || 0);
+            const embarazada = g('sang-embarazada')?.checked;
             const res = g('sang-res');
             if (!res) return;
             if (!peso || !hbBasal || !hbActual) { res.innerHTML = '<div class="font-bold text-amber-600">Completa todos los campos.</div>'; res.classList.remove('hidden'); return; }
-            const volSangre = peso * 70; // mL (70 mL/kg)
+            const mlKg = embarazada ? 82.5 : 70;
+            const volSangre = peso * mlKg;
             const perdida = volSangre * (hbBasal - hbActual) / hbBasal;
             let interp = '';
             if (perdida > 1500) interp = 'Hemorragia masiva (> 1500 mL) — activar código rojo';
             else if (perdida > 1000) interp = 'Hemorragia mayor (1000-1500 mL) — transfundir';
             else if (perdida > 500) interp = 'Hemorragia moderada (500-1000 mL) — observar';
             else interp = 'Hemorragia leve (< 500 mL)';
-            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Pérdida estimada: ${perdida.toFixed(0)} mL — ${interp}</div><div class="text-[10px] text-slate-500 mt-1">Volumen sanguíneo estimado: ${volSangre.toFixed(0)} mL (70 mL/kg). Fórmula: VSE × (Hb basal - Hb actual) / Hb basal.</div>`;
+            res.innerHTML = `<div class="font-bold text-slate-800 dark:text-slate-200">Pérdida estimada: ${perdida.toFixed(0)} mL — ${interp}</div><div class="text-[10px] text-slate-500 mt-1">Volumen sanguíneo estimado: ${volSangre.toFixed(0)} mL (${mlKg} mL/kg${embarazada ? ' — embarazada' : ''}). Fórmula: VSE × (Hb basal - Hb actual) / Hb basal.</div>`;
             res.classList.remove('hidden');
         }
 
