@@ -91,10 +91,10 @@ function algVisualDiagram(alg, pob) {
 
     // Phase bands
     if (alg.phases && alg.phases.length) {
-        html += '<div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">';
+        html += '<div style="margin-bottom:1rem;">';
         alg.phases.forEach(function(ph) {
             const cls = ph.crit ? 'alg-phase alg-phase-crit' : 'alg-phase';
-            html += '<span class="' + cls + '">' + ph.name + (ph.time ? ' (' + ph.time + ')' : '') + '</span>';
+            html += '<div class="' + cls + '" style="display:block;width:100%;margin-bottom:0.25rem;padding:0.5rem 0.75rem;border-radius:0.375rem;">' + ph.name + (ph.time ? ' \u2014 ' + ph.time : '') + '</div>';
         });
         html += '</div>';
     }
@@ -156,7 +156,7 @@ function algVisualDiagram(alg, pob) {
             }
             html += '</div>';
         }
-        html += '<div style="text-align:center;color:var(--alg-arrow);font-size:0.75rem;margin:0.125rem 0;">↓</div>';
+        html += '<div style="text-align:center;margin:0.25rem 0;"><svg width="20" height="24" viewBox="0 0 20 24" style="display:inline-block;"><line x1="10" y1="0" x2="10" y2="16" stroke="var(--alg-arrow)" stroke-width="2"/><polygon points="4,16 10,24 16,16" fill="var(--alg-arrow)"/></svg></div>';
     });
 
     // Bottom transversal actions
