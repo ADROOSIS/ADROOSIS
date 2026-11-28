@@ -1,3 +1,4 @@
+console.log('algo-engine.js loaded, ALG_DATA available:', typeof ALG_DATA !== 'undefined', 'ALG available:', typeof ALG !== 'undefined');
 /* ===== ALGORITHM VISUAL ENGINE (FASE 0) ===== */
 /* Reusable data-driven engine for clinical algorithms */
 
@@ -302,7 +303,7 @@ function algEsc(v) { return String(v == null ? '' : v).replace(/&/g,'&amp;').rep
 
 // ---- Override algOpen to use visual renderer ----
 const _origAlgOpen = (typeof algOpen === 'function') ? algOpen : null;
-window.algOpen = function(id) {
+window.algOpen = function(id) { console.log('algOpen called with', id);
     const a = (typeof ALG_DATA !== 'undefined') ? ALG_DATA.find(x => x.id === id) : null;
     if (!a) { if (_origAlgOpen) _origAlgOpen(id); return; }
     ALG.cur = a;
@@ -317,7 +318,7 @@ window.algOpen = function(id) {
     if (container) { container.classList.remove('hidden'); }
     if (listEl) listEl.classList.add('hidden');
     if (runEl) runEl.classList.add('hidden');
-    algVisualRender(a);
+    try { algVisualRender(a); console.log('rendered OK'); } catch(e) { console.error('render error:', e); }
 };
 
 // ---- Override algInit ----
