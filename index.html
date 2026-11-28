@@ -173,36 +173,44 @@
                         <!-- ACCESO RAPIDO A EMERGENCIAS -->
                         <section class="space-y-3">
                             <div class="flex items-center gap-2">
-                                <span class="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-truck-medical"></i></span>
+                                <span class="w-8 h-8 rounded-xl bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-truck-medical"></i></span>
                                 <div>
                                     <h3 class="font-extrabold text-slate-900 dark:text-white text-base">Emergencias - Acceso Rapido</h3>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Algoritmos criticos para la guardia</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Toca para abrir el algoritmo</p>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                                <button onclick="switchTab('algoritmos'); algOpen('sepsis')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-sm font-bold shadow-md transition-all">
-                                    <i class="fa-solid fa-bacterium"></i> Sepsis / Shock
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <button onclick="switchTab('algoritmos'); algOpen('sepsis')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-bold shadow-md transition-all min-h-[60px]">
+                                    <i class="fa-solid fa-bacterium text-lg"></i>
+                                    <span>Sepsis / Shock</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('anafilaxia')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-sm font-bold shadow-md transition-all">
-                                    <i class="fa-solid fa-allergies"></i> Anafilaxia
+                                <button onclick="switchTab('algoritmos'); algOpen('anafilaxia')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-bold shadow-md transition-all min-h-[60px]">
+                                    <i class="fa-solid fa-allergies text-lg"></i>
+                                    <span>Anafilaxia</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('preeclampsia')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-sm font-bold shadow-md transition-all">
-                                    <i class="fa-solid fa-person-pregnant"></i> Eclampsia
+                                <button onclick="switchTab('algoritmos'); algOpen('preeclampsia')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-bold shadow-md transition-all min-h-[60px]">
+                                    <i class="fa-solid fa-person-pregnant text-lg"></i>
+                                    <span>Eclampsia</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('hemorragia_posparto')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white text-sm font-bold shadow-md transition-all">
-                                    <i class="fa-solid fa-droplet"></i> HPP Codigo Rojo
+                                <button onclick="switchTab('algoritmos'); algOpen('hemorragia_posparto')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-bold shadow-md transition-all min-h-[60px]">
+                                    <i class="fa-solid fa-droplet text-lg"></i>
+                                    <span>HPP Codigo Rojo</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('paro')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-sm font-bold border border-rose-800/60 shadow-md transition-all">
-                                    <i class="fa-solid fa-heart-pulse"></i> Paro (ACLS)
+                                <button onclick="switchTab('algoritmos'); algOpen('paro')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-200 text-sm font-bold shadow-md transition-all min-h-[60px] border border-red-800/40">
+                                    <i class="fa-solid fa-heart-pulse text-lg"></i>
+                                    <span>Paro (ACLS)</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('sca')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-sm font-bold border border-rose-800/60 shadow-md transition-all">
-                                    <i class="fa-solid fa-heart-crack"></i> SCA
+                                <button onclick="switchTab('algoritmos'); algOpen('sca')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-200 text-sm font-bold shadow-md transition-all min-h-[60px] border border-red-800/40">
+                                    <i class="fa-solid fa-heart-crack text-lg"></i>
+                                    <span>SCA</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('ictus')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-sm font-bold border border-rose-800/60 shadow-md transition-all">
-                                    <i class="fa-solid fa-brain"></i> Codigo Ictus
+                                <button onclick="switchTab('algoritmos'); algOpen('ictus')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-200 text-sm font-bold shadow-md transition-all min-h-[60px] border border-red-800/40">
+                                    <i class="fa-solid fa-brain text-lg"></i>
+                                    <span>Codigo Ictus</span>
                                 </button>
-                                <button onclick="switchTab('algoritmos'); algOpen('asma')" class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-300 text-sm font-bold border border-rose-800/60 shadow-md transition-all">
-                                    <i class="fa-solid fa-lungs"></i> Crisis Asmatica
+                                <button onclick="switchTab('algoritmos'); algOpen('asma')" class="flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-red-200 text-sm font-bold shadow-md transition-all min-h-[60px] border border-red-800/40">
+                                    <i class="fa-solid fa-lungs text-lg"></i>
+                                    <span>Crisis Asmatica</span>
                                 </button>
                             </div>
                         </section>

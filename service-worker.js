@@ -8,7 +8,7 @@
    - Rutas relativas: funciona en /ADROOSIS/ o en la raíz.
    ========================================================= */
 
-const VERSION = "3.1.1";
+const VERSION = "3.1.2";
 const STATIC_CACHE = `adroosis-static-${VERSION}`;
 const HTML_CACHE = `adroosis-html-${VERSION}`;
 const INDEX_KEY = "./index.html";
