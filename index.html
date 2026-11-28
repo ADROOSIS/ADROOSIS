@@ -802,7 +802,7 @@
                                 <div><label class="block font-medium text-slate-500 mb-0.5">Edad gestacional (sem, opcional):</label>
                                     <input id="ped-eg" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 38"></div>
                                 <button onclick="calcCrecimiento()" class="w-full py-2 bg-pink-600 text-white font-bold rounded-xl mt-2">Evaluar crecimiento</button>
-                                <div id="ped-crec-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
+                                <div id="ped-crec-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900  space-y-2"></div>
                                 <div id="ped-crec-bars" class="hidden space-y-2"></div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
                                     <p class="font-bold text-teal-600 dark:text-teal-400">Hitos del desarrollo por edad</p>
@@ -1149,7 +1149,7 @@
                                             <input id="obs-eco" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
                                     </div>
                                     <button onclick="calcEdadGestacional()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Calcular EG y FPP</button>
-                                    <div id="obs-eg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="obs-eg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                     <p class="text-[10px] text-slate-500 mt-1">Redating: si discrepancia > 7 días (≤ 13+6 sem), > 10 días (14-27+6 sem), > 14 días (≥ 28 sem). Fuente: ACOG/SMFM. Revisado: 26 nov 2026. ✓ Verificado.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -1177,7 +1177,7 @@
                                             </select></div>
                                     </div>
                                     <button onclick="calcBishop()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Calcular Bishop</button>
-                                    <div id="bishop-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="bishop-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                     <p class="text-[10px] text-slate-500 mt-1">Bishop ≥ 8: cuello favorable. < 8: no favorable (considerar maduración cervical).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -1189,7 +1189,7 @@
                                             <input id="ic-pas" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 100"></div>
                                     </div>
                                     <button onclick="calcIndiceChoque()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Calcular índice de choque</button>
-                                    <div id="ic-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="ic-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                     <p class="text-[10px] text-slate-500 mt-1">IC = FC/PAS. Normal: 0.5-0.7. > 0.9: choque. > 1.0: choque severo.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -1235,7 +1235,7 @@
                                             </select></div>
                                     </div>
                                     <button onclick="calcMEOWS()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Calcular MEOWS</button>
-                                    <div id="meows-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="meows-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                     <p class="text-[10px] text-slate-500 mt-1">MEOWS ≥ 2: activar respuesta rápida. ≥ 4: UCI.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -1247,7 +1247,7 @@
                                             <input id="au-cm" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 28"></div>
                                     </div>
                                     <button onclick="calcAlturaUterina()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Evaluar altura uterina</button>
-                                    <div id="au-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="au-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                     <p class="text-[10px] text-slate-500 mt-1">Altura uterina (cm) ≈ semanas de gestación ± 2 cm (desde la 20ª semana). Desviación > 2 cm: evaluar.</p>
                                 </div>
                                 <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: ACOG, guías de obstetricia. Revisado: 26 nov 2026. Confirma con la guía de tu institución.</p>
@@ -1262,28 +1262,28 @@
                             <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Clasificación</strong>
-                                    <p class="mt-1">Hipertensión gestacional: PA ≥ 140/90 sin proteinuria. Preeclampsia sin criterios de severidad: PA ≥ 140/90 + proteinuria. Preeclampsia con criterios de severidad: PA ≥ 160/110, plaquetas < 100.000, creatinina > 1.1, transaminasas 2×, edema pulmonar, síntomas neurológicos/visuales. Eclampsia: convulsión. HELLP: hemólisis + enzimas hepáticas elevadas + plaquetas bajas.</p>
+                                    <p class="mt-1 leading-relaxed">Hipertensión gestacional: PA ≥ 140/90 sin proteinuria. Preeclampsia sin criterios de severidad: PA ≥ 140/90 + proteinuria. Preeclampsia con criterios de severidad: PA ≥ 160/110, plaquetas < 100.000, creatinina > 1.1, transaminasas 2×, edema pulmonar, síntomas neurológicos/visuales. Eclampsia: convulsión. HELLP: hemólisis + enzimas hepáticas elevadas + plaquetas bajas.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Crisis hipertensiva (antihipertensivos)</strong>
-                                    <p class="mt-1">Labetalol 20 mg IV (repetir 40-80 mg c/10 min, máx 300 mg). Hidralazina 5-10 mg IV c/20 min. Nifedipina 10 mg VO. Meta: PAS 140-150, PAD 90-100 mmHg. NO usar IECA/ARA II.</p>
+                                    <p class="mt-1 leading-relaxed">Labetalol 20 mg IV (repetir 40-80 mg c/10 min, máx 300 mg). Hidralazina 5-10 mg IV c/20 min. Nifedipina 10 mg VO. Meta: PAS 140-150, PAD 90-100 mmHg. NO usar IECA/ARA II.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Sulfato de magnesio</strong>
-                                    <p class="mt-1">Bolo: 4-6 g IV en 15-20 min. Mantenimiento: 1-2 g/h IV. Monitoreo: reflejo patelar, FR, diuresis. Toxicidad: arreflexia, FR < 12, oliguria. Antídoto: gluconato de calcio 1 g IV (10 mL al 10%). Duración posparto: 24 h. Ajuste renal: reducir dosis si CrCl < 30.</p>
+                                    <p class="mt-1 leading-relaxed">Bolo: 4-6 g IV en 15-20 min. Mantenimiento: 1-2 g/h IV. Monitoreo: reflejo patelar, FR, diuresis. Toxicidad: arreflexia, FR < 12, oliguria. Antídoto: gluconato de calcio 1 g IV (10 mL al 10%). Duración posparto: 24 h. Ajuste renal: reducir dosis si CrCl < 30.</p>
                                     <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1">✓ Verificado: ACOG 2023, guías de preeclampsia. Revisado: 26 nov 2026.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Criterios de finalización del embarazo</strong>
-                                    <p class="mt-1">Preeclampsia con criterios de severidad: ≥ 34 semanas → parto. < 34 semanas: estabilizar, corticoides, parto si deterioro. Eclampsia: parto después de estabilizar. HELLP: parto.</p>
+                                    <p class="mt-1 leading-relaxed">Preeclampsia con criterios de severidad: ≥ 34 semanas → parto. < 34 semanas: estabilizar, corticoides, parto si deterioro. Eclampsia: parto después de estabilizar. HELLP: parto.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Prevención</strong>
-                                    <p class="mt-1">Aspirina 75-150 mg/día desde la semana 12-16 en mujeres de riesgo (HTA, DM, ERC, obesidad, antecedente de preeclampsia). Calcio 1.0-1.5 g/día en mujeres con bajo consumo de calcio.</p>
+                                    <p class="mt-1 leading-relaxed">Aspirina 75-150 mg/día desde la semana 12-16 en mujeres de riesgo (HTA, DM, ERC, obesidad, antecedente de preeclampsia). Calcio 1.0-1.5 g/día en mujeres con bajo consumo de calcio.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Hipertensión crónica en el embarazo</strong>
-                                    <p class="mt-1">HTA previa al embarazo o < 20 semanas. Objetivo: PAS 130-140, PAD 80-90. Fármacos: labetalol, nifedipina, metildopa. Evitar IECA/ARA II. Preeclampsia sobreagregada: HTA crónica + proteinuria nueva o deterioro. Manejo: hospitalizar, sulfato de Mg, parto según gravedad.</p>
+                                    <p class="mt-1 leading-relaxed">HTA previa al embarazo o < 20 semanas. Objetivo: PAS 130-140, PAD 80-90. Fármacos: labetalol, nifedipina, metildopa. Evitar IECA/ARA II. Preeclampsia sobreagregada: HTA crónica + proteinuria nueva o deterioro. Manejo: hospitalizar, sulfato de Mg, parto según gravedad.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Calculadora de goteo de sulfato de magnesio</strong>
@@ -1294,7 +1294,7 @@
                                             <input id="mg-dosis" type="number" step="0.1" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 1"></div>
                                     </div>
                                     <button onclick="calcMgSO4()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Calcular goteo</button>
-                                    <div id="mg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="mg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                 </div>
                                 <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: ACOG 2023, GPC Colombia (complicaciones del embarazo). Revisado: 26 nov 2026. Verificar dosis con la guía de tu institución.</p>
                             </div>
@@ -1308,19 +1308,19 @@
                             <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
                                 <div class="p-3 bg-rose-50 dark:bg-rose-950/30 rounded-xl border border-rose-200 dark:border-rose-900/60">
                                     <strong class="text-rose-700 dark:text-rose-300">Código Rojo (hemorragia posparto)</strong>
-                                    <p class="mt-1">Activar equipo multidisciplinario. Reanimación: cristaloides, transfusión. Uterotónicos: oxitocina 10 UI IV + infusión 20-40 UI/L. Si persiste: misoprostol 800-1000 mcg rectal, metilergonovina 0.2 mg IM (NO en HTA), carboprost 250 mcg IM (NO en asma). Ácido tranexámico 1 g IV en 10 min (ventana 3 h). Masaje uterino bimanual. Balón de Bakri. Cirugía si refractario.</p>
+                                    <p class="mt-1 leading-relaxed">Activar equipo multidisciplinario. Reanimación: cristaloides, transfusión. Uterotónicos: oxitocina 10 UI IV + infusión 20-40 UI/L. Si persiste: misoprostol 800-1000 mcg rectal, metilergonovina 0.2 mg IM (NO en HTA), carboprost 250 mcg IM (NO en asma). Ácido tranexámico 1 g IV en 10 min (ventana 3 h). Masaje uterino bimanual. Balón de Bakri. Cirugía si refractario.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Las 4 T</strong>
-                                    <p class="mt-1">Tono (atonía uterina) — más común. Trauma (desgarros, hematoma). Tejido (retención placentaria). Trombina (coagulopatía).</p>
+                                    <p class="mt-1 leading-relaxed">Tono (atonía uterina) — más común. Trauma (desgarros, hematoma). Tejido (retención placentaria). Trombina (coagulopatía).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Hemorragia del 1er trimestre</strong>
-                                    <p class="mt-1">Aborto (amenaza, incompleto, completo, retenido, séptico). Embarazo ectópico. Mola hidatiforme. Conducta: estabilizar, β-hCG, ecografía, manejo según diagnóstico.</p>
+                                    <p class="mt-1 leading-relaxed">Aborto (amenaza, incompleto, completo, retenido, séptico). Embarazo ectópico. Mola hidatiforme. Conducta: estabilizar, β-hCG, ecografía, manejo según diagnóstico.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Hemorragia del 3er trimestre</strong>
-                                    <p class="mt-1">Placenta previa: sangrado indoloro, rojo brillante. Abruptio placentae: dolor abdominal, sangrado oscuro, útero rígido. Conducta: estabilizar, parto si hay compromiso fetal/maternal.</p>
+                                    <p class="mt-1 leading-relaxed">Placenta previa: sangrado indoloro, rojo brillante. Abruptio placentae: dolor abdominal, sangrado oscuro, útero rígido. Conducta: estabilizar, parto si hay compromiso fetal/maternal.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Cálculo de pérdida sanguínea</strong>
@@ -1334,11 +1334,11 @@
                                     </div>
                                     <label class="flex items-center gap-2 cursor-pointer text-[11px]"><input type="checkbox" id="sang-embarazada" class="cn-chk"> Embarazada (volumen sanguíneo 80-85 mL/kg)</label>
                                     <button onclick="calcPerdidaSangre()" class="w-full py-2 bg-rose-600 text-white font-bold rounded-xl mt-2">Calcular pérdida</button>
-                                    <div id="sang-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                                    <div id="sang-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-amber-600 dark:text-amber-400">Conducta en sitio remoto</strong>
-                                    <p class="mt-1">Estabilizar: vía aérea, O₂, líquidos IV, uterotónicos. Remitir con: historial, signos vitales, Hb, grupo/Rh, productos transfundidos, tiempo de evolución. Comunicar al receptor.</p>
+                                    <p class="mt-1 leading-relaxed">Estabilizar: vía aérea, O₂, líquidos IV, uterotónicos. Remitir con: historial, signos vitales, Hb, grupo/Rh, productos transfundidos, tiempo de evolución. Comunicar al receptor.</p>
                                 </div>
                                 <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: FIGO 2022, estrategia Código Rojo MinSalud. Revisado: 26 nov 2026. Verificar con la guía de tu institución.</p>
                             </div>
@@ -1352,47 +1352,47 @@
                             <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Fases del trabajo de parto</strong>
-                                    <p class="mt-1">Latente: 0-6 cm (hasta 20 h en primíparas, 14 h en multíparas). Activa: 6-10 cm. Transición: 8-10 cm. Expulsivo: 10 cm a nacimiento. Alumbramiento: nacimiento a expulsión de placenta.</p>
+                                    <p class="mt-1 leading-relaxed">Latente: 0-6 cm (hasta 20 h en primíparas, 14 h en multíparas). Activa: 6-10 cm. Transición: 8-10 cm. Expulsivo: 10 cm a nacimiento. Alumbramiento: nacimiento a expulsión de placenta.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Partograma (OMS) — referencia</strong>
-                                    <p class="mt-1">Línea de alerta: 1 cm/h (primíparas) o 1.5 cm/h (multíparas). Línea de acción: 4 h después de la línea de alerta. Criterios para intervenir: dilatación < 1 cm/h por 4 h, descenso detenido, alteración del bienestar fetal, signos de infección.</p>
+                                    <p class="mt-1 leading-relaxed">Línea de alerta: 1 cm/h (primíparas) o 1.5 cm/h (multíparas). Línea de acción: 4 h después de la línea de alerta. Criterios para intervenir: dilatación < 1 cm/h por 4 h, descenso detenido, alteración del bienestar fetal, signos de infección.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Atención del parto vaginal (paso a paso)</strong>
-                                    <p class="mt-1">1. Preparar campo estéril. 2. Recibir la cabeza (controlar la velocidad). 3. Verificar circular de cordón. 4. Aspirar boca y nariz. 5. Nacimiento de hombros (tracción suave). 6. Clampar y cortar cordón. 7. Secar y estimular al RN. 8. Alumbramiento (tracción controlada del cordón + masaje uterino).</p>
+                                    <p class="mt-1 leading-relaxed">1. Preparar campo estéril. 2. Recibir la cabeza (controlar la velocidad). 3. Verificar circular de cordón. 4. Aspirar boca y nariz. 5. Nacimiento de hombros (tracción suave). 6. Clampar y cortar cordón. 7. Secar y estimular al RN. 8. Alumbramiento (tracción controlada del cordón + masaje uterino).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Episiotomía</strong>
-                                    <p class="mt-1">Indicaciones: parto instrumental, distocia de hombros, sufrimiento fetal agudo, periné rígido. Tipos: mediolateral (más común), mediana. Reparación: anestesia local, sutura por planos (mucosa vaginal, músculo, piel). Evitar episiotomía rutinaria.</p>
+                                    <p class="mt-1 leading-relaxed">Indicaciones: parto instrumental, distocia de hombros, sufrimiento fetal agudo, periné rígido. Tipos: mediolateral (más común), mediana. Reparación: anestesia local, sutura por planos (mucosa vaginal, músculo, piel). Evitar episiotomía rutinaria.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Manejo del cordón umbilical</strong>
-                                    <p class="mt-1">Clampar a los 1-3 min (pinzamiento tardío). Cortar entre las pinzas. Verificar 2 arterias y 1 vena. Profilaxis: clorhexidina en el muñón (OMS). Signos de infección: ombligo rojo, mal olor, secreción.</p>
+                                    <p class="mt-1 leading-relaxed">Clampar a los 1-3 min (pinzamiento tardío). Cortar entre las pinzas. Verificar 2 arterias y 1 vena. Profilaxis: clorhexidina en el muñón (OMS). Signos de infección: ombligo rojo, mal olor, secreción.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Lactancia materna en el puerperio</strong>
-                                    <p class="mt-1">Inicio en la primera hora (contacto piel a piel). Lactancia exclusiva 6 meses. Frecuencia: a demanda (8-12 veces/día). Signos de buena succión: deglución audible, satisfacción post-toma, ganancia de peso. Problemas: ingurgitación, grietas, mastitis.</p>
+                                    <p class="mt-1 leading-relaxed">Inicio en la primera hora (contacto piel a piel). Lactancia exclusiva 6 meses. Frecuencia: a demanda (8-12 veces/día). Signos de buena succión: deglución audible, satisfacción post-toma, ganancia de peso. Problemas: ingurgitación, grietas, mastitis.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-rose-600 dark:text-rose-400">Distocia de hombros</strong>
-                                    <p class="mt-1">Maniobras en orden: McRoberts (flexión de muslos), presión suprapúbica, Rubin II (rotación interna), Wood's screw, entrega del brazo posterior, maniobra de Zavanelli (reintroducción cefálica). Activar código de emergencia.</p>
+                                    <p class="mt-1 leading-relaxed">Maniobras en orden: McRoberts (flexión de muslos), presión suprapúbica, Rubin II (rotación interna), Wood's screw, entrega del brazo posterior, maniobra de Zavanelli (reintroducción cefálica). Activar código de emergencia.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Ruptura prematura de membranas (RPM)</strong>
-                                    <p class="mt-1">RPM a término: inducir parto. RPM pretérmino (PPROM): corticoides (betametasona 12 mg IM × 2 dosis, 24 h aparte), antibióticos (ampicilina + eritromicina), neuroprotección (sulfato de Mg si < 32 sem), vigilancia.</p>
+                                    <p class="mt-1 leading-relaxed">RPM a término: inducir parto. RPM pretérmino (PPROM): corticoides (betametasona 12 mg IM × 2 dosis, 24 h aparte), antibióticos (ampicilina + eritromicina), neuroprotección (sulfato de Mg si < 32 sem), vigilancia.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Parto pretérmino</strong>
-                                    <p class="mt-1">Corticoides: betametasona 12 mg IM × 2 dosis (24 h aparte) entre 24-34 semanas. Tocolisis: nifedipina 10-20 mg VO (contraindicada en < 24 h post-corticoides). Neuroprotección: sulfato de Mg 4-6 g IV bolo + 1-2 g/h si < 32 semanas.</p>
+                                    <p class="mt-1 leading-relaxed">Corticoides: betametasona 12 mg IM × 2 dosis (24 h aparte) entre 24-34 semanas. Tocolisis: nifedipina 10-20 mg VO (contraindicada en < 24 h post-corticoides). Neuroprotección: sulfato de Mg 4-6 g IV bolo + 1-2 g/h si < 32 semanas.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Puerperio inmediato</strong>
-                                    <p class="mt-1">Signos de alarma: sangrado > 500 mL, hipotensión, taquicardia, fiebre > 38°C, dolor abdominal intenso, cefalea, alteración visual. Revisar canal de parto, fondo uterino, loquios.</p>
+                                    <p class="mt-1 leading-relaxed">Signos de alarma: sangrado > 500 mL, hipotensión, taquicardia, fiebre > 38°C, dolor abdominal intenso, cefalea, alteración visual. Revisar canal de parto, fondo uterino, loquios.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Atención inicial del recién nacido</strong>
-                                    <p class="mt-1">Secar, estimular, aspirar si es necesario. APGAR 1 y 5 min. Contacto piel a piel. Profilaxis: vitamina K 1 mg IM, eritromicina oftálmica, BCG + HepB. Ver módulo de Pediatría.</p>
+                                    <p class="mt-1 leading-relaxed">Secar, estimular, aspirar si es necesario. APGAR 1 y 5 min. Contacto piel a piel. Profilaxis: vitamina K 1 mg IM, eritromicina oftálmica, BCG + HepB. Ver módulo de Pediatría.</p>
                                 </div>
                                 <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: OMS, guías de atención del parto. Revisado: 26 nov 2026. Verificar con la guía de tu institución.</p>
                             </div>
@@ -1406,63 +1406,63 @@
                             <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Cronograma (Res. 3280/2018)</strong>
-                                    <p class="mt-1">1er trimestre: control inicial + 1 control. 2do trimestre: 1 control. 3er trimestre: controles cada 4 semanas hasta la semana 36, luego cada 2 semanas hasta la 40. Mínimo 4 controles.</p>
+                                    <p class="mt-1 leading-relaxed">1er trimestre: control inicial + 1 control. 2do trimestre: 1 control. 3er trimestre: controles cada 4 semanas hasta la semana 36, luego cada 2 semanas hasta la 40. Mínimo 4 controles.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Paraclínicos</strong>
-                                    <p class="mt-1">1er trimestre: hemoclasificación, VIH, sífilis (VDRL/RPR), hepatitis B, toxoplasma IgG/IgM, urocultivo, glicemia, hemograma. 2do trimestre: ecografía morfológica (18-22 sem), PTOG (24-28 sem). 3er trimestre: urocultivo, hemograma, VIH (si no se hizo).</p>
+                                    <p class="mt-1 leading-relaxed">1er trimestre: hemoclasificación, VIH, sífilis (VDRL/RPR), hepatitis B, toxoplasma IgG/IgM, urocultivo, glicemia, hemograma. 2do trimestre: ecografía morfológica (18-22 sem), PTOG (24-28 sem). 3er trimestre: urocultivo, hemograma, VIH (si no se hizo).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Suplementos</strong>
-                                    <p class="mt-1">Ácido fólico: 400 mcg/día (antes de la concepción y primer trimestre). Hierro: 60 mg/día (desde la semana 20). Calcio: 1.0-1.5 g/día (si bajo consumo). Yodo: según disponibilidad.</p>
+                                    <p class="mt-1 leading-relaxed">Ácido fólico: 400 mcg/día (antes de la concepción y primer trimestre). Hierro: 60 mg/día (desde la semana 20). Calcio: 1.0-1.5 g/día (si bajo consumo). Yodo: según disponibilidad.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Vacunas de la gestante</strong>
-                                    <p class="mt-1">Influenza (1 dosis), Tdap (1 dosis en cada embarazo, semanas 27-36), VSR (semanas 28-36, temporada), COVID-19 (según esquema vigente). Ver módulo de Pediatría/PAI.</p>
+                                    <p class="mt-1 leading-relaxed">Influenza (1 dosis), Tdap (1 dosis en cada embarazo, semanas 27-36), VSR (semanas 28-36, temporada), COVID-19 (según esquema vigente). Ver módulo de Pediatría/PAI.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Signos de alarma por trimestre</strong>
-                                    <p class="mt-1">1er: sangrado, dolor abdominal, vómito persistente, fiebre. 2do: disminución de movimientos fetales, sangrado, dolor. 3er: cefalea, alteración visual, epigastralgia, edema, sangrado, contracciones, pérdida de líquido.</p>
+                                    <p class="mt-1 leading-relaxed">1er: sangrado, dolor abdominal, vómito persistente, fiebre. 2do: disminución de movimientos fetales, sangrado, dolor. 3er: cefalea, alteración visual, epigastralgia, edema, sangrado, contracciones, pérdida de líquido.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Clasificación de riesgo</strong>
-                                    <p class="mt-1">Bajo riesgo: embarazo normal, sin comorbilidades. Alto riesgo: HTA, DM, ERC, obesidad, edad < 15 o > 35, antecedente de preeclampsia, embarazo múltiple. Criterios de remisión a mayor nivel.</p>
+                                    <p class="mt-1 leading-relaxed">Bajo riesgo: embarazo normal, sin comorbilidades. Alto riesgo: HTA, DM, ERC, obesidad, edad < 15 o > 35, antecedente de preeclampsia, embarazo múltiple. Criterios de remisión a mayor nivel.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Sífilis gestacional</strong>
-                                    <p class="mt-1">Tamizaje con VDRL/RPR en 1er trimestre y 3er trimestre. Tratamiento: penicilina benzatínica. Seguimiento serológico. Notificar a SIVIGILA.</p>
+                                    <p class="mt-1 leading-relaxed">Tamizaje con VDRL/RPR en 1er trimestre y 3er trimestre. Tratamiento: penicilina benzatínica. Seguimiento serológico. Notificar a SIVIGILA.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Diabetes gestacional</strong>
-                                    <p class="mt-1">Tamizaje: PTOG 75 g (24-28 semanas). Criterios diagnósticos: ayunas ≥ 92, 1h ≥ 180, 2h ≥ 153 mg/dL. Manejo: dieta, ejercicio, insulina si no control.</p>
+                                    <p class="mt-1 leading-relaxed">Tamizaje: PTOG 75 g (24-28 semanas). Criterios diagnósticos: ayunas ≥ 92, 1h ≥ 180, 2h ≥ 153 mg/dL. Manejo: dieta, ejercicio, insulina si no control.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">VIH en gestante</strong>
-                                    <p class="mt-1">Tamizaje en 1er trimestre. Profilaxis: TARV (triple terapia). Vía del parto: vaginal si carga viral < 1000 copias/mL, cesárea si ≥ 1000. Profilaxis al RN: AZT 4-6 semanas.</p>
+                                    <p class="mt-1 leading-relaxed">Tamizaje en 1er trimestre. Profilaxis: TARV (triple terapia). Vía del parto: vaginal si carga viral < 1000 copias/mL, cesárea si ≥ 1000. Profilaxis al RN: AZT 4-6 semanas.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Contracepción postparto</strong>
-                                    <p class="mt-1">LAM (lactancia): eficacia 98% si lactancia exclusiva, amenorrea, < 6 meses. POP: desde el parto. DIU: después de 4-6 semanas. Implante: desde el parto. Esterilización: en el posparto inmediato o diferida.</p>
+                                    <p class="mt-1 leading-relaxed">LAM (lactancia): eficacia 98% si lactancia exclusiva, amenorrea, < 6 meses. POP: desde el parto. DIU: después de 4-6 semanas. Implante: desde el parto. Esterilización: en el posparto inmediato o diferida.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Infecciones en el embarazo</strong>
-                                    <p class="mt-1">ITU: amoxicilina, cefalexina, nitrofurantoína (evitar en 3er trimestre). Corioamnionitis: ampicilina + gentamicina + metronidazol. Sepsis: amplio espectro. TORCH: toxoplasma, rubéola, CMV, herpes, sífilis, VIH, hepatitis B.</p>
+                                    <p class="mt-1 leading-relaxed">ITU: amoxicilina, cefalexina, nitrofurantoína (evitar en 3er trimestre). Corioamnionitis: ampicilina + gentamicina + metronidazol. Sepsis: amplio espectro. TORCH: toxoplasma, rubéola, CMV, herpes, sífilis, VIH, hepatitis B.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Anemia en el embarazo</strong>
-                                    <p class="mt-1">Hb < 11 g/dL (1er/3er trimestre) o < 10.5 (2do trimestre). Suplementación: hierro 60-120 mg/día + ácido fólico 400 mcg/día. Si Hb < 7: transfusión. Evaluar causa (ferropénica, megaloblástica, hemolítica).</p>
+                                    <p class="mt-1 leading-relaxed">Hb < 11 g/dL (1er/3er trimestre) o < 10.5 (2do trimestre). Suplementación: hierro 60-120 mg/día + ácido fólico 400 mcg/día. Si Hb < 7: transfusión. Evaluar causa (ferropénica, megaloblástica, hemolítica).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Tromboprofilaxis en el embarazo</strong>
-                                    <p class="mt-1">HBPM (enoxaparina) en mujeres de alto riesgo: antecedente de TEV, trombofilia, inmovilización prolongada, obesidad mórbida. Dosis: 40 mg SC/día (profilaxis) o 1 mg/kg c/12h (tratamiento). Suspender 12-24 h antes del parto.</p>
+                                    <p class="mt-1 leading-relaxed">HBPM (enoxaparina) en mujeres de alto riesgo: antecedente de TEV, trombofilia, inmovilización prolongada, obesidad mórbida. Dosis: 40 mg SC/día (profilaxis) o 1 mg/kg c/12h (tratamiento). Suspender 12-24 h antes del parto.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Embarazo múltiple</strong>
-                                    <p class="mt-1">Mayor riesgo de preeclampsia, parto pretérmino, hemorragia. Seguimiento más estrecho. Parto: vaginal si gemelo 1 cefálico, cesárea si gemelo 1 no cefálico o si hay complicaciones.</p>
+                                    <p class="mt-1 leading-relaxed">Mayor riesgo de preeclampsia, parto pretérmino, hemorragia. Seguimiento más estrecho. Parto: vaginal si gemelo 1 cefálico, cesárea si gemelo 1 no cefálico o si hay complicaciones.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Embarazo en adolescentes</strong>
-                                    <p class="mt-1">Mayor riesgo de preeclampsia, anemia, parto pretérmino, bajo peso al nacer. Control prenatal más frecuente. Soporte psicosocial. Planificación familiar postparto.</p>
+                                    <p class="mt-1 leading-relaxed">Mayor riesgo de preeclampsia, anemia, parto pretérmino, bajo peso al nacer. Control prenatal más frecuente. Soporte psicosocial. Planificación familiar postparto.</p>
                                 </div>
                                 <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: Res. 3280/2018, GPC Colombia, guías de control prenatal. Revisado: 26 nov 2026. Verificar con la guía de tu institución.</p>
                             </div>
@@ -1476,75 +1476,75 @@
                             <div class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Planificación familiar</strong>
-                                    <p class="mt-1">Métodos: ACO (combinados), POP (solo progestágeno), DIU (cobre/levonorgestrel), implante, inyectable, condón, esterilización. Criterios de elegibilidad OMS (MEC). Anticoncepción de emergencia: levonorgestrel 1.5 mg dosis única (≤ 72 h) o acetato de ulipristal 30 mg (≤ 120 h). Posparto: LAM (lactancia), POP, DIU (después de 4-6 semanas).</p>
+                                    <p class="mt-1 leading-relaxed">Métodos: ACO (combinados), POP (solo progestágeno), DIU (cobre/levonorgestrel), implante, inyectable, condón, esterilización. Criterios de elegibilidad OMS (MEC). Anticoncepción de emergencia: levonorgestrel 1.5 mg dosis única (≤ 72 h) o acetato de ulipristal 30 mg (≤ 120 h). Posparto: LAM (lactancia), POP, DIU (después de 4-6 semanas).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Sangrado uterino anormal (PALM-COEIN)</strong>
-                                    <p class="mt-1">PALM: Polipos, Adenomiosis, Leiomiomas, Malignidad. COEIN: Coagulopatía, Ovulatorio, Endometrial, Iatrogénico, No clasificado. Aproximación: historia, examen, ecografía, biopsia endometrial.</p>
+                                    <p class="mt-1 leading-relaxed">PALM: Polipos, Adenomiosis, Leiomiomas, Malignidad. COEIN: Coagulopatía, Ovulatorio, Endometrial, Iatrogénico, No clasificado. Aproximación: historia, examen, ecografía, biopsia endometrial.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Flujo vaginal e ITS (manejo sindrómico)</strong>
-                                    <p class="mt-1">Vaginosis bacteriana: metronidazol 500 mg c/12h × 7 d. Candidiasis: fluconazol 150 mg dosis única. Tricomoniasis: metronidazol 2 g dosis única. Gonorrea: ceftriaxona 500 mg IM + azitromicina 1 g VO. Clamidia: doxiciclina 100 mg c/12h × 7 d. Notificar a SIVIGILA.</p>
+                                    <p class="mt-1 leading-relaxed">Vaginosis bacteriana: metronidazol 500 mg c/12h × 7 d. Candidiasis: fluconazol 150 mg dosis única. Tricomoniasis: metronidazol 2 g dosis única. Gonorrea: ceftriaxona 500 mg IM + azitromicina 1 g VO. Clamidia: doxiciclina 100 mg c/12h × 7 d. Notificar a SIVIGILA.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Tamizaje de cáncer de cuello uterino</strong>
-                                    <p class="mt-1">OMS 2026: cribado con prueba de alta sensibilidad cada 5-10 años a partir de los 30 años (25 años si VIH). Colombia (Res. 3280/2018): citología cada 3 años (25-65 años); ADN-VPH cada 5 años (30-65 años). La OMS promueve al menos 2 pruebas en la vida (antes de los 35 y antes de los 45). Tratamiento de lesiones precancerosas: ablación térmica, crioterapia, LEEP/LLETZ, conización.</p>
+                                    <p class="mt-1 leading-relaxed">OMS 2026: cribado con prueba de alta sensibilidad cada 5-10 años a partir de los 30 años (25 años si VIH). Colombia (Res. 3280/2018): citología cada 3 años (25-65 años); ADN-VPH cada 5 años (30-65 años). La OMS promueve al menos 2 pruebas en la vida (antes de los 35 y antes de los 45). Tratamiento de lesiones precancerosas: ablación térmica, crioterapia, LEEP/LLETZ, conización.</p>
                                     <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1">✓ Verificado: OMS 2026, Res. 3280/2018. Revisado: 26 nov 2026.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Tamizaje de cáncer de mama</strong>
-                                    <p class="mt-1">Mamografía: cada 2 años (50-69 años) según Res. 3280/2018. Examen clínico de mama anual. Autoexamen mensual. La OMS recomienda mamografía cada 2 años (50-69 años) en países con recursos suficientes.</p>
+                                    <p class="mt-1 leading-relaxed">Mamografía: cada 2 años (50-69 años) según Res. 3280/2018. Examen clínico de mama anual. Autoexamen mensual. La OMS recomienda mamografía cada 2 años (50-69 años) en países con recursos suficientes.</p>
                                     <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1">✓ Verificado: Res. 3280/2018, OMS 2026. Revisado: 26 nov 2026.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-rose-400">Violencia sexual</strong>
-                                    <p class="mt-1">Atención inicial: profilaxis ITS/VIH (TARV 28 días), anticoncepción de emergencia (levonorgestrel 1.5 mg dosis única ≤ 72 h o acetato de ulipristal 30 mg ≤ 120 h), hepatitis B (vacuna + inmunoglobulina). Ruta legal y notificación (Res. 459/2012 y normas posteriores). Certificado médico legal. Acompañamiento psicosocial.</p>
+                                    <p class="mt-1 leading-relaxed">Atención inicial: profilaxis ITS/VIH (TARV 28 días), anticoncepción de emergencia (levonorgestrel 1.5 mg dosis única ≤ 72 h o acetato de ulipristal 30 mg ≤ 120 h), hepatitis B (vacuna + inmunoglobulina). Ruta legal y notificación (Res. 459/2012 y normas posteriores). Certificado médico legal. Acompañamiento psicosocial.</p>
                                     <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1">✓ Verificado: Res. 459/2012, guías de atención a víctimas de violencia sexual. Revisado: 26 nov 2026.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">IVE (interrupción voluntaria del embarazo)</strong>
-                                    <p class="mt-1">Marco legal vigente en Colombia: Sentencia C-055 de 2022 (IVE hasta la semana 24 sin restricción; después de la semana 24 solo en casos de violación, malformación fetal incompatible con la vida o riesgo para la vida/salud de la mujer). Ruta de atención: consejería, acompañamiento, procedimiento. Notificación a SIVIGILA.</p>
+                                    <p class="mt-1 leading-relaxed">Marco legal vigente en Colombia: Sentencia C-055 de 2022 (IVE hasta la semana 24 sin restricción; después de la semana 24 solo en casos de violación, malformación fetal incompatible con la vida o riesgo para la vida/salud de la mujer). Ruta de atención: consejería, acompañamiento, procedimiento. Notificación a SIVIGILA.</p>
                                     <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1">✓ Verificado: Sentencia C-055/2022. Revisado: 26 nov 2026.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Examen ginecológico</strong>
-                                    <p class="mt-1">Inspección: genitales externos, vello púbico (Tanner), lesiones. Especuloscopia: cuello uterino (color, forma, lesiones, secreción), vagina. Tacto vaginal: tamaño y posición uterina, anexos, fondo de saco, dolor. Tacto rectal si es necesario.</p>
+                                    <p class="mt-1 leading-relaxed">Inspección: genitales externos, vello púbico (Tanner), lesiones. Especuloscopia: cuello uterino (color, forma, lesiones, secreción), vagina. Tacto vaginal: tamaño y posición uterina, anexos, fondo de saco, dolor. Tacto rectal si es necesario.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Papanicolau / citología cervicouterina</strong>
-                                    <p class="mt-1">Tamizaje: cada 3 años (25-65 años) según Res. 3280/2018. Técnica: espátula de Ayre + cepillo endocervical. Fijación inmediata. Clasificación Bethesda. Si ASC-US/LSIL: repetir en 1 año o colposcopía. Si HSIL: colposcopía + biopsia.</p>
+                                    <p class="mt-1 leading-relaxed">Tamizaje: cada 3 años (25-65 años) según Res. 3280/2018. Técnica: espátula de Ayre + cepillo endocervical. Fijación inmediata. Clasificación Bethesda. Si ASC-US/LSIL: repetir en 1 año o colposcopía. Si HSIL: colposcopía + biopsia.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Colposcopía</strong>
-                                    <p class="mt-1">Indicaciones: citología anormal (ASC-US/LSIL persistente, HSIL, AGC), sangrado postcoital, lesión visible. Técnica: ácido acético 3-5%, solución de Lugol. Evaluar: zona de transformación, lesiones acetoblancas, vasos atípicos, mosaico, puntuado. Biopsia dirigida.</p>
+                                    <p class="mt-1 leading-relaxed">Indicaciones: citología anormal (ASC-US/LSIL persistente, HSIL, AGC), sangrado postcoital, lesión visible. Técnica: ácido acético 3-5%, solución de Lugol. Evaluar: zona de transformación, lesiones acetoblancas, vasos atípicos, mosaico, puntuado. Biopsia dirigida.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">LEEP / conización</strong>
-                                    <p class="mt-1">Indicaciones: HSIL, CIN 2-3, adenocarcinoma in situ, discrepancia citología/colposcopía. Técnica: asa electroquirúrgica (LEEP) o bisturí (conización). Complicaciones: sangrado, estenosis cervical, parto pretérmino (riesgo aumentado). Seguimiento: citología + VPH a los 6-12 meses.</p>
+                                    <p class="mt-1 leading-relaxed">Indicaciones: HSIL, CIN 2-3, adenocarcinoma in situ, discrepancia citología/colposcopía. Técnica: asa electroquirúrgica (LEEP) o bisturí (conización). Complicaciones: sangrado, estenosis cervical, parto pretérmino (riesgo aumentado). Seguimiento: citología + VPH a los 6-12 meses.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Menopausia</strong>
-                                    <p class="mt-1">Criterios: amenorrea ≥ 12 meses. Síntomas: sofocos, sudoración nocturna, sequedad vaginal, cambios de humor, insomnio. Manejo: terapia hormonal (estrógeno ± progestágeno) si no hay contraindicación. Alternativas: ISRS, gabapentina, clonidina. Riesgos: TVP, ACV, cáncer de mama (con estrógeno + progestágeno).</p>
+                                    <p class="mt-1 leading-relaxed">Criterios: amenorrea ≥ 12 meses. Síntomas: sofocos, sudoración nocturna, sequedad vaginal, cambios de humor, insomnio. Manejo: terapia hormonal (estrógeno ± progestágeno) si no hay contraindicación. Alternativas: ISRS, gabapentina, clonidina. Riesgos: TVP, ACV, cáncer de mama (con estrógeno + progestágeno).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Endometriosis</strong>
-                                    <p class="mt-1">Dolor pélvico crónico, dismenorrea, dispareunia, infertilidad. Diagnóstico: clínico + ecografía/transvaginal. Tratamiento: AINE, anticonceptivos hormonales, agonistas GnRH, cirugía (laparoscopia) si refractario. Estadio I-IV (ASRM).</p>
+                                    <p class="mt-1 leading-relaxed">Dolor pélvico crónico, dismenorrea, dispareunia, infertilidad. Diagnóstico: clínico + ecografía/transvaginal. Tratamiento: AINE, anticonceptivos hormonales, agonistas GnRH, cirugía (laparoscopia) si refractario. Estadio I-IV (ASRM).</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">SOP (síndrome de ovario poliquístico)</strong>
-                                    <p class="mt-1">Criterios de Rotterdam (2 de 3): oligo/anovulación, hiperandrogenismo (clínico o bioquímico), ovarios poliquísticos en ecografía. Manejo: pérdida de peso, metformina, anticonceptivos orales, letrozol para inducción de ovulación.</p>
+                                    <p class="mt-1 leading-relaxed">Criterios de Rotterdam (2 de 3): oligo/anovulación, hiperandrogenismo (clínico o bioquímico), ovarios poliquísticos en ecografía. Manejo: pérdida de peso, metformina, anticonceptivos orales, letrozol para inducción de ovulación.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Miomas uterinos</strong>
-                                    <p class="mt-1">Leiomiomas: sangrado uterino anormal, dolor pélvico, infertilidad. Diagnóstico: ecografía. Manejo: observación (si asintomático), AINE, ácido tranexámico, agonistas GnRH (preoperatorio), miomectomía, histerectomía si refractario.</p>
+                                    <p class="mt-1 leading-relaxed">Leiomiomas: sangrado uterino anormal, dolor pélvico, infertilidad. Diagnóstico: ecografía. Manejo: observación (si asintomático), AINE, ácido tranexámico, agonistas GnRH (preoperatorio), miomectomía, histerectomía si refractario.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Incontinencia urinaria</strong>
-                                    <p class="mt-1">Tipos: esfuerzo (pérdida con tos/estornudo), urgencia (deseo imperioso), mixta, por rebosamiento. Manejo: ejercicios de Kegel, fisioterapia de piso pélvico, anticolinérgicos (oxibutinina), cirugía (sling) si refractario.</p>
+                                    <p class="mt-1 leading-relaxed">Tipos: esfuerzo (pérdida con tos/estornudo), urgencia (deseo imperioso), mixta, por rebosamiento. Manejo: ejercicios de Kegel, fisioterapia de piso pélvico, anticolinérgicos (oxibutinina), cirugía (sling) si refractario.</p>
                                 </div>
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
                                     <strong class="text-teal-600 dark:text-teal-400">Prolapso genital</strong>
-                                    <p class="mt-1">Descenso de órganos pélvicos (cistocele, rectocele, histerocele). Clasificación: POP-Q (estadio 0-4). Manejo: ejercicios de Kegel, pesario, cirugía (colporrafia, histeropexia) si sintomático.</p>
+                                    <p class="mt-1 leading-relaxed">Descenso de órganos pélvicos (cistocele, rectocele, histerocele). Clasificación: POP-Q (estadio 0-4). Manejo: ejercicios de Kegel, pesario, cirugía (colporrafia, histeropexia) si sintomático.</p>
                                 </div>
                                 <p class="text-[10px] text-slate-500 leading-relaxed">Fuente: GPC Colombia, OMS, ACOG, FIGO. Revisado: 26 nov 2026. Verificar con la guía de tu institución.</p>
                             </div>

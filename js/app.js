@@ -1113,7 +1113,7 @@ function analyzeGases() {
                                 </div>
                             </div>
                             <button onclick="calcGlasgow()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow transition-all">Calcular Glasgow</button>
-                            <div id="gcs-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
+                            <div id="gcs-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold  space-y-1"></div>
                         </div>
                     `
                 },
@@ -1192,7 +1192,7 @@ function analyzeGases() {
             Calcular APGAR
         </button>
 
-        <div id="ap-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
+        <div id="ap-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900  space-y-2"></div>
 
         <p class="text-[10px] text-slate-500">
             Registrar a 1 y 5 minutos en todos los recién nacidos.
@@ -1260,7 +1260,7 @@ function analyzeGases() {
             Calcular Silverman-Andersen
         </button>
 
-        <div id="sa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
+        <div id="sa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900  space-y-2"></div>
     </div>
 `
                 },
@@ -1314,7 +1314,7 @@ function analyzeGases() {
         Calcular
     </button>
 
-    <div id="imc-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+    <div id="imc-res" class=" p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
 
 </div>
 
@@ -1348,7 +1348,7 @@ function analyzeGases() {
         Calcular
     </button>
 
-    <div id="liq-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-1.5"></div>
+    <div id="liq-res" class=" p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-1.5"></div>
 
     <details class="rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 p-2">
         <summary class="cursor-pointer font-bold text-[11px] text-slate-600 dark:text-slate-300">Regla 4-2-1 (Holliday-Segar)</summary>
@@ -1410,8 +1410,7 @@ function analyzeGases() {
         </button>
 
         <div id="centor-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
 
         <p class="text-[10px] text-slate-500 leading-relaxed">
             La escala orienta la necesidad de pruebas diagnósticas.
@@ -1501,8 +1500,7 @@ function analyzeGases() {
         </button>
 
         <div id="mmse-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
 
         <p class="text-[10px] text-slate-500">
             Herramienta de puntuación. No sustituye la aplicación estandarizada
@@ -1552,8 +1550,7 @@ function analyzeGases() {
         </button>
 
         <div id="pfeffer-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
 
         <p class="text-[10px] text-slate-500">
             Un puntaje elevado indica mayor dificultad en actividades
@@ -1621,8 +1618,7 @@ function analyzeGases() {
         </button>
 
         <div id="chads-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
 
     </div>
 `
@@ -1687,8 +1683,7 @@ function analyzeGases() {
         </button>
 
         <div id="hasbled-res"
-            class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden">
-        </div>
+            class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
 
         <p class="text-[10px] text-slate-500 leading-relaxed">
             HAS-BLED estima el riesgo de sangrado en pacientes con fibrilación
@@ -1739,8 +1734,7 @@ function analyzeGases() {
         </button>
 
         <div id="curb65-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
 
         <p class="text-[10px] text-slate-500 leading-relaxed">
             Escala para adultos con neumonía adquirida en la comunidad.
@@ -1784,8 +1778,7 @@ function analyzeGases() {
         </button>
 
         <div id="qsofa-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
 
         <p class="text-[10px] text-slate-500 leading-relaxed">
             qSOFA es una herramienta de estratificación de riesgo,
@@ -1848,7 +1841,7 @@ function analyzeGases() {
                                 </select>
                             </div>
                             <button onclick="calcChildPugh()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Child-Pugh</button>
-                            <div id="cp-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
+                            <div id="cp-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold "></div>
                         </div>
                     `
                 },
@@ -1869,7 +1862,7 @@ function analyzeGases() {
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-l" class="al-chk"> <span>Leucocitosis > 10.000 /mm³ (+2)</span></label>
                             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="al-s" class="al-chk"> <span>Desviación a la izquierda (Neutrófilos > 75%) (+1)</span></label>
                             <button onclick="calcAlvarado()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Alvarado</button>
-                            <div id="alvarado-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden"></div>
+                            <div id="alvarado-res" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold "></div>
                         </div>
                     `
                 },
@@ -1943,8 +1936,7 @@ function analyzeGases() {
         </button>
 
         <div id="wellstvp-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
     </div>
 `
                 },
@@ -2040,7 +2032,7 @@ function analyzeGases() {
     </div>
 </div>
                             <button onclick="calcFindrisc()" class="w-full py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow transition-all">Calcular FINDRISC</button>
-                            <div id="fd-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold hidden space-y-1"></div>
+                            <div id="fd-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 font-bold  space-y-1"></div>
                         </div>
                     `
                 },
@@ -2077,8 +2069,7 @@ function analyzeGases() {
         </button>
 
         <div id="osm-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
     </div>
 `
                 },
@@ -2124,7 +2115,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
         Calcular PAM
     </button>
 
-    <div id="pam-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+    <div id="pam-res" class=" p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
 
 </div>
                     `
@@ -2167,8 +2158,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
         </button>
 
         <div id="tfg-res"
-            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2">
-        </div>
+            class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden space-y-2"></div>
     </div>
 `
                 },
@@ -2218,7 +2208,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
         Calcular paquetes/año
     </button>
 
-    <div id="tab-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+    <div id="tab-res" class=" p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
 
 </div>
                     `
@@ -2319,7 +2309,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
         Calcular riesgo cardiovascular
     </button>
 
-    <div id="fr-res" class="hidden p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
+    <div id="fr-res" class=" p-3 rounded-xl bg-slate-100 dark:bg-slate-900 space-y-2"></div>
 
 </div>
 
@@ -2420,7 +2410,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 Evaluar Lawton-Brody
             </button>
 
-            <div id="lawton-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="lawton-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
 
             <p class="text-[10px] text-slate-500">
                 Se registran los ocho dominios en todos los pacientes. Las actividades no evaluables se excluyen del denominador y deben interpretarse con cautela. No se asignan grados de dependencia mediante puntos de corte no validados.
@@ -2460,7 +2450,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 Interpretar CAAT / CAT
             </button>
 
-            <div id="epoc-cat-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="epoc-cat-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
 
             <p class="text-[10px] text-slate-500">
                 El cuestionario oficial contiene ocho ítems, cada uno puntuado de 0 a 5. Introduce el resultado total después de aplicar el instrumento validado. No se reproducen sus preguntas aquí.
@@ -2497,7 +2487,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 Interpretar mMRC
             </button>
 
-            <div id="epoc-mmrc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="epoc-mmrc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
 
             <p class="text-[10px] text-slate-500">
                 mMRC 0–1: menor carga de disnea. mMRC ≥2: mayor carga de síntomas para la clasificación GOLD ABE. No mide la obstrucción espirométrica.
@@ -2565,7 +2555,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 Clasificar EPOC
             </button>
 
-            <div id="epoc-gold-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="epoc-gold-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
 
             <p class="text-[10px] text-slate-500">
                 Requiere diagnóstico clínico y obstrucción persistente confirmada por espirometría posbroncodilatador FEV₁/CVF <0,70. El grupo E corresponde a una o más exacerbaciones moderadas o graves en el último año, independientemente de los síntomas.
@@ -2591,7 +2581,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                             <label class="block font-semibold">Distancia en caminata de 6 minutos (metros)</label>
                             <input type="number" inputmode="decimal" id="epoc-bode-walk" min="0" max="1200" step="1" placeholder="Ej.: 320" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
                             <button type="button" onclick="calcEpocBODE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular BODE</button>
-                            <div id="epoc-bode-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <div id="epoc-bode-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                             <p class="text-[10px] text-slate-500">Usa espirometría posbroncodilatador y una caminata de 6 minutos estandarizada. El puntaje va de 0 a 10; mayor puntaje indica peor pronóstico, no determina por sí solo una conducta.</p>
                         </div>`
                 },
@@ -2608,7 +2598,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                                 <div><label class="block font-semibold mb-1">Exacerbaciones en 12 meses</label><input type="number" inputmode="decimal" id="epoc-dose-exac" min="0" max="30" step="1" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900"></div>
                             </div>
                             <button type="button" onclick="calcEpocDOSE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Calcular DOSE</button>
-                            <div id="epoc-dose-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <div id="epoc-dose-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                             <p class="text-[10px] text-slate-500">Puntaje 0–8. Es una herramienta de estratificación y seguimiento; no sustituye la evaluación clínica ni la clasificación GOLD ABE.</p>
                         </div>`
                 },
@@ -2623,7 +2613,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                             <label class="flex items-center gap-2"><input type="checkbox" id="epoc-anth-pur"> <span>Aumento de la purulencia del esputo</span></label>
                             <label class="flex items-center gap-2"><input type="checkbox" id="epoc-anth-vent"> <span>Requiere ventilación mecánica invasiva o no invasiva</span></label>
                             <button type="button" onclick="calcEpocAnthonisen()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl">Clasificar exacerbación</button>
-                            <div id="epoc-anth-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+                            <div id="epoc-anth-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
                             <p class="text-[10px] text-slate-500">Anthonisen describe síntomas cardinales. La decisión de antibiótico requiere integrar gravedad, purulencia, ventilación, diagnósticos diferenciales y guía local.</p>
                         </div>`
                 },
@@ -2678,7 +2668,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     </select></div>
             </div>
             <button onclick="calcNEWS2()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular NEWS2</button>
-            <div id="news2-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="news2-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">NEWS2 ≥ 5 o cualquier parámetro con 3 puntos = riesgo alto. Activar respuesta rápida.</p>
         </div>
     `
@@ -2739,7 +2729,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     </select></div>
             </div>
             <button onclick="calcSOFA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular SOFA</button>
-            <div id="sofa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="sofa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">SOFA ≥ 2 = sepsis. ΔSOFA ≥ 2 = deterioro. Mortalidad aumenta con el score.</p>
         </div>
     `
@@ -2756,7 +2746,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-hem" class="cn-chk"> Hemoptisis (+1)</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wtep-can" class="cn-chk"> Cáncer activo (+1)</label>
             <button onclick="calcWellsTEP()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Wells TEP</button>
-            <div id="wells-tep-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="wells-tep-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Wells > 4 = probabilidad alta. Wells ≤ 4 = probabilidad baja/intermedia → D-dímero.</p>
         </div>
     `
@@ -2776,7 +2766,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-trauma" class="cn-chk"> Cirugía o trauma en 4 semanas</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="perc-unilat" class="cn-chk"> Edema unilateral de pierna</label>
             <button onclick="calcPERC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar PERC</button>
-            <div id="perc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="perc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
         </div>
     `
 },
@@ -2801,7 +2791,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pesi-enf" class="cn-chk"> Enfermedad pulmonar crónica (+10)</label>
             </div>
             <button onclick="calcPESI()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PESI</button>
-            <div id="pesi-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="pesi-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">PESI clase I-II (≤ 85): bajo riesgo, considerar manejo ambulatorio. sPESI: 0 = bajo riesgo.</p>
         </div>
     `
@@ -2828,7 +2818,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="gb-cardiac" class="cn-chk"> Insuficiencia cardíaca (+2)</label>
             </div>
             <button onclick="calcGlasgowBlatchford()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Glasgow-Blatchford</button>
-            <div id="gb-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="gb-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Score 0-1: bajo riesgo, puede manejarse ambulatoriamente. Score ≥ 2: requiere hospitalización.</p>
         </div>
     `
@@ -2870,7 +2860,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     </select></div>
             </div>
             <button onclick="calcRockall()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Rockall</button>
-            <div id="rockall-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="rockall-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Rockall ≤ 2: bajo riesgo. Rockall ≥ 3: alto riesgo de resangrado/mortalidad.</p>
         </div>
     `
@@ -2886,7 +2876,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-edad" class="cn-chk"> Edad > 65 años (+1)</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="aims-alt" class="cn-chk"> Alteración del estado mental (+1)</label>
             <button onclick="calcAIMS65()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular AIMS65</button>
-            <div id="aims65-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="aims65-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">AIMS65 ≥ 2: alto riesgo de mortalidad. Requiere UCI y manejo agresivo.</p>
         </div>
     `
@@ -2979,7 +2969,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcPHQ9()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PHQ-9</button>
-            <div id="phq9-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="phq9-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">PHQ-9 ≥ 10: depresión moderada. ≥ 15: moderadamente severa. ≥ 20: severa. Pregunta 9 positiva: evaluar riesgo suicida.</p>
         </div>
     `
@@ -3054,7 +3044,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcGAD7()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular GAD-7</button>
-            <div id="gad7-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="gad7-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">GAD-7 ≥ 5: ansiedad leve. ≥ 10: moderada. ≥ 15: severa.</p>
         </div>
     `
@@ -3095,7 +3085,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcAUDITC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular AUDIT-C</button>
-            <div id="auditc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="auditc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Hombres: ≥ 4 = consumo de riesgo. Mujeres: ≥ 3 = consumo de riesgo. Requiere intervención breve.</p>
         </div>
     `
@@ -3123,7 +3113,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="moca-ori" type="number" min="0" max="6" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="0-6"></div>
             </div>
             <button onclick="calcMoCA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular MoCA</button>
-            <div id="moca-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="moca-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">MoCA ≥ 26: normal. 18-25: deterioro cognitivo leve. < 18: deterioro moderado-severo. Añadir 1 punto si ≤ 12 años de educación.</p>
         </div>
     `
@@ -3139,7 +3129,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cam-3" class="cn-chk"> 3. Pensamiento desorganizado</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="cam-4" class="cn-chk"> 4. Alteración del nivel de conciencia</label>
             <button onclick="calcCAM()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar CAM</button>
-            <div id="cam-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="cam-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">CAM positivo: criterios 1 + 2 + (3 o 4). Indica delirium. Requiere evaluación y tratamiento de la causa.</p>
         </div>
     `
@@ -3180,7 +3170,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calc4AT()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular 4AT</button>
-            <div id="4at-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="4at-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">4AT 0: delirium improbable. 1-3: posible deterioro cognitivo. ≥ 4: probable delirium.</p>
         </div>
     `
@@ -3232,7 +3222,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcFLACC()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular FLACC</button>
-            <div id="flacc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="flacc-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">FLACC 0: sin dolor. 1-3: dolor leve. 4-6: moderado. 7-10: severo.</p>
         </div>
     `
@@ -3296,7 +3286,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcBraden()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Braden</button>
-            <div id="braden-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="braden-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Braden ≤ 9: riesgo muy alto. 10-12: alto. 13-14: moderado. 15-18: leve. 19-23: sin riesgo.</p>
         </div>
     `
@@ -3351,7 +3341,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcMorse()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Morse</button>
-            <div id="morse-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="morse-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Morse < 25: bajo riesgo. 25-44: riesgo moderado. ≥ 45: alto riesgo.</p>
         </div>
     `
@@ -3394,7 +3384,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 </select>
             </div>
             <button onclick="calcCPOT()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular CPOT</button>
-            <div id="cpot-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="cpot-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">CPOT ≥ 3: dolor significativo. Tratar con analgesia.</p>
         </div>
     `
@@ -3418,7 +3408,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     </select></div>
             </div>
             <button onclick="calcCockcroftGault()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular CrCl</button>
-            <div id="cg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="cg-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">CrCl (mL/min) = (140 - edad) × peso / (72 × Cr). × 0.85 si es mujer. Usar peso ideal si obeso.</p>
         </div>
     `
@@ -3440,7 +3430,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="ibw-peso" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 80"></div>
             </div>
             <button onclick="calcIBW()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular pesos</button>
-            <div id="ibw-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="ibw-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">IBW: peso ideal. ABW: peso ajustado (para obesos). LBW: peso magro. Usar el peso adecuado según el fármaco.</p>
         </div>
     `
@@ -3461,7 +3451,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="kdigo-duracion" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
             </div>
             <button onclick="calcKDIGO()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Clasificar KDIGO</button>
-            <div id="kdigo-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="kdigo-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">KDIGO 1: Cr 1.5-1.9× basal o ≥ 0.3 mg/dL en 48h. KDIGO 2: Cr 2.0-2.9× basal. KDIGO 3: Cr ≥ 3× basal o ≥ 4.0 o diálisis.</p>
         </div>
     `
@@ -3478,7 +3468,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="parkland-sctq" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 30"></div>
             </div>
             <button onclick="calcParkland()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Parkland</button>
-            <div id="parkland-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="parkland-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Volumen 24h = 4 mL × kg × %SCTQ. Mitad en las primeras 8 h, mitad en las siguientes 16 h.</p>
         </div>
     `
@@ -3507,7 +3497,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="ron-gen" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
             </div>
             <button onclick="calcRuleOfNines()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular SCTQ</button>
-            <div id="ron-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="ron-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Regla de los 9: cabeza 9%, tronco anterior 18%, tronco posterior 18%, cada brazo 9%, cada pierna 18%, genitales 1%.</p>
         </div>
     `
@@ -3529,7 +3519,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             </div>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="meld-dialisis" class="cn-chk"> En diálisis (creatinina = 4.0)</label>
             <button onclick="calcMELD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular MELD</button>
-            <div id="meld-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="meld-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">MELD ≥ 15: prioridad para trasplante. MELD-Na incluye sodio para mejor predicción.</p>
         </div>
     `
@@ -3549,7 +3539,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                 <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="geneva-cir" class="cn-chk"> Cirugía o fractura en 1 mes (+2)</label>
             </div>
             <button onclick="calcGeneva()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Geneva</button>
-            <div id="geneva-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="geneva-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Geneva ≤ 3: probabilidad baja. 4-10: intermedia. ≥ 11: alta.</p>
         </div>
     `
@@ -3571,7 +3561,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-9" class="cn-chk"> Historia de TEP con anticoagulación</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="hestia-10" class="cn-chk"> Barriers para tratamiento o seguimiento</label>
             <button onclick="calcHestia()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar Hestia</button>
-            <div id="hestia-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="hestia-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
         </div>
     `
 },
@@ -3603,7 +3593,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pim3-bypass" class="cn-chk"> Bypass cardiopulmonar</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pim3-nocancer" class="cn-chk"> Sin cáncer (no oncológico)</label>
             <button onclick="calcPIM3()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PIM3</button>
-            <div id="pim3-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="pim3-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">PIM3 estima la probabilidad de muerte en UCI pediátrica. Requiere validación local.</p>
         </div>
     `
@@ -3618,7 +3608,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ott-tob-2" class="cn-chk"> Dolor en la punta del maléolo medial (6 cm distal)</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="ott-tob-3" class="cn-chk"> Incapacidad para dar 4 pasos inmediatamente y en urgencias</label>
             <button onclick="calcOttawaTobillo()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar Ottawa</button>
-            <div id="ottawa-tobillo-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="ottawa-tobillo-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Si algún criterio es positivo → radiografía de tobillo. Si todos negativos → no radiografía.</p>
         </div>
     `
@@ -3639,7 +3629,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="rifle-duracion" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
             </div>
             <button onclick="calcRIFLE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Clasificar RIFLE</button>
-            <div id="rifle-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="rifle-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">R: Cr 1.5× basal o diuresis < 0.5 × 6h. I: Cr 2× basal o diuresis < 0.5 × 12h. F: Cr 3× basal o Cr ≥ 4 o diuresis < 0.3 × 24h.</p>
         </div>
     `
@@ -3660,7 +3650,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="akin-duracion" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 12"></div>
             </div>
             <button onclick="calcAKIN()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Clasificar AKIN</button>
-            <div id="akin-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="akin-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">AKIN 1: Cr 1.5-2× basal o ≥ 0.3 en 48h. AKIN 2: Cr 2-3× basal. AKIN 3: Cr > 3× basal o ≥ 4.0 o diálisis.</p>
         </div>
     `
@@ -3692,7 +3682,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="prism-vent" class="cn-chk"> Ventilación mecánica</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="prism-conv" class="cn-chk"> Convulsiones</label>
             <button onclick="calcPRISM()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PRISM</button>
-            <div id="prism-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="prism-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">PRISM estima la probabilidad de muerte en UCI pediátrica. Requiere validación local.</p>
         </div>
     `
@@ -3723,7 +3713,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             </div>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="pelod-vent" class="cn-chk"> Ventilación mecánica</label>
             <button onclick="calcPELOD()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular PELOD</button>
-            <div id="pelod-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="pelod-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">PELOD ≥ 20: alto riesgo de mortalidad. Requiere validación local.</p>
         </div>
     `
@@ -3739,7 +3729,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="phoenix-coag" class="cn-chk"> Disfunción de coagulación (plaquetas < 100 o INR > 1.5 o D-dímero elevado)</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="phoenix-hep" class="cn-chk"> Disfunción hepática (bilirrubina > 1.0 o ALT > 2× normal)</label>
             <button onclick="calcPhoenix()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Evaluar Phoenix</button>
-            <div id="phoenix-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="phoenix-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Phoenix ≥ 2: sepsis. Phoenix ≥ 2 con cardiovascular: choque séptico.</p>
         </div>
     `
@@ -3756,7 +3746,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="brooke-sctq" type="number" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold" placeholder="Ej: 30"></div>
             </div>
             <button onclick="calcBrooke()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Brooke</button>
-            <div id="brooke-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="brooke-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Volumen 24h = 2 mL (cristaloide) + 0.5 mL (coloide) × kg × %SCTQ + 2000 mL (glucosa). Mitad en las primeras 8 h.</p>
         </div>
     `
@@ -3789,7 +3779,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     <input id="lb-gen" type="number" value="0" class="w-full p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 font-bold"></div>
             </div>
             <button onclick="calcLundBrowder()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular SCTQ</button>
-            <div id="lund-browder-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="lund-browder-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Lund-Browder: ajusta el % de cabeza y piernas según la edad del niño. Más preciso que la regla de los 9.</p>
         </div>
     `
@@ -3806,7 +3796,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-hem" class="cn-chk"> Hemoptisis (+1)</label>
             <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="wpe-can" class="cn-chk"> Cáncer activo (+1)</label>
             <button onclick="calcWellsPE()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular Wells PE</button>
-            <div id="wells-pe-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="wells-pe-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">Wells > 4 = probabilidad alta. Wells ≤ 4 = probabilidad baja/intermedia → D-dímero.</p>
         </div>
     `
@@ -3868,7 +3858,7 @@ desc: 'Cálculo de presión arterial media y orientación de metas iniciales en 
                     </select></div>
             </div>
             <button onclick="calcPSOFA()" class="w-full py-2 bg-teal-600 text-white font-bold rounded-xl mt-2">Calcular pSOFA</button>
-            <div id="psofa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 hidden"></div>
+            <div id="psofa-res" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 "></div>
             <p class="text-[10px] text-slate-500 leading-relaxed">pSOFA ≥ 2 = sepsis pediátrica. ΔpSOFA ≥ 2 = deterioro.</p>
         </div>
     `
