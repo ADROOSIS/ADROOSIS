@@ -79,6 +79,26 @@ function algVisualDiagram(alg, pob) {
     const nodes = alg.nodos;
     let html = '<div class="alg-diagram-container">';
 
+    // Time axis
+    if (alg.timeMarks && alg.timeMarks.length) {
+        html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">';
+        html += '<span class="alg-time-badge"><i class="fa-solid fa-clock"></i></span>';
+        alg.timeMarks.forEach(function(tm) {
+            html += '<span class="alg-time-badge">' + tm + '</span>';
+        });
+        html += '</div>';
+    }
+
+    // Phase bands
+    if (alg.phases && alg.phases.length) {
+        html += '<div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">';
+        alg.phases.forEach(function(ph) {
+            const cls = ph.crit ? 'alg-phase alg-phase-crit' : 'alg-phase';
+            html += '<span class="' + cls + '">' + ph.name + (ph.time ? ' (' + ph.time + ')' : '') + '</span>';
+        });
+        html += '</div>';
+    }
+
     // Traverse the node tree in order
     const visited = new Set();
     const order = [];
@@ -138,6 +158,17 @@ function algVisualDiagram(alg, pob) {
         }
         html += '<div style="text-align:center;color:var(--alg-arrow);font-size:0.75rem;margin:0.125rem 0;">↓</div>';
     });
+
+    // Bottom transversal actions
+    if (alg.bottomActions && alg.bottomActions.length) {
+        html += '<div style="margin-top:1rem;padding-top:0.75rem;border-top:2px solid var(--alg-node-border);">';
+        html += '<div style="font-size:0.7rem;font-weight:700;color:var(--alg-node-text);margin-bottom:0.5rem;">Acciones transversales:</div>';
+        html += '<div style="display:flex;gap:0.5rem;flex-wrap:wrap;">';
+        alg.bottomActions.forEach(function(ba) {
+            html += '<span class="alg-node" style="font-size:0.7rem;padding:0.375rem 0.625rem;">' + ba.text + (ba.note ? '<span class="alg-note-circle" onclick="algoToggleNote(\'' + ba.note + '\')">' + ba.note + '</span>' : '') + '</span>';
+        });
+        html += '</div></div>';
+    }
 
     html += '</div>';
     return html;
@@ -347,5 +378,43 @@ window.algShowList = function() {
     if (container) container.classList.add('hidden');
     if (_origAlgShowList) _origAlgShowList();
 };
+
+
+// ---- Enhance sepsis algorithm with visual metadata (FASE 1) ----
+(function() {
+    if (typeof ALG_DATA === 'undefined') return;
+    const s = ALG_DATA.find(a => a.id === 'sepsis');
+    if (!s) return;
+    s.timeMarks = ["0'", "1h", "3h", "6h", "24h"];
+    s.phases = [
+        { name: "Reconocimiento", time: "0-1h" },
+        { name: "Reanimación", time: "1-3h" },
+        { name: "Control de foco", time: "3-6h" },
+        { name: "Refractario", crit: true, time: ">6h" }
+    ];
+    s.abbr = ["PAM = presión arterial media", "qSOFA = quick SOFA", "SOFA = Sequential Organ Failure Assessment", "SSN = solución salina normal", "UCI = unidad de cuidados intensivos", "TVP = trombosis venosa profunda"];
+    s.notes = {
+        "1": { title: "Reconocimiento (SSC 2026)", content: "qSOFA: FR ≥ 22, alteración del estado mental (Glasgow < 15), PAS ≤ 100 mmHg. SOFA: cambios en respiración, coagulación, hígado, cardiovascular, SNC, riñón. Signos de hipoperfusión: lactato > 2 mmol/L, oliguria, mala perfusión capilar, alteración del estado mental." },
+        "2": { title: "Antibiótico empírico (primera hora)", content: "Antibiótico IV de amplio espectro en ≤ 1 hora. Obtén hemocultivos (2 pares) y urocultivo ANTES del antibiótico si no retrasa el tratamiento. Infusión prolongada de betalactámicos tras la dosis de carga. Desescalar cuando se conozca el germen." },
+        "3": { title: "Fluidos (30 mL/kg)", content: "Bolo de cristaloide: al menos 30 mL/kg en las primeras 3 h si hay hipoperfusión o choque. Usar peso ajustado si IMC > 30. Niño: 20 mL/kg en bolo. Reevaluar respuesta (presión, lactato, perfusión capilar)." },
+        "4": { title: "Vasopresor (noradrenalina)", content: "Noradrenalina es el vasopresor de primera línea. Iniciar si PAM < 65 a pesar de líquidos. Meta: PAM > 65 mmHg. Titular 0.05-1.0 mcg/kg/min. Si no hay respuesta: agregar vasopresina o adrenalina. Hidrocortisona 200 mg/día si choque refractario." },
+        "5": { title: "Tipificar el shock", content: "Séptico: infección + hipotensión refractaria. Cardiogénico: falla cardíaca + congestión. Hipovolémico: pérdida de volumen. Anafiláctico: exposición + urticaria/broncoespasmo. Obstructivo: taponamiento, neumotórax a tensión, TEP masivo." },
+        "6": { title: "Pediatría: shock frío vs caliente", content: "Shock frío: piel fría, pulsos débiles, llenado capilar > 3s, hipotensión tardía. Shock caliente: piel caliente, pulsos amplios, vasodilatación. Señales de sobrecarga: crepitantes, hepatomegalia, ingurgitación yugular." },
+        "7": { title: "Control de foco", content: "Identificar y controlar el foco de infección: drenaje de abscesos, remoción de catéteres, cirugía si es necesario. Reevaluar cada 24 h. Duración del antibiótico: 7 días con resolución clínica y fuente controlada." },
+        "8": { title: "Criterios de UCI", content: "Ventilación mecánica si falla respiratoria. Terapia de reemplazo renal si falla renal. Monitoreo hemodinámico invasivo. Considerar ECMO en casos refractarios. Entrega al receptor: hora de inicio de antibióticos, dosis de vasopresor, balance hídrico." }
+    };
+    s.bottomActions = [
+        { text: "Control de constantes vitales", note: "1" },
+        { text: "Diagnosticar y tratar la causa", note: "7" },
+        { text: "Reevaluar cada 1-2 h", note: "1" }
+    ];
+    // Add note references to nodes
+    if (s.nodos) {
+        if (s.nodos.inicio) s.nodos.inicio.note = "1";
+        if (s.nodos.reanimar) s.nodos.reanimar.note = "2";
+        if (s.nodos.choque) s.nodos.choque.note = "4";
+    }
+    console.log("Sepsis algorithm enhanced (FASE 1)");
+})();
 
 console.log('Algo visual engine loaded');
